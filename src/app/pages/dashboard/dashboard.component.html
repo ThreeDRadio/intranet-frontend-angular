@@ -1,0 +1,14 @@
+<md-sidenav-container>
+
+    <md-sidenav [opened]="true" mode="side">
+        <md-nav-list>
+            <h3 md-subheader>Catalogue</h3>
+            <a md-list-item routerLink="/upload">
+                <md-icon md-list-icon>file_upload</md-icon>
+                Upload Music</a>
+        </md-nav-list>
+    </md-sidenav>
+
+    <router-outlet></router-outlet>
+
+</md-sidenav-container>
