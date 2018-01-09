@@ -1,8 +1,8 @@
 os:
-  - linux
+- linux
 language: node_js
 node_js:
-  - "8.4.0"
+- 8.4.0
 addons:
   apt:
     sources:
@@ -10,13 +10,23 @@ addons:
     packages:
     - google-chrome-stable
 before_install:
-  - export CHROME_BIN=/usr/bin/google-chrome
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  # Repo for Yarn
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - export PATH=$HOME/.yarn/bin:$PATH
+- export CHROME_BIN=/usr/bin/google-chrome
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- curl -o- -L https://yarnpkg.com/install.sh | bash
+- export PATH=$HOME/.yarn/bin:$PATH
 install:
-  - npm install
+- npm install
 script:
-  - npm test -- --watch false
+- npm test -- --watch false
+deploy:
+  provider: s3
+  access_key_id: AKIAJJQVY7M6ULN5SBLA
+  secret_access_key:
+    secure: MYmKoG5tguYDRq9FE5ChHSNxOBc3nROwSHNKyyxiMvw1FBU2ZxSPlGuWTpxbDU3wb5hriBGOpiWmAlQSXNVuxMBfle9ntdkONLf4Y00Dd0A+JNHm+8Fo75oUlDE9aRgULVMOESNFaIaA5Nr05NAD4gIaxSqYH5+OuRR7A3Lr/fU9jTRmmljH3kRMI1KDy+KTPNj9Iaj3zLpoaMxaksk4p9ublCk7abI6uaGh6ctOD1n/uGmCjDjThHAEUaHMgLtn5T4QMYg2x4jaXJL2ETZfIDHllL7Ep6R3LElJhEKSytWr5jxRkBZsXMi4PF6XEY8KmilFyTYH0QLWl7i55x16vyhtErez8gbL2a950Po3IAI82s/74QYQD9WmRZ3L31fnATFt49DHXjESQavj1JTRxZG7ozERyV+lDxGRbb/eX7pe9sv2P9lhrETP32asu6UVec/Z3VvStz1uRflW6++xNwhnbBHh5tj+pB8NAmowXheWQcYDWQ6H6y5LP5zmsvjOyElB7qoVTwV3X6CghI7dktenTSaVeEr4oQFGdC9zGhTJKq7drQjkE6vyewuyZiTM7apF0FgWldi6ASQTUhEWsKaw6u5xUwm4qpXn8zg3TjwmVMssYCXjMTBrFT1SitAvcDywdp7hN/mbMeDMmIhHJT8mk49U1S3FrtXH8V3sNP0=
+  bucket: threedradio-catalogue
+  local-dir: dist
+  acl: public_read
+  on:
+    repo: ThreeDRadio/intranet-frontend-angular
+    branch: master
