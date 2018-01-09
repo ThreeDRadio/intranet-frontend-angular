@@ -9,6 +9,7 @@ install:
 - npm install
 script:
 - npm test -- --watch false
+- npm run build -- --prod
 deploy:
   provider: s3
   access_key_id: AKIAJJQVY7M6ULN5SBLA
