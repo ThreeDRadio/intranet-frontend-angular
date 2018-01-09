@@ -8,7 +8,7 @@ addons:
 install:
 - npm install
 before_install:
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+  - google-chrome-stable --no-sandbox --disable-setuid-sandbox --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 script:
 - npm test -- --watch false
 deploy:
