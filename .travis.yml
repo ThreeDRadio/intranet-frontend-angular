@@ -16,8 +16,7 @@ before_install:
   # Repo for Yarn
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add @angular/cli
 install:
   - npm install
 script:
-  - ng test --watch false
+  - npm test -- --watch false
