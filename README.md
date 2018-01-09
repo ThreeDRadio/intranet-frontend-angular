@@ -1,4 +1,6 @@
-# IntranetAngular
+# Three D Catalogue
+
+[![Build Status](https://travis-ci.org/ThreeDRadio/intranet-frontend-angular.svg?branch=master)](https://travis-ci.org/ThreeDRadio/intranet-frontend-angular)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.2.
 
