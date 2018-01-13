@@ -1,0 +1,13 @@
+<mat-card class="center">
+  <mat-card-title>Login Required</mat-card-title>
+  <mat-card-content>
+    <nf-login (login)="login($event)"
+      [error]="error | async"
+      [loading]="loading | async">
+    </nf-login>
+
+    <div>
+      <a routerLink="/reset">Forgot your password?</a>
+    </div>
+  </mat-card-content>
+</mat-card>
