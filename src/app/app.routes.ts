@@ -1,9 +1,17 @@
-import {Route} from '@angular/router';
-import {DashboardComponent} from './pages/dashboard/dashboard.component';
-import {UploadComponent} from './pages/upload/upload.component';
+import { Route } from '@angular/router';
+import { LoginPageComponent } from 'app/pages/login/login.component';
 
-export const ROUTES: Array<Route> = [{
-  path: '',
-  component: DashboardComponent,
-  children: [{path: 'upload', component: UploadComponent}]
-}];
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { UploadComponent } from './pages/upload/upload.component';
+
+export const ROUTES: Array<Route> = [
+  {
+    path: '',
+    component: DashboardComponent,
+    children: [{ path: 'upload', component: UploadComponent }]
+  },
+  {
+    path: 'login',
+    component: LoginPageComponent
+  }
+];

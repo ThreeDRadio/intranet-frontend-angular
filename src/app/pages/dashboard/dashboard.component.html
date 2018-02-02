@@ -1,14 +1,14 @@
-<md-sidenav-container>
+<mat-sidenav-container>
 
-    <md-sidenav [opened]="true" mode="side">
-        <md-nav-list>
-            <h3 md-subheader>Catalogue</h3>
-            <a md-list-item routerLink="/upload">
-                <md-icon md-list-icon>file_upload</md-icon>
-                Upload Music</a>
-        </md-nav-list>
-    </md-sidenav>
+  <mat-sidenav [opened]="true" mode="side">
+    <mat-nav-list>
+      <h3 mat-subheader>Catalogue</h3>
+      <a mat-list-item routerLink="/upload">
+        <mat-icon mat-list-icon>file_upload</mat-icon>
+        Upload Music</a>
+    </mat-nav-list>
+  </mat-sidenav>
 
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 
-</md-sidenav-container>
+</mat-sidenav-container>
