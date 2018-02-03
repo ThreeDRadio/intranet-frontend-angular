@@ -1,7 +1,7 @@
 import { PayloadAction } from '../actions';
 import * as actions from '../actions/index';
 
-export const LOCAL_STORAGE_AUTH_KEY = 'careapp.auth';
+export const LOCAL_STORAGE_AUTH_KEY = 'threedradio.auth';
 
 export interface State {
   loading: boolean;
@@ -35,11 +35,11 @@ export function reducer(state: State = initialState, action: PayloadAction): Sta
       return { ...state, auth: null, loading: true };
     }
 
-    //case actions.APPLICATION_AUTHORIZED:
-    //  return {
-    //    ...state,
-    //    ready: true
-    //  };
+    case actions.APP_READY:
+      return {
+        ...state,
+        ready: true
+      };
 
     case actions.RESPONSE_SUCCESS_USER_ROLES:
       return { ...state, roles: action.payload };

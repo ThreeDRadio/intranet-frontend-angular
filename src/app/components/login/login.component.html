@@ -1,51 +1,36 @@
-<mat-progress-bar [style.visibility]="loading ? 'visible' : 'hidden'"
-  mode="indeterminate">
+<mat-progress-bar [style.visibility]="loading ? 'visible' : 'hidden'" mode="indeterminate">
 </mat-progress-bar>
-<form [formGroup]="form"
-  (submit)="submit(form.value)">
+<form [formGroup]="form" (submit)="submit(form.value)">
   <mat-input-container class="full-width">
-    <input matInput
-      autofocus
-      class="full-width"
-      formControlName="email"
-      placeholder="Email">
+    <input matInput autofocus class="full-width" formControlName="username" placeholder="Username">
 
-    <mat-error *ngIf="email.hasError('required')">
-      Email is <strong>required</strong>
-    </mat-error>
-    <mat-error *ngIf="email.hasError('maxlength')">
-      Email is too <strong>long</strong>
-    </mat-error>
-
-    <mat-error *ngIf="email.hasError('minlength')">
-      Email is too <strong>short</strong>
+    <mat-error *ngIf="username.hasError('required')">
+      Username is
+      <strong>required</strong>
     </mat-error>
   </mat-input-container>
 
   <mat-input-container class="full-width">
-    <input matInput
-      class="full-width"
-      formControlName="password"
-      type="password"
-      placeholder="Password">
+    <input matInput class="full-width" formControlName="password" type="password" placeholder="Password">
 
     <mat-error *ngIf="password.hasError('required')">
-      Password is <strong>required</strong>
+      Password is
+      <strong>required</strong>
     </mat-error>
 
     <mat-error *ngIf="password.hasError('maxlength')">
-      Password is too <strong>long</strong>
+      Password is too
+      <strong>long</strong>
     </mat-error>
 
     <mat-error *ngIf="password.hasError('minlength')">
-      Password is too <strong>short</strong>
+      Password is too
+      <strong>short</strong>
     </mat-error>
 
   </mat-input-container>
 
-  <button mat-raised-button
-    [disabled]="disabled"
-    type="submit">Login</button>
+  <button mat-raised-button [disabled]="disabled" type="submit">Login</button>
   <mat-error *ngIf="error">
     Could not log in with the username or password provided.
   </mat-error>

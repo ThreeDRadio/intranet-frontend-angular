@@ -1,3 +1,7 @@
+<mat-toolbar>
+  Three D Radio Intranet
+</mat-toolbar>
+
 <mat-sidenav-container>
 
   <mat-sidenav [opened]="true" mode="side">
@@ -9,6 +13,9 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <router-outlet></router-outlet>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
 
 </mat-sidenav-container>

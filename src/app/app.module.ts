@@ -16,6 +16,7 @@ import { ROUTES } from './app.routes';
 import { COMPONENTS } from './components';
 import { PAGES } from './pages';
 import * as Store from './store';
+import { GUARDS } from 'app/guards';
 
 @NgModule({
   declarations: [AppComponent, ...COMPONENTS, ...PAGES],
@@ -33,10 +34,11 @@ import * as Store from './store';
     StoreRouterConnectingModule
   ],
   providers: [
+    ...GUARDS,
     IntranetService,
     {
       provide: API_URL,
-      useValue: 'https://intranet.threedradio.com/logger/backend/api'
+      useValue: 'http://localhost:8000'
     }
   ],
   bootstrap: [AppComponent]

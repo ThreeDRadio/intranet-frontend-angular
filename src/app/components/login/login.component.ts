@@ -10,7 +10,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class LoginFormComponent {
   protected _disabled = false;
   protected _loading = false;
-  email = new FormControl('', Validators.compose([Validators.required]));
+  username = new FormControl('', Validators.compose([Validators.required]));
   password = new FormControl('', Validators.required);
 
   form: FormGroup;
@@ -46,9 +46,9 @@ export class LoginFormComponent {
   }
 
   createForm() {
-    return this.fb.group({ email: this.email, password: this.password });
+    return this.fb.group({ username: this.username, password: this.password });
   }
-  submit(form: { email: string; password: string }) {
+  submit(form: { username: string; password: string }) {
     if (this.form.invalid) return false;
     if (this.loading) return false;
     if (this.disabled) return false;

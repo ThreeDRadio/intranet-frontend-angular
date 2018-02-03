@@ -21,6 +21,7 @@ export const getPersisted = createSelector(rootReducer, (state: State) => {
   delete persisted.ready;
   return persisted;
 });
+
 export const getResetPassword = createSelector(rootReducer, (state: State) => state.resetPassword);
 export const getLoggedInUser = createSelector(rootReducer, (state: State) => state.user);
 export const getRoles = createSelector(rootReducer, (state: State) => state.roles);

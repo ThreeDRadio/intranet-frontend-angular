@@ -23,6 +23,8 @@ export const RESPONSE_FAIL_USER_ROLES = '[Auth][Response][Fail] User Roles';
 export const AUTH_RESET_ERRORS = '[Auth] Auth Reset Errors';
 export const FORCE_LOGOUT_401 = '[Auth] Force Logout 401';
 
+export const APP_READY = '[Auth] Application Ready';
+
 export class RequestLoggedInUser implements Action {
   readonly type = REQUEST_LOGGED_IN_USER;
   constructor(public payload: string) {}
@@ -97,6 +99,10 @@ export class ResponseSuccessAuthRefreshAction implements Action {
 export class ResponseFailAuthRefreshAction implements Action {
   readonly type = RESPONSE_FAIL_AUTH_REFRESH;
   constructor(public payload?: any) {}
+}
+
+export class AppReadyAction implements Action {
+  readonly type = APP_READY;
 }
 
 export class ForceLogout401 implements Action {

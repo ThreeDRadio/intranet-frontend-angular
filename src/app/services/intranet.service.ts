@@ -11,7 +11,10 @@ export class IntranetService {
   constructor(private http: HttpClient, @Inject(API_URL) private baseUrl) {}
 
   public login(params: { username: string; password: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/login`, params).map((response: any) => {
+    const form = new FormData();
+    form.append('username', params.username);
+    form.append('password', params.password);
+    return this.http.post(`${this.baseUrl}/auth`, form).map((response: any) => {
       this.authToken = response.token;
       return response;
     });
@@ -25,4 +28,6 @@ export class IntranetService {
   public setToken(token: string) {
     this.authToken = token;
   }
+
+  public getUser(userId: any) {}
 }
