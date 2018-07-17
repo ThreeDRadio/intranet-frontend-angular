@@ -1,0 +1,58 @@
+<h1>Upload New Music</h1>
+<input type="file" multiple="true" name="files" accept="audio/mp3" (change)="handleSelection($event)">
+
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<div *ngIf="(selectedData$ | async)?.length > 0 && !(loading | async)">
+  <h2>Files Selected</h2>
+  <form>
+    <mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="track">
+        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-form-field>
+            <input matInput type="number" [value]="element?.metadata?.v1?.track">
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="artist">
+        <mat-header-cell *matHeaderCellDef> Artist </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-form-field>
+            <input matInput type="text" [value]="element?.metadata?.artist">
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-form-field>
+            <input matInput type="text" [value]="element?.metadata?.title">
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="filename">
+        <mat-header-cell *matHeaderCellDef> Filename </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element?.file?.name}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="size">
+        <mat-header-cell *matHeaderCellDef>Size </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element?.file?.size / 1000000 | round:1}}MB </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+  </form>
+
+  <h2>Release Details</h2>
+  <p>
+    <b>Album: {{ album$ | async}}</b>
+  </p>
+  <p>
+    <b>Artist: {{ artist$ | async }}</b>
+  </p>
+  <p>
+    <b>Year: {{ (selectedData$ | async)[0]?.metadata?.year }}</b>
+  </p>
+</div>

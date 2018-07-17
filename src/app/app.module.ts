@@ -17,9 +17,11 @@ import { COMPONENTS } from './components';
 import { PAGES } from './pages';
 import * as Store from './store';
 import { GUARDS } from 'app/guards';
+import { Id3Service } from 'app/services/id3.service';
+import { PIPES } from 'app/pipes';
 
 @NgModule({
-  declarations: [AppComponent, ...COMPONENTS, ...PAGES],
+  declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -36,6 +38,7 @@ import { GUARDS } from 'app/guards';
   providers: [
     ...GUARDS,
     IntranetService,
+    Id3Service,
     {
       provide: API_URL,
       useValue: 'http://localhost:8000'

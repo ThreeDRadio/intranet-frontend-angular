@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { InjectionToken, Inject } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Observable } from 'rxjs';
+import { of } from 'rxjs/observable/of';
+import { map } from 'rxjs/operators';
 
 export const API_URL = new InjectionToken<string>('Three D API URL');
 
@@ -14,15 +15,17 @@ export class IntranetService {
     const form = new FormData();
     form.append('username', params.username);
     form.append('password', params.password);
-    return this.http.post(`${this.baseUrl}/auth`, form).map((response: any) => {
-      this.authToken = response.token;
-      return response;
-    });
+    return this.http.post(`${this.baseUrl}/auth`, form).pipe(
+      map((response: any) => {
+        this.authToken = response.token;
+        return response;
+      })
+    );
   }
 
   public logout() {
     this.authToken = undefined;
-    return Observable.of(true);
+    return of(true);
   }
 
   public setToken(token: string) {
