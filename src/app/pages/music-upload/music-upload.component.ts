@@ -3,7 +3,10 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { FilesSelectedAction } from '../../store/actions/music-upload.actions';
+import {
+  FilesSelectedAction,
+  RequestSubmitRelease
+} from '../../store/actions/music-upload.actions';
 import * as selectors from '../../store/selectors';
 
 @Component({
@@ -68,7 +71,8 @@ export class MusicUploadComponent {
             tracktitle: new FormControl(item.metadata.title, Validators.required),
             trackartist: new FormControl(item.metadata.artist, Validators.required),
             tracklength: new FormControl(Math.ceil(item.metadata.duration), Validators.required),
-            filename: new FormControl(item.file.name)
+            filename: new FormControl(item.file.name),
+            file: new FormControl(item.file)
           })
         );
         i++;
@@ -77,13 +81,25 @@ export class MusicUploadComponent {
   }
 
   private getTrackNum(metadata) {
-    return metadata.v1.track || metadata.v2.track ? metadata.v2.track.split('/')[0] : '';
+    if (metadata.v1.track) {
+      return Number.parseInt(metadata.v1.track);
+    }
+    if (metadata.v2.track) {
+      return Number.parseInt(metadata.v2.track.split('/')[0]);
+    }
+    return null;
   }
 
   public submitRelease() {
     console.log('submit');
     this.stepsCompleted = true;
     console.log(this.albumDetails.value);
+    this.store.dispatch(
+      new RequestSubmitRelease({
+        album: this.albumDetails.value,
+        tracks: this.trackDetails.controls['tracks'].value
+      })
+    );
   }
 
   async handleSelection(event: any) {
