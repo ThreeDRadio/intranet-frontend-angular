@@ -1,10 +1,8 @@
-import { DataSource } from '@angular/cdk/collections';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Id3Service } from '../../services/id3.service';
 import { FilesSelectedAction } from '../../store/actions/music-upload.actions';
 import * as selectors from '../../store/selectors';
 
@@ -28,19 +26,24 @@ export class MusicUploadComponent {
     title: new FormControl('', Validators.required),
     year: new FormControl('', Validators.required),
     cpa: new FormControl('', Validators.required),
-    company: new FormControl('')
+    company: new FormControl(''),
+    local: new FormControl(undefined, Validators.required),
+    compilation: new FormControl(undefined, Validators.required),
+    female: new FormControl(undefined, Validators.required)
   });
 
-  dataSource;
-  displayedColumns = ['track', 'artist', 'title', 'filename', 'size'];
+  trackDetails = new FormGroup({
+    tracks: new FormArray([])
+  });
 
-  constructor(private id3: Id3Service, private store: Store<any>) {
+  stepsCompleted = false;
+
+  constructor(private store: Store<any>) {
     this.selectedData$ = this.store.select(selectors.selectedFilesWithMetadata);
     this.compilation$ = this.store.select(selectors.isSelectedCompilation);
     this.artist$ = this.store.select(selectors.selectedArtist);
     this.album$ = this.store.select(selectors.selectedAlbum);
     this.loading$ = this.store.select(selectors.isLoading);
-    this.dataSource = new SelectedFilesDataSource(this.selectedData$);
 
     this.selectedData$.subscribe(data => {
       if (data.length === 0 || !data[0].metadata) {
@@ -48,27 +51,42 @@ export class MusicUploadComponent {
       }
       console.log(data);
       this.albumDetails.patchValue({
-        artist: data[0].metadata.artist,
-        title: data[0].metadata.album,
-        year: data[0].metadata.year
+        artist: data[0].metadata.artist || '',
+        title: data[0].metadata.album || '',
+        year: data[0].metadata.year || ''
       });
+
+      const tracks = <FormArray>this.trackDetails.controls['tracks'];
+      while (tracks.length > 0) {
+        tracks.removeAt(0);
+      }
+      let i = 1;
+      for (const item of data) {
+        tracks.push(
+          new FormGroup({
+            tracknum: new FormControl(this.getTrackNum(item.metadata) || i, Validators.required),
+            tracktitle: new FormControl(item.metadata.title, Validators.required),
+            trackartist: new FormControl(item.metadata.artist, Validators.required),
+            tracklength: new FormControl(0, Validators.required),
+            filename: new FormControl(item.file.name)
+          })
+        );
+        i++;
+      }
     });
+  }
+
+  private getTrackNum(metadata) {
+    return metadata.v1.track || metadata.v2.track ? metadata.v2.track.split('/')[0] : '';
+  }
+
+  public submitRelease() {
+    console.log('submit');
+    this.stepsCompleted = true;
+    console.log(this.albumDetails.value);
   }
 
   async handleSelection(event: any) {
     this.store.dispatch(new FilesSelectedAction(event.target.files));
   }
-}
-
-export class SelectedFilesDataSource extends DataSource<any> {
-  constructor(private data) {
-    super();
-  }
-
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Array<any>> {
-    return this.data;
-  }
-
-  disconnect() {}
 }

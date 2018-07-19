@@ -1,12 +1,34 @@
-td.filesize {
-  text-align: right;
-}
-
 .form-container {
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.form-row>* {
+  flex-grow: 1;
 }
 
 .form-container>* {
-  width: 100%;
+  flex-grow: 1;
+  margin: 10px;
+}
+
+mat-form-field.filename input {
+  color: #aaaaaa;
+  font-size: 8pt;
+}
+
+mat-form-field.tracknum {
+  flex-grow: 0;
+  width: 20px
+}
+
+.buttons {
+  float: right;
 }
