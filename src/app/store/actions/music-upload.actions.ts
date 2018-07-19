@@ -32,6 +32,7 @@ export class RequestSubmitRelease implements Action {
         tracknum: number;
         trackartist: string;
         tracktitle: string;
+        tracklength: number;
         file: File;
       }>;
     }

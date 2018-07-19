@@ -14,7 +14,7 @@ export class MusicUploadEffects {
     switchMap(async (action: actions.FilesSelectedAction) => {
       const entities = {};
       for (const file of action.payload) {
-        entities[file.name] = await this.id3.getTags(file);
+        entities[file.name] = await this.id3.getMetadata(file);
       }
       return entities;
     }),

@@ -67,7 +67,7 @@ export class MusicUploadComponent {
             tracknum: new FormControl(this.getTrackNum(item.metadata) || i, Validators.required),
             tracktitle: new FormControl(item.metadata.title, Validators.required),
             trackartist: new FormControl(item.metadata.artist, Validators.required),
-            tracklength: new FormControl(0, Validators.required),
+            tracklength: new FormControl(Math.ceil(item.metadata.duration), Validators.required),
             filename: new FormControl(item.file.name)
           })
         );
