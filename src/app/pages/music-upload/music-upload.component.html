@@ -39,7 +39,7 @@
   </mat-step>
 
   <mat-step label="Track Listing">
-    <div *ngIf="(selectedData$ | async)?.length > 0 && !(loading | async)">
+    <div *ngIf="(selectedData$ | async)?.length > 0 && !(loading$ | async)">
       <h2>Files Selected</h2>
       <form>
         <mat-table [dataSource]="dataSource">
