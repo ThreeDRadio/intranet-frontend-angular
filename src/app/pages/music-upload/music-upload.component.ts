@@ -1,10 +1,12 @@
-import { FilesSelectedAction } from '../../store/actions/music-upload.actions';
-import { Id3Service } from '../../services/id3.service';
+import { DataSource } from '@angular/cdk/collections';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
+import { Id3Service } from '../../services/id3.service';
+import { FilesSelectedAction } from '../../store/actions/music-upload.actions';
 import * as selectors from '../../store/selectors';
-import { DataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-music-upload',
@@ -19,6 +21,16 @@ export class MusicUploadComponent {
   album$: Observable<string>;
   loading$: Observable<boolean>;
 
+  selectedFiles = new FormControl('', Validators.required);
+
+  albumDetails = new FormGroup({
+    artist: new FormControl('', Validators.required),
+    title: new FormControl('', Validators.required),
+    year: new FormControl('', Validators.required),
+    cpa: new FormControl('', Validators.required),
+    company: new FormControl('')
+  });
+
   dataSource;
   displayedColumns = ['track', 'artist', 'title', 'filename', 'size'];
 
@@ -29,6 +41,18 @@ export class MusicUploadComponent {
     this.album$ = this.store.select(selectors.selectedAlbum);
     this.loading$ = this.store.select(selectors.isLoading);
     this.dataSource = new SelectedFilesDataSource(this.selectedData$);
+
+    this.selectedData$.subscribe(data => {
+      if (data.length === 0 || !data[0].metadata) {
+        return;
+      }
+      console.log(data);
+      this.albumDetails.patchValue({
+        artist: data[0].metadata.artist,
+        title: data[0].metadata.album,
+        year: data[0].metadata.year
+      });
+    });
   }
 
   async handleSelection(event: any) {

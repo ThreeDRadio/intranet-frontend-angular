@@ -1,58 +1,86 @@
-<h1>Upload New Music</h1>
-<input type="file" multiple="true" name="files" accept="audio/mp3" (change)="handleSelection($event)">
+<h2>Upload New Music</h2>
 
-<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-<div *ngIf="(selectedData$ | async)?.length > 0 && !(loading | async)">
-  <h2>Files Selected</h2>
-  <form>
-    <mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="track">
-        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <mat-form-field>
-            <input matInput type="number" [value]="element?.metadata?.v1?.track">
-          </mat-form-field>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="artist">
-        <mat-header-cell *matHeaderCellDef> Artist </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <mat-form-field>
-            <input matInput type="text" [value]="element?.metadata?.artist">
-          </mat-form-field>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <mat-form-field>
-            <input matInput type="text" [value]="element?.metadata?.title">
-          </mat-form-field>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="filename">
-        <mat-header-cell *matHeaderCellDef> Filename </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element?.file?.name}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="size">
-        <mat-header-cell *matHeaderCellDef>Size </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ element?.file?.size / 1000000 | round:1}}MB </mat-cell>
-      </ng-container>
+<mat-horizontal-stepper linear>
+  <mat-step label="Select Files">
+    <p>Select all the files in the album. Select only one album at a time.</p>
+    <input type="file" multiple="true" name="files" accept="audio/mp3" (change)="handleSelection($event)">
+    <div>
+      <button mat-button matStepperNext [disabled]="(selectedData$ | async).length === 0">Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Album Details" [stepControl]="albumDetails">
+    <p>Complete the Album Details</p>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <form [formGroup]="albumDetails">
 
-    </mat-table>
-  </form>
+      <div class="form-container">
+        <mat-form-field>
+          <input formControlName="artist" matInput placeholder="Album Artist">
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="title" matInput placeholder="Album">
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="year" matInput placeholder="Year of Release">
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="company" matInput placeholder="Record Label">
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="cpa" matInput placeholder="Country">
+          <input formControlName="cpa" matInput placeholder="Country">
+        </mat-form-field>
+      </div>
+    </form>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
 
-  <h2>Release Details</h2>
-  <p>
-    <b>Album: {{ album$ | async}}</b>
-  </p>
-  <p>
-    <b>Artist: {{ artist$ | async }}</b>
-  </p>
-  <p>
-    <b>Year: {{ (selectedData$ | async)[0]?.metadata?.year }}</b>
-  </p>
-</div>
+  <mat-step label="Track Listing">
+    <div *ngIf="(selectedData$ | async)?.length > 0 && !(loading | async)">
+      <h2>Files Selected</h2>
+      <form>
+        <mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="track">
+            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-form-field>
+                <input matInput type="number" [value]="element?.metadata?.v1?.track || element?.metadata?.v2.track.split('/')[0]">
+              </mat-form-field>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="artist">
+            <mat-header-cell *matHeaderCellDef> Artist </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-form-field>
+                <input matInput type="text" [value]="element?.metadata?.artist">
+              </mat-form-field>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-form-field>
+                <input matInput type="text" [value]="element?.metadata?.title">
+              </mat-form-field>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="filename">
+            <mat-header-cell *matHeaderCellDef> Filename </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element?.file?.name}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="size">
+            <mat-header-cell *matHeaderCellDef>Size </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element?.file?.size / 1000000 | round:1}}MB </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        </mat-table>
+      </form>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

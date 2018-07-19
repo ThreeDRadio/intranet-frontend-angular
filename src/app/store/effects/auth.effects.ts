@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { IntranetService } from 'app/services/intranet.service';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
-import { map, switchMap, catchError, filter, tap } from 'rxjs/operators';
+import { map, switchMap, catchError, filter, tap, withLatestFrom } from 'rxjs/operators';
 
 import * as actions from '../actions/index';
 import { PayloadAction } from '../actions/index';
@@ -23,6 +23,25 @@ export class AuthEffects {
         catchError(err => of(new actions.ResponseFailAuthLoginAction(err)))
       )
     )
+  );
+
+  @Effect({ dispatch: false })
+  rehydrateAth = this.actions$.ofType(actions.APP_READY).pipe(
+    withLatestFrom(this.store.select(state => state)),
+    tap(([action, state]) => {
+      if (state.auth.auth.token) {
+        this.api.setToken(state.auth.auth.token);
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  persistAuth = this.actions$.ofType(actions.RESPONSE_SUCCESS_AUTH_LOGIN).pipe(
+    tap(action => {
+      this.api.setToken(action.payload.token);
+      window.localStorage.setItem('AUTH_TOKEN', action.payload.token);
+      window.localStorage.setItem('AUTH_USER', action.payload.userId);
+    })
   );
 
   @Effect()

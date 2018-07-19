@@ -7,7 +7,7 @@ export interface State {
   loading: boolean;
   resetPassword: boolean;
   error: string;
-  auth?: { id: string; ttl: number; created: Date; userId: string };
+  auth?: { token: string; userId: string };
   user?: any;
   roles?: Array<string>;
   ready: boolean;
@@ -17,6 +17,10 @@ const initialState = {
   loading: false,
   resetPassword: false,
   error: '',
+  auth: {
+    token: window.localStorage.getItem('AUTH_TOKEN'),
+    userId: window.localStorage.getItem('AUTH_USER')
+  },
   ready: false
 };
 

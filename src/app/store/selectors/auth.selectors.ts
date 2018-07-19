@@ -7,12 +7,12 @@ export const rootReducer = (state: RootState) => state.auth;
 
 export const getLoggedIn = createSelector(
   rootReducer,
-  (state: State): boolean => state.auth && typeof state.auth.id === 'string'
+  (state: State): boolean => state.auth && typeof state.auth.userId === 'string'
 );
 export const getAuth = createSelector(rootReducer, (state: State) => state.auth);
 export const getAuthToken = createSelector(
   rootReducer,
-  (state: State) => (state.auth ? state.auth.id : null)
+  (state: State) => (state.auth ? state.auth.userId : null)
 );
 export const getError = createSelector(rootReducer, (state: State) => state.error);
 export const getLoading = createSelector(rootReducer, (state: State) => state.loading);
