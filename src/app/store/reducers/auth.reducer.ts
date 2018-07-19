@@ -1,5 +1,5 @@
 import { PayloadAction } from '../actions';
-import * as actions from '../actions/index';
+import * as actions from '../actions';
 
 export const LOCAL_STORAGE_AUTH_KEY = 'threedradio.auth';
 
@@ -13,14 +13,16 @@ export interface State {
   ready: boolean;
 }
 
-const initialState = {
+const savedAuth = {
+  token: window.localStorage.getItem('AUTH_TOKEN'),
+  userId: window.localStorage.getItem('AUTH_USER')
+};
+
+const initialState: State = {
   loading: false,
   resetPassword: false,
   error: '',
-  auth: {
-    token: window.localStorage.getItem('AUTH_TOKEN'),
-    userId: window.localStorage.getItem('AUTH_USER')
-  },
+  auth: savedAuth.token ? savedAuth : null,
   ready: false
 };
 
@@ -65,7 +67,7 @@ export function reducer(state: State = initialState, action: PayloadAction): Sta
 
     case actions.RESPONSE_FAIL_AUTH_LOGOUT:
     case actions.RESPONSE_SUCCESS_AUTH_LOGOUT: {
-      return initialState;
+      return { ...initialState, ready: true };
     }
 
     case actions.RESPONSE_FAIL_AUTH_LOGIN: {

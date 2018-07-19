@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-topnav',
-  templateUrl: './topnav.component.html'
+  templateUrl: './topnav.component.html',
+  styleUrls: ['./topnav.component.scss']
 })
-export class TopNavComponent {}
+export class TopNavComponent {
+  @Output() logout = new EventEmitter<any>();
+}

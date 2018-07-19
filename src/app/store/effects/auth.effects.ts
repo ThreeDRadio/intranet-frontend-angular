@@ -26,10 +26,10 @@ export class AuthEffects {
   );
 
   @Effect({ dispatch: false })
-  rehydrateAth = this.actions$.ofType(actions.APP_READY).pipe(
+  rehydrateAuth = this.actions$.ofType(actions.APP_READY).pipe(
     withLatestFrom(this.store.select(state => state)),
     tap(([action, state]) => {
-      if (state.auth.auth.token) {
+      if (state.auth && state.auth.auth && state.auth.auth.token) {
         this.api.setToken(state.auth.auth.token);
       }
     })
@@ -48,6 +48,10 @@ export class AuthEffects {
   getAuthLogout = this.actions$.ofType(actions.REQUEST_AUTH_LOGOUT).pipe(
     switchMap((action: any) => {
       return this.api.logout().pipe(
+        tap(res => {
+          window.localStorage.removeItem('AUTH_TOKEN');
+          window.localStorage.removeItem('AUTH_USER');
+        }),
         map(res => new actions.ResponseSuccessAuthLogoutAction()),
         catchError(err => of(new actions.ResponseSuccessAuthLogoutAction()))
       );
