@@ -8,20 +8,23 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { GUARDS } from 'app/guards';
-import { PIPES } from 'app/pipes';
-import { Id3Service } from 'app/services/id3.service';
-import { API_URL, IntranetService } from 'app/services/intranet.service';
 
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 import { COMPONENTS } from './components';
+import { UploadProgressDialogComponent } from './components/upload-progress/upload-progress-dialog';
+import { GUARDS } from './guards';
 import { MaterialModule } from './material.module';
 import { PAGES } from './pages';
+import { PIPES } from './pipes';
+import { API } from './services';
+import { API_URL, BaseApi } from './services/base-api.service';
+import { Id3Service } from './services/id3.service';
 import * as Store from './store';
 
 @NgModule({
   declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
+  entryComponents: [UploadProgressDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -37,7 +40,8 @@ import * as Store from './store';
   ],
   providers: [
     ...GUARDS,
-    IntranetService,
+    BaseApi,
+    ...API,
     Id3Service,
     {
       provide: API_URL,

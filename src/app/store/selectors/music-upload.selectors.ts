@@ -7,6 +7,8 @@ export const musicUploadState = (state: State) => state.musicUpload;
 export const selectedFiles = createSelector(musicUploadState, state => state.selectedFiles);
 export const selectedMetadata = createSelector(musicUploadState, state => state.metadata);
 export const isLoading = createSelector(musicUploadState, state => state.loading);
+export const uploadProgress = createSelector(musicUploadState, state => state.progress || 0);
+export const uploadLog = createSelector(musicUploadState, state => state.log);
 
 export const selectedFilesWithMetadata = createSelector(
   selectedFiles,

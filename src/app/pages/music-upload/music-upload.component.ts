@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import {
+  UploadProgressDialogComponent,
+} from '../../components/upload-progress/upload-progress-dialog';
+import {
   FilesSelectedAction,
-  RequestSubmitRelease
+  RequestSubmitRelease,
 } from '../../store/actions/music-upload.actions';
 import * as selectors from '../../store/selectors';
 
@@ -41,7 +45,7 @@ export class MusicUploadComponent {
 
   stepsCompleted = false;
 
-  constructor(private store: Store<any>) {
+  constructor(private store: Store<any>, public dialog: MatDialog) {
     this.selectedData$ = this.store.select(selectors.selectedFilesWithMetadata);
     this.compilation$ = this.store.select(selectors.isSelectedCompilation);
     this.artist$ = this.store.select(selectors.selectedArtist);
@@ -94,6 +98,9 @@ export class MusicUploadComponent {
     console.log('submit');
     this.stepsCompleted = true;
     console.log(this.albumDetails.value);
+    const dialogRef = this.dialog.open(UploadProgressDialogComponent, {
+      width: '600px'
+    });
     this.store.dispatch(
       new RequestSubmitRelease({
         album: this.albumDetails.value,

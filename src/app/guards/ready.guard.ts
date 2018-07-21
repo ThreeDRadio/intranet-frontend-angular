@@ -1,9 +1,9 @@
-import 'app/rxjs';
+import '../rxjs';
 
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Store } from '@ngrx/store';
-import * as selectors from 'app/store/selectors/auth.selectors';
+import * as selectors from '../store/selectors/auth.selectors';
 import { Observable } from 'rxjs';
 import { map, skipWhile } from 'rxjs/operators';
 

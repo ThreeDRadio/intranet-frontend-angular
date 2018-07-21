@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { AppReadyAction } from 'app/store/actions';
+import { AppReadyAction } from '../actions';
 import { map } from 'rxjs/operators';
 
 @Injectable()

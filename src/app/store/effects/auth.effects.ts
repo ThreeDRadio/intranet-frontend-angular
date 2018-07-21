@@ -1,15 +1,15 @@
-import 'app/rxjs';
+import '../../rxjs';
 
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { IntranetService } from 'app/services/intranet.service';
+import { BaseApi } from '../../services/base-api.service';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 import { map, switchMap, catchError, filter, tap, withLatestFrom } from 'rxjs/operators';
 
-import * as actions from '../actions/index';
-import { PayloadAction } from '../actions/index';
+import * as actions from '../actions';
+import { PayloadAction } from '../actions';
 
 const STORAGE_ACTION = '[Storage] Value changed';
 
@@ -71,7 +71,7 @@ export class AuthEffects {
 
   constructor(
     private store: Store<any>,
-    private api: IntranetService,
+    private api: BaseApi,
     private actions$: Actions<PayloadAction>
   ) {
     window.addEventListener('storage', event => {

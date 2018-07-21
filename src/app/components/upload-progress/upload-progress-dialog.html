@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Upload Progress</h1>
+<mat-dialog-content>
+  <mat-progress-bar mode="buffer" [value]="progress$ | async"></mat-progress-bar>
+  <div class="log">
+    <p *ngFor="let log of (log$ | async)">{{ log }}</p>
+
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial [disabled]="loading$ | async">Home</button>
+</mat-dialog-actions>

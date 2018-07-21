@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import * as selectors from 'app/store/selectors/auth.selectors';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import * as selectors from '../store/selectors/auth.selectors';
 
 @Injectable()
 export class AuthenticatedGuard implements CanActivate {

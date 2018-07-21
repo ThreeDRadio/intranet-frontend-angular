@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
-import { PayloadAction } from 'app/store';
-import * as actions from 'app/store/actions';
 import { tap } from 'rxjs/operators';
+
+import { PayloadAction } from '..';
+import * as actions from '../actions';
 
 @Injectable()
 export class RouterEffects {
