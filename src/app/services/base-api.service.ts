@@ -18,6 +18,7 @@ export interface HttpOptions {
 @Injectable()
 export class BaseApi {
   private authToken: string;
+  public userId: number;
   constructor(private http: HttpClient, @Inject(API_URL) private baseUrl) {}
 
   public login(params: { username: string; password: string }): Observable<any> {
@@ -27,6 +28,7 @@ export class BaseApi {
     return this.http.post(`${this.baseUrl}/auth`, form).pipe(
       map((response: any) => {
         this.authToken = response.token;
+        this.userId = response.userId;
         return response;
       })
     );

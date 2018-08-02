@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
+import * as moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 
 import {
@@ -36,7 +37,19 @@ export class MusicUploadComponent {
     company: new FormControl(''),
     local: new FormControl(undefined, Validators.required),
     compilation: new FormControl(undefined, Validators.required),
-    female: new FormControl(undefined, Validators.required)
+    female: new FormControl(undefined, Validators.required),
+    format: new FormControl(7),
+    status: new FormControl(0),
+    copies: new FormControl(0),
+    demo: new FormControl(1),
+    createwhen: new FormControl(moment().unix()),
+    modifywhen: new FormControl(moment().unix()),
+    arrivaldate: new FormControl(
+      moment()
+        .tz('Australia/Adelaide')
+        .format('YYYY-MM-DD')
+    ),
+    genre: new FormControl('')
   });
 
   trackDetails = new FormGroup({
@@ -56,7 +69,7 @@ export class MusicUploadComponent {
       if (data.length === 0 || !data[0].metadata) {
         return;
       }
-      console.log(data);
+      // console.log(data);
       this.albumDetails.patchValue({
         artist: data[0].metadata.artist || '',
         title: data[0].metadata.album || '',
@@ -95,9 +108,7 @@ export class MusicUploadComponent {
   }
 
   public submitRelease() {
-    console.log('submit');
     this.stepsCompleted = true;
-    console.log(this.albumDetails.value);
     const dialogRef = this.dialog.open(UploadProgressDialogComponent, {
       width: '600px'
     });

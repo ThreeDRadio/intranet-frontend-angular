@@ -31,6 +31,7 @@ export class AuthEffects {
     tap(([action, state]) => {
       if (state.auth && state.auth.auth && state.auth.auth.token) {
         this.api.setToken(state.auth.auth.token);
+        this.api.userId = Number(state.auth.auth.userId);
       }
     })
   );

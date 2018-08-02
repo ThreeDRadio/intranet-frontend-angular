@@ -16,11 +16,18 @@ class ReleaseModel implements ApiModel {
   cpa: number;
   compilation: number;
   female: number;
+  createwho: number;
+  createwhen: number;
 }
 
 @Injectable()
 export class ReleaseApi extends ModelApi<ReleaseModel> {
   constructor(api: BaseApi) {
     super('releases', api);
+  }
+
+  create(object: Object) {
+    // need to add the user ID for now
+    return super.create({ ...object, modifywho: this.http.userId, createwho: this.http.userId });
   }
 }
