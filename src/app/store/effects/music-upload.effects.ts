@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -11,7 +11,8 @@ import * as actions from '../actions/music-upload.actions';
 @Injectable()
 export class MusicUploadEffects {
   @Effect()
-  getMetadataForFiles = this.actions$.ofType(actions.FILES_SELECTED).pipe(
+  getMetadataForFiles = this.actions$.pipe(
+    ofType(actions.FILES_SELECTED),
     switchMap(async (action: actions.FilesSelectedAction) => {
       const entities = {};
       for (const file of action.payload) {
@@ -23,7 +24,8 @@ export class MusicUploadEffects {
   );
 
   @Effect()
-  uploadRelease = this.actions$.ofType(actions.REQUEST_SUBMIT_RELEASE).pipe(
+  uploadRelease = this.actions$.pipe(
+    ofType(actions.REQUEST_SUBMIT_RELEASE),
     switchMap(async (action: actions.RequestSubmitRelease) => {
       const release = await this.releases.create(action.payload.album).toPromise();
       this.store.dispatch(new actions.UploadProgressLog('Created release'));

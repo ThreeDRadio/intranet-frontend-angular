@@ -99,10 +99,10 @@ export class MusicUploadComponent {
 
   private getTrackNum(metadata) {
     if (metadata.v1.track) {
-      return Number.parseInt(metadata.v1.track);
+      return Number.parseInt(metadata.v1.track, 10);
     }
     if (metadata.v2.track) {
-      return Number.parseInt(metadata.v2.track.split('/')[0]);
+      return Number.parseInt(metadata.v2.track.split('/')[0], 10);
     }
     return null;
   }

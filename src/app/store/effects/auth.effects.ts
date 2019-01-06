@@ -1,22 +1,22 @@
 import '../../rxjs';
 
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { BaseApi } from '../../services/base-api.service';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError, filter, tap, withLatestFrom } from 'rxjs/operators';
 
 import * as actions from '../actions';
-import { PayloadAction } from '../actions';
+import { PayloadAction, ResponseSuccessAuthLoginAction } from '../actions';
 
 const STORAGE_ACTION = '[Storage] Value changed';
 
 @Injectable()
 export class AuthEffects {
   @Effect()
-  getAuthLogin = this.actions$.ofType(actions.REQUEST_AUTH_LOGIN).pipe(
+  getAuthLogin = this.actions$.pipe(
+    ofType(actions.REQUEST_AUTH_LOGIN),
     switchMap((action: actions.RequestAuthLoginAction) =>
       this.api.login(action.payload).pipe(
         map(res => new actions.ResponseSuccessAuthLoginAction(res)),
@@ -26,7 +26,8 @@ export class AuthEffects {
   );
 
   @Effect({ dispatch: false })
-  rehydrateAuth = this.actions$.ofType(actions.APP_READY).pipe(
+  rehydrateAuth = this.actions$.pipe(
+    ofType(actions.APP_READY),
     withLatestFrom(this.store.select(state => state)),
     tap(([action, state]) => {
       if (state.auth && state.auth.auth && state.auth.auth.token) {
@@ -37,8 +38,9 @@ export class AuthEffects {
   );
 
   @Effect({ dispatch: false })
-  persistAuth = this.actions$.ofType(actions.RESPONSE_SUCCESS_AUTH_LOGIN).pipe(
-    tap(action => {
+  persistAuth = this.actions$.pipe(
+    ofType(actions.RESPONSE_SUCCESS_AUTH_LOGIN),
+    tap((action: ResponseSuccessAuthLoginAction) => {
       this.api.setToken(action.payload.token);
       window.localStorage.setItem('AUTH_TOKEN', action.payload.token);
       window.localStorage.setItem('AUTH_USER', action.payload.userId);
@@ -46,7 +48,8 @@ export class AuthEffects {
   );
 
   @Effect()
-  getAuthLogout = this.actions$.ofType(actions.REQUEST_AUTH_LOGOUT).pipe(
+  getAuthLogout = this.actions$.pipe(
+    ofType(actions.REQUEST_AUTH_LOGOUT),
     switchMap((action: any) => {
       return this.api.logout().pipe(
         tap(res => {
@@ -60,13 +63,15 @@ export class AuthEffects {
   );
 
   @Effect()
-  forceLogout = this.actions$
-    .ofType(actions.FORCE_LOGOUT_401)
-    .pipe(map(action => new actions.RequestAuthLogoutAction()));
+  forceLogout = this.actions$.pipe(
+    ofType(actions.FORCE_LOGOUT_401),
+    map(action => new actions.RequestAuthLogoutAction())
+  );
 
   @Effect({ dispatch: false })
-  tabTokenChanges = this.actions$.ofType(STORAGE_ACTION).pipe(
-    filter(action => action.payload.key === 'auth'),
+  tabTokenChanges = this.actions$.pipe(
+    ofType(STORAGE_ACTION),
+    filter((action: any) => action.payload.key === 'auth'),
     tap(action => this.api.setToken(action.payload.newValue))
   );
 

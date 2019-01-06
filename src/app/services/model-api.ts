@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { Injectable } from '../../../node_modules/@angular/core';
 import { BaseApi } from './base-api.service';
