@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
 
 import { Injectable } from '../../../node_modules/@angular/core';
-import { BaseApi } from './base-api.service';
+import { BaseApi, HttpOptions } from './base-api.service';
+import { HttpParams } from '@angular/common/http';
 
 export interface ApiModel {
   id: string | number;
@@ -10,8 +11,8 @@ export interface ApiModel {
 @Injectable()
 export class ModelApi<ResponseType> {
   constructor(readonly modelName, public http: BaseApi) {}
-  public list(params: any): Observable<Array<ResponseType>> {
-    return <Observable<Array<ResponseType>>>this.http.get(this.modelName);
+  public list(options: HttpOptions = { responseType: 'json' }): Observable<any> {
+    return <Observable<any>>this.http.get(this.modelName, options);
   }
   public get(id: string | number): Observable<ResponseType> {
     return <Observable<ResponseType>>this.http.get(`${this.modelName}/${id}`);

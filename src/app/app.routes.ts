@@ -6,6 +6,7 @@ import { MusicUploadComponent } from './pages/music-upload/music-upload.componen
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { ReadyGuard } from './guards/ready.guard';
 import { HomePageComponent } from './pages/home/home.component';
+import { SearchComponent } from './pages/search/search.component';
 
 export const ROUTES: Array<Route> = [
   {
@@ -14,7 +15,8 @@ export const ROUTES: Array<Route> = [
     canActivate: [ReadyGuard, AuthenticatedGuard],
     children: [
       { path: '', component: HomePageComponent },
-      { path: 'upload', component: MusicUploadComponent }
+      { path: 'upload', component: MusicUploadComponent },
+      { path: 'search', component: SearchComponent }
     ]
   },
   {

@@ -26,6 +26,10 @@ export class ReleaseApi extends ModelApi<ReleaseModel> {
     super('releases', api);
   }
 
+  simpleSearch(term: string) {
+    return super.list({ responseType: 'json', params: { search: term } });
+  }
+
   create(object: Object) {
     // need to add the user ID for now
     return super.create({ ...object, modifywho: this.http.userId, createwho: this.http.userId });

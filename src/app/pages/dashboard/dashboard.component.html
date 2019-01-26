@@ -1,6 +1,5 @@
 <app-topnav (logout)="logout()"></app-topnav>
 <mat-sidenav-container>
-
   <mat-sidenav [opened]="true" mode="side">
     <mat-nav-list>
       <h3 mat-subheader>Catalogue</h3>
@@ -8,7 +7,7 @@
         <mat-icon mat-list-icon>new_releases</mat-icon>
         New Releases
       </a>
-      <a mat-list-item routerLink="/upload">
+      <a mat-list-item routerLink="/search">
         <mat-icon mat-list-icon>search</mat-icon>
         Search Catalogue
       </a>
@@ -24,9 +23,5 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-
-  </mat-sidenav-content>
-
+  <mat-sidenav-content> <router-outlet></router-outlet> </mat-sidenav-content>
 </mat-sidenav-container>
