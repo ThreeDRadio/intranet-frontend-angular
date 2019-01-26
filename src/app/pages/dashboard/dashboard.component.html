@@ -4,9 +4,23 @@
   <mat-sidenav [opened]="true" mode="side">
     <mat-nav-list>
       <h3 mat-subheader>Catalogue</h3>
+      <a mat-list-item routerLink="/new-releases">
+        <mat-icon mat-list-icon>new_releases</mat-icon>
+        New Releases
+      </a>
+      <a mat-list-item routerLink="/upload">
+        <mat-icon mat-list-icon>search</mat-icon>
+        Search Catalogue
+      </a>
+      <h3 mat-subheader>Manage</h3>
       <a mat-list-item routerLink="/upload">
         <mat-icon mat-list-icon>file_upload</mat-icon>
-        Upload Music</a>
+        Upload Music
+      </a>
+      <a mat-list-item routerLink="/upload">
+        <mat-icon mat-list-icon>create</mat-icon>
+        Create Entry
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 

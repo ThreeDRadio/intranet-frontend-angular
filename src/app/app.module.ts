@@ -21,6 +21,7 @@ import { API } from './services';
 import { API_URL, BaseApi } from './services/base-api.service';
 import { Id3Service } from './services/id3.service';
 import * as Store from './store';
+import { environment } from 'environments/environment';
 
 @NgModule({
   declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
@@ -45,7 +46,7 @@ import * as Store from './store';
     Id3Service,
     {
       provide: API_URL,
-      useValue: 'http://localhost:8000'
+      useValue: environment.api
     }
   ],
   bootstrap: [AppComponent]
