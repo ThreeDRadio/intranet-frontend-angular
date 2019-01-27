@@ -35,7 +35,9 @@ export namespace ReleaseActions {
 
   export class RequestSearch {
     readonly type = Types.REQUEST_SIMPLE_SEARCH;
-    constructor(public payload: { search: string }) {}
+    constructor(
+      public payload: { search: string; limit: number; offset: number; sortKey: string }
+    ) {}
   }
 
   export class ResponseSearch {

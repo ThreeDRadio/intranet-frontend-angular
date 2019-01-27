@@ -11,7 +11,7 @@ export class ReleaseEffects {
   search$ = this.actions$.pipe(
     ofType(ReleaseActions.Types.REQUEST_SIMPLE_SEARCH),
     switchMap((action: ReleaseActions.RequestSearch) => {
-      return this.api.simpleSearch(action.payload.search).pipe(
+      return this.api.simpleSearch(action.payload).pipe(
         map(response => new ReleaseActions.ResponseSearch(response)),
         catchError(err => of(new ReleaseActions.ErrorSearch(err)))
       );

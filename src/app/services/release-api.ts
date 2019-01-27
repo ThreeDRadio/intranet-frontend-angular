@@ -26,8 +26,14 @@ export class ReleaseApi extends ModelApi<ReleaseModel> {
     super('releases', api);
   }
 
-  simpleSearch(term: string) {
-    return super.list({ responseType: 'json', params: { search: term } });
+  simpleSearch(params: { search: string; limit: number; offset: number; ordering: string }) {
+    const p = {
+      search: params.search,
+      offset: String(params.offset),
+      limit: String(params.limit),
+      ordering: params.ordering
+    };
+    return super.list({ responseType: 'json', params: p });
   }
 
   create(object: Object) {
