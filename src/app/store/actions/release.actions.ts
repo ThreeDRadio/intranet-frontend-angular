@@ -27,12 +27,22 @@ export namespace ReleaseActions {
   }
 
   export const Types = {
-    FETCH_RELEASE_BY_ID: '[Release][Request] by id',
+    REQUEST_BY_ID: '[Release][Request] by id',
+    RESPONSE_BY_ID: '[Release][Response] by id',
     REQUEST_SIMPLE_SEARCH: '[Release][Request] simple search',
     RESPONSE_SIMPLE_SEARCH: '[Release][Response] simple search',
     ERROR_SIMPLE_SEARCH: '[Release][Error] simple search'
   };
 
+  export class RequestById {
+    readonly type = Types.REQUEST_BY_ID;
+    constructor(public payload: string | number) {}
+  }
+
+  export class ResponseById {
+    readonly type = Types.RESPONSE_BY_ID;
+    constructor(public payload: any) {}
+  }
   export class RequestSearch {
     readonly type = Types.REQUEST_SIMPLE_SEARCH;
     constructor(
@@ -50,5 +60,5 @@ export namespace ReleaseActions {
     constructor(public payload?: any) {}
   }
 
-  export type Actions = RequestSearch | ResponseSearch | ErrorSearch;
+  export type Actions = RequestSearch | ResponseSearch | ErrorSearch | RequestById | ResponseById;
 }

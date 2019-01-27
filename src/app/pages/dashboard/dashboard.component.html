@@ -9,7 +9,11 @@
       </a>
       <a mat-list-item routerLink="/search">
         <mat-icon mat-list-icon>search</mat-icon>
-        Search Catalogue
+        Quick Search
+      </a>
+      <a mat-list-item routerLink="/advanced-search">
+        <mat-icon mat-list-icon>search</mat-icon>
+        Advanced Search
       </a>
       <h3 mat-subheader>Manage</h3>
       <a mat-list-item routerLink="/upload">
@@ -23,5 +27,7 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content> <router-outlet></router-outlet> </mat-sidenav-content>
+  <mat-sidenav-content class="mat-typography">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
 </mat-sidenav-container>

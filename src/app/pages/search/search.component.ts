@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ReleaseSelectors } from 'app/store/selectors/release.selectors';
 import { PageEvent, Sort } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-catalogue-search',
@@ -43,6 +44,7 @@ export class SearchComponent {
 
   open(release) {
     console.log(release);
+    this.router.navigate(['releases', release.id]);
   }
 
   paginationChange(event: PageEvent) {
@@ -56,7 +58,7 @@ export class SearchComponent {
     this.ordering = (event.direction === 'asc' ? '' : '-') + event.active;
     this.search();
   }
-  constructor(private store: Store<any>) {
+  constructor(private store: Store<any>, private router: Router) {
     this.loading$ = this.store.select(ReleaseSelectors.isLoading);
     this.results$ = this.store.select(ReleaseSelectors.getAll);
     this.count$ = this.store.select(ReleaseSelectors.count);

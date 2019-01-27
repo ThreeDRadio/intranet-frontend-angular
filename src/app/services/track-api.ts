@@ -19,6 +19,10 @@ export class TrackApi extends ModelApi<TrackModel> {
     super('tracks', api);
   }
 
+  getForRelease(releaseId: string) {
+    return this.http.get(`releases/${releaseId}/tracks`);
+  }
+
   uploadHi(id: number, file: File) {
     return this.http.upload(`${this.modelName}/${id}/audio`, file);
   }

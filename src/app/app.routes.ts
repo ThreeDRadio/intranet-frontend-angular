@@ -7,6 +7,7 @@ import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { ReadyGuard } from './guards/ready.guard';
 import { HomePageComponent } from './pages/home/home.component';
 import { SearchComponent } from './pages/search/search.component';
+import { ReleasePageComponent } from './pages/release/release.component';
 
 export const ROUTES: Array<Route> = [
   {
@@ -16,7 +17,8 @@ export const ROUTES: Array<Route> = [
     children: [
       { path: '', component: HomePageComponent },
       { path: 'upload', component: MusicUploadComponent },
-      { path: 'search', component: SearchComponent }
+      { path: 'search', component: SearchComponent },
+      { path: 'releases/:id', component: ReleasePageComponent }
     ]
   },
   {

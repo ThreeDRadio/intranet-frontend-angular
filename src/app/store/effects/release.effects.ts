@@ -17,5 +17,17 @@ export class ReleaseEffects {
       );
     })
   );
+
+  @Effect()
+  getById$ = this.actions$.pipe(
+    ofType(ReleaseActions.Types.REQUEST_BY_ID),
+    switchMap((action: ReleaseActions.RequestById) => {
+      return this.api.get(action.payload).pipe(
+        map(response => new ReleaseActions.ResponseById(response)),
+        catchError(err => of(new ReleaseActions.ErrorSearch(err)))
+      );
+    })
+  );
+
   constructor(private actions$: Actions<ReleaseActions.Actions>, private api: ReleaseApi) {}
 }

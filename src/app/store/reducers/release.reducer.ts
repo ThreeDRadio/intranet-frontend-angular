@@ -40,6 +40,13 @@ export function reducer(state: ReleaseState = initialState, action: ReleaseActio
           return accum;
         }, {})
       };
+    case ReleaseActions.Types.REQUEST_BY_ID:
+      return { ...state, loading: true };
+    case ReleaseActions.Types.RESPONSE_BY_ID:
+      const ids = Array.from(new Set([...state.ids, action.payload.id]));
+      const entities = { ...state.entities };
+      entities[action.payload.id] = action.payload;
+      return { ...state, loading: false, ids, entities };
     default:
       return state;
   }

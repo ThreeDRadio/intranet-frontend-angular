@@ -1,0 +1,40 @@
+<div *ngIf="(release$ | async); let release">
+  <h1 class="mat-display-1">
+    {{ release.artist }} - {{ release.title }}
+    <mat-chip-list>
+      <mat-chip *ngIf="release.local == 2"><mat-icon>home</mat-icon>Local</mat-chip>
+      <mat-chip *ngIf="release.cpa"><mat-icon>place</mat-icon>{{ release.cpa }}</mat-chip>
+      <mat-chip *ngIf="release.female == 2">♀ Female</mat-chip>
+      <mat-chip *ngIf="release.genre"><mat-icon>music_note</mat-icon>{{ release.genre }}</mat-chip>
+    </mat-chip-list>
+  </h1>
+
+  <h2>Tracks</h2>
+
+  <table mat-table [dataSource]="tracks$ | async">
+    <ng-container matColumnDef="tracknum">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let element">{{ element.tracknum }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="trackartist">
+      <th mat-header-cell *matHeaderCellDef>Artist</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.trackartist ? element.trackartist : release.artist }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tracktitle">
+      <th mat-header-cell *matHeaderCellDef>Release</th>
+      <td mat-cell *matCellDef="let element">{{ element.tracktitle }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="tracklength">
+      <th mat-header-cell *matHeaderCellDef>Length</th>
+      <td mat-cell *matCellDef="let element">{{ element.tracklength | duration }}</td>
+    </ng-container>
+
+    <tr mat-header-row sticky *matHeaderRowDef="trackColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: trackColumns"></tr>
+  </table>
+</div>
