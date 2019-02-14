@@ -33,6 +33,8 @@ export function reducer(state: State = INITIAL_STATE, action: actions.MusicUploa
       return { ...state, progress: 100, loading: false };
     case actions.UPDATE_METADATA:
       return { ...state, metadata: action.payload, loading: false };
+    case actions.RESET_UPLOAD:
+      return { ...INITIAL_STATE };
   }
   return state;
 }

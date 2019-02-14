@@ -6,6 +6,7 @@ export const FILES_SELECTED = '[MusicUpload] files selected';
 export const UPDATE_METADATA = '[MusicUpload update metadata';
 export const REPORT_UPLOAD_LOG = '[MusicUpload][Progress] log';
 export const REPORT_UPLOAD_PROGRESS = '[MusicUpload][Progress] progress';
+export const RESET_UPLOAD = '[MusicUpload] reset';
 
 export class UploadProgressLog implements Action {
   readonly type = REPORT_UPLOAD_LOG;
@@ -25,6 +26,10 @@ export class FilesSelectedAction implements Action {
 export class UpdateMetadataAction implements Action {
   readonly type = UPDATE_METADATA;
   constructor(public payload: { [id: string]: Object }) {}
+}
+
+export class ResetMusicUpload implements Action {
+  readonly type = RESET_UPLOAD;
 }
 
 export class RequestSubmitRelease implements Action {
@@ -62,4 +67,5 @@ export type MusicUploadAction =
   | UpdateMetadataAction
   | FilesSelectedAction
   | UploadProgressLog
+  | ResetMusicUpload
   | UploadProgressValue;

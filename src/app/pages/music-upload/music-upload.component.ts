@@ -1,16 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 
-import {
-  UploadProgressDialogComponent,
-} from '../../components/upload-progress/upload-progress-dialog';
+import { UploadProgressDialogComponent } from '../../components/upload-progress/upload-progress-dialog';
 import {
   FilesSelectedAction,
   RequestSubmitRelease,
+  ResetMusicUpload
 } from '../../store/actions/music-upload.actions';
 import * as selectors from '../../store/selectors';
 
@@ -20,7 +19,7 @@ import * as selectors from '../../store/selectors';
   styleUrls: ['./music-upload.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MusicUploadComponent {
+export class MusicUploadComponent implements OnInit {
   selectedData$: Observable<any>;
   compilation$: Observable<boolean>;
   artist$: Observable<string>;
@@ -35,9 +34,9 @@ export class MusicUploadComponent {
     year: new FormControl('', Validators.required),
     cpa: new FormControl('', Validators.required),
     company: new FormControl(''),
-    local: new FormControl(undefined, Validators.required),
-    compilation: new FormControl(undefined, Validators.required),
-    female: new FormControl(undefined, Validators.required),
+    local: new FormControl('', Validators.required),
+    compilation: new FormControl('', Validators.required),
+    female: new FormControl('', Validators.required),
     format: new FormControl(7),
     status: new FormControl(0),
     copies: new FormControl(0),
@@ -58,6 +57,10 @@ export class MusicUploadComponent {
 
   stepsCompleted = false;
 
+  ngOnInit() {
+    this.store.dispatch(new ResetMusicUpload());
+  }
+
   constructor(private store: Store<any>, public dialog: MatDialog) {
     this.selectedData$ = this.store.select(selectors.selectedFilesWithMetadata);
     this.compilation$ = this.store.select(selectors.isSelectedCompilation);
@@ -69,11 +72,12 @@ export class MusicUploadComponent {
       if (data.length === 0 || !data[0].metadata) {
         return;
       }
+      console.log(data);
       // console.log(data);
       this.albumDetails.patchValue({
-        artist: data[0].metadata.artist || '',
-        title: data[0].metadata.album || '',
-        year: data[0].metadata.year || ''
+        artist: data[0].metadata.artist ? data[0].metadata.artist.replace('\0', '') : '',
+        title: data[0].metadata.album ? data[0].metadata.album.replace('\0', '') : '',
+        year: data[0].metadata.year ? data[0].metadata.year.replace('\0', '') : ''
       });
 
       const tracks = <FormArray>this.trackDetails.controls['tracks'];
@@ -82,11 +86,13 @@ export class MusicUploadComponent {
       }
       let i = 1;
       for (const item of data) {
+        const title = item.metadata.title ? item.metadata.title.replace('\0', '') : '';
+        const artist = item.metadata.artist ? item.metadata.artist.replace('\0', '') : '';
         tracks.push(
           new FormGroup({
             tracknum: new FormControl(this.getTrackNum(item.metadata) || i, Validators.required),
-            tracktitle: new FormControl(item.metadata.title, Validators.required),
-            trackartist: new FormControl(item.metadata.artist, Validators.required),
+            tracktitle: new FormControl(title, Validators.required),
+            trackartist: new FormControl(artist, Validators.required),
             tracklength: new FormControl(Math.ceil(item.metadata.duration), Validators.required),
             filename: new FormControl(item.file.name),
             file: new FormControl(item.file)
