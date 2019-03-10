@@ -4,11 +4,26 @@ import { State } from '../reducers';
 
 export const musicUploadState = (state: State) => state.musicUpload;
 
-export const selectedFiles = createSelector(musicUploadState, state => state.selectedFiles);
-export const selectedMetadata = createSelector(musicUploadState, state => state.metadata);
-export const isLoading = createSelector(musicUploadState, state => state.loading);
-export const uploadProgress = createSelector(musicUploadState, state => state.progress || 0);
-export const uploadLog = createSelector(musicUploadState, state => state.log);
+export const selectedFiles = createSelector(
+  musicUploadState,
+  state => state.selectedFiles
+);
+export const selectedMetadata = createSelector(
+  musicUploadState,
+  state => state.metadata
+);
+export const isLoading = createSelector(
+  musicUploadState,
+  state => state.loading
+);
+export const uploadProgress = createSelector(
+  musicUploadState,
+  state => state.progress || 0
+);
+export const uploadLog = createSelector(
+  musicUploadState,
+  state => state.log
+);
 
 export const selectedFilesWithMetadata = createSelector(
   selectedFiles,
@@ -25,17 +40,20 @@ export const selectedFilesWithMetadata = createSelector(
   }
 );
 
-export const isSelectedCompilation = createSelector(selectedFilesWithMetadata, data => {
-  if (data.length > 0 && data[0].metadata) {
-    const artist = data[0].metadata['artist'];
-    for (const file of data) {
-      if (file.metadata['artist'] !== artist) {
-        return true;
+export const isSelectedCompilation = createSelector(
+  selectedFilesWithMetadata,
+  data => {
+    if (data.length > 0 && data[0].metadata) {
+      const artist = data[0].metadata['artist'];
+      for (const file of data) {
+        if (file.metadata['artist'] !== artist) {
+          return true;
+        }
       }
     }
+    return false;
   }
-  return false;
-});
+);
 
 export const selectedArtist = createSelector(
   selectedFilesWithMetadata,
@@ -51,9 +69,12 @@ export const selectedArtist = createSelector(
   }
 );
 
-export const selectedAlbum = createSelector(selectedFilesWithMetadata, data => {
-  if (data.length > 0 && data[0].metadata) {
-    return data[0].metadata['album'];
+export const selectedAlbum = createSelector(
+  selectedFilesWithMetadata,
+  data => {
+    if (data.length > 0 && data[0].metadata) {
+      return data[0].metadata['album'];
+    }
+    return '';
   }
-  return '';
-});
+);

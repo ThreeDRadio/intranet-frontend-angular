@@ -2,7 +2,12 @@ import * as id3 from 'jsmediatags';
 
 export class Id3Service {
   async getMetadata(file) {
-    const tags = await this.getTags(file);
+    let tags = {};
+    try {
+      tags = await this.getTags(file);
+    } catch (err) {
+      // no tags
+    }
     const duration = await this.getDuration(file);
     return { ...tags, duration };
   }

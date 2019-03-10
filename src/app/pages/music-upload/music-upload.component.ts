@@ -69,16 +69,16 @@ export class MusicUploadComponent implements OnInit {
     this.loading$ = this.store.select(selectors.isLoading);
 
     this.selectedData$.subscribe(data => {
-      if (data.length === 0 || !data[0].metadata) {
+      if (data.length === 0) {
         return;
       }
-      console.log(data);
-      // console.log(data);
-      this.albumDetails.patchValue({
-        artist: this.parseTag(data[0].metadata.tags.artist),
-        title: this.parseTag(data[0].metadata.tags.album),
-        year: this.parseTag(data[0].metadata.tags.year)
-      });
+      if (data[0].metadata && data[0].metadata.tags) {
+        this.albumDetails.patchValue({
+          artist: this.parseTag(data[0].metadata.tags.artist),
+          title: this.parseTag(data[0].metadata.tags.album),
+          year: this.parseTag(data[0].metadata.tags.year)
+        });
+      }
 
       const tracks = <FormArray>this.trackDetails.controls['tracks'];
       while (tracks.length > 0) {
@@ -86,17 +86,22 @@ export class MusicUploadComponent implements OnInit {
       }
       let i = 1;
       for (const item of data) {
-        const title = this.parseTag(item.metadata.tags.title);
-        const artist = this.parseTag(item.metadata.tags.artist);
+        let title = '';
+        let artist = '';
+        let duration = 0;
+        if (item.metadata) {
+          duration = Math.ceil(item.metadata.duration);
+        }
+        if (item.metadata && item.metadata.tags) {
+          title = this.parseTag(item.metadata.tags.title);
+          artist = this.parseTag(item.metadata.tags.artist);
+        }
         tracks.push(
           new FormGroup({
             tracknum: new FormControl(this.getTrackNum(item.metadata) || i, Validators.required),
             tracktitle: new FormControl(title, Validators.required),
             trackartist: new FormControl(artist, Validators.required),
-            tracklength: new FormControl(
-              Math.ceil(item.metadata.tags.duration),
-              Validators.required
-            ),
+            tracklength: new FormControl(duration, Validators.required),
             filename: new FormControl(item.file.name),
             file: new FormControl(item.file)
           })
@@ -114,7 +119,7 @@ export class MusicUploadComponent implements OnInit {
   }
 
   private getTrackNum(metadata) {
-    if (metadata.tags.track) {
+    if (metadata && metadata.tags && metadata.tags.track) {
       return Number.parseInt(metadata.tags.track, 10);
     }
     return null;
