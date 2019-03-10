@@ -75,9 +75,9 @@ export class MusicUploadComponent implements OnInit {
       console.log(data);
       // console.log(data);
       this.albumDetails.patchValue({
-        artist: data[0].metadata.artist ? data[0].metadata.artist.replace('\0', '') : '',
-        title: data[0].metadata.album ? data[0].metadata.album.replace('\0', '') : '',
-        year: data[0].metadata.year ? data[0].metadata.year.replace('\0', '') : ''
+        artist: this.parseTag(data[0].metadata.artist),
+        title: this.parseTag(data[0].metadata.album),
+        year: this.parseTag(data[0].metadata.year)
       });
 
       const tracks = <FormArray>this.trackDetails.controls['tracks'];
@@ -86,8 +86,8 @@ export class MusicUploadComponent implements OnInit {
       }
       let i = 1;
       for (const item of data) {
-        const title = item.metadata.title ? item.metadata.title.replace('\0', '') : '';
-        const artist = item.metadata.artist ? item.metadata.artist.replace('\0', '') : '';
+        const title = this.parseTag(item.metadata.title);
+        const artist = this.parseTag(item.metadata.artist);
         tracks.push(
           new FormGroup({
             tracknum: new FormControl(this.getTrackNum(item.metadata) || i, Validators.required),
@@ -103,6 +103,13 @@ export class MusicUploadComponent implements OnInit {
     });
   }
 
+  parseTag(tag?: string | null): string {
+    if (tag == null || tag === undefined) {
+      return '';
+    }
+    return tag.replace(/\0/g, '').trim();
+  }
+
   private getTrackNum(metadata) {
     if (metadata.v1.track) {
       return Number.parseInt(metadata.v1.track, 10);
@@ -112,7 +119,13 @@ export class MusicUploadComponent implements OnInit {
     }
     return null;
   }
-
+  toHex(tmp) {
+    let str = '';
+    for (let i = 0; i < tmp.length; i++) {
+      str += tmp[i].charCodeAt(0).toString(16);
+    }
+    return str;
+  }
   public submitRelease() {
     this.stepsCompleted = true;
     const dialogRef = this.dialog.open(UploadProgressDialogComponent, {
