@@ -3,7 +3,8 @@ import { Action } from '@ngrx/store';
 export const REQUEST_SUBMIT_RELEASE = '[MusicUpload][Request] submit release';
 export const RESPONSE_SUCCESS_SUBMIT_RELEASE = '[MusicUpload][Response][Success] submit release';
 export const FILES_SELECTED = '[MusicUpload] files selected';
-export const UPDATE_METADATA = '[MusicUpload update metadata';
+export const UPDATE_METADATA = '[MusicUpload] update metadata';
+export const METADATA_PARSE_ERROR = '[MusicUpload] metadata parse error';
 export const REPORT_UPLOAD_LOG = '[MusicUpload][Progress] log';
 export const REPORT_UPLOAD_PROGRESS = '[MusicUpload][Progress] progress';
 export const RESET_UPLOAD = '[MusicUpload] reset';
@@ -26,6 +27,10 @@ export class FilesSelectedAction implements Action {
 export class UpdateMetadataAction implements Action {
   readonly type = UPDATE_METADATA;
   constructor(public payload: { [id: string]: Object }) {}
+}
+export class MetadataErrorAction implements Action {
+  readonly type = METADATA_PARSE_ERROR;
+  constructor(payload: any) {}
 }
 
 export class ResetMusicUpload implements Action {

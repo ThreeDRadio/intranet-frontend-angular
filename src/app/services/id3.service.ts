@@ -1,6 +1,4 @@
-import { Injectable } from '@angular/core';
-
-import * as id3 from 'id3js';
+import * as id3 from 'jsmediatags';
 
 export class Id3Service {
   async getMetadata(file) {
@@ -10,11 +8,9 @@ export class Id3Service {
   }
   getTags(file: File) {
     return new Promise((resolve, reject) => {
-      id3(file, (err, tags) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(tags);
+      new id3.Reader(file).read({
+        onSuccess: tag => resolve(tag),
+        onError: error => reject(error)
       });
     });
   }

@@ -75,9 +75,9 @@ export class MusicUploadComponent implements OnInit {
       console.log(data);
       // console.log(data);
       this.albumDetails.patchValue({
-        artist: this.parseTag(data[0].metadata.artist),
-        title: this.parseTag(data[0].metadata.album),
-        year: this.parseTag(data[0].metadata.year)
+        artist: this.parseTag(data[0].metadata.tags.artist),
+        title: this.parseTag(data[0].metadata.tags.album),
+        year: this.parseTag(data[0].metadata.tags.year)
       });
 
       const tracks = <FormArray>this.trackDetails.controls['tracks'];
@@ -86,14 +86,17 @@ export class MusicUploadComponent implements OnInit {
       }
       let i = 1;
       for (const item of data) {
-        const title = this.parseTag(item.metadata.title);
-        const artist = this.parseTag(item.metadata.artist);
+        const title = this.parseTag(item.metadata.tags.title);
+        const artist = this.parseTag(item.metadata.tags.artist);
         tracks.push(
           new FormGroup({
             tracknum: new FormControl(this.getTrackNum(item.metadata) || i, Validators.required),
             tracktitle: new FormControl(title, Validators.required),
             trackartist: new FormControl(artist, Validators.required),
-            tracklength: new FormControl(Math.ceil(item.metadata.duration), Validators.required),
+            tracklength: new FormControl(
+              Math.ceil(item.metadata.tags.duration),
+              Validators.required
+            ),
             filename: new FormControl(item.file.name),
             file: new FormControl(item.file)
           })
@@ -111,21 +114,12 @@ export class MusicUploadComponent implements OnInit {
   }
 
   private getTrackNum(metadata) {
-    if (metadata.v1.track) {
-      return Number.parseInt(metadata.v1.track, 10);
-    }
-    if (metadata.v2.track) {
-      return Number.parseInt(metadata.v2.track.split('/')[0], 10);
+    if (metadata.tags.track) {
+      return Number.parseInt(metadata.tags.track, 10);
     }
     return null;
   }
-  toHex(tmp) {
-    let str = '';
-    for (let i = 0; i < tmp.length; i++) {
-      str += tmp[i].charCodeAt(0).toString(16);
-    }
-    return str;
-  }
+
   public submitRelease() {
     this.stepsCompleted = true;
     const dialogRef = this.dialog.open(UploadProgressDialogComponent, {

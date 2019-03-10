@@ -14,13 +14,16 @@ export class MusicUploadEffects {
   getMetadataForFiles = this.actions$.pipe(
     ofType(actions.FILES_SELECTED),
     switchMap(async (action: actions.FilesSelectedAction) => {
-      const entities = {};
-      for (const file of action.payload) {
-        entities[file.name] = await this.id3.getMetadata(file);
+      try {
+        const entities = {};
+        for (const file of action.payload) {
+          entities[file.name] = await this.id3.getMetadata(file);
+        }
+        return new actions.UpdateMetadataAction(entities);
+      } catch (err) {
+        return new actions.MetadataErrorAction(err);
       }
-      return entities;
-    }),
-    map(data => new actions.UpdateMetadataAction(data))
+    })
   );
 
   @Effect()
