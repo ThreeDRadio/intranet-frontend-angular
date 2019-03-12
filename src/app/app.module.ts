@@ -24,6 +24,13 @@ import { Id3Service } from './services/id3.service';
 import * as Store from './store';
 import { environment } from 'environments/environment';
 
+export function errorHandler() {
+  if (environment.production) {
+    return RollbarService;
+  }
+  return ErrorHandler;
+}
+
 @NgModule({
   declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
   entryComponents: [UploadProgressDialogComponent],
@@ -52,7 +59,7 @@ import { environment } from 'environments/environment';
       provide: API_URL,
       useValue: environment.api
     },
-    { provide: ErrorHandler, useClass: RollbarService }
+    { provide: ErrorHandler, useClass: errorHandler() }
   ],
   bootstrap: [AppComponent]
 })
