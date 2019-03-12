@@ -27,12 +27,7 @@ import { NFErrorHandler, ERROR_LOGGING_SERVICE } from './services/error-handler'
 import { AppRestartService } from './services/app-restart.service';
 import { RestartModalComponent } from './components/restart-modal/restart-modal.component';
 
-export function errorHandler() {
-  if (environment.production) {
-    return NFErrorHandler;
-  }
-  return ErrorHandler;
-}
+export const errorHandler = environment.production ? NFErrorHandler : ErrorHandler;
 
 @NgModule({
   declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
@@ -67,7 +62,7 @@ export function errorHandler() {
       provide: ERROR_LOGGING_SERVICE,
       useClass: RollbarService
     },
-    { provide: ErrorHandler, useClass: errorHandler() }
+    { provide: ErrorHandler, useClass: errorHandler }
   ],
   bootstrap: [AppComponent]
 })
