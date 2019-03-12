@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ReleaseActions } from 'app/store';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   form = new FormGroup({
     search: new FormControl('', Validators.required)
   });
@@ -61,5 +61,9 @@ export class SearchComponent {
     this.loading$ = this.store.select(ReleaseSelectors.isLoading);
     this.results$ = this.store.select(ReleaseSelectors.getAll);
     this.count$ = this.store.select(ReleaseSelectors.count);
+  }
+
+  ngOnInit() {
+    this.store.dispatch(new ReleaseActions.Clear());
   }
 }

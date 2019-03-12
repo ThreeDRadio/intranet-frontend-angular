@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { ReleaseActions } from '../actions/release.actions';
 
 export interface ReleaseState {
@@ -21,6 +20,8 @@ const initialState = {
 
 export function reducer(state: ReleaseState = initialState, action: ReleaseActions.Actions) {
   switch (action.type) {
+    case ReleaseActions.Types.CLEAR:
+      return initialState;
     case ReleaseActions.Types.REQUEST_SIMPLE_SEARCH:
       return { ...state, loading: true };
     case ReleaseActions.Types.ERROR_SIMPLE_SEARCH:

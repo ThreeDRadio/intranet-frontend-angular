@@ -27,6 +27,7 @@ export namespace ReleaseActions {
   }
 
   export const Types = {
+    CLEAR: '[Release][Clear]',
     REQUEST_BY_ID: '[Release][Request] by id',
     RESPONSE_BY_ID: '[Release][Response] by id',
     REQUEST_SIMPLE_SEARCH: '[Release][Request] simple search',
@@ -35,6 +36,9 @@ export namespace ReleaseActions {
     REQUEST_MOST_RECENT: '[Release][Request] most recent'
   };
 
+  export class Clear {
+    readonly type = Types.CLEAR;
+  }
   export class RequestById {
     readonly type = Types.REQUEST_BY_ID;
     constructor(public payload: string | number) {}
