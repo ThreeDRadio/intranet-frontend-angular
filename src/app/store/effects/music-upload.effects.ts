@@ -30,24 +30,29 @@ export class MusicUploadEffects {
   uploadRelease = this.actions$.pipe(
     ofType(actions.REQUEST_SUBMIT_RELEASE),
     switchMap(async (action: actions.RequestSubmitRelease) => {
-      const release = await this.releases
-        .create({ ...action.payload.album, digital: true })
-        .toPromise();
-      this.store.dispatch(new actions.UploadProgressLog('Created release'));
-      let i = 0;
-      for (const track of action.payload.tracks) {
-        const payload: any = { ...track };
-        delete payload.file;
-        payload.release = release.id;
-        const entry = await this.tracks.create({ ...payload, needsEncoding: true }).toPromise();
-        const file = await this.tracks.uploadHi(entry.id, track.file).toPromise();
-        this.store.dispatch(new actions.UploadProgressLog(`Uploaded ${track.file.name}`));
-        this.store.dispatch(
-          new actions.UploadProgressValue(Math.ceil((++i / action.payload.tracks.length) * 100))
-        );
+      try {
+        const release = await this.releases
+          .create({ ...action.payload.album, digital: true })
+          .toPromise();
+        this.store.dispatch(new actions.UploadProgressLog('Created release'));
+        let i = 0;
+        for (const track of action.payload.tracks) {
+          const payload: any = { ...track };
+          delete payload.file;
+          payload.release = release.id;
+          const entry = await this.tracks.create({ ...payload, needsEncoding: true }).toPromise();
+          const file = await this.tracks.uploadHi(entry.id, track.file).toPromise();
+          this.store.dispatch(new actions.UploadProgressLog(`Uploaded ${track.file.name}`));
+          this.store.dispatch(
+            new actions.UploadProgressValue(Math.ceil((++i / action.payload.tracks.length) * 100))
+          );
+        }
+        return new actions.ResponseSuccessSubmitRelease(release);
+      } catch (err) {
+        this.store.dispatch(new actions.UploadProgressLog(`Uploaded Failed: ${err}`));
+        return new actions.ResponseErrorSubmitRelease(err);
       }
-    }),
-    map(res => new actions.ResponseSuccessSubmitRelease(res))
+    })
   );
 
   constructor(

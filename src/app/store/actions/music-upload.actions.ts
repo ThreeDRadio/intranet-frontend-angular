@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 export const REQUEST_SUBMIT_RELEASE = '[MusicUpload][Request] submit release';
 export const RESPONSE_SUCCESS_SUBMIT_RELEASE = '[MusicUpload][Response][Success] submit release';
+export const RESPONSE_ERROR_SUBMIT_RELEASE = '[MusicUpload][Response][ERROR] submit release';
 export const FILES_SELECTED = '[MusicUpload] files selected';
 export const UPDATE_METADATA = '[MusicUpload] update metadata';
 export const METADATA_PARSE_ERROR = '[MusicUpload] metadata parse error';
@@ -64,6 +65,10 @@ export class RequestSubmitRelease implements Action {
 export class ResponseSuccessSubmitRelease implements Action {
   readonly type = RESPONSE_SUCCESS_SUBMIT_RELEASE;
   constructor(public payload) {}
+}
+export class ResponseErrorSubmitRelease implements Action {
+  readonly type = RESPONSE_ERROR_SUBMIT_RELEASE;
+  constructor(public payload: any) {}
 }
 
 export type MusicUploadAction =
