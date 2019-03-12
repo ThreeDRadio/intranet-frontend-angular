@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export const API_URL = new InjectionToken<string>('Three D API URL');
@@ -8,7 +8,7 @@ export const API_URL = new InjectionToken<string>('Three D API URL');
 export interface HttpOptions {
   headers?: HttpHeaders;
   observe?: 'body';
-  params?: HttpParams | { [param: string]: string | string[] };
+  params?: HttpParams | { [param: string]: any | any[] };
   reportProgress?: boolean;
   responseType: 'json';
   withCredentials?: boolean;

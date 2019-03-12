@@ -4,6 +4,7 @@ import { ReleaseActions } from '../actions';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { HttpOptions } from 'app/services';
 
 @Injectable()
 export class ReleaseEffects {
@@ -12,6 +13,24 @@ export class ReleaseEffects {
     ofType(ReleaseActions.Types.REQUEST_SIMPLE_SEARCH),
     switchMap((action: ReleaseActions.RequestSearch) => {
       return this.api.simpleSearch(action.payload).pipe(
+        map(response => new ReleaseActions.ResponseSearch(response)),
+        catchError(err => of(new ReleaseActions.ErrorSearch(err)))
+      );
+    })
+  );
+
+  @Effect()
+  fetchMostRecent$ = this.actions$.pipe(
+    ofType(ReleaseActions.Types.REQUEST_MOST_RECENT),
+    switchMap((action: ReleaseActions.RequestSearch) => {
+      const options: HttpOptions = {
+        responseType: 'json',
+        params: {
+          limit: 5,
+          ordering: '-arrivaldate'
+        }
+      };
+      return this.api.list(options).pipe(
         map(response => new ReleaseActions.ResponseSearch(response)),
         catchError(err => of(new ReleaseActions.ErrorSearch(err)))
       );

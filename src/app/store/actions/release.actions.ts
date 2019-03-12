@@ -31,7 +31,8 @@ export namespace ReleaseActions {
     RESPONSE_BY_ID: '[Release][Response] by id',
     REQUEST_SIMPLE_SEARCH: '[Release][Request] simple search',
     RESPONSE_SIMPLE_SEARCH: '[Release][Response] simple search',
-    ERROR_SIMPLE_SEARCH: '[Release][Error] simple search'
+    ERROR_SIMPLE_SEARCH: '[Release][Error] simple search',
+    REQUEST_MOST_RECENT: '[Release][Request] most recent'
   };
 
   export class RequestById {
@@ -48,6 +49,10 @@ export namespace ReleaseActions {
     constructor(
       public payload: { search: string; limit: number; offset: number; ordering: string }
     ) {}
+  }
+
+  export class RequestMostRecent {
+    readonly type = Types.REQUEST_MOST_RECENT;
   }
 
   export class ResponseSearch {

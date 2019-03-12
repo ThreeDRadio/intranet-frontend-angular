@@ -43,7 +43,6 @@ export class SearchComponent {
   }
 
   open(release) {
-    console.log(release);
     this.router.navigate(['releases', release.id]);
   }
 
