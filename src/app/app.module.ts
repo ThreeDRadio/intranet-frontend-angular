@@ -23,17 +23,20 @@ import { API_URL, BaseApi } from './services/base-api.service';
 import { Id3Service } from './services/id3.service';
 import * as Store from './store';
 import { environment } from 'environments/environment';
+import { NFErrorHandler, ERROR_LOGGING_SERVICE } from './services/error-handler';
+import { AppRestartService } from './services/app-restart.service';
+import { RestartModalComponent } from './components/restart-modal/restart-modal.component';
 
 export function errorHandler() {
   if (environment.production) {
-    return RollbarService;
+    return NFErrorHandler;
   }
   return ErrorHandler;
 }
 
 @NgModule({
   declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
-  entryComponents: [UploadProgressDialogComponent],
+  entryComponents: [UploadProgressDialogComponent, RestartModalComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -52,12 +55,17 @@ export function errorHandler() {
   ],
   providers: [
     ...GUARDS,
+    AppRestartService,
     BaseApi,
     ...API,
     Id3Service,
     {
       provide: API_URL,
       useValue: environment.api
+    },
+    {
+      provide: ERROR_LOGGING_SERVICE,
+      useClass: RollbarService
     },
     { provide: ErrorHandler, useClass: errorHandler() }
   ],
