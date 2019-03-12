@@ -1,7 +1,8 @@
 <h1>Home</h1>
 
 <h2>Recent Releases</h2>
-<table *ngIf="(count$ | async) > 0" mat-table matSort [dataSource]="results$ | async">
+<mat-progress-bar *ngIf="(!loading$ | async)" mode="indeterminate"></mat-progress-bar>
+<table *ngIf="!(loading$ | async)" mat-table matSort [dataSource]="results$ | async">
   <ng-container matColumnDef="artist">
     <th mat-header-cell mat-sort-header *matHeaderCellDef>Artist</th>
     <td mat-cell *matCellDef="let element">{{ element.artist }}</td>
@@ -37,3 +38,5 @@
 </table>
 
 <a [routerLink]="['new-releases']"><strong>All New Music</strong></a>
+
+<h2>Recent Comments</h2>

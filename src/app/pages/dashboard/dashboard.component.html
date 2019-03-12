@@ -7,7 +7,7 @@
         Home
       </a>
       <h3 mat-subheader>Catalogue</h3>
-      <a mat-list-item disabled routerLink="/new-releases">
+      <a mat-list-item routerLink="/new-releases">
         <mat-icon mat-list-icon>new_releases</mat-icon>
         New Releases
       </a>
@@ -15,19 +15,23 @@
         <mat-icon mat-list-icon>search</mat-icon>
         Quick Search
       </a>
-      <a mat-list-item routerLink="/advanced-search">
-        <mat-icon mat-list-icon>search</mat-icon>
-        Advanced Search
-      </a>
+      <div *ngIf="false">
+        <a mat-list-item routerLink="/advanced-search">
+          <mat-icon mat-list-icon>search</mat-icon>
+          Advanced Search
+        </a>
+      </div>
       <h3 mat-subheader>Manage</h3>
       <a mat-list-item routerLink="/upload">
         <mat-icon mat-list-icon>file_upload</mat-icon>
         Upload Music
       </a>
-      <a mat-list-item routerLink="/upload">
-        <mat-icon mat-list-icon>create</mat-icon>
-        Create Entry
-      </a>
+      <div *ngIf="false">
+        <a mat-list-item routerLink="/upload">
+          <mat-icon mat-list-icon>create</mat-icon>
+          Create Entry
+        </a>
+      </div>
     </mat-nav-list>
   </mat-sidenav>
 
