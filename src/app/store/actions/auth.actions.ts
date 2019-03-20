@@ -4,6 +4,10 @@ export const REQUEST_AUTH_LOGIN = '[Auth][Request] Auth Login';
 export const RESPONSE_SUCCESS_AUTH_LOGIN = '[Auth][Response][Success] Auth Login';
 export const RESPONSE_FAIL_AUTH_LOGIN = '[Auth][Response][Fail] Auth Login';
 
+export const REQUEST_AUTH_PROFILE = '[Auth][Request] Auth Profile';
+export const RESPONSE_SUCCESS_AUTH_PROFILE = '[Auth][Response][Success] Auth Profile';
+export const RESPONSE_FAIL_AUTH_PROFILE = '[Auth][Response][Fail] Auth Profile';
+
 export const REQUEST_AUTH_LOGOUT = '[Auth][Request] Auth Logout';
 export const RESPONSE_SUCCESS_AUTH_LOGOUT = '[Auth][Response][Success] Auth Logout';
 export const RESPONSE_FAIL_AUTH_LOGOUT = '[Auth][Response][Fail] Auth Logout';
@@ -44,7 +48,19 @@ export class RequestUserRoles implements Action {
   readonly type = REQUEST_USER_ROLES;
   constructor() {}
 }
+export class RequestAuthProfile implements Action {
+  readonly type = REQUEST_AUTH_PROFILE;
+  constructor() {}
+}
 
+export class ResponseSuccessAuthProfile implements Action {
+  readonly type = RESPONSE_SUCCESS_AUTH_PROFILE;
+  constructor(public payload: any) {}
+}
+export class ResponseFailAuthProfile implements Action {
+  readonly type = RESPONSE_FAIL_AUTH_PROFILE;
+  constructor(public payload: any) {}
+}
 export class ResponseSuccessUserRoles implements Action {
   readonly type = RESPONSE_SUCCESS_USER_ROLES;
   constructor(public payload: any) {}

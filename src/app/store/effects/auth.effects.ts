@@ -24,8 +24,18 @@ export class AuthEffects {
       )
     )
   );
+  @Effect()
+  getProfile = this.actions$.pipe(
+    ofType(actions.RESPONSE_SUCCESS_AUTH_LOGIN, actions.REQUEST_AUTH_PROFILE),
+    switchMap((action: actions.ResponseSuccessAuthLoginAction) =>
+      this.api.getProfile().pipe(
+        map(res => new actions.ResponseSuccessAuthProfile(res)),
+        catchError(err => of(new actions.ResponseFailAuthProfile(err)))
+      )
+    )
+  );
 
-  @Effect({ dispatch: false })
+  @Effect()
   rehydrateAuth = this.actions$.pipe(
     ofType(actions.APP_READY),
     withLatestFrom(this.store.select(state => state)),
@@ -34,7 +44,8 @@ export class AuthEffects {
         this.api.setToken(state.auth.auth.token);
         this.api.userId = Number(state.auth.auth.userId);
       }
-    })
+    }),
+    map(action => new actions.RequestAuthProfile())
   );
 
   @Effect({ dispatch: false })

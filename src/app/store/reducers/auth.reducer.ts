@@ -58,9 +58,16 @@ export function reducer(state: State = initialState, action: PayloadAction): Sta
         auth: {
           ...action.payload,
           created: action.payload.auth ? new Date(action.payload.auth.created) : undefined
-        },
-        user: { ...action.payload.user },
-        roles: action.payload.roles
+        }
+      };
+      return newState;
+    }
+    case actions.RESPONSE_SUCCESS_AUTH_PROFILE: {
+      const newState = {
+        ...state,
+        loading: false,
+        error: '',
+        user: action.payload
       };
       return newState;
     }

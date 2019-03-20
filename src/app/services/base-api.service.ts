@@ -33,6 +33,10 @@ export class BaseApi {
     );
   }
 
+  public getProfile() {
+    return this.get('users/me');
+  }
+
   public logout() {
     this.authToken = undefined;
     return of(true);
