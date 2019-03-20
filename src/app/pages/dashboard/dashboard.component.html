@@ -22,7 +22,7 @@
         </a>
       </div>
       <h3 mat-subheader>Manage</h3>
-      <a mat-list-item routerLink="/upload">
+      <a mat-list-item routerLink="/upload" *inGroup="groups.MusicUploaders">
         <mat-icon mat-list-icon>file_upload</mat-icon>
         Upload Music
       </a>

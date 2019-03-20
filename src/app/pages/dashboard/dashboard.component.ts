@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { RequestAuthLogoutAction } from '../../store';
+import { Groups } from 'app/constants';
 
 @Component({
   selector: 'dashboard',
@@ -9,6 +10,8 @@ import { RequestAuthLogoutAction } from '../../store';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+  public groups = Groups;
+
   constructor(private store: Store<any>) {}
 
   public logout() {
