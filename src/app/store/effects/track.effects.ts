@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TrackActions } from '../actions/track.actions';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, tap } from 'rxjs/operators';
 import { TrackApi } from 'app/services/track-api';
 import { of } from 'rxjs';
 
@@ -23,5 +23,15 @@ export class TrackEffects {
       );
     })
   );
+
+  @Effect({ dispatch: false })
+  downloadFile$ = this.actions$.pipe(
+    ofType(TrackActions.Types.requestDownload),
+    tap(async (action: TrackActions.RequestDownload) => {
+      const res = await this.api.getDownloadUrl(action.payload.id).toPromise();
+      window.open(res.url, '_blank');
+    })
+  );
+
   constructor(private actions$: Actions<TrackActions.Actions>, private api: TrackApi) {}
 }

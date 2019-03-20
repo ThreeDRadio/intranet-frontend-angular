@@ -27,7 +27,7 @@ export class ReleaseEffects {
         responseType: 'json',
         params: {
           limit: 5,
-          ordering: '-arrivaldate'
+          ordering: '-createwhen'
         }
       };
       return this.api.list(options).pipe(

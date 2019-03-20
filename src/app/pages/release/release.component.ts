@@ -17,7 +17,7 @@ export class ReleasePageComponent {
   release$: Observable<any>;
   tracks$: Observable<Array<any>>;
 
-  trackColumns = ['tracknum', 'trackartist', 'tracktitle', 'tracklength'];
+  trackColumns = ['tracknum', 'trackartist', 'tracktitle', 'tracklength', 'actions'];
 
   constructor(private store: Store<any>, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
@@ -29,5 +29,9 @@ export class ReleasePageComponent {
 
       this.tracks$ = this.store.select(TrackSelectors.tracksForRelease(params.id));
     });
+  }
+
+  download(element) {
+    this.store.dispatch(new TrackActions.RequestDownload({ id: element.id }));
   }
 }
