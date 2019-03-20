@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, Directive } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,6 +26,7 @@ import { environment } from 'environments/environment';
 import { NFErrorHandler, ERROR_LOGGING_SERVICE } from './services/error-handler';
 import { AppRestartService } from './services/app-restart.service';
 import { RestartModalComponent } from './components/restart-modal/restart-modal.component';
+import { DirectivesModule } from './directives';
 
 export const errorHandler = environment.production ? NFErrorHandler : ErrorHandler;
 
@@ -35,6 +36,7 @@ export const errorHandler = environment.production ? NFErrorHandler : ErrorHandl
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    DirectivesModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
