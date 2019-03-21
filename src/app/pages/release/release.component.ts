@@ -22,7 +22,7 @@ export class ReleasePageComponent {
   constructor(private store: Store<any>, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
       this.store.dispatch(new ReleaseActions.RequestById(params.id));
-      this.store.dispatch(new TrackActions.RequestTracksForRelease({ releaseId: params.id }));
+      this.store.dispatch(new TrackActions.RequestForRelease({ releaseId: params.id }));
       this.release$ = this.store
         .select(ReleaseSelectors.getEntities)
         .pipe(map(entities => entities[params.id]));

@@ -9,17 +9,17 @@ import { of } from 'rxjs';
 export class TrackEffects {
   @Effect()
   getTracksForRelease$ = this.actions$.pipe(
-    ofType(TrackActions.Types.requestTracksForRelease),
-    switchMap((action: TrackActions.RequestTracksForRelease) => {
+    ofType(TrackActions.Types.requestForRelease),
+    switchMap((action: TrackActions.RequestForRelease) => {
       return this.api.getForRelease(action.payload.releaseId).pipe(
         map(
           response =>
-            new TrackActions.ResponseTracksForRelease({
+            new TrackActions.ResponseForRelease({
               releaseId: action.payload.releaseId,
               tracks: response as any
             })
         ),
-        catchError(err => of(new TrackActions.ErrorTracksForRelease(err)))
+        catchError(err => of(new TrackActions.ErrorForRelease(err)))
       );
     })
   );

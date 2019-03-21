@@ -2,7 +2,7 @@
 
 <h2>Recent Releases</h2>
 <mat-progress-bar *ngIf="(!loading$ | async)" mode="indeterminate"></mat-progress-bar>
-<table *ngIf="!(loading$ | async)" mat-table matSort [dataSource]="results$ | async">
+<table *ngIf="!(loading$ | async)" mat-table matSort [dataSource]="releases$ | async">
   <ng-container matColumnDef="artist">
     <th mat-header-cell mat-sort-header *matHeaderCellDef>Artist</th>
     <td mat-cell *matCellDef="let element">{{ element.artist }}</td>
@@ -40,3 +40,23 @@
 <a [routerLink]="['new-releases']"><strong>All New Music</strong></a>
 
 <h2>Recent Comments</h2>
+
+<table *ngIf="!(loading$ | async)" mat-table matSort [dataSource]="comments$ | async">
+  <ng-container matColumnDef="author">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>Author</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.author.first_name + ' ' + element.author.last_name }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="comment">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>comment</th>
+    <td mat-cell *matCellDef="let element">
+      <strong> {{ element.release.artist }} - {{ element.release.title }} </strong><br />{{
+        element.comment
+      }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row sticky *matHeaderRowDef="commentColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: commentColumns" (click)="open(row)"></tr>
+</table>

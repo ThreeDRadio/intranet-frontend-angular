@@ -25,10 +25,10 @@ export function reducer(
   action: TrackActions.Actions
 ): TrackState {
   switch (action.type) {
-    case TrackActions.Types.requestTracksForRelease:
+    case TrackActions.Types.requestForRelease:
       return { ...state, loading: true };
-    case TrackActions.Types.responseTracksForRelease: {
-      const a = action as TrackActions.ResponseTracksForRelease;
+    case TrackActions.Types.responseForRelease: {
+      const a = action as TrackActions.ResponseForRelease;
       const releaseId = a.payload.releaseId;
       const releaseIds = a.payload.tracks.map(track => track.id);
       const ids = Array.from(new Set([...state.ids, ...releaseIds]));

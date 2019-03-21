@@ -4,6 +4,9 @@ import { ReleaseActions } from 'app/store';
 import { Observable } from 'rxjs';
 import { ReleaseSelectors } from 'app/store/selectors/release.selectors';
 import { Router } from '@angular/router';
+import { CommentActions } from 'app/store/actions/comment.actions';
+import { CommentSelectors } from 'app/store/selectors/comment.selectors';
+import { Comment } from 'app/models/comment';
 
 @Component({
   selector: 'app-home',
@@ -12,19 +15,23 @@ import { Router } from '@angular/router';
 })
 export class HomePageComponent implements OnInit {
   loading$: Observable<boolean>;
-  results$: Observable<Array<any>>;
+  releases$: Observable<Array<any>>;
+  comments$: Observable<Array<Comment>>;
   count$: Observable<number>;
 
   displayedColumns = ['artist', 'title', 'year', 'createwhen', 'tags'];
+  commentColumns = ['author', 'comment'];
 
   constructor(private store: Store<any>, private router: Router) {
     this.loading$ = this.store.select(ReleaseSelectors.isLoading);
-    this.results$ = this.store.select(ReleaseSelectors.getAll);
+    this.releases$ = this.store.select(ReleaseSelectors.getAll);
+    this.comments$ = this.store.select(CommentSelectors.getAll);
     this.count$ = this.store.select(ReleaseSelectors.count);
   }
 
   ngOnInit() {
     this.store.dispatch(new ReleaseActions.RequestMostRecent());
+    this.store.dispatch(new CommentActions.RequestMostRecent());
   }
   open(release) {
     console.log(release);

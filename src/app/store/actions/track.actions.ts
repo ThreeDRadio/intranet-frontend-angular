@@ -1,8 +1,8 @@
 export namespace TrackActions {
   export const Types = {
-    requestTracksForRelease: '[Track][Request] tracks for release',
-    responseTracksForRelease: '[Track][Response] tracks for release',
-    errorTracksForRelease: '[Track][Error] tracks for release',
+    requestForRelease: '[Track][Request] tracks for release',
+    responseForRelease: '[Track][Response] tracks for release',
+    errorForRelease: '[Track][Error] tracks for release',
     requestDownload: '[Track][Request] download audio'
   };
 
@@ -11,19 +11,19 @@ export namespace TrackActions {
     constructor(public payload: { id: number }) {}
   }
 
-  export class RequestTracksForRelease {
-    readonly type = Types.requestTracksForRelease;
+  export class RequestForRelease {
+    readonly type = Types.requestForRelease;
     constructor(public payload: { releaseId: string }) {}
   }
 
-  export class ResponseTracksForRelease {
-    readonly type = Types.responseTracksForRelease;
+  export class ResponseForRelease {
+    readonly type = Types.responseForRelease;
     constructor(public payload: { releaseId: string; tracks: Array<any> }) {}
   }
-  export class ErrorTracksForRelease {
-    readonly type = Types.errorTracksForRelease;
+  export class ErrorForRelease {
+    readonly type = Types.errorForRelease;
     constructor(public payload: any) {}
   }
 
-  export type Actions = RequestTracksForRelease | ResponseTracksForRelease | ErrorTracksForRelease;
+  export type Actions = RequestForRelease | ResponseForRelease | ErrorForRelease;
 }
