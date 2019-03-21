@@ -6,7 +6,7 @@ export interface CommentState {
   entities: { [id: string]: Comment };
 
   // All the track IDs for what we hav in the store
-  ids: Array<string>;
+  ids: Array<number>;
 
   loading: boolean;
 
@@ -63,8 +63,7 @@ export function reducer(state: CommentState = initialState, action: actions.Acti
         ...state,
         loading: false,
         ids,
-        entities: { ...state.entities, ...entities },
-        releaseTracks: { ...state.releaseTracks, [releaseId]: releaseIds }
+        entities: { ...state.entities, ...entities }
       };
     }
     default:

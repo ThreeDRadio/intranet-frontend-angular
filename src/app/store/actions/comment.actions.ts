@@ -1,3 +1,5 @@
+import { Comment } from 'app/models/comment';
+
 export namespace CommentActions {
   export const Types = {
     requestForRelease: '[Comment][Request] for release',
