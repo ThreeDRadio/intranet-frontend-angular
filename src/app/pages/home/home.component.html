@@ -58,5 +58,5 @@
   </ng-container>
 
   <tr mat-header-row sticky *matHeaderRowDef="commentColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: commentColumns" (click)="open(row)"></tr>
+  <tr mat-row *matRowDef="let row; columns: commentColumns" (click)="open(row.release)"></tr>
 </table>
