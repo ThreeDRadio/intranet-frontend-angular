@@ -16,8 +16,8 @@ export interface HttpOptions {
 
 @Injectable()
 export class BaseApi {
-  private authToken: string;
-  public userId: number;
+  static authToken: string;
+  static userId: number;
   constructor(private http: HttpClient, @Inject(API_URL) private baseUrl) {}
 
   public login(params: { username: string; password: string }): Observable<any> {
@@ -26,8 +26,8 @@ export class BaseApi {
     form.append('password', params.password);
     return this.http.post(`${this.baseUrl}/auth`, form).pipe(
       map((response: any) => {
-        this.authToken = response.token;
-        this.userId = response.userId;
+        BaseApi.authToken = response.token;
+        BaseApi.userId = response.userId;
         return response;
       })
     );
@@ -38,12 +38,20 @@ export class BaseApi {
   }
 
   public logout() {
-    this.authToken = undefined;
+    BaseApi.authToken = undefined;
     return of(true);
   }
 
   public setToken(token: string) {
-    this.authToken = token;
+    BaseApi.authToken = token;
+  }
+
+  public setUserId(value) {
+    BaseApi.userId = value;
+  }
+
+  get userId() {
+    return BaseApi.userId;
   }
 
   /**
@@ -110,7 +118,7 @@ export class BaseApi {
    * @param baseOptions The http options object to start with
    */
   private completeOptions(baseOptions: HttpOptions = { responseType: 'json' }): HttpOptions {
-    const token = `Token ${this.authToken}`;
+    const token = `Token ${BaseApi.authToken}`;
     let finalHeaders = new HttpHeaders({ Authorization: token });
     if (baseOptions.headers) {
       finalHeaders = baseOptions.headers.set('Authorization', token);

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { BaseApi } from '../../services/base-api.service';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { map, switchMap, catchError, filter, tap, withLatestFrom } from 'rxjs/operators';
 
 import * as actions from '../actions';
@@ -40,9 +40,9 @@ export class AuthEffects {
     ofType(actions.APP_READY),
     withLatestFrom(this.store.select(state => state)),
     tap(([action, state]) => {
-      if (state.auth && state.auth.auth && state.auth.auth.token) {
+      if (state.auth && state.auth.auth && state.auth.auth.token && state.auth.auth.userId) {
         this.api.setToken(state.auth.auth.token);
-        this.api.userId = Number(state.auth.auth.userId);
+        this.api.setUserId(Number(state.auth.auth.userId));
       }
     }),
     map(action => new actions.RequestAuthProfile())
