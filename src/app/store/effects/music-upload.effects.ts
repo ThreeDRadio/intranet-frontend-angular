@@ -40,7 +40,7 @@ export class MusicUploadEffects {
           const payload: any = { ...track };
           delete payload.file;
           payload.release = release.id;
-          const entry = await this.tracks.create({ ...payload, needsEncoding: true }).toPromise();
+          const entry = await this.tracks.create({ ...payload, needsencoding: true }).toPromise();
           const file = await this.tracks.uploadHi(entry.id, track.file).toPromise();
           this.store.dispatch(new actions.UploadProgressLog(`Uploaded ${track.file.name}`));
           this.store.dispatch(
