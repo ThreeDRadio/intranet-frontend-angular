@@ -3,4 +3,16 @@
 }
 table {
   width: 100%;
+
+  &.comments {
+    td {
+      vertical-align: top;
+      padding: 8px;
+
+      &.author {
+        width: 120px;
+        text-align: center;
+      }
+    }
+  }
 }

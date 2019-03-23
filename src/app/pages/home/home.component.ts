@@ -34,7 +34,6 @@ export class HomePageComponent implements OnInit {
     this.store.dispatch(new CommentActions.RequestMostRecent());
   }
   open(release) {
-    console.log(release);
     this.router.navigate(['releases', release.id]);
   }
 }
