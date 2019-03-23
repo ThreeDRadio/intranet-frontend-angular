@@ -20,7 +20,6 @@ export class HomePageComponent implements OnInit {
   count$: Observable<number>;
 
   displayedColumns = ['artist', 'title', 'year', 'createwhen', 'tags'];
-  commentColumns = ['author', 'comment'];
 
   constructor(private store: Store<any>, private router: Router) {
     this.loading$ = this.store.select(ReleaseSelectors.isLoading);
