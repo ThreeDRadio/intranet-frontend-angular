@@ -10,6 +10,7 @@ import { TrackSelectors } from 'app/store/selectors/track.selectors';
 import { CommentActions } from 'app/store/actions/comment.actions';
 import { Comment } from 'app/models/comment';
 import { CommentSelectors } from 'app/store/selectors/comment.selectors';
+import { PlayerActions } from 'app/store/actions/player.actions';
 
 @Component({
   selector: 'app-release',
@@ -42,5 +43,7 @@ export class ReleasePageComponent {
     this.store.dispatch(new TrackActions.RequestDownload({ id: element.id }));
   }
 
-  play(element) {}
+  play(element) {
+    this.store.dispatch(new PlayerActions.RequestPlay({ track: element }));
+  }
 }

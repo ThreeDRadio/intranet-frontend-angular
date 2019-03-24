@@ -1,0 +1,25 @@
+<div class="container" *ngIf="(status$ | async) != IDLE">
+  <div>
+    <button *ngIf="(status$ | async) == LOADING" [disabled]="true" mat-mini-fab>
+      <mat-icon>pause</mat-icon>
+    </button>
+    <button (click)="pause()" *ngIf="(status$ | async) == PLAYING" mat-mini-fab>
+      <mat-icon>pause</mat-icon>
+    </button>
+    <button (click)="resume()" *ngIf="(status$ | async) == PAUSED" mat-mini-fab>
+      <mat-icon>play_arrow</mat-icon>
+    </button>
+  </div>
+  <div class="track-info">
+    <div class="artist">{{ (track$ | async)?.trackartist }}</div>
+    <div class="track">{{ (track$ | async)?.tracktitle }}</div>
+  </div>
+  <div>
+    <mat-slider
+      [min]="0"
+      [max]="(track$ | async).tracklength"
+      [value]="position$ | async"
+      (input)="seek($event)"
+    ></mat-slider>
+  </div>
+</div>
