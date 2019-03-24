@@ -7,11 +7,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 300px;
 
   .track-info {
     font-size: 10pt;
     margin-left: 10px;
+    width: 250px;
 
     .artist {
       font-weight: bold;

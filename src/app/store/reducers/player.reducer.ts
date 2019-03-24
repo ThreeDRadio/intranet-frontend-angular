@@ -24,6 +24,7 @@ export function reducer(state: State = INITIAL_STATE, action: PlayerActions.Acti
       return {
         ...state,
         currentTrack: (action as PlayerActions.RequestPlay).payload.track,
+        position: 0,
         status: PlayerStatus.LOADING
       };
 
