@@ -36,4 +36,15 @@ export namespace CommentSelectors {
     commentState,
     state => state.previousPage != null
   );
+  export const commentsForRelease = (releaseId: string) => {
+    return createSelector(
+      commentState,
+      state => {
+        if (state.releaseEntities[releaseId]) {
+          return state.releaseEntities[releaseId].map(id => state.entities[id]);
+        }
+        return [];
+      }
+    );
+  };
 }

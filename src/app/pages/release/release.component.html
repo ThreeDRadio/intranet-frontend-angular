@@ -52,3 +52,6 @@
     <tr mat-row *matRowDef="let row; columns: trackColumns"></tr>
   </table>
 </div>
+
+<h2>Comments</h2>
+<app-comment-list-table [truncate]="true" [comments]="comments$ | async"></app-comment-list-table>

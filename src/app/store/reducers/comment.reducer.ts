@@ -53,8 +53,8 @@ export function reducer(state: CommentState = initialState, action: actions.Acti
     case actions.Types.responseForRelease: {
       const a = action as actions.ResponseForRelease;
       const releaseId = a.payload.releaseId;
-      const releaseIds = a.payload.comments.map(track => track.id);
-      const ids = Array.from(new Set([...state.ids, ...releaseIds]));
+      const commentIds = a.payload.comments.map(comment => comment.id);
+      const ids = Array.from(new Set([...state.ids, ...commentIds]));
       const entities = a.payload.comments.reduce((accum, current) => {
         accum[current.id] = current;
         return accum;
@@ -63,6 +63,7 @@ export function reducer(state: CommentState = initialState, action: actions.Acti
         ...state,
         loading: false,
         ids,
+        releaseEntities: { ...state.releaseEntities, [releaseId]: commentIds },
         entities: { ...state.entities, ...entities }
       };
     }
