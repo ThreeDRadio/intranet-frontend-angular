@@ -21,8 +21,6 @@ export class SearchComponent implements OnInit {
   results$: Observable<Array<any>>;
   count$: Observable<number>;
 
-  displayedColumns = ['artist', 'title', 'year', 'createwhen', 'tags'];
-
   pageSizes = [10, 20, 50, 100];
 
   offset = 0;

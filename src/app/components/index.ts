@@ -4,12 +4,14 @@ import { UploadProgressDialogComponent } from './upload-progress/upload-progress
 import { RestartModalComponent } from './restart-modal/restart-modal.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { PlayControllerComponent } from './play-controller/play-controller.component';
+import { ReleaseListComponent } from './release-list/release-list.component';
 
 export const COMPONENTS = [
   CommentListComponent,
   RestartModalComponent,
   LoginFormComponent,
   PlayControllerComponent,
+  ReleaseListComponent,
   TopNavComponent,
   UploadProgressDialogComponent
 ];

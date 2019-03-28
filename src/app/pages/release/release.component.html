@@ -39,9 +39,9 @@
       <td mat-cell *matCellDef="let element">
         <button *ngIf="element.loAvailable" mat-button (click)="play(element)">
           <mat-icon>play_circle_outline</mat-icon>
-          Play
+          Preview
         </button>
-        <button mat-button (click)="download(element)">
+        <button *ngIf="element.hiAvailable" mat-button (click)="download(element)">
           <mat-icon>save_alt</mat-icon>
           Download
         </button>

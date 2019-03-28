@@ -1,2 +1,15 @@
 <h1>New Releases</h1>
-(coming soon)
+<h3>{{ count$ | async }} New Releases</h3>
+
+<app-release-list *ngIf="(count$ | async) > 0" [releases]="results$ | async" (open)="open($event)">
+</app-release-list>
+
+<mat-paginator
+  *ngIf="(count$ | async) > 0"
+  [pageSizeOptions]="pageSizes"
+  [pageIndex]="offset / pageSize"
+  [pageSize]="pageSize"
+  (page)="paginationChange($event)"
+  [length]="count$ | async"
+  [pageSize]="10"
+></mat-paginator>
