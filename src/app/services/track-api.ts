@@ -19,7 +19,7 @@ export class TrackApi extends ModelApi<Track> {
     return this.http.upload(`${this.modelName}/${id}/audio`, file);
   }
 
-  getDownloadUrl(id: number): Observable<{ url: string }> {
-    return this.http.get(`${this.modelName}/${id}/requestDownload`) as Observable<any>;
+  getDownloadUrl(id: number, format: string = 'hi'): Observable<{ url: string }> {
+    return this.http.get(`${this.modelName}/${id}/download/${format}`) as Observable<any>;
   }
 }

@@ -16,7 +16,7 @@ export class PlayerEffects {
   playTrack$ = this.actions$.pipe(
     ofType(PlayerActions.Types.RequestPlay),
     switchMap(async (action: PlayerActions.RequestPlay) => {
-      const url = await this.api.getDownloadUrl(action.payload.track.id).toPromise();
+      const url = await this.api.getDownloadUrl(action.payload.track.id, 'hi').toPromise();
       await this.playTrack(url.url);
       return action;
     }),
@@ -61,8 +61,9 @@ export class PlayerEffects {
       this.currentTrack = new Howl({
         format: 'mp3',
         src: [url],
-        onload: () => {
-          this.currentTrack.play();
+        autoplay: true,
+        html5: true,
+        onplay: () => {
           resolve();
         },
         onloaderror: (id, reason) => {
