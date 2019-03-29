@@ -16,7 +16,7 @@ export class PlayerEffects {
   playTrack$ = this.actions$.pipe(
     ofType(PlayerActions.Types.RequestPlay),
     switchMap(async (action: PlayerActions.RequestPlay) => {
-      const url = await this.api.getDownloadUrl(action.payload.track.id, 'hi').toPromise();
+      const url = await this.api.getDownloadUrl(action.payload.track.id, 'lo').toPromise();
       await this.playTrack(url.url);
       return action;
     }),
