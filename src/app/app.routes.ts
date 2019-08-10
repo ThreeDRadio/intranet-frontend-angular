@@ -1,4 +1,4 @@
-import { Route } from '@angular/router';
+import { Route, RouterModule } from '@angular/router';
 import { LoginPageComponent } from './pages/login/login.component';
 
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -9,8 +9,9 @@ import { HomePageComponent } from './pages/home/home.component';
 import { SearchComponent } from './pages/search/search.component';
 import { ReleasePageComponent } from './pages/release/release.component';
 import { NewReleasesPageComponent } from './pages/new-releases/new-releases.component';
+import { NgModule } from '@angular/core';
 
-export const ROUTES: Array<Route> = [
+const ROUTES: Array<Route> = [
   {
     path: '',
     component: DashboardComponent,
@@ -20,7 +21,12 @@ export const ROUTES: Array<Route> = [
       { path: 'new-releases', component: NewReleasesPageComponent },
       { path: 'upload', component: MusicUploadComponent },
       { path: 'search', component: SearchComponent },
-      { path: 'releases/:id', component: ReleasePageComponent }
+      { path: 'releases/:id', component: ReleasePageComponent },
+      {
+        path: 'supporters',
+        loadChildren: () =>
+          import('./supporters/supporters.module').then(mod => mod.SupportersModule)
+      }
     ]
   },
   {
@@ -29,3 +35,9 @@ export const ROUTES: Array<Route> = [
     canActivate: [ReadyGuard]
   }
 ];
+
+@NgModule({
+  imports: [RouterModule.forRoot(ROUTES)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}

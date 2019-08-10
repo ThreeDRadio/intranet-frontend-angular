@@ -1,0 +1,12 @@
+table {
+  width: 100%;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-container > * {
+  width: 100%;
+}

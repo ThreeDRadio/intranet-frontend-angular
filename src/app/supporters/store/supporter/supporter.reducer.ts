@@ -1,6 +1,6 @@
-import { ReleaseActions } from '../actions/release.actions';
+import { SupporterActions } from './supporter.actions';
 
-export interface ReleaseState {
+export interface SupporterState {
   entities?: {};
   ids?: Array<number>;
   loading: boolean;
@@ -8,7 +8,6 @@ export interface ReleaseState {
   count?: number;
   nextPage?: string;
   previousPage?: string;
-
   error?: any;
 }
 
@@ -18,16 +17,17 @@ const initialState = {
   loading: false
 };
 
-export function reducer(state: ReleaseState = initialState, action: ReleaseActions.Actions) {
+export function reducer(
+  state: SupporterState = initialState,
+  action: SupporterActions.Actions
+): SupporterState {
   switch (action.type) {
-    case ReleaseActions.Types.CLEAR:
+    case SupporterActions.Types.CLEAR:
       return initialState;
-    case ReleaseActions.Types.REQUEST_SIMPLE_SEARCH:
+    case SupporterActions.Types.REQUEST_SEARCH:
       return { ...state, loading: true };
-    case ReleaseActions.Types.ERROR_SIMPLE_SEARCH:
-      return { ...state, loading: false, error: action.payload };
-    case ReleaseActions.Types.RESPONSE_SIMPLE_SEARCH:
-      const responseAction = action as ReleaseActions.ResponseSearch;
+    case SupporterActions.Types.RESPONSE_SEARCH: {
+      const responseAction = action as SupporterActions.ResponseSearch;
       return {
         ...state,
         loading: false,
@@ -41,13 +41,16 @@ export function reducer(state: ReleaseState = initialState, action: ReleaseActio
           return accum;
         }, {})
       };
-    case ReleaseActions.Types.REQUEST_BY_ID:
+    }
+    case SupporterActions.Types.REQUEST_BY_ID:
       return { ...state, loading: true };
-    case ReleaseActions.Types.RESPONSE_BY_ID:
-      const ids = Array.from(new Set([...state.ids, action.payload.id]));
+    case SupporterActions.Types.RESPONSE_BY_ID: {
+      const responseAction = action as SupporterActions.ResponseById;
+      const ids = Array.from(new Set([...state.ids, responseAction.payload.id]));
       const entities = { ...state.entities };
-      entities[action.payload.id] = action.payload;
+      entities[responseAction.payload.id] = responseAction.payload;
       return { ...state, loading: false, ids, entities };
+    }
     default:
       return state;
   }

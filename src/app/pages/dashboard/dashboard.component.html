@@ -6,6 +6,33 @@
         <mat-icon mat-list-icon>home</mat-icon>
         Home
       </a>
+
+      <h3 mat-subheader *inGroup="groups.SupporterManagement">Supporter Management</h3>
+      <a mat-list-item routerLink="/supporters" *inGroup="groups.SupporterManagement">
+        <mat-icon mat-list-icon>people</mat-icon>
+        Supporters
+      </a>
+      <a
+        mat-list-item
+        routerLink="/supporters/subscription/new"
+        *inGroup="groups.SupporterManagement"
+      >
+        <mat-icon mat-list-icon>note_add</mat-icon>
+        New Subscription
+      </a>
+      <a mat-list-item routerLink="/supporters/new" *inGroup="groups.SupporterManagement">
+        <mat-icon mat-list-icon>person_add</mat-icon>
+        New Supporter
+      </a>
+      <a
+        mat-list-item
+        routerLink="/supporters/subscription/process"
+        *inGroup="groups.SupporterManagement"
+      >
+        <mat-icon mat-list-icon>local_shipping</mat-icon>
+        Process Pack
+      </a>
+
       <h3 mat-subheader>Catalogue</h3>
       <a mat-list-item routerLink="/new-releases">
         <mat-icon mat-list-icon>new_releases</mat-icon>

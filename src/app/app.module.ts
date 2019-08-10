@@ -11,7 +11,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RollbarModule, RollbarService } from 'angular-rollbar';
 
 import { AppComponent } from './app.component';
-import { ROUTES } from './app.routes';
 import { COMPONENTS } from './components';
 import { UploadProgressDialogComponent } from './components/upload-progress/upload-progress-dialog';
 import { GUARDS } from './guards';
@@ -27,6 +26,8 @@ import { NFErrorHandler, ERROR_LOGGING_SERVICE } from './services/error-handler'
 import { AppRestartService } from './services/app-restart.service';
 import { RestartModalComponent } from './components/restart-modal/restart-modal.component';
 import { DirectivesModule } from './directives';
+import { SupportersModule } from './supporters/supporters.module';
+import { AppRoutingModule } from './app.routes';
 
 export const errorHandler = environment.production ? NFErrorHandler : ErrorHandler;
 
@@ -42,13 +43,14 @@ export const errorHandler = environment.production ? NFErrorHandler : ErrorHandl
     HttpClientModule,
     StoreModule.forRoot(Store.REDUCER),
     EffectsModule.forRoot(Store.EFFECTS),
-    RouterModule.forRoot(ROUTES),
+    AppRoutingModule,
     StoreDevtoolsModule.instrument(),
     MaterialModule,
     StoreRouterConnectingModule,
     RollbarModule.forRoot({
       accessToken: environment.rollbarToken
-    })
+    }),
+    SupportersModule
   ],
   providers: [
     ...GUARDS,

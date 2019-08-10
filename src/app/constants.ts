@@ -1,3 +1,4 @@
 export const Groups = {
-  MusicUploaders: 'MusicUploaders'
+  MusicUploaders: 'MusicUploaders',
+  SupporterManagement: 'SupporterManagement'
 };
