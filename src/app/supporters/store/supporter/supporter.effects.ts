@@ -36,7 +36,10 @@ export class SupporterEffects {
     switchMap((action: SupporterActions.RequestCreate) => {
       const withFormattedDate = {
         ...action.payload,
-        dob: action.payload.dob ? action.payload.dob.format('YYYY-MM-DDD') : null
+        dob:
+          action.payload.dob && action.payload.dob.format
+            ? action.payload.dob.format('YYYY-MM-DDD')
+            : action.payload.dob
       };
       return this.api.create(withFormattedDate).pipe(
         map(response => new SupporterActions.ResponseCreate(response)),
@@ -51,7 +54,10 @@ export class SupporterEffects {
     switchMap((action: SupporterActions.RequestUpdate) => {
       const withFormattedDate = {
         ...action.payload.payload,
-        dob: action.payload.payload.dob ? action.payload.payload.dob.format('YYYY-MM-DDD') : null
+        dob:
+          action.payload.payload.dob && action.payload.payload.dob.format
+            ? action.payload.payload.dob.format('YYYY-MM-DDD')
+            : action.payload.payload.dob
       };
       return this.api.update({ id: action.payload.supporterId, ...withFormattedDate }).pipe(
         map(response => new SupporterActions.ResponseUpdate(response)),
