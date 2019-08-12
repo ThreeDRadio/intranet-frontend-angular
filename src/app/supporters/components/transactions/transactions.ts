@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TransactionActions } from 'app/supporters/store/transaction/transaction.actions';
 import { TransactionSelectors } from 'app/supporters/store/transaction/transaction.selectors';
-import { PageEvent, Sort } from '@angular/material';
+import { PageEvent, Sort, MatDialog } from '@angular/material';
+import { NewSubscriptionComponent } from '../new-subscription/new-subscription';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-transactions',
@@ -29,7 +31,7 @@ export class TransactionsComponent implements OnInit {
   pageSize = 10;
   ordering = '-created_at';
 
-  constructor(private store: Store<any>) {
+  constructor(private store: Store<any>, private dialog: MatDialog) {
     this.loading$ = this.store.select(TransactionSelectors.isLoading);
     this.results$ = this.store.select(TransactionSelectors.getAll);
     this.count$ = this.store.select(TransactionSelectors.count);
@@ -58,6 +60,26 @@ export class TransactionsComponent implements OnInit {
     console.log(event);
     this.ordering = (event.direction === 'asc' ? '' : '-') + event.active;
     this.search();
+  }
+
+  editTransaction(transaction) {
+    const dialogRef = this.dialog.open(NewSubscriptionComponent, {
+      disableClose: true,
+      data: transaction
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(updates => {
+        if (!updates) {
+          console.log('no updates');
+        } else {
+          console.log(updates);
+          this.store.dispatch(
+            new TransactionActions.RequestUpdate({ id: transaction.id, ...updates })
+          );
+        }
+      });
   }
 
   ngOnInit() {

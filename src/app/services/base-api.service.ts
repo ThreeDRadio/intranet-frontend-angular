@@ -76,6 +76,11 @@ export class BaseApi {
     return this.http.put(this.buildUrl(urlSegment), body, finalOptions);
   }
 
+  public patch(urlSegment: string, body: any, options?: HttpOptions): Observable<Object> {
+    const finalOptions = this.completeOptions(options);
+    return this.http.patch(this.buildUrl(urlSegment), body, finalOptions);
+  }
+
   /**
    * Performs a put request on the API, with authorization when available.
    *

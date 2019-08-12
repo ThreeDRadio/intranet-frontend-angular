@@ -37,6 +37,13 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-stroked-button (click)="edit.next(element)">Update</button>
+    </td>
+  </ng-container>
+
   <tr mat-header-row sticky *matHeaderRowDef="displayColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
 </table>

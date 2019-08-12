@@ -36,6 +36,9 @@
       <mat-checkbox formControlName="payment_processed">Payment Processed</mat-checkbox>
     </div>
     <div class="form-container">
+      <mat-checkbox formControlName="pack_sent">Mark As Sent</mat-checkbox>
+    </div>
+    <div class="form-container">
       <mat-form-field>
         <mat-label>Note</mat-label>
         <textarea matInput formControlName="note"></textarea>
@@ -46,6 +49,6 @@
 <mat-dialog-actions>
   <button mat-button [mat-dialog-close]="false">Cancel</button>
   <button mat-button color="accent" (click)="addSubscription()" [disabled]="!form.valid">
-    Add Subscription
+    {{ data ? 'Update Subscription' : 'Add Subscription' }}
   </button>
 </mat-dialog-actions>

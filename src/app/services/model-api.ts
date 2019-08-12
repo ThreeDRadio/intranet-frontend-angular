@@ -23,6 +23,9 @@ export class ModelApi<ResponseType> {
   public update(object: ApiModel): Observable<ResponseType> {
     return <Observable<ResponseType>>this.http.put(`${this.modelName}/${object.id}`, object);
   }
+  public partialUpdate(object: ApiModel): Observable<ResponseType> {
+    return <Observable<ResponseType>>this.http.patch(`${this.modelName}/${object.id}`, object);
+  }
   public delete(object: ApiModel): Observable<any> {
     return this.http.delete(`${this.modelName}/${object.id}`);
   }

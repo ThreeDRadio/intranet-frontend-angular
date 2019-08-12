@@ -26,7 +26,10 @@
     </mat-radio-group>
   </div>
 </form>
-<app-transaction-table [transactions]="results$ | async"></app-transaction-table>
+<app-transaction-table
+  [transactions]="results$ | async"
+  (edit)="editTransaction($event)"
+></app-transaction-table>
 <mat-paginator
   *ngIf="(count$ | async) > 0"
   [pageSizeOptions]="pageSizes"

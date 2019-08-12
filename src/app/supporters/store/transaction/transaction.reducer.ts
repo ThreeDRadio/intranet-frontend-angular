@@ -87,6 +87,14 @@ export function reducer(
         supporterTransactions: { ...state.supporterTransactions, [supporterId]: transactionIds }
       };
     }
+    case TransactionActions.Types.responseUpdate: {
+      const responseAction = action as TransactionActions.ResponseUpdate;
+      const ids = Array.from(new Set([...state.ids, responseAction.payload.id]));
+      const entities = { ...state.entities };
+      entities[responseAction.payload.id] = responseAction.payload;
+      return { ...state, loading: false, ids, entities };
+    }
+
     default:
       return state;
   }

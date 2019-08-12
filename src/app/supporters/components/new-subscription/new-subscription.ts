@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import * as moment from 'moment-timezone';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-new-subscription',
@@ -19,11 +19,19 @@ export class NewSubscriptionComponent {
       Validators.required
     ),
     payment_processed: new FormControl(false),
+    pack_sent: new FormControl(false),
     shipping: new FormControl('', Validators.required),
     note: new FormControl()
   });
 
-  constructor(public dialogRef: MatDialogRef<NewSubscriptionComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<NewSubscriptionComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    if (this.data) {
+      this.form.patchValue(this.data);
+    }
+  }
 
   addSubscription() {
     this.dialogRef.close(this.form.value);

@@ -26,6 +26,17 @@ export class TransactionEffects {
   );
 
   @Effect()
+  update$ = this.actions$.pipe(
+    ofType(TransactionActions.Types.requestUpdate),
+    switchMap((action: TransactionActions.RequestUpdate) => {
+      return this.api.partialUpdate(action.payload).pipe(
+        map(response => new TransactionActions.ResponseUpdate(response)),
+        catchError(err => of(new TransactionActions.ErrorUpdate(err)))
+      );
+    })
+  );
+
+  @Effect()
   createTransactionForSupporter = this.actions$.pipe(
     ofType(TransactionActions.Types.requestCreateForSupporter),
     switchMap((action: TransactionActions.RequestCreateForSupporter) => {

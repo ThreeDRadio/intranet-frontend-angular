@@ -9,6 +9,11 @@ export namespace TransactionActions {
     requestCreateForSupporter: '[Transaction][Request] create for supporter',
     responseCreateForSupporter: '[Transaction][Response] create for supporter',
     errorCreateForSupporter: '[Transaction][Error] create for supporter',
+
+    requestUpdate: '[Transaction][Request] update',
+    responseUpdate: '[Transaction][Response] update',
+    errorUpdate: '[Transaction][Error] update',
+
     REQUEST_SEARCH: '[Transaction][Request] search',
     RESPONSE_SEARCH: '[Transaction][Response] search',
     ERROR_SEARCH: '[Transaction][Error] search',
@@ -78,6 +83,19 @@ export namespace TransactionActions {
     readonly type = Types.CLEAR;
   }
 
+  export class RequestUpdate {
+    readonly type = Types.requestUpdate;
+    constructor(public payload: Transaction) {}
+  }
+  export class ResponseUpdate {
+    readonly type = Types.responseUpdate;
+    constructor(public payload: Transaction) {}
+  }
+  export class ErrorUpdate {
+    readonly type = Types.errorUpdate;
+    constructor(public payload: any) {}
+  }
+
   export type Actions =
     | RequestForSupporter
     | ResponseForSupporter
@@ -88,5 +106,8 @@ export namespace TransactionActions {
     | RequestSearch
     | ResponseSearch
     | ErrorSearch
-    | Clear;
+    | Clear
+    | RequestUpdate
+    | ResponseUpdate
+    | ErrorUpdate;
 }
