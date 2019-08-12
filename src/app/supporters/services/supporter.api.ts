@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Comment } from 'app/models/comment';
 import { ModelApi } from 'app/services/model-api';
 import { BaseApi } from 'app/services';
+import { Supporter } from '../models/supporter';
 
 @Injectable()
-export class SupporterApi extends ModelApi<Comment> {
+export class SupporterApi extends ModelApi<Supporter> {
   constructor(api: BaseApi) {
     super('supporters', api);
   }

@@ -30,5 +30,35 @@ export class SupporterEffects {
     })
   );
 
+  @Effect()
+  createSupporter = this.actions$.pipe(
+    ofType(SupporterActions.Types.REQUEST_CREATE),
+    switchMap((action: SupporterActions.RequestCreate) => {
+      const withFormattedDate = {
+        ...action.payload,
+        dob: action.payload.dob ? action.payload.dob.format('YYYY-MM-DDD') : null
+      };
+      return this.api.create(withFormattedDate).pipe(
+        map(response => new SupporterActions.ResponseCreate(response)),
+        catchError(err => of(new SupporterActions.ErrorCreate(err)))
+      );
+    })
+  );
+
+  @Effect()
+  updateSupporter = this.actions$.pipe(
+    ofType(SupporterActions.Types.REQUEST_UPDATE),
+    switchMap((action: SupporterActions.RequestUpdate) => {
+      const withFormattedDate = {
+        ...action.payload.payload,
+        dob: action.payload.payload.dob ? action.payload.payload.dob.format('YYYY-MM-DDD') : null
+      };
+      return this.api.update({ id: action.payload.supporterId, ...withFormattedDate }).pipe(
+        map(response => new SupporterActions.ResponseUpdate(response)),
+        catchError(err => of(new SupporterActions.ErrorUpdate(err)))
+      );
+    })
+  );
+
   constructor(private actions$: Actions<SupporterActions.Actions>, private api: SupporterApi) {}
 }

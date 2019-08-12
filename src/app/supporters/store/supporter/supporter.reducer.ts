@@ -44,6 +44,9 @@ export function reducer(
     }
     case SupporterActions.Types.REQUEST_BY_ID:
       return { ...state, loading: true };
+
+    case SupporterActions.Types.RESPONSE_CREATE:
+    case SupporterActions.Types.RESPONSE_UPDATE:
     case SupporterActions.Types.RESPONSE_BY_ID: {
       const responseAction = action as SupporterActions.ResponseById;
       const ids = Array.from(new Set([...state.ids, responseAction.payload.id]));

@@ -10,4 +10,7 @@ export class TransactionApi extends ModelApi<Transaction> {
   constructor(api: BaseApi) {
     super('transactions', api);
   }
+  getForSupporter(supporterId: string) {
+    return this.http.get(`supporters/${supporterId}/transactions`);
+  }
 }

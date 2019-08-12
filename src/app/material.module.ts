@@ -7,6 +7,10 @@ import { PortalModule } from '@angular/cdk/portal';
 import { CdkTableModule } from '@angular/cdk/table';
 import { NgModule } from '@angular/core';
 import {
+  MatMomentDateModule,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS
+} from '@angular/material-moment-adapter';
+import {
   MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
@@ -37,7 +41,10 @@ import {
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatNativeDateModule,
+  MAT_DATE_FORMATS
 } from '@angular/material';
 
 /**
@@ -53,6 +60,7 @@ import {
     MatChipsModule,
     MatTableModule,
     MatDatepickerModule,
+    MatMomentDateModule,
     MatDialogModule,
     MatExpansionModule,
     MatFormFieldModule,
@@ -83,6 +91,24 @@ import {
     OverlayModule,
     PlatformModule,
     PortalModule
+  ],
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: ['l', 'LL']
+        },
+        display: {
+          dateInput: 'YYYY-MM-DD',
+          monthYearLabel: 'MMM YYYY',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'MMMM YYYY'
+        }
+      }
+    }
   ]
 })
 export class MaterialModule {}
