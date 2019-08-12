@@ -24,8 +24,7 @@ const ROUTES: Array<Route> = [
       { path: 'releases/:id', component: ReleasePageComponent },
       {
         path: 'supporters',
-        loadChildren: () =>
-          import('./supporters/supporters.module').then(mod => mod.SupportersModule)
+        loadChildren: './supporters/supporters.module#SupportersModule'
       }
     ]
   },
