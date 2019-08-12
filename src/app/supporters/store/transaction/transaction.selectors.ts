@@ -24,6 +24,11 @@ export namespace TransactionSelectors {
     (ids, entities) => ids.map(id => entities[id])
   );
 
+  export const count = createSelector(
+    transactionState,
+    state => state.count
+  );
+
   export const transactionsForSupporter = (releaseId: string) => {
     return createSelector(
       transactionState,

@@ -7,7 +7,7 @@ import { Transaction } from 'app/supporters/models/transaction';
   styleUrls: ['./transaction-table.scss']
 })
 export class TransactionTableComponent {
-  displayColumns = ['created_at', 'transaction_type', 'payment_processed', 'pack_sent'];
+  displayColumns = ['supporter_id', 'created_at', 'transaction_type', 'supporter_name', 'tags'];
 
   @Input()
   transactions: Transaction[];

@@ -17,6 +17,7 @@ import { TransactionTableComponent } from './components/transaction-table/transa
 import { ToastEffects } from './store/toast.effects';
 import { NewSupporterComponent } from './components/new-supporter/new-supporter';
 import { NewSubscriptionComponent } from './components/new-subscription/new-subscription';
+import { TransactionsComponent } from './components/transactions/transactions';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { NewSubscriptionComponent } from './components/new-subscription/new-subs
     SupportersListComponent,
     SupporterDetailComponent,
     SupporterFormComponent,
+    TransactionsComponent,
     TransactionTableComponent
   ],
   entryComponents: [NewSubscriptionComponent],

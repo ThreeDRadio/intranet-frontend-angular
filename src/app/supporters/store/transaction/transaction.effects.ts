@@ -35,5 +35,22 @@ export class TransactionEffects {
     })
   );
 
+  @Effect()
+  search$ = this.actions$.pipe(
+    ofType(TransactionActions.Types.REQUEST_SEARCH),
+    switchMap((action: TransactionActions.RequestSearch) => {
+      return this.api
+        .search({
+          ...action.payload,
+          payment_processed: action.payload.payment_processed ? 2 : 3,
+          pack_sent: action.payload.pack_sent ? 2 : 3
+        })
+        .pipe(
+          map(response => new TransactionActions.ResponseSearch(response)),
+          catchError(err => of(new TransactionActions.ErrorSearch(err)))
+        );
+    })
+  );
+
   constructor(private actions$: Actions<TransactionActions.Actions>, private api: TransactionApi) {}
 }

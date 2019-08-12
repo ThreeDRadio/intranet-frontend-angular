@@ -1,0 +1,38 @@
+<h1>Process Subscriptions</h1>
+
+<form [formGroup]="form">
+  <div class="search-container">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Last name or Subscriber number"
+        formControlName="search"
+        (change)="search()"
+      />
+      <button matSuffix mat-button role="button" (click)="search()">
+        <mat-icon>search</mat-icon>Search
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="options-container">
+    <mat-checkbox formControlName="payment_processed" (change)="search()"
+      >Payment Processed</mat-checkbox
+    >
+    <mat-checkbox formControlName="pack_sent" (change)="search()">Pack Sent</mat-checkbox>
+    <mat-radio-group formControlName="shipping" (change)="search()">
+      <mat-radio-button value="pickup">Pick Up</mat-radio-button>
+      <mat-radio-button value="post">Post</mat-radio-button>
+      <mat-radio-button value="">All Shipping Methods</mat-radio-button>
+    </mat-radio-group>
+  </div>
+</form>
+<app-transaction-table [transactions]="results$ | async"></app-transaction-table>
+<mat-paginator
+  *ngIf="(count$ | async) > 0"
+  [pageSizeOptions]="pageSizes"
+  [pageIndex]="offset / pageSize"
+  [pageSize]="pageSize"
+  (page)="paginationChange($event)"
+  [length]="count$ | async"
+  [pageSize]="10"
+></mat-paginator>

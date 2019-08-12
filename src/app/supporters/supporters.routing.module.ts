@@ -3,6 +3,7 @@ import { SupportersListComponent } from './components/supporters-list/supporters
 import { NgModule } from '@angular/core';
 import { SupporterDetailComponent } from './components/supporter-detail/supporter-detail';
 import { NewSupporterComponent } from './components/new-supporter/new-supporter';
+import { TransactionsComponent } from './components/transactions/transactions';
 
 const ROUTES: Routes = [
   {
@@ -12,6 +13,10 @@ const ROUTES: Routes = [
   {
     path: 'new',
     component: NewSupporterComponent
+  },
+  {
+    path: 'subscriptions',
+    component: TransactionsComponent
   },
   {
     path: ':id',

@@ -1,0 +1,25 @@
+table {
+  width: 100%;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-container > * {
+  width: 100%;
+}
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+form {
+  margin-bottom: 48px;
+}

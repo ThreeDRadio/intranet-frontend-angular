@@ -11,6 +11,11 @@ export interface TransactionState {
 
   /// Maps a release ID to a list of Transaction ids
   supporterTransactions: { [id: number]: Array<number> };
+
+  count?: number;
+  nextPage?: string;
+  previousPage?: string;
+  error?: any;
 }
 
 export const initialState: TransactionState = {
@@ -25,6 +30,26 @@ export function reducer(
   action: TransactionActions.Actions
 ): TransactionState {
   switch (action.type) {
+    case TransactionActions.Types.CLEAR:
+      return initialState;
+    case TransactionActions.Types.REQUEST_SEARCH:
+      return { ...state, loading: true };
+    case TransactionActions.Types.RESPONSE_SEARCH: {
+      const responseAction = action as TransactionActions.ResponseSearch;
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        previousPage: responseAction.payload.previous,
+        nextPage: responseAction.payload.next,
+        count: responseAction.payload.count,
+        ids: responseAction.payload.results.map(item => item.id),
+        entities: responseAction.payload.results.reduce((accum, current) => {
+          accum[current.id] = current;
+          return accum;
+        }, {})
+      };
+    }
     case TransactionActions.Types.requestForSupporter:
       return { ...state, loading: true };
 

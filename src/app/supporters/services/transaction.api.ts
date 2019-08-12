@@ -10,6 +10,18 @@ export class TransactionApi extends ModelApi<Transaction> {
   constructor(api: BaseApi) {
     super('transactions', api);
   }
+
+  search(params: {
+    payment_processed?: any;
+    pack_sent?: any;
+    search?: string;
+    limit: number;
+    offset: number;
+    ordering: string;
+  }) {
+    return super.list({ responseType: 'json', params });
+  }
+
   getForSupporter(supporterId: string) {
     return this.http.get(`supporters/${supporterId}/transactions`);
   }
