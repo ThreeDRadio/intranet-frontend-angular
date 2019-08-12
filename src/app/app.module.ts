@@ -26,7 +26,6 @@ import { NFErrorHandler, ERROR_LOGGING_SERVICE } from './services/error-handler'
 import { AppRestartService } from './services/app-restart.service';
 import { RestartModalComponent } from './components/restart-modal/restart-modal.component';
 import { DirectivesModule } from './directives';
-import { SupportersModule } from './supporters/supporters.module';
 import { AppRoutingModule } from './app.routes';
 
 export const errorHandler = environment.production ? NFErrorHandler : ErrorHandler;
@@ -49,8 +48,7 @@ export const errorHandler = environment.production ? NFErrorHandler : ErrorHandl
     StoreRouterConnectingModule,
     RollbarModule.forRoot({
       accessToken: environment.rollbarToken
-    }),
-    SupportersModule
+    })
   ],
   providers: [
     ...GUARDS,
