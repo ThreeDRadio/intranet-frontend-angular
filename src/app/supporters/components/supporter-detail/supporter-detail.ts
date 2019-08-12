@@ -4,11 +4,13 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { SupporterActions } from 'app/supporters/store/supporter/supporter.actions';
 import { SupporterSelectors } from 'app/supporters/store/supporter/supporter.selectors';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TransactionActions } from 'app/supporters/store/transaction/transaction.actions';
 import { Transaction } from 'app/supporters/models/transaction';
 import { TransactionSelectors } from 'app/supporters/store/transaction/transaction.selectors';
+import { MatDialog } from '@angular/material';
+import { NewSubscriptionComponent } from '../new-subscription/new-subscription';
 
 @Component({
   selector: 'app-supporter-detail',
@@ -22,7 +24,7 @@ export class SupporterDetailComponent {
 
   supporterId: number;
 
-  constructor(private store: Store<any>, private route: ActivatedRoute) {
+  constructor(private store: Store<any>, private route: ActivatedRoute, private dialog: MatDialog) {
     this.route.params.subscribe(params => {
       this.supporterId = params.id;
       this.store.dispatch(new SupporterActions.RequestById(params.id));
@@ -36,6 +38,26 @@ export class SupporterDetailComponent {
         TransactionSelectors.transactionsForSupporter(params.id)
       );
     });
+  }
+
+  async newSubscription() {
+    const dialogRef = this.dialog.open(NewSubscriptionComponent, { disableClose: true });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(subscription => {
+        if (!subscription) {
+          console.log('no sub');
+        } else {
+          console.log(subscription);
+          this.store.dispatch(
+            new TransactionActions.RequestCreateForSupporter({
+              supporterId: this.supporterId,
+              data: subscription
+            })
+          );
+        }
+      });
   }
 
   saveSupporter(value) {

@@ -25,5 +25,15 @@ export class TransactionEffects {
     })
   );
 
+  @Effect()
+  createTransactionForSupporter = this.actions$.pipe(
+    ofType(TransactionActions.Types.requestCreateForSupporter),
+    switchMap((action: TransactionActions.RequestCreateForSupporter) => {
+      return this.api
+        .createForSupporter(action.payload.supporterId, action.payload.data)
+        .pipe(map(response => new TransactionActions.ResponseCreateForSupporter(<any>response)));
+    })
+  );
+
   constructor(private actions$: Actions<TransactionActions.Actions>, private api: TransactionApi) {}
 }

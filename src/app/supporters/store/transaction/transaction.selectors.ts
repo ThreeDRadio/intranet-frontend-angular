@@ -29,7 +29,9 @@ export namespace TransactionSelectors {
       transactionState,
       state => {
         if (state.supporterTransactions[releaseId]) {
-          return state.supporterTransactions[releaseId].map(id => state.entities[id]);
+          return state.supporterTransactions[releaseId]
+            .map(id => state.entities[id])
+            .sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
         }
         return [];
       }

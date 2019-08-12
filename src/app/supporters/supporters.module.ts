@@ -16,15 +16,18 @@ import { TransactionEffects } from './store/transaction/transaction.effects';
 import { TransactionTableComponent } from './components/transaction-table/transaction-table';
 import { ToastEffects } from './store/toast.effects';
 import { NewSupporterComponent } from './components/new-supporter/new-supporter';
+import { NewSubscriptionComponent } from './components/new-subscription/new-subscription';
 
 @NgModule({
   declarations: [
+    NewSubscriptionComponent,
     NewSupporterComponent,
     SupportersListComponent,
     SupporterDetailComponent,
     SupporterFormComponent,
     TransactionTableComponent
   ],
+  entryComponents: [NewSubscriptionComponent],
   exports: [SupportersListComponent],
   providers: [SupporterApi, TransactionApi],
   imports: [

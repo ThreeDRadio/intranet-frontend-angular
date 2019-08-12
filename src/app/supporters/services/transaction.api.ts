@@ -13,4 +13,8 @@ export class TransactionApi extends ModelApi<Transaction> {
   getForSupporter(supporterId: string) {
     return this.http.get(`supporters/${supporterId}/transactions`);
   }
+
+  createForSupporter(supporterId: number, data: any) {
+    return this.http.post(`supporters/${supporterId}/transactions`, data);
+  }
 }
