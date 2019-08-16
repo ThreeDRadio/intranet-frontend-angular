@@ -32,6 +32,10 @@
     <th mat-header-cell mat-sort-header *matHeaderCellDef>First Name</th>
     <td mat-cell *matCellDef="let element">{{ element.first_name }}</td>
   </ng-container>
+  <ng-container matColumnDef="address">
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>Address</th>
+    <td mat-cell *matCellDef="let element">{{ element.address1 }} {{ element.address2 }}</td>
+  </ng-container>
   <ng-container matColumnDef="town">
     <th mat-header-cell mat-sort-header *matHeaderCellDef>Town / Suburb</th>
     <td mat-cell *matCellDef="let element">{{ element.town }}</td>

@@ -18,7 +18,15 @@ export class SupportersListComponent implements OnInit {
   count$: Observable<number>;
 
   pageSizes = [10, 20, 50, 100];
-  displayedColumns = ['id', 'last_name', 'first_name', 'phone_mobile', 'actions'];
+  displayedColumns = [
+    'id',
+    'last_name',
+    'first_name',
+    'address',
+    'town',
+    'phone_mobile',
+    'actions'
+  ];
 
   offset = 0;
   pageSize = 10;
