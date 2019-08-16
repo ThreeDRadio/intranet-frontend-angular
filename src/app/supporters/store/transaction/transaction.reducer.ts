@@ -58,6 +58,9 @@ export function reducer(
       const supporterId = a.payload.supporter;
       const ids = Array.from(new Set([...state.ids, a.payload.id]));
       const entities = { ...state.entities, [a.payload.id]: a.payload };
+      const existingSupporterTransactions = state.supporterTransactions[supporterId]
+        ? state.supporterTransactions[supporterId]
+        : [];
       return {
         ...state,
         loading: false,
@@ -65,7 +68,7 @@ export function reducer(
         entities: { ...state.entities, ...entities },
         supporterTransactions: {
           ...state.supporterTransactions,
-          [supporterId]: [...state.supporterTransactions[supporterId], a.payload.id]
+          [supporterId]: [...existingSupporterTransactions, a.payload.id]
         }
       };
     }
