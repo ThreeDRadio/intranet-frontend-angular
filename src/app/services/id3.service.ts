@@ -1,5 +1,7 @@
 import * as id3 from 'jsmediatags';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class Id3Service {
   async getMetadata(file) {
     let tags = {};

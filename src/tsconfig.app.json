@@ -8,5 +8,11 @@
       "fs": ["./shims/noop"]
     }
   },
-  "exclude": ["test.ts", "**/*.spec.ts"]
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
 }
