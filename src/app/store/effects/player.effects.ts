@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { TrackApi } from 'app/services/track-api';
-import { PlayerActions } from '../actions/player.actions';
-import { Actions, ofType, Effect } from '@ngrx/effects';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { Howl, Howler } from 'howler';
-import { Store } from '@ngrx/store';
-import { interval, Subscription } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { TrackApi } from "app/services/track-api";
+import { PlayerActions } from "../actions/player.actions";
+import { Actions, ofType, Effect } from "@ngrx/effects";
+import { map, switchMap, tap } from "rxjs/operators";
+import { Howl, Howler } from "howler";
+import { Store } from "@ngrx/store";
+import { interval, Subscription } from "rxjs";
 
 @Injectable()
 export class PlayerEffects {
@@ -16,11 +16,16 @@ export class PlayerEffects {
   playTrack$ = this.actions$.pipe(
     ofType(PlayerActions.Types.RequestPlay),
     switchMap(async (action: PlayerActions.RequestPlay) => {
-      const url = await this.api.getDownloadUrl(action.payload.track.id, 'lo').toPromise();
+      const url = await this.api
+        .getDownloadUrl(action.payload.track.id, "lo")
+        .toPromise();
       await this.playTrack(url.url);
       return action;
     }),
-    map((action: PlayerActions.RequestPlay) => new PlayerActions.Playing(action.payload))
+    map(
+      (action: PlayerActions.RequestPlay) =>
+        new PlayerActions.Playing(action.payload)
+    )
   );
 
   @Effect()
@@ -51,7 +56,7 @@ export class PlayerEffects {
   );
 
   private playTrack(url: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (this.currentTrack) {
         this.currentTrack.stop();
       }
@@ -59,7 +64,7 @@ export class PlayerEffects {
         this.updates.unsubscribe();
       }
       this.currentTrack = new Howl({
-        format: 'mp3',
+        format: "mp3",
         src: [url],
         autoplay: true,
         html5: true,
@@ -70,10 +75,12 @@ export class PlayerEffects {
           console.log(reason);
           reject(reason);
         },
-        onend: () => this.emitComplete()
+        onend: () => this.emitComplete(),
       });
       this.updates = interval(1000).subscribe(() => {
-        this.store.dispatch(new PlayerActions.UpdatePosition(this.currentTrack.seek() as number));
+        this.store.dispatch(
+          new PlayerActions.UpdatePosition(this.currentTrack.seek() as number)
+        );
       });
     });
   }

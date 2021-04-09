@@ -1,4 +1,4 @@
-import * as id3 from 'jsmediatags';
+import * as id3 from "jsmediatags";
 import { Injectable } from "@angular/core";
 
 @Injectable()
@@ -16,8 +16,8 @@ export class Id3Service {
   getTags(file: File) {
     return new Promise((resolve, reject) => {
       new id3.Reader(file).read({
-        onSuccess: tag => resolve(tag),
-        onError: error => reject(error)
+        onSuccess: (tag) => resolve(tag),
+        onError: (error) => reject(error),
       });
     });
   }
@@ -26,7 +26,7 @@ export class Id3Service {
       const audio = new Audio();
       const objectUrl = URL.createObjectURL(file);
       audio.src = objectUrl;
-      audio.addEventListener('canplaythrough', () => {
+      audio.addEventListener("canplaythrough", () => {
         resolve(audio.duration);
       });
     });

@@ -10,7 +10,8 @@
   },
   "files": [
     "main.ts",
-    "polyfills.ts"
+    "polyfills.ts",
+    "./shims/noop.ts"
   ],
   "include": [
     "src/**/*.d.ts"
