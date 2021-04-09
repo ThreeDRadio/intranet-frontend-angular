@@ -1,5 +1,5 @@
 import { Inject, Injectable, InjectionToken, Optional, NgZone } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RestartModalComponent } from '../components/restart-modal/restart-modal.component';
 
 @Injectable()

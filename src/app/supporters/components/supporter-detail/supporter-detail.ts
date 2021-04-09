@@ -9,7 +9,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { TransactionActions } from 'app/supporters/store/transaction/transaction.actions';
 import { Transaction } from 'app/supporters/models/transaction';
 import { TransactionSelectors } from 'app/supporters/store/transaction/transaction.selectors';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { NewSubscriptionComponent } from '../new-subscription/new-subscription';
 
 @Component({

@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TransactionActions } from 'app/supporters/store/transaction/transaction.actions';
 import { TransactionSelectors } from 'app/supporters/store/transaction/transaction.selectors';
-import { PageEvent, Sort, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { NewSubscriptionComponent } from '../new-subscription/new-subscription';
 import { take } from 'rxjs/operators';
 

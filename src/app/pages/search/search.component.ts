@@ -4,7 +4,8 @@ import { ReleaseActions } from 'app/store';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ReleaseSelectors } from 'app/store/selectors/release.selectors';
-import { PageEvent, Sort } from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 
 @Component({

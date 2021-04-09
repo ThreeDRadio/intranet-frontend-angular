@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PageEvent } from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { ReleaseSelectors } from 'app/store/selectors/release.selectors';

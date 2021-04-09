@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PageEvent, Sort } from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { SupporterActions } from 'app/supporters/store/supporter/supporter.actions';
