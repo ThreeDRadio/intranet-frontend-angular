@@ -45,7 +45,7 @@ export const errorHandler = environment.production ? NFErrorHandler : ErrorHandl
     AppRoutingModule,
     StoreDevtoolsModule.instrument(),
     MaterialModule,
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
     RollbarModule.forRoot({
       accessToken: environment.rollbarToken
     })
