@@ -13,16 +13,16 @@ export class NFErrorHandler implements ErrorHandler {
   constructor(private injector: Injector) {}
 
   async handleError(error) {
-    try {
-      const loggingService = this.injector.get(ERROR_LOGGING_SERVICE);
-      if (loggingService) {
-        loggingService.handleError(error);
-      }
-    } catch (e) {
-      // injector.get throws an exception if we can't find a logging service
-    }
     if (!this.errorRaised) {
       this.errorRaised = true;
+      try {
+        const loggingService = this.injector.get(ERROR_LOGGING_SERVICE);
+        if (loggingService) {
+          loggingService.handleError(error);
+        }
+      } catch (e) {
+        // injector.get throws an exception if we can't find a logging service
+      }
       const restarter = this.injector.get(AppRestartService);
       restarter.requestRestart();
     }
