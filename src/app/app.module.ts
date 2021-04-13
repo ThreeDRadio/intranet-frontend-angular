@@ -33,6 +33,8 @@ import { RestartModalComponent } from "./components/restart-modal/restart-modal.
 import { DirectivesModule } from "./directives";
 import { AppRoutingModule } from "./app.routes";
 
+import * as Sentry from "@sentry/angular";
+
 export const errorHandler = environment.production
   ? NFErrorHandler
   : ErrorHandler;
@@ -65,6 +67,10 @@ export const errorHandler = environment.production
     {
       provide: API_URL,
       useValue: environment.api,
+    },
+    {
+      provide: ERROR_LOGGING_SERVICE,
+      useValue: Sentry.createErrorHandler({ showDialog: true }),
     },
     { provide: ErrorHandler, useClass: errorHandler },
   ],

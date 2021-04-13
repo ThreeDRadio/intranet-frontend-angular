@@ -1,14 +1,10 @@
-import { ErrorHandler, Injectable, InjectionToken } from '@angular/core';
+import { ErrorHandler, Injectable, InjectionToken } from "@angular/core";
 
-import { Injector } from '@angular/core';
-import { AppRestartService } from './app-restart.service';
+import { Injector } from "@angular/core";
+import { AppRestartService } from "./app-restart.service";
 
-export interface ErrorLoggingService {
-  error: Function;
-}
-
-export const ERROR_LOGGING_SERVICE = new InjectionToken<ErrorLoggingService>(
-  'NFErrorHandler Logging Service'
+export const ERROR_LOGGING_SERVICE = new InjectionToken<ErrorHandler>(
+  "NFErrorHandler Logging Service"
 );
 
 @Injectable()
@@ -20,7 +16,7 @@ export class NFErrorHandler implements ErrorHandler {
     try {
       const loggingService = this.injector.get(ERROR_LOGGING_SERVICE);
       if (loggingService) {
-        loggingService.error(error);
+        loggingService.handleError(error);
       }
     } catch (e) {
       // injector.get throws an exception if we can't find a logging service
