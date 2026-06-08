@@ -1,34 +1,26 @@
-# Include any files or directories that you don't want to be copied to your
-# container here (e.g., local build artifacts, temporary files, etc.).
-#
-# For more help, visit the .dockerignore file reference guide at
-# https://docs.docker.com/go/build-context-dockerignore/
+# Ignore local dependencies
+node_modules
+dist
+.angular
 
-**/.classpath
-**/.dockerignore
-**/.env
-**/.git
-**/.gitignore
-**/.project
-**/.settings
-**/.toolstarget
-**/.vs
-**/.vscode
-**/.next
-**/.cache
-**/*.*proj.user
-**/*.dbmdl
-**/*.jfm
-**/charts
-**/docker-compose*
-**/compose.y*ml
-**/Dockerfile*
-**/node_modules
-**/npm-debug.log
-**/obj
-**/secrets.dev.yaml
-**/values.dev.yaml
-**/build
-**/dist
-LICENSE
-README.md
+# Ignore git metadata
+.git
+.gitignore
+
+# Ignore IDE settings
+.vscode
+.idea
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore Docker files themselves
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Ignore logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
