@@ -22,12 +22,15 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/styles.production.css",
+              "src/styles.staging.css"
             ],
             "scripts": []
           },
           "configurations": {
             "production": {
+              "styles": ["src/styles.production.css"],
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -50,9 +53,7 @@
               ]
             },
             "staging": {
-              "styles": [
-                "src/styles.staging.css"
-              ],
+              "styles": ["src/styles.staging.css"],
               "budgets": [
                 {
                   "type": "anyComponentStyle",
