@@ -16,7 +16,8 @@ COPY . .
 
 # Build the application for production
 # The output will be in the /app/dist/ folder
-RUN npm run build -- --configuration production
+ARG NG_ENV
+RUN npm run build -- --configuration ${NG_ENV}
 
 # Stage 2: Serve the application using Nginx
 # Use the official lightweight Nginx alpine image
