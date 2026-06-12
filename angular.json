@@ -50,6 +50,9 @@
               ]
             },
             "staging": {
+              "styles": [
+                "src/styles.staging.css"
+              ],
               "budgets": [
                 {
                   "type": "anyComponentStyle",
