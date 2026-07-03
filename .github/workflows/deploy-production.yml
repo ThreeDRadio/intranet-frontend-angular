@@ -29,7 +29,7 @@ jobs:
 
       # Step 4: Run Angular unit tests headlessly
       - name: Run Angular Tests
-        run: npm run test -- --watch=false --browsers=ChromeHeadless
+        run: npm run test -- --watch=false --browsers=ChromeHeadlessCI
 
   build:
     environment: prod
