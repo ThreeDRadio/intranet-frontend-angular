@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+html,
+body,
+material-app,
+.my-content {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Roboto, sans-serif;
+  overflow: hidden;
+  background-color: #e30eff!important;
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 130px);
+  background-color: #d856ff !important;
+}
+
+mat-sidenav {
+  background-color: #ff56f7 !important;
+}
+
+mat-toolbar {
+  color: white !important;
+  background-color: #ff0eff !important;
+  --mat-toolbar-container-text-color: #ffffff; 
+}

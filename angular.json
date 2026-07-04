@@ -27,7 +27,8 @@
             "styles": [
               "src/styles.css",
               "src/styles.production.css",
-              "src/styles.staging.css"
+              "src/styles.staging.css",
+              "src/styles.local.css"
             ],
             "scripts": [],
             "vendorChunk": true,
@@ -80,9 +81,30 @@
                   "with": "src/environments/environment.staging.ts"
                 }
               ]
+            },
+            "local": {
+              "styles": ["src/styles.local.css"],
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
             }
           },
-          "defaultConfiguration": "staging"
+          "defaultConfiguration": "local"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -92,6 +114,12 @@
           "configurations": {
             "production": {
               "browserTarget": "intranet-angular:build:production"
+            },
+            "staging": {
+              "browserTarget": "intranet-angular:build:staging"
+            },
+            "local": {
+              "browserTarget": "intranet-angular:build:local"
             }
           }
         },
