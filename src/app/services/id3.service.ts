@@ -1,4 +1,4 @@
-import * as id3 from "jsmediatags";
+import id3 from 'jsmediatags/dist/jsmediatags.min.js';
 import { Injectable } from "@angular/core";
 
 @Injectable()
