@@ -20,25 +20,24 @@ import { NewSubscriptionComponent } from './components/new-subscription/new-subs
 import { TransactionsComponent } from './components/transactions/transactions';
 
 @NgModule({
-  declarations: [
-    NewSubscriptionComponent,
-    NewSupporterComponent,
-    SupportersListComponent,
-    SupporterDetailComponent,
-    SupporterFormComponent,
-    TransactionsComponent,
-    TransactionTableComponent
-  ],
-  entryComponents: [NewSubscriptionComponent],
-  exports: [SupportersListComponent],
-  providers: [SupporterApi, TransactionApi],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    EffectsModule.forFeature([SupporterEffects, TransactionEffects, ToastEffects]),
-    StoreModule.forFeature('supporters', REDUCER),
-    SupportersRoutingModule
-  ]
+    declarations: [
+        NewSubscriptionComponent,
+        NewSupporterComponent,
+        SupportersListComponent,
+        SupporterDetailComponent,
+        SupporterFormComponent,
+        TransactionsComponent,
+        TransactionTableComponent
+    ],
+    exports: [SupportersListComponent],
+    providers: [SupporterApi, TransactionApi],
+    imports: [
+        CommonModule,
+        MaterialModule,
+        ReactiveFormsModule,
+        EffectsModule.forFeature([SupporterEffects, TransactionEffects, ToastEffects]),
+        StoreModule.forFeature('supporters', REDUCER),
+        SupportersRoutingModule
+    ]
 })
 export class SupportersModule {}
