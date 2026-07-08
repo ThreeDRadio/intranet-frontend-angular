@@ -7,7 +7,7 @@ env:
   CR_PAT: ${{ vars.CR_PAT }}
 
 jobs:
-  test:
+  run-tests:
     # Use ubuntu-20.04 or ubuntu-22.04 because newer environments drop support for legacy binaries.
     runs-on: ubuntu-22.04
 
@@ -16,11 +16,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Step 2: Provision Node.js 12 environment
-      - name: Setup Node.js 12
+      # Step 2: Provision Node.js 16 environment
+      - name: Setup Node.js 16
         uses: actions/setup-node@v4
         with:
-          node-version: '12'
+          node-version: '16'
           cache: 'npm' # Speeds up subsequent workflow runs
 
       # Step 3: Install precise dependencies
@@ -32,6 +32,7 @@ jobs:
         run: npm run test -- --watch=false --browsers=ChromeHeadlessCI
 
   build:
+    needs: run-tests
     environment: prod
     runs-on: ubuntu-latest
 
