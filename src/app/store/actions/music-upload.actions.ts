@@ -20,9 +20,17 @@ export class UploadProgressValue implements Action {
   constructor(public payload: number) {}
 }
 
+// Wrapper class to hide the direct File reference in the file selected action. Ngrx 13 introduced Object.freeze as a default.    
+export class FileSelection {
+  public file_reference: File;
+  constructor(public input: File) {
+    this.file_reference = input
+  }
+}
+
 export class FilesSelectedAction implements Action {
   readonly type = FILES_SELECTED;
-  constructor(public payload: Array<File>) {}
+  constructor(public payload: Array<FileSelection>) {}
 }
 
 export class UpdateMetadataAction implements Action {

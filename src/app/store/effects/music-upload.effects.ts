@@ -17,7 +17,7 @@ export class MusicUploadEffects {
       try {
         const entities = {};
         for (const file of action.payload) {
-          entities[file.name] = await this.id3.getMetadata(file);
+          entities[file.file_reference.name] = await this.id3.getMetadata(file.file_reference);
         }
         return new actions.UpdateMetadataAction(entities);
       } catch (err) {

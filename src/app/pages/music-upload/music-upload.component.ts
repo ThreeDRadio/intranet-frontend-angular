@@ -7,11 +7,14 @@ import { Observable } from 'rxjs';
 
 import { UploadProgressDialogComponent } from '../../components/upload-progress/upload-progress-dialog';
 import {
+  FileSelection,
   FilesSelectedAction,
   RequestSubmitRelease,
   ResetMusicUpload
 } from '../../store/actions/music-upload.actions';
 import * as selectors from '../../store/selectors';
+
+
 
 @Component({
   selector: 'app-music-upload',
@@ -72,11 +75,15 @@ export class MusicUploadComponent implements OnInit {
       if (data.length === 0) {
         return;
       }
-      if (data[0].metadata && data[0].metadata.tags) {
+
+      // Extract the first data index and pull music info from it.
+      var first_track = data[0];
+      
+      if (first_track.metadata && first_track.metadata.tags) {
         this.albumDetails.patchValue({
-          artist: this.parseTag(data[0].metadata.tags.artist),
-          title: this.parseTag(data[0].metadata.tags.album),
-          year: this.parseTag(data[0].metadata.tags.year)
+          artist: this.parseTag(first_track.metadata.tags.artist),
+          title: this.parseTag(first_track.metadata.tags.album),
+          year: this.parseTag(first_track.metadata.tags.year)
         });
       }
 
@@ -102,8 +109,8 @@ export class MusicUploadComponent implements OnInit {
             tracktitle: new FormControl(title, Validators.required),
             trackartist: new FormControl(artist, Validators.required),
             tracklength: new FormControl(duration, Validators.required),
-            filename: new FormControl(item.file.name),
-            file: new FormControl(item.file)
+            filename: new FormControl(item.file.file_reference.name),
+            file: new FormControl(item.file.file_reference)
           })
         );
         i++;
@@ -139,6 +146,7 @@ export class MusicUploadComponent implements OnInit {
   }
 
   async handleSelection(event: any) {
-    this.store.dispatch(new FilesSelectedAction(event.target.files));
+    var refs: Array<FileSelection> = Array.from<File>(event.target.files).map((f: File): FileSelection => new FileSelection(f));
+    this.store.dispatch(new FilesSelectedAction(refs));
   }
 }
