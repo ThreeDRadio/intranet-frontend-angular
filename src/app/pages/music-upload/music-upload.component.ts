@@ -109,8 +109,8 @@ export class MusicUploadComponent implements OnInit {
             tracktitle: new FormControl(title, Validators.required),
             trackartist: new FormControl(artist, Validators.required),
             tracklength: new FormControl(duration, Validators.required),
-            filename: new FormControl(item.file.file_reference.name),
-            file: new FormControl(item.file.file_reference)
+            filename: new FormControl(item.file.name),
+            file: new FormControl(item.file_reference)
           })
         );
         i++;
