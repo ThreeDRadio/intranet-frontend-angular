@@ -40,40 +40,39 @@ export const errorHandler = environment.production
   : ErrorHandler;
 
 @NgModule({
-  declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
-  entryComponents: [UploadProgressDialogComponent, RestartModalComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    DirectivesModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    StoreModule.forRoot(Store.REDUCER),
-    EffectsModule.forRoot(Store.EFFECTS),
-    AppRoutingModule,
-    StoreDevtoolsModule.instrument(),
-    MaterialModule,
-    StoreRouterConnectingModule.forRoot({
-      serializer: DefaultRouterStateSerializer,
-    }),
-  ],
-  providers: [
-    ...GUARDS,
-    AppRestartService,
-    BaseApi,
-    ...API,
-    Id3Service,
-    {
-      provide: API_URL,
-      useValue: environment.api,
-    },
-    {
-      provide: ERROR_LOGGING_SERVICE,
-      useValue: Sentry.createErrorHandler({ showDialog: true }),
-    },
-    { provide: ErrorHandler, useClass: errorHandler },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        DirectivesModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        StoreModule.forRoot(Store.REDUCER),
+        EffectsModule.forRoot(Store.EFFECTS),
+        AppRoutingModule,
+        StoreDevtoolsModule.instrument(),
+        MaterialModule,
+        StoreRouterConnectingModule.forRoot({
+            serializer: DefaultRouterStateSerializer,
+        }),
+    ],
+    providers: [
+        ...GUARDS,
+        AppRestartService,
+        BaseApi,
+        ...API,
+        Id3Service,
+        {
+            provide: API_URL,
+            useValue: environment.api,
+        },
+        {
+            provide: ERROR_LOGGING_SERVICE,
+            useValue: Sentry.createErrorHandler({ showDialog: true }),
+        },
+        { provide: ErrorHandler, useClass: errorHandler },
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

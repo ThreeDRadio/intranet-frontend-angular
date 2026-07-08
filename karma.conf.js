@@ -12,6 +12,7 @@ module.exports = function(config) {
       require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
+    browsers: ['MyHeadlessChrome', 'ChromeHeadlessCI'],
     customLaunchers: {
       MyHeadlessChrome: {
         base: 'ChromeHeadless',
@@ -21,6 +22,10 @@ module.exports = function(config) {
           '--disable-extensions',
           '--remote-debugging-port=9223'
         ]
+      },
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-gpu', '--headless', '--remote-debugging-port=9222']
       }
     },
     client: {
@@ -46,13 +51,6 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['MyHeadlessChrome'],
-    customLaunchers: {
-      ChromeHeadlessCI: {
-        base: 'Chrome',
-        flags: ['--no-sandbox', '--disable-gpu', '--headless', '--remote-debugging-port=9222']
-      }
-    },
     singleRun: false
   });
 };

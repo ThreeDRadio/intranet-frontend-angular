@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -24,9 +27,16 @@
             "styles": [
               "src/styles.css",
               "src/styles.production.css",
-              "src/styles.staging.css"
+              "src/styles.staging.css",
+              "src/styles.local.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -41,7 +51,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -60,11 +69,9 @@
                   "maximumWarning": "6kb"
                 }
               ],
-              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -74,9 +81,30 @@
                   "with": "src/environments/environment.staging.ts"
                 }
               ]
+            },
+            "local": {
+              "styles": ["src/styles.local.css"],
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
             }
           },
-          "defaultConfiguration": "staging"
+          "defaultConfiguration": "local"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -86,6 +114,12 @@
           "configurations": {
             "production": {
               "browserTarget": "intranet-angular:build:production"
+            },
+            "staging": {
+              "browserTarget": "intranet-angular:build:staging"
+            },
+            "local": {
+              "browserTarget": "intranet-angular:build:local"
             }
           }
         },
@@ -111,16 +145,6 @@
               "src/favicon.ico"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": []
-          }
         }
       }
     },
@@ -134,15 +158,6 @@
           "options": {
             "protractorConfig": "./protractor.conf.js",
             "devServerTarget": "intranet-angular:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": []
           }
         }
       }

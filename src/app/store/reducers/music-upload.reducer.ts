@@ -1,7 +1,8 @@
+import { FileSelection } from 'app/models/file_selection';
 import * as actions from '../actions/music-upload.actions';
 
 export interface State {
-  selectedFiles: Array<File>;
+  selectedFiles: Array<FileSelection>;
   metadata?: { [id: string]: Object };
   loading: boolean;
   progress?: number;

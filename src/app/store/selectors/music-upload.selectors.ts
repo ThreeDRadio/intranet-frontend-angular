@@ -30,10 +30,10 @@ export const selectedFilesWithMetadata = createSelector(
   selectedMetadata,
   (files, metadata) => {
     const entities = [];
-    for (const file of files) {
+    for (const f of files) {
       entities.push({
-        file: file,
-        metadata: metadata[file.name]
+        file: f.file_reference,
+        metadata: metadata[f.file_reference.name]
       });
     }
     return entities;
@@ -45,8 +45,8 @@ export const isSelectedCompilation = createSelector(
   data => {
     if (data.length > 0 && data[0].metadata) {
       const artist = data[0].metadata['artist'];
-      for (const file of data) {
-        if (file.metadata['artist'] !== artist) {
+      for (const f of data) {
+        if (f.metadata['artist'] !== artist) {
           return true;
         }
       }

@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { FileSelection } from 'app/models';
 
 export const REQUEST_SUBMIT_RELEASE = '[MusicUpload][Request] submit release';
 export const RESPONSE_SUCCESS_SUBMIT_RELEASE = '[MusicUpload][Response][Success] submit release';
@@ -22,7 +23,7 @@ export class UploadProgressValue implements Action {
 
 export class FilesSelectedAction implements Action {
   readonly type = FILES_SELECTED;
-  constructor(public payload: Array<File>) {}
+  constructor(public payload: Array<FileSelection>) {}
 }
 
 export class UpdateMetadataAction implements Action {

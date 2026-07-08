@@ -16,8 +16,8 @@ export class MusicUploadEffects {
     switchMap(async (action: actions.FilesSelectedAction) => {
       try {
         const entities = {};
-        for (const file of action.payload) {
-          entities[file.name] = await this.id3.getMetadata(file);
+        for (const f of action.payload) {
+          entities[f.file_reference.name] = await this.id3.getMetadata(f.file_reference);
         }
         return new actions.UpdateMetadataAction(entities);
       } catch (err) {
@@ -49,7 +49,7 @@ export class MusicUploadEffects {
         }
         return new actions.ResponseSuccessSubmitRelease(release);
       } catch (err) {
-        this.store.dispatch(new actions.UploadProgressLog(`Uploaded Failed: ${err}`));
+        this.store.dispatch(new actions.UploadProgressLog(`Upload failed.`));
         return new actions.ResponseErrorSubmitRelease(err);
       }
     })
