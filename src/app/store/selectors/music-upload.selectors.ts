@@ -32,8 +32,8 @@ export const selectedFilesWithMetadata = createSelector(
     const entities = [];
     for (const file of files) {
       entities.push({
-        file: file,
-        metadata: metadata[file.name]
+        file: file.file_reference,
+        metadata: metadata[file.file_reference.name]
       });
     }
     return entities;
