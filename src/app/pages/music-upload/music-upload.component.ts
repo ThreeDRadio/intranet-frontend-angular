@@ -7,12 +7,12 @@ import { Observable } from 'rxjs';
 
 import { UploadProgressDialogComponent } from '../../components/upload-progress/upload-progress-dialog';
 import {
-  FileSelection,
   FilesSelectedAction,
   RequestSubmitRelease,
   ResetMusicUpload
 } from '../../store/actions/music-upload.actions';
 import * as selectors from '../../store/selectors';
+import { FileSelection } from 'app/models/file_selection';
 
 
 

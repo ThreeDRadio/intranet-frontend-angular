@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { FileSelection } from 'app/models';
 
 export const REQUEST_SUBMIT_RELEASE = '[MusicUpload][Request] submit release';
 export const RESPONSE_SUCCESS_SUBMIT_RELEASE = '[MusicUpload][Response][Success] submit release';
@@ -18,14 +19,6 @@ export class UploadProgressLog implements Action {
 export class UploadProgressValue implements Action {
   readonly type = REPORT_UPLOAD_PROGRESS;
   constructor(public payload: number) {}
-}
-
-// Wrapper class to hide the direct File reference in the file selected action. Ngrx 13 introduced Object.freeze as a default.    
-export class FileSelection {
-  public file_reference: File;
-  constructor(public input: File) {
-    this.file_reference = input
-  }
 }
 
 export class FilesSelectedAction implements Action {
