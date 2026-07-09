@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TransactionActions } from 'app/supporters/store/transaction/transaction.actions';
@@ -16,11 +16,11 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./transactions.scss']
 })
 export class TransactionsComponent implements OnInit {
-  form = new FormGroup({
-    search: new FormControl(''),
-    shipping: new FormControl(''),
-    pack_sent: new FormControl(false),
-    payment_processed: new FormControl(true)
+  form = new UntypedFormGroup({
+    search: new UntypedFormControl(''),
+    shipping: new UntypedFormControl(''),
+    pack_sent: new UntypedFormControl(false),
+    payment_processed: new UntypedFormControl(true)
   });
 
   loading$: Observable<boolean>;

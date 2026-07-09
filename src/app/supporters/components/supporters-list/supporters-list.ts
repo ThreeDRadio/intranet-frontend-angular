@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { Store } from '@ngrx/store';
@@ -33,8 +33,8 @@ export class SupportersListComponent implements OnInit {
   pageSize = 10;
   ordering = 'last_name';
 
-  form = new FormGroup({
-    search: new FormControl('')
+  form = new UntypedFormGroup({
+    search: new UntypedFormControl('')
   });
 
   search() {
