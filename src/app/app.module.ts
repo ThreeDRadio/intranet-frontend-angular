@@ -7,7 +7,7 @@ import { RouterModule } from "@angular/router";
 import { EffectsModule } from "@ngrx/effects";
 import {
   StoreRouterConnectingModule,
-  DefaultRouterStateSerializer,
+  FullRouterStateSerializer,
 } from "@ngrx/router-store";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
@@ -54,7 +54,7 @@ export const errorHandler = environment.production
         StoreDevtoolsModule.instrument(),
         MaterialModule,
         StoreRouterConnectingModule.forRoot({
-            serializer: DefaultRouterStateSerializer,
+            serializer: FullRouterStateSerializer,
         }),
     ],
     providers: [

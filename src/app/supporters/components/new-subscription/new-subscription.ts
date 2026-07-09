@@ -1,5 +1,5 @@
 import { Component, Inject, Optional } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 
 import * as moment from "moment-timezone";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
@@ -10,16 +10,16 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
   styleUrls: ["./new-subscription.scss"],
 })
 export class NewSubscriptionComponent {
-  form = new FormGroup({
-    transaction_type: new FormControl("", Validators.required),
-    expires_at: new FormControl(
+  form = new UntypedFormGroup({
+    transaction_type: new UntypedFormControl("", Validators.required),
+    expires_at: new UntypedFormControl(
       moment().add(1, "years").format("YYYY-MM-DD"),
       Validators.required
     ),
-    payment_processed: new FormControl(false),
-    pack_sent: new FormControl(false),
-    shipping: new FormControl("", Validators.required),
-    note: new FormControl(),
+    payment_processed: new UntypedFormControl(false),
+    pack_sent: new UntypedFormControl(false),
+    shipping: new UntypedFormControl("", Validators.required),
+    note: new UntypedFormControl(),
   });
 
   constructor(

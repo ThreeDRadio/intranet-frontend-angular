@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'nf-login-form',
@@ -10,10 +10,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class LoginFormComponent {
   protected _disabled = false;
   protected _loading = false;
-  username = new FormControl('', Validators.compose([Validators.required]));
-  password = new FormControl('', Validators.required);
+  username = new UntypedFormControl('', Validators.compose([Validators.required]));
+  password = new UntypedFormControl('', Validators.required);
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Input()
   set disabled(val: boolean) {
@@ -41,7 +41,7 @@ export class LoginFormComponent {
   }
   @Input() error: string;
   @Output() login = new EventEmitter();
-  constructor(public fb: FormBuilder) {
+  constructor(public fb: UntypedFormBuilder) {
     this.form = this.createForm();
   }
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment-timezone';
@@ -29,33 +29,33 @@ export class MusicUploadComponent implements OnInit {
   album$: Observable<string>;
   loading$: Observable<boolean>;
 
-  selectedFiles = new FormControl('', Validators.required);
+  selectedFiles = new UntypedFormControl('', Validators.required);
 
-  albumDetails = new FormGroup({
-    artist: new FormControl('', Validators.required),
-    title: new FormControl('', Validators.required),
-    year: new FormControl('', Validators.required),
-    cpa: new FormControl('', Validators.required),
-    company: new FormControl(''),
-    local: new FormControl('', Validators.required),
-    compilation: new FormControl('', Validators.required),
-    female: new FormControl('', Validators.required),
-    format: new FormControl(7),
-    status: new FormControl(0),
-    copies: new FormControl(0),
-    demo: new FormControl(1),
-    createwhen: new FormControl(moment().unix()),
-    modifywhen: new FormControl(moment().unix()),
-    arrivaldate: new FormControl(
+  albumDetails = new UntypedFormGroup({
+    artist: new UntypedFormControl('', Validators.required),
+    title: new UntypedFormControl('', Validators.required),
+    year: new UntypedFormControl('', Validators.required),
+    cpa: new UntypedFormControl('', Validators.required),
+    company: new UntypedFormControl(''),
+    local: new UntypedFormControl('', Validators.required),
+    compilation: new UntypedFormControl('', Validators.required),
+    female: new UntypedFormControl('', Validators.required),
+    format: new UntypedFormControl(7),
+    status: new UntypedFormControl(0),
+    copies: new UntypedFormControl(0),
+    demo: new UntypedFormControl(1),
+    createwhen: new UntypedFormControl(moment().unix()),
+    modifywhen: new UntypedFormControl(moment().unix()),
+    arrivaldate: new UntypedFormControl(
       moment()
         .tz('Australia/Adelaide')
         .format('YYYY-MM-DD')
     ),
-    genre: new FormControl('')
+    genre: new UntypedFormControl('')
   });
 
-  trackDetails = new FormGroup({
-    tracks: new FormArray([])
+  trackDetails = new UntypedFormGroup({
+    tracks: new UntypedFormArray([])
   });
 
   stepsCompleted = false;
@@ -87,7 +87,7 @@ export class MusicUploadComponent implements OnInit {
         });
       }
 
-      const tracks = <FormArray>this.trackDetails.controls['tracks'];
+      const tracks = <UntypedFormArray>this.trackDetails.controls['tracks'];
       while (tracks.length > 0) {
         tracks.removeAt(0);
       }
@@ -104,13 +104,13 @@ export class MusicUploadComponent implements OnInit {
           artist = this.parseTag(item.metadata.tags.artist);
         }
         tracks.push(
-          new FormGroup({
-            tracknum: new FormControl(this.getTrackNum(item.metadata) || i, Validators.required),
-            tracktitle: new FormControl(title, Validators.required),
-            trackartist: new FormControl(artist, Validators.required),
-            tracklength: new FormControl(duration, Validators.required),
-            filename: new FormControl(item.file.name),
-            file: new FormControl(item.file)
+          new UntypedFormGroup({
+            tracknum: new UntypedFormControl(this.getTrackNum(item.metadata) || i, Validators.required),
+            tracktitle: new UntypedFormControl(title, Validators.required),
+            trackartist: new UntypedFormControl(artist, Validators.required),
+            tracklength: new UntypedFormControl(duration, Validators.required),
+            filename: new UntypedFormControl(item.file.name),
+            file: new UntypedFormControl(item.file)
           })
         );
         i++;

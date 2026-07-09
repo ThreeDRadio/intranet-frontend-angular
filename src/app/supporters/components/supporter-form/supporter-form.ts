@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Supporter } from 'app/supporters/models/supporter';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-supporter-form',
@@ -18,23 +18,23 @@ export class SupporterFormComponent {
     this._supporter = value;
   }
 
-  form = new FormGroup({
-    first_name: new FormControl(),
-    last_name: new FormControl('', Validators.required),
-    address1: new FormControl('', Validators.required),
-    address2: new FormControl(),
-    town: new FormControl('', Validators.required),
-    state: new FormControl('SA', Validators.required),
-    postcode: new FormControl('', Validators.required),
-    country: new FormControl('Australia'),
-    phone_mobile: new FormControl(),
-    phone_home: new FormControl(),
-    phone_work: new FormControl(),
-    gender: new FormControl(),
-    dob: new FormControl(),
-    email: new FormControl(),
-    excluded: new FormControl(false),
-    prefer_email: new FormControl(true)
+  form = new UntypedFormGroup({
+    first_name: new UntypedFormControl(),
+    last_name: new UntypedFormControl('', Validators.required),
+    address1: new UntypedFormControl('', Validators.required),
+    address2: new UntypedFormControl(),
+    town: new UntypedFormControl('', Validators.required),
+    state: new UntypedFormControl('SA', Validators.required),
+    postcode: new UntypedFormControl('', Validators.required),
+    country: new UntypedFormControl('Australia'),
+    phone_mobile: new UntypedFormControl(),
+    phone_home: new UntypedFormControl(),
+    phone_work: new UntypedFormControl(),
+    gender: new UntypedFormControl(),
+    dob: new UntypedFormControl(),
+    email: new UntypedFormControl(),
+    excluded: new UntypedFormControl(false),
+    prefer_email: new UntypedFormControl(true)
   });
 
   save() {

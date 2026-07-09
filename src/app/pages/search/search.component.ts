@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ReleaseActions } from 'app/store';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ReleaseSelectors } from 'app/store/selectors/release.selectors';
 import { PageEvent } from '@angular/material/paginator';
@@ -14,8 +14,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  form = new FormGroup({
-    search: new FormControl('', Validators.required)
+  form = new UntypedFormGroup({
+    search: new UntypedFormControl('', Validators.required)
   });
 
   loading$: Observable<boolean>;
