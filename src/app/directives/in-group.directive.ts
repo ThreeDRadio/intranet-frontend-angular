@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { getLoggedInUser } from 'app/store/selectors';
 import { Subscription } from 'rxjs';
 
-@Directive({ selector: '[inGroup]' })
+@Directive({ selector: '[appInGroup]' })
 export class InGroupDirective {
   private targetGroup: string;
   private sub: Subscription;
@@ -25,7 +25,7 @@ export class InGroupDirective {
   }
 
   @Input()
-  set inGroup(value: string) {
+  set appInGroup(value: string) {
     this.targetGroup = value;
     this.update();
   }

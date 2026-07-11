@@ -2,9 +2,9 @@
   <h1 class="mat-display-1">
     {{ release.artist }} - {{ release.title }}
     <mat-chip-list>
-      <mat-chip *ngIf="release.local == 2"><mat-icon>home</mat-icon>Local</mat-chip>
+      <mat-chip *ngIf="release.local === 2"><mat-icon>home</mat-icon>Local</mat-chip>
       <mat-chip *ngIf="release.cpa"><mat-icon>place</mat-icon>{{ release.cpa }}</mat-chip>
-      <mat-chip *ngIf="release.female == 2">♀ Female</mat-chip>
+      <mat-chip *ngIf="release.female === 2">♀ Female</mat-chip>
       <mat-chip *ngIf="release.genre"><mat-icon>music_note</mat-icon>{{ release.genre }}</mat-chip>
     </mat-chip-list>
   </h1>

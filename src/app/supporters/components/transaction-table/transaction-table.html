@@ -28,10 +28,10 @@
         <mat-chip *ngIf="!element.payment_processed" color="warn">NOT PAID</mat-chip>
         <mat-chip>{{ element.shipping ? element.shipping.toUpperCase() : 'POST' }}</mat-chip>
         <mat-chip *ngIf="element.pack_sent">{{
-          element.shipping == 'pickup' ? 'COLLECTED' : 'SENT'
+          element.shipping === 'pickup' ? 'COLLECTED' : 'SENT'
         }}</mat-chip>
         <mat-chip *ngIf="!element.pack_sent">{{
-          element.shipping == 'pickup' ? 'NOT COLLECTED' : 'NOT SENT'
+          element.shipping === 'pickup' ? 'NOT COLLECTED' : 'NOT SENT'
         }}</mat-chip>
       </mat-chip-list>
     </td>

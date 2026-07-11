@@ -17,5 +17,5 @@ export class ReleaseListComponent {
   sortChange = new EventEmitter();
 
   @Output()
-  open = new EventEmitter<Release>();
+  releaseListOpen = new EventEmitter<Release>();
 }

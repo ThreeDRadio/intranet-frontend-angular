@@ -1,12 +1,12 @@
 <div class="container" *ngIf="visible">
   <div>
-    <button *ngIf="(status$ | async) == LOADING" [disabled]="true" mat-mini-fab>
+    <button *ngIf="(status$ | async) === LOADING" [disabled]="true" mat-mini-fab>
       <mat-icon>pause</mat-icon>
     </button>
-    <button (click)="pause()" *ngIf="(status$ | async) == PLAYING" mat-mini-fab>
+    <button (click)="pause()" *ngIf="(status$ | async) === PLAYING" mat-mini-fab>
       <mat-icon>pause</mat-icon>
     </button>
-    <button (click)="resume()" *ngIf="(status$ | async) == PAUSED" mat-mini-fab>
+    <button (click)="resume()" *ngIf="(status$ | async) === PAUSED" mat-mini-fab>
       <mat-icon>play_arrow</mat-icon>
     </button>
   </div>

@@ -1,8 +1,8 @@
 <mat-card class="center">
   <mat-card-title>Login Required</mat-card-title>
   <mat-card-content>
-    <nf-login-form (login)="login($event)" [error]="error | async" [loading]="loading | async">
-    </nf-login-form>
+    <app-nf-login-form (login)="login($event)" [error]="error | async" [loading]="loading | async">
+    </app-nf-login-form>
 
     <div>
       <a routerLink="/reset">Forgot your password?</a>

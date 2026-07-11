@@ -6,7 +6,7 @@ import * as selectors from '../../store/selectors/auth.selectors';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'nf-login-page',
+  selector: 'app-nf-login-page',
   templateUrl: 'login.component.html',
   styleUrls: ['login.component.scss']
 })
