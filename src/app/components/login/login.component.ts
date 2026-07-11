@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'nf-login-form',
+  selector: 'app-nf-login-form',
   templateUrl: 'login.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['login.component.scss']

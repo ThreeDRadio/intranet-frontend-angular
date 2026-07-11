@@ -70,7 +70,7 @@
   </mat-step>
 
   <mat-step label="Track Listing" [stepControl]="trackDetails">
-    <div *ngIf="(selectedData$ | async)?.length > 0 && !(loading$ | async)">
+    <div *ngIf="(selectedData$ | async)?.length > 0 && (loading$ | async) !== true">
       <h2>Track Listing</h2>
       <form [formGroup]="trackDetails">
         <div formArrayName="tracks">

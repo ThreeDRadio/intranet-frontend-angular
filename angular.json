@@ -1,7 +1,10 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -40,7 +43,9 @@
           },
           "configurations": {
             "production": {
-              "styles": ["src/styles.production.css"],
+              "styles": [
+                "src/styles.production.css"
+              ],
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -62,7 +67,9 @@
               ]
             },
             "staging": {
-              "styles": ["src/styles.staging.css"],
+              "styles": [
+                "src/styles.staging.css"
+              ],
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -83,7 +90,9 @@
               ]
             },
             "local": {
-              "styles": ["src/styles.local.css"],
+              "styles": [
+                "src/styles.local.css"
+              ],
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -143,6 +152,15 @@
             "assets": [
               "src/assets",
               "src/favicon.ico"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         }

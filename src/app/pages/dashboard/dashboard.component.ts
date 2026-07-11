@@ -5,6 +5,8 @@ import { RequestAuthLogoutAction } from '../../store';
 import { Groups } from 'app/constants';
 
 @Component({
+  // dashboard is one word. No kebab case required. GO AWAY
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
