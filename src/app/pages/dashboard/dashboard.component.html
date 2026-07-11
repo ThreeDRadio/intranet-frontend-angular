@@ -7,12 +7,6 @@
         Home
       </a>
 
-      <h3 mat-subheader *appInGroup="groups.SupporterManagement">Supporters</h3>
-      <a mat-list-item href="https://threedradio.profilersystem.com/ProfilerWeb/" target="_blank" rel="noopener noreferrer" *appInGroup="groups.SupporterManagement">
-        <mat-icon mat-list-icon>people</mat-icon>
-        Profiler
-      </a>
-
       <h3 mat-subheader>Catalogue</h3>
       <a mat-list-item routerLink="/new-releases">
         <mat-icon mat-list-icon>new_releases</mat-icon>
@@ -39,6 +33,11 @@
           Create Entry
         </a>
       </div>
+      <h3 mat-subheader *appInGroup="groups.SupporterManagement">Supporters</h3>
+      <a mat-list-item href="https://threedradio.profilersystem.com/ProfilerWeb/" target="_blank" rel="noopener noreferrer" *appInGroup="groups.SupporterManagement">
+        <mat-icon mat-list-icon>dashboard</mat-icon>
+        Profiler
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 
