@@ -1,4 +1,4 @@
-import { Transaction } from 'app/supporters/models/transaction';
+/* import { Transaction } from 'app/supporters/models/transaction';
 
 export namespace TransactionActions {
   export const Types = {
@@ -111,3 +111,4 @@ export namespace TransactionActions {
     | ResponseUpdate
     | ErrorUpdate;
 }
+ */

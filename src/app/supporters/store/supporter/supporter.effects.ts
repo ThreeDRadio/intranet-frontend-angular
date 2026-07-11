@@ -1,4 +1,4 @@
-import { Actions, Effect, ofType } from '@ngrx/effects';
+/* import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -68,3 +68,4 @@ export class SupporterEffects {
 
   constructor(private actions$: Actions<SupporterActions.Actions>, private api: SupporterApi) {}
 }
+ */

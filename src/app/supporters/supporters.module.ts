@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/* import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { REDUCER } from './store';
@@ -41,3 +41,4 @@ import { TransactionsComponent } from './components/transactions/transactions';
     ]
 })
 export class SupportersModule {}
+ */

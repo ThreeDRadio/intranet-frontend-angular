@@ -1,4 +1,4 @@
-import { Supporter } from 'app/supporters/models/supporter';
+/* import { Supporter } from 'app/supporters/models/supporter';
 
 export namespace SupporterActions {
   export interface SearchResult {
@@ -100,3 +100,4 @@ export namespace SupporterActions {
     | ResponseCreate
     | ErrorCreate;
 }
+ */

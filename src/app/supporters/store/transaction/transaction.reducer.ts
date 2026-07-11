@@ -1,4 +1,4 @@
-import { TransactionActions } from './transaction.actions';
+/* import { TransactionActions } from './transaction.actions';
 
 export interface TransactionState {
   // All the Transactions we currently have in the store
@@ -102,3 +102,4 @@ export function reducer(
       return state;
   }
 }
+ */

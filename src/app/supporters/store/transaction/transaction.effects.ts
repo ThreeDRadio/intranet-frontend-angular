@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+/* import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, tap } from 'rxjs/operators';
 import { TrackApi } from 'app/services/track-api';
 import { of } from 'rxjs';
@@ -66,3 +66,4 @@ export class TransactionEffects {
 
   constructor(private actions$: Actions<TransactionActions.Actions>, private api: TransactionApi) {}
 }
+ */
