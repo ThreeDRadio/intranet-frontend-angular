@@ -12,18 +12,7 @@
       <strong>
         {{ element.release.artist }} - {{ element.release.title }} </strong
       ><br />
-
-      <div class="comment-text" *ngIf="truncate; else full">
-        {{ element.comment | slice: 0:400 }}...
-        <a
-          *ngIf="element.comment.length > 400"
-          [routerLink]="['releases', element.release.id]"
-          >[more]</a
-        >
-      </div>
-      <ng-template #full>
-        <div class="comment-text">{{ element.comment }}...</div>
-      </ng-template>
+      <div class="comment-text">{{ element.comment }}</div>
     </td>
   </ng-container>
 
