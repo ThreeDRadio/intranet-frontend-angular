@@ -26,6 +26,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # Step 4: Run Angular unit tests headlessly
+      # Step 4: Linting
+      - name: Run Angular Lint with Reviewdog
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review 
+          eslint_flags: 'src/'
+
+      # Step 5: Run Angular unit tests headlessly
       - name: Run Angular Tests
         run: npm run test -- --watch=false --browsers=ChromeHeadlessCI
