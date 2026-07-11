@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { TrackApi } from "app/services/track-api";
 import { PlayerActions } from "../actions/player.actions";
-import { Actions, ofType, Effect } from "@ngrx/effects";
+import { Actions, ofType, createEffect } from "@ngrx/effects";
 import { map, switchMap, tap } from "rxjs/operators";
 import { Howl, Howler } from "howler";
 import { Store } from "@ngrx/store";
