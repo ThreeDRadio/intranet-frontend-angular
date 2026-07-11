@@ -19,7 +19,7 @@
     *ngIf="(count$ | async) > 0"
     [releases]="results$ | async"
     (sortChange)="sort($event)"
-    (open)="releaseListOpen($event)"
+    (releaseListOpen)="open($event)"
   >
   </app-release-list>
 

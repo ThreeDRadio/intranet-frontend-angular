@@ -1,7 +1,7 @@
 <h1>New Releases</h1>
 <h3>{{ count$ | async }} New Releases</h3>
 
-<app-release-list *ngIf="(count$ | async) > 0" [releases]="results$ | async" (open)="releaseListOpen($event)">
+<app-release-list *ngIf="(count$ | async) > 0" [releases]="results$ | async" (releaseListOpen)="open($event)">
 </app-release-list>
 
 <mat-paginator

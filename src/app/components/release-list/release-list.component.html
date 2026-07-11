@@ -33,5 +33,5 @@
   </ng-container>
 
   <tr mat-header-row sticky *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="open.emit(row)"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="releaseListOpen.emit(row)"></tr>
 </table>
