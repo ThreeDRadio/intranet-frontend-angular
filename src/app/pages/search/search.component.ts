@@ -4,7 +4,7 @@ import { ReleaseActions } from 'app/store';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ReleaseSelectors } from 'app/store/selectors/release.selectors';
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { Sort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 
