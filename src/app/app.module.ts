@@ -51,7 +51,7 @@ export const errorHandler = environment.production
         StoreModule.forRoot(Store.REDUCER),
         EffectsModule.forRoot(Store.EFFECTS),
         AppRoutingModule,
-        StoreDevtoolsModule.instrument(),
+        StoreDevtoolsModule.instrument({connectInZone: true}),
         MaterialModule,
         StoreRouterConnectingModule.forRoot({
             serializer: FullRouterStateSerializer,
