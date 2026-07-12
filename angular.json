@@ -2,9 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
     "analytics": false,
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -23,10 +21,7 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": [
-              "src/assets",
-              "src/favicon.ico"
-            ],
+            "assets": ["src/assets", "src/favicon.ico"],
             "styles": [
               "src/styles.css",
               "src/styles.production.css",
@@ -43,9 +38,7 @@
           },
           "configurations": {
             "production": {
-              "styles": [
-                "src/styles.production.css"
-              ],
+              "styles": ["src/styles.production.css"],
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -67,9 +60,7 @@
               ]
             },
             "staging": {
-              "styles": [
-                "src/styles.staging.css"
-              ],
+              "styles": ["src/styles.staging.css"],
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -90,9 +81,7 @@
               ]
             },
             "local": {
-              "styles": [
-                "src/styles.local.css"
-              ],
+              "styles": ["src/styles.local.css"],
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -141,27 +130,18 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
-            "styles": [
-              "src/styles.css"
-            ],
-            "assets": [
-              "src/assets",
-              "src/favicon.ico"
-            ]
+            "styles": ["src/styles.css"],
+            "assets": ["src/assets", "src/favicon.ico"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
