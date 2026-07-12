@@ -161,7 +161,6 @@
       }
     }
   },
-  "defaultProject": "intranet-angular",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
