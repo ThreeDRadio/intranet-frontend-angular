@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+/* import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Supporter } from 'app/supporters/models/supporter';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
@@ -41,3 +41,4 @@ export class SupporterFormComponent {
     this.changes.next(this.form.value);
   }
 }
+ */

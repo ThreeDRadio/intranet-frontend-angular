@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+/* import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SupporterActions } from 'app/supporters/store/supporter/supporter.actions';
 
@@ -14,3 +14,4 @@ export class NewSupporterComponent {
     this.store.dispatch(new SupporterActions.RequestCreate(value));
   }
 }
+ */
