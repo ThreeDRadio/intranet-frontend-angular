@@ -1,8 +1,8 @@
-name: Run tests
+name: Pull request checks
 
 on:
   pull_request:
-    branches: [ master, main ]
+    branches: [master, main]
   workflow_dispatch:
 
 jobs:
@@ -19,20 +19,28 @@ jobs:
       - name: Setup Node.js 16
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
-          cache: 'npm' # Speeds up subsequent workflow runs
+          node-version: "16"
+          cache: "npm" # Speeds up subsequent workflow runs
 
       # Step 3: Install precise dependencies
       - name: Install Dependencies
         run: npm ci
 
       # Step 4: Linting
-      - name: Run Angular Lint with Reviewdog
+      - name: Run Angular Lint with reviewdog
         uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review 
-          eslint_flags: 'src/'
+          reporter: github-pr-review
+          eslint_flags: "src/"
+
+      - name: Run Prettier with reviewdog
+        uses: EPMatt/reviewdog-action-prettier@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          level: error
+          filter_mode: added # Only checks lines changed/added in the PR
 
       # Step 5: Run Angular unit tests headlessly
       - name: Run Angular Tests
