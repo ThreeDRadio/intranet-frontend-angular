@@ -31,14 +31,15 @@ jobs:
         uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
+          reporter: github-pr-check
+          level: error
           eslint_flags: "src/"
 
       - name: Run Prettier with reviewdog
         uses: EPMatt/reviewdog-action-prettier@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
+          reporter: github-pr-check
           level: error
           filter_mode: added # Only checks lines changed/added in the PR
 
