@@ -47,7 +47,7 @@
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.3.17",
+    "@angular-devkit/build-angular": "^21.2.19",
     "@angular-devkit/core": "^17.3.17",
     "@angular-devkit/schematics": "^17.3.17",
     "@angular-eslint/builder": "17.5.3",
@@ -75,7 +75,7 @@
     "protractor": "~7.0.0",
     "ts-node": "~10.9.2",
     "typescript": "5.4.5",
-    "webpack-dev-server": "^4.15.2"
+    "webpack-dev-server": "^6.0.0"
   },
   "browser": {
     "fs": false,
