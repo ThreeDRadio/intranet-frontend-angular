@@ -1,4 +1,4 @@
-import { SupporterActions } from './supporter.actions';
+/* import { SupporterActions } from './supporter.actions';
 
 export interface SupporterState {
   entities?: {};
@@ -58,3 +58,4 @@ export function reducer(
       return state;
   }
 }
+ */

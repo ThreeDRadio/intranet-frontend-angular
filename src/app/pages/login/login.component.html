@@ -1,4 +1,4 @@
-<mat-card class="center">
+<mat-card appearance="outlined" class="center">
   <mat-card-title>Login Required</mat-card-title>
   <mat-card-content>
     <app-nf-login-form (login)="login($event)" [error]="error | async" [loading]="loading | async">

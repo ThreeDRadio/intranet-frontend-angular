@@ -1,4 +1,4 @@
-import { createSelector } from '@ngrx/store';
+/* import { createSelector } from '@ngrx/store';
 import { State } from '../../store';
 
 export namespace SupporterSelectors {
@@ -37,3 +37,4 @@ export namespace SupporterSelectors {
     state => state.previousPage != null
   );
 }
+ */

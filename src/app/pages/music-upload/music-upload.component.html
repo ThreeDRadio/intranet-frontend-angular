@@ -1,4 +1,4 @@
-<h2>Upload New Music</h2>
+<h1>Upload New Music</h1>
 
 <mat-horizontal-stepper linear>
   <mat-step label="Select Files">
@@ -11,7 +11,11 @@
       (change)="handleSelection($event)"
     />
     <div class="buttons">
-      <button mat-button matStepperNext [disabled]="(selectedData$ | async).length === 0">
+      <button
+        mat-button
+        matStepperNext
+        [disabled]="(selectedData$ | async).length === 0"
+      >
         Next
       </button>
     </div>
@@ -28,13 +32,22 @@
           <input formControlName="title" matInput placeholder="Album" />
         </mat-form-field>
         <mat-form-field>
-          <input formControlName="year" type="number" matInput placeholder="Year of Release" />
+          <input
+            formControlName="year"
+            type="number"
+            matInput
+            placeholder="Year of Release"
+          />
         </mat-form-field>
         <mat-form-field>
           <input formControlName="cpa" matInput placeholder="Country" />
         </mat-form-field>
         <mat-form-field>
-          <input formControlName="company" matInput placeholder="Record Label" />
+          <input
+            formControlName="company"
+            matInput
+            placeholder="Record Label"
+          />
         </mat-form-field>
         <mat-form-field>
           <input formControlName="genre" matInput placeholder="Genre" />
@@ -70,26 +83,49 @@
   </mat-step>
 
   <mat-step label="Track Listing" [stepControl]="trackDetails">
-    <div *ngIf="(selectedData$ | async)?.length > 0 && (loading$ | async) !== true">
+    <div
+      *ngIf="(selectedData$ | async)?.length > 0 && (loading$ | async) !== true"
+    >
       <h2>Track Listing</h2>
       <form [formGroup]="trackDetails">
         <div formArrayName="tracks">
           <div
             class="form-row"
-            *ngFor="let track of trackDetails.controls['tracks'].controls; index as i"
+            *ngFor="
+              let track of trackDetails.controls['tracks'].controls;
+              index as i
+            "
             [formGroupName]="i"
           >
             <mat-form-field class="filename">
-              <input formControlName="filename" readonly matInput placeholder="Filename" />
+              <input
+                formControlName="filename"
+                readonly
+                matInput
+                placeholder="Filename"
+              />
             </mat-form-field>
             <mat-form-field class="tracknum">
-              <input formControlName="tracknum" type="number" matInput placeholder="Number" />
+              <input
+                formControlName="tracknum"
+                type="number"
+                matInput
+                placeholder="Number"
+              />
             </mat-form-field>
             <mat-form-field>
-              <input formControlName="trackartist" matInput placeholder="Track Artist" />
+              <input
+                formControlName="trackartist"
+                matInput
+                placeholder="Track Artist"
+              />
             </mat-form-field>
             <mat-form-field>
-              <input formControlName="tracktitle" matInput placeholder="Title" />
+              <input
+                formControlName="tracktitle"
+                matInput
+                placeholder="Title"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -103,15 +139,20 @@
   <mat-step label="Confirm Details">
     <p>
       Creating a release called
-      <em>{{ albumDetails.value.title }}</em> by <em>{{ albumDetails.value.artist }}</em
+      <em>{{ albumDetails.value.title }}</em> by
+      <em>{{ albumDetails.value.artist }}</em
       >, with the following track listing:
     </p>
     <ol>
-      <li *ngFor="let track of trackDetails.value.tracks">{{ track.tracktitle }}</li>
+      <li *ngFor="let track of trackDetails.value.tracks">
+        {{ track.tracktitle }}
+      </li>
     </ol>
     <div class="buttons">
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext (click)="submitRelease()">Begin Upload</button>
+      <button mat-button matStepperNext (click)="submitRelease()">
+        Begin Upload
+      </button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

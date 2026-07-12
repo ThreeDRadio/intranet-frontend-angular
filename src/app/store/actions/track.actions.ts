@@ -1,9 +1,9 @@
 export namespace TrackActions {
   export const Types = {
-    requestForRelease: '[Track][Request] tracks for release',
-    responseForRelease: '[Track][Response] tracks for release',
-    errorForRelease: '[Track][Error] tracks for release',
-    requestDownload: '[Track][Request] download audio'
+    requestForRelease: "[Track][Request] tracks for release",
+    responseForRelease: "[Track][Response] tracks for release",
+    errorForRelease: "[Track][Error] tracks for release",
+    requestDownload: "[Track][Request] download audio",
   };
 
   export class RequestDownload {
@@ -25,5 +25,8 @@ export namespace TrackActions {
     constructor(public payload: any) {}
   }
 
-  export type Actions = RequestForRelease | ResponseForRelease | ErrorForRelease;
+  export type Actions =
+    | RequestForRelease
+    | ResponseForRelease
+    | ErrorForRelease;
 }

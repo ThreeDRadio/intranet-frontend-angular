@@ -1,4 +1,4 @@
-import * as Supporter from './supporter/supporter.reducer';
+/* import * as Supporter from './supporter/supporter.reducer';
 import * as Transaction from './transaction/transaction.reducer';
 
 export interface State {
@@ -10,3 +10,4 @@ export const REDUCER = {
   supporters: Supporter.reducer,
   transactions: Transaction.reducer
 };
+ */

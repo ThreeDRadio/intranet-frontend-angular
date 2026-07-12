@@ -3,40 +3,34 @@
   <mat-sidenav [opened]="true" mode="side">
     <mat-nav-list>
       <a mat-list-item routerLink="/">
-        <mat-icon mat-list-icon>home</mat-icon>
-        Home
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Home</span>
       </a>
 
       <h3 mat-subheader>Catalogue</h3>
       <a mat-list-item routerLink="/new-releases">
-        <mat-icon mat-list-icon>new_releases</mat-icon>
-        New Releases
+        <mat-icon matListItemIcon>new_releases</mat-icon>
+        <span matListItemTitle>New Releases</span>
       </a>
       <a mat-list-item routerLink="/search">
-        <mat-icon mat-list-icon>search</mat-icon>
-        Quick Search
+        <mat-icon matListItemIcon>search</mat-icon>
+        <span matListItemTitle>Quick Search</span>
       </a>
-      <div *ngIf="false">
-        <a mat-list-item routerLink="/advanced-search">
-          <mat-icon mat-list-icon>search</mat-icon>
-          Advanced Search
-        </a>
-      </div>
       <h3 mat-subheader>Manage</h3>
       <a mat-list-item routerLink="/upload" *appInGroup="groups.MusicUploaders">
-        <mat-icon mat-list-icon>file_upload</mat-icon>
-        Upload Music
+        <mat-icon matListItemIcon>file_upload</mat-icon>
+        <span matListItemTitle>Upload Music</span>
       </a>
-      <div *ngIf="false">
-        <a mat-list-item routerLink="/upload">
-          <mat-icon mat-list-icon>create</mat-icon>
-          Create Entry
-        </a>
-      </div>
       <h3 mat-subheader *appInGroup="groups.SupporterManagement">Supporters</h3>
-      <a mat-list-item href="https://threedradio.profilersystem.com/ProfilerWeb/" target="_blank" rel="noopener noreferrer" *appInGroup="groups.SupporterManagement">
-        <mat-icon mat-list-icon>dashboard</mat-icon>
-        Profiler
+      <a
+        mat-list-item
+        href="https://threedradio.profilersystem.com/ProfilerWeb/"
+        target="_blank"
+        rel="noopener noreferrer"
+        *appInGroup="groups.SupporterManagement"
+      >
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle>Profiler</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>

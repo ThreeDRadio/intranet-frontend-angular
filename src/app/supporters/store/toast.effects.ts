@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
+/* import { Injectable } from '@angular/core';
+import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { SupporterActions } from './supporter/supporter.actions';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { TransactionActions } from './transaction/transaction.actions';
@@ -79,3 +79,4 @@ export class ToastEffects {
     private router: Router
   ) {}
 }
+ */
