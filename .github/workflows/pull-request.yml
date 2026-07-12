@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-tests:
+  pull-request-checks:
     # Use ubuntu-20.04 or ubuntu-22.04 because newer environments drop support for legacy binaries.
     runs-on: ubuntu-22.04
 
