@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { map, skipWhile } from 'rxjs/operators';
 
 @Injectable()
-export class ReadyGuard  {
+export class ReadyGuard {
   constructor(private store: Store<any>) {}
   canActivate(): Observable<boolean> {
     return this.store.select(selectors.isReady).pipe(
