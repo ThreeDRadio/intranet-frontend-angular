@@ -7,8 +7,11 @@ import { map } from 'rxjs/operators';
 import * as selectors from '../store/selectors/auth.selectors';
 
 @Injectable()
-export class AuthenticatedGuard  {
-  constructor(private store: Store<any>, private router: Router) {}
+export class AuthenticatedGuard {
+  constructor(
+    private store: Store<any>,
+    private router: Router,
+  ) {}
   canActivate(): Observable<boolean> {
     return this.store.select(selectors.getAuth).pipe(
       map(token => {
