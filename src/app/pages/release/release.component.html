@@ -1,12 +1,20 @@
-<div *ngIf="(release$ | async); let release">
+<div *ngIf="release$ | async; let release">
   <h1 class="mat-headline-4">
     {{ release.artist }} - {{ release.title }}
-    <mat-chip-listbox>
-      <mat-chip-option *ngIf="release.local === 2"><mat-icon>home</mat-icon>Local</mat-chip-option>
-      <mat-chip-option *ngIf="release.cpa"><mat-icon>place</mat-icon>{{ release.cpa }}</mat-chip-option>
-      <mat-chip-option *ngIf="release.female === 2">♀ Female</mat-chip-option>
-      <mat-chip-option *ngIf="release.genre"><mat-icon>music_note</mat-icon>{{ release.genre }}</mat-chip-option>
-    </mat-chip-listbox>
+    <mat-chip-set style="display: flex; justify-content: center">
+      <mat-chip *ngIf="release.local === 2">
+        <mat-icon matChipAvatar>home</mat-icon>Local
+      </mat-chip>
+      <mat-chip *ngIf="release.cpa">
+        <mat-icon matChipAvatar>place</mat-icon>{{ release.cpa }}
+      </mat-chip>
+      <mat-chip *ngIf="release.female === 2">
+        <mat-icon matChipAvatar>female</mat-icon> Female
+      </mat-chip>
+      <mat-chip *ngIf="release.genre">
+        <mat-icon matChipAvatar>music_note</mat-icon>{{ release.genre }}
+      </mat-chip>
+    </mat-chip-set>
   </h1>
 
   <h2>Tracks</h2>
@@ -31,7 +39,9 @@
 
     <ng-container matColumnDef="tracklength">
       <th mat-header-cell *matHeaderCellDef>Length</th>
-      <td mat-cell *matCellDef="let element">{{ element.tracklength | duration }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.tracklength | duration }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
@@ -41,7 +51,11 @@
           <mat-icon>play_circle_outline</mat-icon>
           Preview
         </button>
-        <button *ngIf="element.hiAvailable" mat-button (click)="download(element)">
+        <button
+          *ngIf="element.hiAvailable"
+          mat-button
+          (click)="download(element)"
+        >
           <mat-icon>save_alt</mat-icon>
           Download
         </button>
@@ -54,4 +68,7 @@
 </div>
 
 <h2>Comments</h2>
-<app-comment-list-table [truncate]="true" [comments]="comments$ | async"></app-comment-list-table>
+<app-comment-list-table
+  [truncate]="true"
+  [comments]="comments$ | async"
+></app-comment-list-table>
