@@ -1,22 +1,25 @@
+<h1>Quick Search</h1>
 <form [formGroup]="form">
-  <mat-card>
-    <mat-card-title>Quick Search</mat-card-title>
-    <mat-card-content>
-      <mat-form-field class="full-width">
-        <input formControlName="search" matInput type="text" placeholder="Search Terms" />
-      </mat-form-field>
-    </mat-card-content>
-    <mat-card-actions> <button mat-button (click)="search()">Search</button> </mat-card-actions>
-  </mat-card>
+  <mat-form-field class="full-width">
+    <input
+      formControlName="search"
+      matInput
+      type="text"
+      placeholder="Search Terms"
+    />
+  </mat-form-field>
+  <button mat-button (click)="search()">Search</button>
 </form>
 
-<mat-progress-bar mode="indeterminate" *ngIf="(loading$ | async)"></mat-progress-bar>
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="loading$ | async"
+></mat-progress-bar>
 
-<div *ngIf="(results$ | async)">
+<div *ngIf="(results$ | async) && (count$ | async) > 0">
   <h3>{{ count$ | async }} Results</h3>
 
   <app-release-list
-    *ngIf="(count$ | async) > 0"
     [releases]="results$ | async"
     (sortChange)="sort($event)"
     (releaseListOpen)="open($event)"
@@ -24,7 +27,6 @@
   </app-release-list>
 
   <mat-paginator
-    *ngIf="(count$ | async) > 0"
     [pageSizeOptions]="pageSizes"
     [pageIndex]="offset / pageSize"
     [pageSize]="pageSize"

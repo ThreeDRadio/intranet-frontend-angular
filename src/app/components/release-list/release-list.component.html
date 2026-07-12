@@ -21,14 +21,14 @@
   <ng-container matColumnDef="tags">
     <th mat-header-cell *matHeaderCellDef>Info</th>
     <td mat-cell *matCellDef="let element">
-      <mat-chip-list>
-        <mat-chip *ngIf="element.local === 2"><mat-icon>home</mat-icon>Local</mat-chip>
-        <mat-chip *ngIf="element.cpa"><mat-icon>place</mat-icon>{{ element.cpa }}</mat-chip>
-        <mat-chip *ngIf="element.female === 2">♀ Female</mat-chip>
-        <mat-chip *ngIf="element.genre"
-          ><mat-icon>music_note</mat-icon>{{ element.genre }}</mat-chip
+      <mat-chip-listbox>
+        <mat-chip-option *ngIf="element.local === 2"><mat-icon>home</mat-icon>Local</mat-chip-option>
+        <mat-chip-option *ngIf="element.cpa"><mat-icon>place</mat-icon>{{ element.cpa }}</mat-chip-option>
+        <mat-chip-option *ngIf="element.female === 2">♀ Female</mat-chip-option>
+        <mat-chip-option *ngIf="element.genre"
+          ><mat-icon>music_note</mat-icon>{{ element.genre }}</mat-chip-option
         >
-      </mat-chip-list>
+      </mat-chip-listbox>
     </td>
   </ng-container>
 

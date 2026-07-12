@@ -1,12 +1,12 @@
 <div *ngIf="(release$ | async); let release">
-  <h1 class="mat-display-1">
+  <h1 class="mat-headline-4">
     {{ release.artist }} - {{ release.title }}
-    <mat-chip-list>
-      <mat-chip *ngIf="release.local === 2"><mat-icon>home</mat-icon>Local</mat-chip>
-      <mat-chip *ngIf="release.cpa"><mat-icon>place</mat-icon>{{ release.cpa }}</mat-chip>
-      <mat-chip *ngIf="release.female === 2">♀ Female</mat-chip>
-      <mat-chip *ngIf="release.genre"><mat-icon>music_note</mat-icon>{{ release.genre }}</mat-chip>
-    </mat-chip-list>
+    <mat-chip-listbox>
+      <mat-chip-option *ngIf="release.local === 2"><mat-icon>home</mat-icon>Local</mat-chip-option>
+      <mat-chip-option *ngIf="release.cpa"><mat-icon>place</mat-icon>{{ release.cpa }}</mat-chip-option>
+      <mat-chip-option *ngIf="release.female === 2">♀ Female</mat-chip-option>
+      <mat-chip-option *ngIf="release.genre"><mat-icon>music_note</mat-icon>{{ release.genre }}</mat-chip-option>
+    </mat-chip-listbox>
   </h1>
 
   <h2>Tracks</h2>
