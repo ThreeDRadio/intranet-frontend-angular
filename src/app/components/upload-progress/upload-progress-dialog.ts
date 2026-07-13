@@ -1,14 +1,24 @@
-import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Component } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 
-import { isLoading, uploadLog, uploadProgress } from '../../store/selectors';
+import { isLoading, uploadLog, uploadProgress } from "../../store/selectors";
+import { RouterLink } from "@angular/router";
+import { AsyncPipe } from "@angular/common";
+import { MatDialogActions, MatDialogContent } from "@angular/material/dialog";
+import { MatProgressBar } from "@angular/material/progress-bar";
 
 @Component({
-    selector: 'app-upload-progress-dialog',
-    templateUrl: './upload-progress-dialog.html',
-    styleUrls: ['./upload-progress-dialog.scss'],
-    
+  selector: "app-upload-progress-dialog",
+  imports: [
+    AsyncPipe,
+    MatProgressBar,
+    MatDialogContent,
+    MatDialogActions,
+    RouterLink,
+  ],
+  templateUrl: "./upload-progress-dialog.html",
+  styleUrls: ["./upload-progress-dialog.scss"],
 })
 export class UploadProgressDialogComponent {
   public progress$: Observable<number>;

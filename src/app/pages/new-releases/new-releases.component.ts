@@ -5,13 +5,13 @@ import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
 import { ReleaseSelectors } from "app/store/selectors/release.selectors";
 import { ReleaseActions } from "app/store";
-
 import moment from "moment-timezone";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
-    selector: "app-new-releases",
-    templateUrl: "./new-releases.component.html",
-    
+  selector: "app-new-releases",
+  imports: [AsyncPipe],
+  templateUrl: "./new-releases.component.html",
 })
 export class NewReleasesPageComponent implements OnInit {
   loading$: Observable<boolean>;

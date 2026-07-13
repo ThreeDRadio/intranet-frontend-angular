@@ -1,4 +1,7 @@
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 import { NgModule, ErrorHandler, Directive } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
@@ -30,7 +33,7 @@ import {
 } from "./services/error-handler";
 import { AppRestartService } from "./services/app-restart.service";
 import { RestartModalComponent } from "./components/restart-modal/restart-modal.component";
-import { DirectivesModule } from "./directives";
+
 import { AppRoutingModule } from "./app.routes";
 
 import * as Sentry from "@sentry/angular";
@@ -38,35 +41,3 @@ import * as Sentry from "@sentry/angular";
 export const errorHandler = environment.production
   ? NFErrorHandler
   : ErrorHandler;
-
-@NgModule({ declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        BrowserAnimationsModule,
-        DirectivesModule,
-        FormsModule,
-        ReactiveFormsModule,
-        StoreModule.forRoot(Store.REDUCER),
-        EffectsModule.forRoot(Store.EFFECTS),
-        AppRoutingModule,
-        StoreDevtoolsModule.instrument({ connectInZone: true }),
-        MaterialModule,
-        StoreRouterConnectingModule.forRoot({
-            serializer: FullRouterStateSerializer,
-        })], providers: [
-        ...GUARDS,
-        AppRestartService,
-        BaseApi,
-        ...API,
-        Id3Service,
-        {
-            provide: API_URL,
-            useValue: environment.api,
-        },
-        {
-            provide: ERROR_LOGGING_SERVICE,
-            useValue: Sentry.createErrorHandler({ showDialog: true }),
-        },
-        { provide: ErrorHandler, useClass: errorHandler },
-        provideHttpClient(withInterceptorsFromDi()),
-    ] })
-export class AppModule {}

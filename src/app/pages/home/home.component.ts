@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ReleaseActions } from 'app/store';
-import { Observable } from 'rxjs';
-import { ReleaseSelectors } from 'app/store/selectors/release.selectors';
-import { Router } from '@angular/router';
-import { CommentActions } from 'app/store/actions/comment.actions';
-import { CommentSelectors } from 'app/store/selectors/comment.selectors';
-import { Comment } from 'app/models/comment';
+import { Component, OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { ReleaseActions } from "app/store";
+import { Observable } from "rxjs";
+import { ReleaseSelectors } from "app/store/selectors/release.selectors";
+import { Router, RouterLink } from "@angular/router";
+import { CommentActions } from "app/store/actions/comment.actions";
+import { CommentSelectors } from "app/store/selectors/comment.selectors";
+import { Comment } from "app/models/comment";
+import { AsyncPipe } from "@angular/common";
+import { CommentListComponent } from "app/components/comment-list/comment-list.component";
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss'],
-    
+  selector: "app-home",
+  imports: [AsyncPipe, CommentListComponent, RouterLink],
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
 })
 export class HomePageComponent implements OnInit {
   loading$: Observable<boolean>;
@@ -20,9 +22,12 @@ export class HomePageComponent implements OnInit {
   comments$: Observable<Array<Comment>>;
   count$: Observable<number>;
 
-  displayedColumns = ['artist', 'title', 'year', 'createwhen', 'tags'];
+  displayedColumns = ["artist", "title", "year", "createwhen", "tags"];
 
-  constructor(private store: Store<any>, private router: Router) {
+  constructor(
+    private store: Store<any>,
+    private router: Router,
+  ) {
     this.loading$ = this.store.select(ReleaseSelectors.isLoading);
     this.releases$ = this.store.select(ReleaseSelectors.getAll);
     this.comments$ = this.store.select(CommentSelectors.getAll);
@@ -34,6 +39,6 @@ export class HomePageComponent implements OnInit {
     this.store.dispatch(new CommentActions.RequestMostRecent());
   }
   open(release) {
-    this.router.navigate(['releases', release.id]);
+    this.router.navigate(["releases", release.id]);
   }
 }

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import {
+  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormControl,
   UntypedFormGroup,
@@ -18,13 +19,25 @@ import {
 } from "../../store/actions/music-upload.actions";
 import * as selectors from "../../store/selectors";
 import { FileSelection } from "app/models/file_selection";
+import { MatStep, MatStepper } from "@angular/material/stepper";
+import { MatOption } from "@angular/material/core";
+import { MatFormField, MatSelect } from "@angular/material/select";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
-    selector: "app-music-upload",
-    templateUrl: "./music-upload.component.html",
-    styleUrls: ["./music-upload.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    
+  selector: "app-music-upload",
+  imports: [
+    AsyncPipe,
+    MatStep,
+    MatOption,
+    MatSelect,
+    MatFormField,
+    MatStepper,
+    ReactiveFormsModule,
+  ],
+  templateUrl: "./music-upload.component.html",
+  styleUrls: ["./music-upload.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MusicUploadComponent implements OnInit {
   selectedData$: Observable<any>;

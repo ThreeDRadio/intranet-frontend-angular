@@ -1,14 +1,15 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Release } from 'app/models/release';
+import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { MatTable } from "@angular/material/table";
+import { Release } from "app/models/release";
 
 @Component({
-    selector: 'app-release-list',
-    templateUrl: './release-list.component.html',
-    styleUrls: ['./release-list.component.scss'],
-    
+  selector: "app-release-list",
+  imports: [MatTable],
+  templateUrl: "./release-list.component.html",
+  styleUrls: ["./release-list.component.scss"],
 })
 export class ReleaseListComponent {
-  displayedColumns = ['artist', 'title', 'year', 'createwhen', 'tags'];
+  displayedColumns = ["artist", "title", "year", "createwhen", "tags"];
   pageSizes = [10, 20, 50, 100];
 
   @Input()

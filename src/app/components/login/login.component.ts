@@ -1,18 +1,35 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from "@angular/core";
+import {
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
+import { MatFormField } from "@angular/material/form-field";
+import { MatProgressBar } from "@angular/material/progress-bar";
 
 @Component({
-    selector: 'app-nf-login-form',
-    templateUrl: 'login.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: ['login.component.scss'],
-    
+  selector: "app-nf-login-form",
+  imports: [MatFormField, MatProgressBar, ReactiveFormsModule],
+  templateUrl: "login.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ["login.component.scss"],
 })
 export class LoginFormComponent {
   protected _disabled = false;
   protected _loading = false;
-  username = new UntypedFormControl('', Validators.compose([Validators.required]));
-  password = new UntypedFormControl('', Validators.required);
+  username = new UntypedFormControl(
+    "",
+    Validators.compose([Validators.required]),
+  );
+  password = new UntypedFormControl("", Validators.required);
 
   form: UntypedFormGroup;
 

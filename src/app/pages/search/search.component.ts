@@ -1,22 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ReleaseActions } from 'app/store';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { ReleaseSelectors } from 'app/store/selectors/release.selectors';
-import { PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { ReleaseActions } from "app/store";
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+  ReactiveFormsModule,
+} from "@angular/forms";
+import { Observable } from "rxjs";
+import { ReleaseSelectors } from "app/store/selectors/release.selectors";
+import { PageEvent } from "@angular/material/paginator";
+import { Sort } from "@angular/material/sort";
+import { Router } from "@angular/router";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
-    selector: 'app-catalogue-search',
-    templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss'],
-    
+  selector: "app-catalogue-search",
+  imports: [MatFormFieldModule, ReactiveFormsModule],
+  templateUrl: "./search.component.html",
+  styleUrls: ["./search.component.scss"],
 })
 export class SearchComponent implements OnInit {
   form = new UntypedFormGroup({
-    search: new UntypedFormControl('', Validators.required)
+    search: new UntypedFormControl("", Validators.required),
   });
 
   loading$: Observable<boolean>;
@@ -27,7 +33,7 @@ export class SearchComponent implements OnInit {
 
   offset = 0;
   pageSize = 10;
-  ordering = '-createwhen';
+  ordering = "-createwhen";
 
   search() {
     if (this.form.valid) {
@@ -36,14 +42,14 @@ export class SearchComponent implements OnInit {
           ...this.form.value,
           offset: this.offset,
           limit: this.pageSize,
-          ordering: this.ordering
-        })
+          ordering: this.ordering,
+        }),
       );
     }
   }
 
   open(release) {
-    this.router.navigate(['releases', release.id]);
+    this.router.navigate(["releases", release.id]);
   }
 
   paginationChange(event: PageEvent) {
@@ -54,10 +60,13 @@ export class SearchComponent implements OnInit {
 
   sort(event: Sort) {
     console.log(event);
-    this.ordering = (event.direction === 'asc' ? '' : '-') + event.active;
+    this.ordering = (event.direction === "asc" ? "" : "-") + event.active;
     this.search();
   }
-  constructor(private store: Store<any>, private router: Router) {
+  constructor(
+    private store: Store<any>,
+    private router: Router,
+  ) {
     this.loading$ = this.store.select(ReleaseSelectors.isLoading);
     this.results$ = this.store.select(ReleaseSelectors.getAll);
     this.count$ = this.store.select(ReleaseSelectors.count);
