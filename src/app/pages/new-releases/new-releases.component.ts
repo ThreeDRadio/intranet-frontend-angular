@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { PageEvent } from '@angular/material/paginator';
-import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
-import { ReleaseSelectors } from 'app/store/selectors/release.selectors';
-import { ReleaseActions } from 'app/store';
+import { Component, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
+import { PageEvent } from "@angular/material/paginator";
+import { Store } from "@ngrx/store";
+import { Router } from "@angular/router";
+import { ReleaseSelectors } from "app/store/selectors/release.selectors";
+import { ReleaseActions } from "app/store";
 
-import * as moment from 'moment-timezone';
+import moment from "moment-timezone";
 
 @Component({
-  selector: 'app-new-releases',
-  templateUrl: './new-releases.component.html'
+  selector: "app-new-releases",
+  templateUrl: "./new-releases.component.html",
 })
 export class NewReleasesPageComponent implements OnInit {
   loading$: Observable<boolean>;
@@ -20,7 +20,7 @@ export class NewReleasesPageComponent implements OnInit {
   pageSizes = [10, 20, 50, 100];
   offset = 0;
   pageSize = 10;
-  ordering = '-createwhen';
+  ordering = "-createwhen";
 
   paginationChange(event: PageEvent) {
     this.pageSize = event.pageSize;
@@ -31,21 +31,22 @@ export class NewReleasesPageComponent implements OnInit {
   search() {
     this.store.dispatch(
       new ReleaseActions.RequestSearch({
-        min_arrival: moment()
-          .subtract(2, 'months')
-          .format('YYYY-MM-DD'),
+        min_arrival: moment().subtract(2, "months").format("YYYY-MM-DD"),
         offset: this.offset,
         limit: this.pageSize,
-        ordering: this.ordering
-      })
+        ordering: this.ordering,
+      }),
     );
   }
 
   open(release) {
-    this.router.navigate(['releases', release.id]);
+    this.router.navigate(["releases", release.id]);
   }
 
-  constructor(private store: Store<any>, private router: Router) {
+  constructor(
+    private store: Store<any>,
+    private router: Router,
+  ) {
     this.loading$ = this.store.select(ReleaseSelectors.isLoading);
     this.results$ = this.store.select(ReleaseSelectors.getAll);
     this.count$ = this.store.select(ReleaseSelectors.count);
