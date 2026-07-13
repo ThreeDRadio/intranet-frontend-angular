@@ -1,6 +1,6 @@
 # Stage 1: Build the Angular application
 # Use a specific Node.js version for consistency
-FROM node:16-alpine AS build
+FROM node:22-alpine AS build
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -30,7 +30,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy the build output from the first stage
 # Angular 17+: output is in dist/your-app-name/browser
 # Angular 16 and earlier: output is in dist/your-app-name (no /browser subfolder)
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist/browser /usr/share/nginx/html
 
 # Expose port 8005 to the outside world
 EXPOSE 8005
