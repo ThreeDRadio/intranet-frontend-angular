@@ -20,10 +20,11 @@ import * as selectors from "../../store/selectors";
 import { FileSelection } from "app/models/file_selection";
 
 @Component({
-  selector: "app-music-upload",
-  templateUrl: "./music-upload.component.html",
-  styleUrls: ["./music-upload.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "app-music-upload",
+    templateUrl: "./music-upload.component.html",
+    styleUrls: ["./music-upload.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    
 })
 export class MusicUploadComponent implements OnInit {
   selectedData$: Observable<any>;

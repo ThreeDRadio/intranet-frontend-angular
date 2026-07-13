@@ -5,9 +5,10 @@ import { Observable } from 'rxjs';
 import { isLoading, uploadLog, uploadProgress } from '../../store/selectors';
 
 @Component({
-  selector: 'app-upload-progress-dialog',
-  templateUrl: './upload-progress-dialog.html',
-  styleUrls: ['./upload-progress-dialog.scss']
+    selector: 'app-upload-progress-dialog',
+    templateUrl: './upload-progress-dialog.html',
+    styleUrls: ['./upload-progress-dialog.scss'],
+    
 })
 export class UploadProgressDialogComponent {
   public progress$: Observable<number>;

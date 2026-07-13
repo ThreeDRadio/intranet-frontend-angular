@@ -9,8 +9,9 @@ import { ReleaseActions } from "app/store";
 import moment from "moment-timezone";
 
 @Component({
-  selector: "app-new-releases",
-  templateUrl: "./new-releases.component.html",
+    selector: "app-new-releases",
+    templateUrl: "./new-releases.component.html",
+    
 })
 export class NewReleasesPageComponent implements OnInit {
   loading$: Observable<boolean>;

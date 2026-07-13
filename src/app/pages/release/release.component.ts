@@ -13,9 +13,10 @@ import { CommentSelectors } from 'app/store/selectors/comment.selectors';
 import { PlayerActions } from 'app/store/actions/player.actions';
 
 @Component({
-  selector: 'app-release',
-  templateUrl: './release.component.html',
-  styleUrls: ['./release.component.scss']
+    selector: 'app-release',
+    templateUrl: './release.component.html',
+    styleUrls: ['./release.component.scss'],
+    
 })
 export class ReleasePageComponent {
   release$: Observable<any>;

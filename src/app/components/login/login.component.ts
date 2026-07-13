@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-nf-login-form',
-  templateUrl: 'login.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['login.component.scss']
+    selector: 'app-nf-login-form',
+    templateUrl: 'login.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrls: ['login.component.scss'],
+    
 })
 export class LoginFormComponent {
   protected _disabled = false;

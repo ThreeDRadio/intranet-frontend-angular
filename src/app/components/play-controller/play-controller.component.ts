@@ -8,9 +8,10 @@ import { PlayerActions } from 'app/store/actions/player.actions';
 import { take } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-play-controller',
-  templateUrl: './play-controller.component.html',
-  styleUrls: ['./play-controller.component.scss']
+    selector: 'app-play-controller',
+    templateUrl: './play-controller.component.html',
+    styleUrls: ['./play-controller.component.scss'],
+    
 })
 export class PlayControllerComponent {
   status$: Observable<PlayerStatus>;

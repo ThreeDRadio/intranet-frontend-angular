@@ -9,9 +9,10 @@ import { CommentSelectors } from 'app/store/selectors/comment.selectors';
 import { Comment } from 'app/models/comment';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    
 })
 export class HomePageComponent implements OnInit {
   loading$: Observable<boolean>;

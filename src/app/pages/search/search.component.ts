@@ -9,9 +9,10 @@ import { Sort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-catalogue-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+    selector: 'app-catalogue-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    
 })
 export class SearchComponent implements OnInit {
   form = new UntypedFormGroup({

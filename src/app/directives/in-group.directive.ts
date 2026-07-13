@@ -3,7 +3,10 @@ import { Store } from '@ngrx/store';
 import { getLoggedInUser } from 'app/store/selectors';
 import { Subscription } from 'rxjs';
 
-@Directive({ selector: '[appInGroup]' })
+@Directive({
+    selector: '[appInGroup]',
+    
+})
 export class InGroupDirective {
   private targetGroup: string;
   private sub: Subscription;
