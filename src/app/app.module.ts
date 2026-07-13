@@ -1,4 +1,4 @@
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { NgModule, ErrorHandler, Directive } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
@@ -39,25 +39,20 @@ export const errorHandler = environment.production
   ? NFErrorHandler
   : ErrorHandler;
 
-@NgModule({
-    declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
-    imports: [
-        BrowserModule,
+@NgModule({ declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
+    bootstrap: [AppComponent], imports: [BrowserModule,
         BrowserAnimationsModule,
         DirectivesModule,
         FormsModule,
         ReactiveFormsModule,
-        HttpClientModule,
         StoreModule.forRoot(Store.REDUCER),
         EffectsModule.forRoot(Store.EFFECTS),
         AppRoutingModule,
-        StoreDevtoolsModule.instrument({connectInZone: true}),
+        StoreDevtoolsModule.instrument({ connectInZone: true }),
         MaterialModule,
         StoreRouterConnectingModule.forRoot({
             serializer: FullRouterStateSerializer,
-        }),
-    ],
-    providers: [
+        })], providers: [
         ...GUARDS,
         AppRestartService,
         BaseApi,
@@ -72,7 +67,6 @@ export const errorHandler = environment.production
             useValue: Sentry.createErrorHandler({ showDialog: true }),
         },
         { provide: ErrorHandler, useClass: errorHandler },
-    ],
-    bootstrap: [AppComponent]
-})
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {}
