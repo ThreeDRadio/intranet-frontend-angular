@@ -15,11 +15,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Step 2: Provision Node.js 18 environment
-      - name: Setup Node.js 18
+      # Step 2: Provision Node.js 22 environment
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "22"
           cache: "npm" # Speeds up subsequent workflow runs
 
       # Step 3: Install precise dependencies
