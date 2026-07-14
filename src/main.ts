@@ -2,6 +2,7 @@ import {
   enableProdMode,
   ErrorHandler,
   importProvidersFrom,
+  provideZoneChangeDetection
 } from "@angular/core";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 
@@ -62,7 +63,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(
+    provideZoneChangeDetection(),importProvidersFrom(
       BrowserModule,
       DirectivesModule,
       FormsModule,
