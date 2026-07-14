@@ -6,32 +6,33 @@
       matInput
       type="text"
       placeholder="Search Terms"
-    />
+      />
   </mat-form-field>
   <button mat-raised-button (click)="search()">Search</button>
 </form>
 
-<mat-progress-bar
-  mode="indeterminate"
-  *ngIf="loading$ | async"
-></mat-progress-bar>
+@if (loading$ | async) {
+  <mat-progress-bar
+    mode="indeterminate"
+  ></mat-progress-bar>
+}
 
-<div *ngIf="(results$ | async) && (count$ | async) > 0">
-  <h3>{{ count$ | async }} Results</h3>
-
-  <app-release-list
-    [releases]="results$ | async"
-    (sortChange)="sort($event)"
-    (releaseListOpen)="open($event)"
-  >
-  </app-release-list>
-
-  <mat-paginator
-    [pageSizeOptions]="pageSizes"
-    [pageIndex]="offset / pageSize"
-    [pageSize]="pageSize"
-    (page)="paginationChange($event)"
-    [length]="count$ | async"
-    [pageSize]="10"
-  ></mat-paginator>
-</div>
+@if ((results$ | async) && (count$ | async) > 0) {
+  <div>
+    <h3>{{ count$ | async }} Results</h3>
+    <app-release-list
+      [releases]="results$ | async"
+      (sortChange)="sort($event)"
+      (releaseListOpen)="open($event)"
+      >
+    </app-release-list>
+    <mat-paginator
+      [pageSizeOptions]="pageSizes"
+      [pageIndex]="offset / pageSize"
+      [pageSize]="pageSize"
+      (page)="paginationChange($event)"
+      [length]="count$ | async"
+      [pageSize]="10"
+    ></mat-paginator>
+  </div>
+}

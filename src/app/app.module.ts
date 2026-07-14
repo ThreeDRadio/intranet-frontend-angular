@@ -39,34 +39,4 @@ export const errorHandler = environment.production
   ? NFErrorHandler
   : ErrorHandler;
 
-@NgModule({ declarations: [AppComponent, ...COMPONENTS, ...PAGES, ...PIPES],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        BrowserAnimationsModule,
-        DirectivesModule,
-        FormsModule,
-        ReactiveFormsModule,
-        StoreModule.forRoot(Store.REDUCER),
-        EffectsModule.forRoot(Store.EFFECTS),
-        AppRoutingModule,
-        StoreDevtoolsModule.instrument({ connectInZone: true }),
-        MaterialModule,
-        StoreRouterConnectingModule.forRoot({
-            serializer: FullRouterStateSerializer,
-        })], providers: [
-        ...GUARDS,
-        AppRestartService,
-        BaseApi,
-        ...API,
-        Id3Service,
-        {
-            provide: API_URL,
-            useValue: environment.api,
-        },
-        {
-            provide: ERROR_LOGGING_SERVICE,
-            useValue: Sentry.createErrorHandler({ showDialog: true }),
-        },
-        { provide: ErrorHandler, useClass: errorHandler },
-        provideHttpClient(withInterceptorsFromDi()),
-    ] })
-export class AppModule {}
+

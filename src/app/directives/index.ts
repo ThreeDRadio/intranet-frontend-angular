@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 const DIRECTIVES = [InGroupDirective];
 
 @NgModule({
-  declarations: DIRECTIVES,
-  exports: DIRECTIVES
+    imports: [...DIRECTIVES],
+    exports: DIRECTIVES
 })
 export class DirectivesModule {}

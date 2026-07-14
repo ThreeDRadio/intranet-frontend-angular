@@ -1,11 +1,17 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatFormField, MatError } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+
+import { MatButton } from '@angular/material/button';
 
 @Component({
-  selector: 'app-nf-login-form',
-  templateUrl: 'login.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['login.component.scss']
+    selector: 'app-nf-login-form',
+    templateUrl: 'login.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrls: ['login.component.scss'],
+    imports: [MatProgressBar, FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatError, MatButton]
 })
 export class LoginFormComponent {
   protected _disabled = false;

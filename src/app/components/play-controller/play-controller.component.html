@@ -1,22 +1,30 @@
-<div class="container" *ngIf="visible">
-  <div>
-    <button *ngIf="(status$ | async) === LOADING" [disabled]="true" mat-mini-fab>
-      <mat-icon>pause</mat-icon>
-    </button>
-    <button (click)="pause()" *ngIf="(status$ | async) === PLAYING" mat-mini-fab>
-      <mat-icon>pause</mat-icon>
-    </button>
-    <button (click)="resume()" *ngIf="(status$ | async) === PAUSED" mat-mini-fab>
-      <mat-icon>play_arrow</mat-icon>
-    </button>
+@if (visible) {
+  <div class="container">
+    <div>
+      @if ((status$ | async) === LOADING) {
+        <button [disabled]="true" mat-mini-fab>
+          <mat-icon>pause</mat-icon>
+        </button>
+      }
+      @if ((status$ | async) === PLAYING) {
+        <button (click)="pause()" mat-mini-fab>
+          <mat-icon>pause</mat-icon>
+        </button>
+      }
+      @if ((status$ | async) === PAUSED) {
+        <button (click)="resume()" mat-mini-fab>
+          <mat-icon>play_arrow</mat-icon>
+        </button>
+      }
+    </div>
+    <div class="track-info">
+      <div class="artist">{{ (track$ | async)?.trackartist }}</div>
+      <div class="track">{{ (track$ | async)?.tracktitle }}</div>
+    </div>
+    <mat-slider
+      [disabled]="!visible"
+      [min]="0"
+      [max]="(track$ | async)?.tracklength"
+    #ngSlider><input matSliderThumb [value]="position$ | async" (input)="seek({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" /></mat-slider>
   </div>
-  <div class="track-info">
-    <div class="artist">{{ (track$ | async)?.trackartist }}</div>
-    <div class="track">{{ (track$ | async)?.tracktitle }}</div>
-  </div>
-  <mat-slider
-    [disabled]="!visible"
-    [min]="0"
-    [max]="(track$ | async)?.tracklength"
-   #ngSlider><input matSliderThumb [value]="position$ | async" (input)="seek({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})" #ngSliderThumb="matSliderThumb" /></mat-slider>
-</div>
+}

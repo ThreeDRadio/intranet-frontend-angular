@@ -1,16 +1,19 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-import { PageEvent } from "@angular/material/paginator";
+import { PageEvent, MatPaginator } from "@angular/material/paginator";
 import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
 import { ReleaseSelectors } from "app/store/selectors/release.selectors";
 import { ReleaseActions } from "app/store";
 
 import moment from "moment-timezone";
+import { AsyncPipe } from "@angular/common";
+import { ReleaseListComponent } from "../../components/release-list/release-list.component";
 
 @Component({
-  selector: "app-new-releases",
-  templateUrl: "./new-releases.component.html",
+    selector: "app-new-releases",
+    templateUrl: "./new-releases.component.html",
+    imports: [ReleaseListComponent, MatPaginator, AsyncPipe]
 })
 export class NewReleasesPageComponent implements OnInit {
   loading$: Observable<boolean>;

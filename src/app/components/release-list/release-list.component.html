@@ -22,16 +22,24 @@
     <th mat-header-cell *matHeaderCellDef>Info</th>
     <td mat-cell *matCellDef="let element">
       <mat-chip-listbox>
-        <mat-chip-option *ngIf="element.local === 2"><mat-icon>home</mat-icon>Local</mat-chip-option>
-        <mat-chip-option *ngIf="element.cpa"><mat-icon>place</mat-icon>{{ element.cpa }}</mat-chip-option>
-        <mat-chip-option *ngIf="element.female === 2">♀ Female</mat-chip-option>
-        <mat-chip-option *ngIf="element.genre"
-          ><mat-icon>music_note</mat-icon>{{ element.genre }}</mat-chip-option
-        >
-      </mat-chip-listbox>
-    </td>
-  </ng-container>
+        @if (element.local === 2) {
+          <mat-chip-option><mat-icon>home</mat-icon>Local</mat-chip-option>
+        }
+        @if (element.cpa) {
+          <mat-chip-option><mat-icon>place</mat-icon>{{ element.cpa }}</mat-chip-option>
+        }
+        @if (element.female === 2) {
+          <mat-chip-option>♀ Female</mat-chip-option>
+        }
+        @if (element.genre) {
+          <mat-chip-option
+            ><mat-icon>music_note</mat-icon>{{ element.genre }}</mat-chip-option
+            >
+          }
+        </mat-chip-listbox>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row sticky *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="releaseListOpen.emit(row)"></tr>
-</table>
+    <tr mat-header-row sticky *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="releaseListOpen.emit(row)"></tr>
+  </table>
