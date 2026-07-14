@@ -11,11 +11,19 @@ import { CommentActions } from 'app/store/actions/comment.actions';
 import { Comment } from 'app/models/comment';
 import { CommentSelectors } from 'app/store/selectors/comment.selectors';
 import { PlayerActions } from 'app/store/actions/player.actions';
+import { AsyncPipe } from '@angular/common';
+import { MatChipSet, MatChip, MatChipAvatar } from '@angular/material/chips';
+import { MatIcon } from '@angular/material/icon';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { MatButton } from '@angular/material/button';
+import { CommentListComponent } from '../../components/comment-list/comment-list.component';
+import { DurationPipe } from '../../pipes/duration.pipe';
 
 @Component({
-  selector: 'app-release',
-  templateUrl: './release.component.html',
-  styleUrls: ['./release.component.scss']
+    selector: 'app-release',
+    templateUrl: './release.component.html',
+    styleUrls: ['./release.component.scss'],
+    imports: [MatChipSet, MatChip, MatIcon, MatChipAvatar, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatButton, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, CommentListComponent, AsyncPipe, DurationPipe]
 })
 export class ReleasePageComponent {
   release$: Observable<any>;

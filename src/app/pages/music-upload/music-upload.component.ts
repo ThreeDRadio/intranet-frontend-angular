@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import {
-  UntypedFormArray,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
 import moment from "moment-timezone";
@@ -18,12 +13,20 @@ import {
 } from "../../store/actions/music-upload.actions";
 import * as selectors from "../../store/selectors";
 import { FileSelection } from "app/models/file_selection";
+import { MatStepper, MatStep, MatStepperNext, MatStepperPrevious } from "@angular/material/stepper";
+import { MatButton } from "@angular/material/button";
+import { MatFormField } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { MatSelect } from "@angular/material/select";
+import { MatOption } from "@angular/material/autocomplete";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
-  selector: "app-music-upload",
-  templateUrl: "./music-upload.component.html",
-  styleUrls: ["./music-upload.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "app-music-upload",
+    templateUrl: "./music-upload.component.html",
+    styleUrls: ["./music-upload.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MatStepper, MatStep, MatButton, MatStepperNext, FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatSelect, MatOption, MatStepperPrevious, AsyncPipe]
 })
 export class MusicUploadComponent implements OnInit {
   selectedData$: Observable<any>;

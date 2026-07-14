@@ -2,7 +2,9 @@
 <mat-dialog-content>
   <mat-progress-bar mode="buffer" [value]="progress$ | async"></mat-progress-bar>
   <div class="log">
-    <p *ngFor="let log of (log$ | async)">{{ log }}</p>
+    @for (log of (log$ | async); track log) {
+      <p>{{ log }}</p>
+    }
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
@@ -12,7 +14,7 @@
     cdkFocusInitial
     [disabled]="loading$ | async"
     [routerLink]="['/']"
-  >
+    >
     Home
   </button>
 </mat-dialog-actions>

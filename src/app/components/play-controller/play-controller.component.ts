@@ -6,11 +6,16 @@ import { Track } from 'app/models';
 import { PlayerSelectors } from 'app/store/selectors/player.selectors';
 import { PlayerActions } from 'app/store/actions/player.actions';
 import { take } from 'rxjs/operators';
+import { AsyncPipe } from '@angular/common';
+import { MatMiniFabButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 
 @Component({
-  selector: 'app-play-controller',
-  templateUrl: './play-controller.component.html',
-  styleUrls: ['./play-controller.component.scss']
+    selector: 'app-play-controller',
+    templateUrl: './play-controller.component.html',
+    styleUrls: ['./play-controller.component.scss'],
+    imports: [MatMiniFabButton, MatIcon, MatSlider, MatSliderThumb, AsyncPipe]
 })
 export class PlayControllerComponent {
   status$: Observable<PlayerStatus>;

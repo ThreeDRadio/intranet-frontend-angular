@@ -9,13 +9,13 @@
       name="files"
       accept="audio/mp3"
       (change)="handleSelection($event)"
-    />
+      />
     <div class="buttons">
       <button
         mat-button
         matStepperNext
         [disabled]="(selectedData$ | async).length === 0"
-      >
+        >
         Next
       </button>
     </div>
@@ -37,7 +37,7 @@
             type="number"
             matInput
             placeholder="Year of Release"
-          />
+            />
         </mat-form-field>
         <mat-form-field>
           <input formControlName="cpa" matInput placeholder="Country" />
@@ -47,7 +47,7 @@
             formControlName="company"
             matInput
             placeholder="Record Label"
-          />
+            />
         </mat-form-field>
         <mat-form-field>
           <input formControlName="genre" matInput placeholder="Genre" />
@@ -83,54 +83,55 @@
   </mat-step>
 
   <mat-step label="Track Listing" [stepControl]="trackDetails">
-    <div
-      *ngIf="(selectedData$ | async)?.length > 0 && (loading$ | async) !== true"
-    >
-      <h2>Track Listing</h2>
-      <form [formGroup]="trackDetails">
-        <div formArrayName="tracks">
-          <div
-            class="form-row"
-            *ngFor="
-              let track of trackDetails.controls['tracks'].controls;
-              index as i
-            "
-            [formGroupName]="i"
-          >
-            <mat-form-field class="filename">
-              <input
-                formControlName="filename"
-                readonly
-                matInput
-                placeholder="Filename"
-              />
-            </mat-form-field>
-            <mat-form-field class="tracknum">
-              <input
-                formControlName="tracknum"
-                type="number"
-                matInput
-                placeholder="Number"
-              />
-            </mat-form-field>
-            <mat-form-field>
-              <input
-                formControlName="trackartist"
-                matInput
-                placeholder="Track Artist"
-              />
-            </mat-form-field>
-            <mat-form-field>
-              <input
-                formControlName="tracktitle"
-                matInput
-                placeholder="Title"
-              />
-            </mat-form-field>
+    @if ((selectedData$ | async)?.length > 0 && (loading$ | async) !== true) {
+      <div
+        >
+        <h2>Track Listing</h2>
+        <form [formGroup]="trackDetails">
+          <div formArrayName="tracks">
+            @for (
+              track of trackDetails.controls['tracks'].controls; track
+              track; let i = $index) {
+              <div
+                class="form-row"
+                [formGroupName]="i"
+                >
+                <mat-form-field class="filename">
+                  <input
+                    formControlName="filename"
+                    readonly
+                    matInput
+                    placeholder="Filename"
+                    />
+                </mat-form-field>
+                <mat-form-field class="tracknum">
+                  <input
+                    formControlName="tracknum"
+                    type="number"
+                    matInput
+                    placeholder="Number"
+                    />
+                </mat-form-field>
+                <mat-form-field>
+                  <input
+                    formControlName="trackartist"
+                    matInput
+                    placeholder="Track Artist"
+                    />
+                </mat-form-field>
+                <mat-form-field>
+                  <input
+                    formControlName="tracktitle"
+                    matInput
+                    placeholder="Title"
+                    />
+                </mat-form-field>
+              </div>
+            }
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    }
     <div class="buttons">
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button matStepperNext>Next</button>
@@ -141,18 +142,20 @@
       Creating a release called
       <em>{{ albumDetails.value.title }}</em> by
       <em>{{ albumDetails.value.artist }}</em
-      >, with the following track listing:
-    </p>
-    <ol>
-      <li *ngFor="let track of trackDetails.value.tracks">
-        {{ track.tracktitle }}
-      </li>
-    </ol>
-    <div class="buttons">
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext (click)="submitRelease()">
-        Begin Upload
-      </button>
-    </div>
-  </mat-step>
-</mat-horizontal-stepper>
+        >, with the following track listing:
+      </p>
+      <ol>
+        @for (track of trackDetails.value.tracks; track track) {
+          <li>
+            {{ track.tracktitle }}
+          </li>
+        }
+      </ol>
+      <div class="buttons">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext (click)="submitRelease()">
+          Begin Upload
+        </button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>

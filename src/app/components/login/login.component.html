@@ -1,7 +1,7 @@
 <mat-progress-bar
   [style.visibility]="loading ? 'visible' : 'hidden'"
   mode="indeterminate"
->
+  >
 </mat-progress-bar>
 <form [formGroup]="form" (submit)="submit(form.value)">
   <mat-form-field class="full-width">
@@ -11,12 +11,14 @@
       class="full-width"
       formControlName="username"
       placeholder="Username"
-    />
+      />
 
-    <mat-error *ngIf="username.hasError('required')">
-      Username is
-      <strong>required</strong>
-    </mat-error>
+    @if (username.hasError('required')) {
+      <mat-error>
+        Username is
+        <strong>required</strong>
+      </mat-error>
+    }
   </mat-form-field>
 
   <mat-form-field class="full-width">
@@ -26,26 +28,34 @@
       formControlName="password"
       type="password"
       placeholder="Password"
-    />
+      />
 
-    <mat-error *ngIf="password.hasError('required')">
-      Password is
-      <strong>required</strong>
-    </mat-error>
+    @if (password.hasError('required')) {
+      <mat-error>
+        Password is
+        <strong>required</strong>
+      </mat-error>
+    }
 
-    <mat-error *ngIf="password.hasError('maxlength')">
-      Password is too
-      <strong>long</strong>
-    </mat-error>
+    @if (password.hasError('maxlength')) {
+      <mat-error>
+        Password is too
+        <strong>long</strong>
+      </mat-error>
+    }
 
-    <mat-error *ngIf="password.hasError('minlength')">
-      Password is too
-      <strong>short</strong>
-    </mat-error>
+    @if (password.hasError('minlength')) {
+      <mat-error>
+        Password is too
+        <strong>short</strong>
+      </mat-error>
+    }
   </mat-form-field>
 
   <button mat-raised-button [disabled]="disabled" type="submit">Login</button>
-  <mat-error *ngIf="error">
-    Could not log in with the username or password provided.
-  </mat-error>
+  @if (error) {
+    <mat-error>
+      Could not log in with the username or password provided.
+    </mat-error>
+  }
 </form>
