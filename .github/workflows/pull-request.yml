@@ -33,7 +33,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-check
           level: error
-          eslint_flags: "src/"
+          eslint_flags: "."
 
       - name: Run Prettier with reviewdog
         uses: EPMatt/reviewdog-action-prettier@v1
