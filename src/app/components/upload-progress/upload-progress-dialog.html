@@ -1,20 +1,20 @@
 <h1 mat-dialog-title>Upload Progress</h1>
 <mat-dialog-content>
-  <mat-progress-bar mode="buffer" [value]="progress$ | async"></mat-progress-bar>
+  <mat-progress-bar mode="buffer" [value]="progress$ | async" />
   <div class="log">
     @for (log of (log$ | async); track log) {
-      <p>{{ log }}</p>
+    <p>{{ log }}</p>
     }
   </div>
 </mat-dialog-content>
-<mat-dialog-actions>
+<mat-dialog-actions align="end">
   <button
     mat-button
     mat-dialog-close
     cdkFocusInitial
     [disabled]="loading$ | async"
     [routerLink]="['/']"
-    >
+  >
     Home
   </button>
 </mat-dialog-actions>

@@ -1,15 +1,17 @@
-import { Action } from '@ngrx/store';
-import { FileSelection } from 'app/models';
+import { Action } from "@ngrx/store";
+import { FileSelection } from "app/models";
 
-export const REQUEST_SUBMIT_RELEASE = '[MusicUpload][Request] submit release';
-export const RESPONSE_SUCCESS_SUBMIT_RELEASE = '[MusicUpload][Response][Success] submit release';
-export const RESPONSE_ERROR_SUBMIT_RELEASE = '[MusicUpload][Response][ERROR] submit release';
-export const FILES_SELECTED = '[MusicUpload] files selected';
-export const UPDATE_METADATA = '[MusicUpload] update metadata';
-export const METADATA_PARSE_ERROR = '[MusicUpload] metadata parse error';
-export const REPORT_UPLOAD_LOG = '[MusicUpload][Progress] log';
-export const REPORT_UPLOAD_PROGRESS = '[MusicUpload][Progress] progress';
-export const RESET_UPLOAD = '[MusicUpload] reset';
+export const REQUEST_SUBMIT_RELEASE = "[MusicUpload][Request] submit release";
+export const RESPONSE_SUCCESS_SUBMIT_RELEASE =
+  "[MusicUpload][Response][Success] submit release";
+export const RESPONSE_ERROR_SUBMIT_RELEASE =
+  "[MusicUpload][Response][ERROR] submit release";
+export const FILES_SELECTED = "[MusicUpload] files selected";
+export const UPDATE_METADATA = "[MusicUpload] update metadata";
+export const METADATA_PARSE_ERROR = "[MusicUpload] metadata parse error";
+export const REPORT_UPLOAD_LOG = "[MusicUpload][Progress] log";
+export const REPORT_UPLOAD_PROGRESS = "[MusicUpload][Progress] progress";
+export const RESET_UPLOAD = "[MusicUpload] reset";
 
 export class UploadProgressLog implements Action {
   readonly type = REPORT_UPLOAD_LOG;
@@ -60,7 +62,7 @@ export class RequestSubmitRelease implements Action {
         tracklength: number;
         file: File;
       }>;
-    }
+    },
   ) {}
 }
 export class ResponseSuccessSubmitRelease implements Action {
@@ -74,6 +76,7 @@ export class ResponseErrorSubmitRelease implements Action {
 
 export type MusicUploadAction =
   | ResponseSuccessSubmitRelease
+  | ResponseErrorSubmitRelease
   | RequestSubmitRelease
   | UpdateMetadataAction
   | FilesSelectedAction

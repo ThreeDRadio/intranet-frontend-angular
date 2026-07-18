@@ -1,5 +1,5 @@
-import { FileSelection } from 'app/models/file_selection';
-import * as actions from '../actions/music-upload.actions';
+import { FileSelection } from "app/models/file_selection";
+import * as actions from "../actions/music-upload.actions";
 
 export interface State {
   selectedFiles: Array<FileSelection>;
@@ -12,26 +12,30 @@ export interface State {
 const INITIAL_STATE: State = {
   selectedFiles: [],
   metadata: {},
-  loading: false
+  loading: false,
 };
 
-export function reducer(state: State = INITIAL_STATE, action: actions.MusicUploadAction) {
+export function reducer(
+  state: State = INITIAL_STATE,
+  action: actions.MusicUploadAction,
+) {
   switch (action.type) {
     case actions.FILES_SELECTED:
       return {
         ...state,
         selectedFiles: action.payload,
-        loading: true
+        loading: true,
       };
     case actions.REQUEST_SUBMIT_RELEASE:
       return { ...state, loading: true, progress: 0, log: [] };
-
     case actions.REPORT_UPLOAD_LOG:
       return { ...state, log: [...state.log, action.payload] };
     case actions.REPORT_UPLOAD_PROGRESS:
       return { ...state, progress: action.payload };
     case actions.RESPONSE_SUCCESS_SUBMIT_RELEASE:
       return { ...state, progress: 100, loading: false };
+    case actions.RESPONSE_ERROR_SUBMIT_RELEASE:
+      return { ...state, progress: 0, loading: false };
     case actions.UPDATE_METADATA:
       return { ...state, metadata: action.payload, loading: false };
     case actions.RESET_UPLOAD:
