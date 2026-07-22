@@ -6,9 +6,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss,css,json,md}\""
   },
   "private": true,
@@ -42,8 +42,8 @@
     "moment-timezone": "^0.6.2",
     "music-metadata": "^11.14.0",
     "reselect": "^4.0.0",
-    "rxjs": "^6.6.7",
-    "rxjs-compat": "^6.3.3",
+    "rxjs": "^7.5.0",
+    "rxjs-compat": "^6.6.7",
     "tslib": "^2.0.0",
     "zone.js": "~0.15.1"
   },
@@ -63,9 +63,11 @@
     "@typescript-eslint/eslint-plugin": "^8.64.0",
     "@typescript-eslint/parser": "^8.64.0",
     "eslint": "^9.39.5",
+    "jsdom": "^29.1.1",
     "prettier": "^3.9.5",
     "ts-node": "~10.9.2",
     "typescript": "5.9.3",
+    "vitest": "^4.1.10",
     "webpack-dev-server": "^6.0.0"
   },
   "browser": {
