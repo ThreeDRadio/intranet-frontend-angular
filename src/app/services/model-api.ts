@@ -1,17 +1,17 @@
 import { Observable } from "rxjs";
-
-import { Injectable } from "../../../node_modules/@angular/core";
 import { BaseApi, HttpOptions } from "./base-api.service";
-import { HttpParams } from "@angular/common/http";
 
 export interface ApiModel {
   id: string | number;
 }
 
 export class ModelApi<ResponseType> {
-  constructor(public modelName, public http: BaseApi) {}
+  constructor(
+    public modelName: string,
+    public http: BaseApi,
+  ) {}
   public list(
-    options: HttpOptions = { responseType: "json" }
+    options: HttpOptions = { responseType: "json" },
   ): Observable<any> {
     return <Observable<any>>this.http.get(this.modelName, options);
   }
