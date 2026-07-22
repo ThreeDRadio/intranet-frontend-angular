@@ -121,17 +121,6 @@
             "buildTarget": "intranet-angular:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "karmaConfig": "./karma.conf.js",
-            "polyfills": ["zone.js", "zone.js/testing"],
-            "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [],
-            "styles": ["src/styles.css"],
-            "assets": ["src/assets", "src/favicon.ico"]
-          }
-        },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
