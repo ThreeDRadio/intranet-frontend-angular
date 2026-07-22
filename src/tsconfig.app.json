@@ -6,7 +6,10 @@
     "types": [],
     "paths": {
       "fs": ["./shims/noop"]
-    }
+    },
+    // So we can display the version from package.json
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "files": ["main.ts", "polyfills.ts", "./shims/noop.ts"],
   "include": ["src/**/*.d.ts"]
