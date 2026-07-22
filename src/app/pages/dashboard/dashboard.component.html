@@ -6,7 +6,23 @@
         <mat-icon matListItemIcon>home</mat-icon>
         <span matListItemTitle>Home</span>
       </a>
-
+      <h3 mat-subheader>Logger</h3>
+      <a
+        mat-list-item
+        routerLink="/recent-playlists"
+        *appInGroup="groups.Presenters"
+      >
+        <mat-icon matListItemIcon>list</mat-icon>
+        <span matListItemTitle>Recent Playlists</span>
+      </a>
+      <a
+        mat-list-item
+        routerLink="/new-playlist"
+        *appInGroup="groups.Presenters"
+      >
+        <mat-icon matListItemIcon>note_add</mat-icon>
+        <span matListItemTitle>New Playlist</span>
+      </a>
       <h3 mat-subheader>Catalogue</h3>
       <a mat-list-item routerLink="/new-releases">
         <mat-icon matListItemIcon>new_releases</mat-icon>
@@ -16,6 +32,7 @@
         <mat-icon matListItemIcon>search</mat-icon>
         <span matListItemTitle>Quick Search</span>
       </a>
+
       <h3 mat-subheader>Manage</h3>
       <a mat-list-item routerLink="/upload" *appInGroup="groups.MusicUploaders">
         <mat-icon matListItemIcon>file_upload</mat-icon>
