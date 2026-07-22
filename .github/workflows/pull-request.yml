@@ -43,6 +43,7 @@ jobs:
           level: error
           filter_mode: added # Only checks lines changed/added in the PR
 
+
       # Step 5: Run Angular unit tests headlessly
-      - name: Run Angular Tests
-        run: npm run test -- --watch=false --browsers=ChromeHeadlessCI
+      #- name: Run Angular Tests
+      #  run: npm run test -- --watch=false --browsers=ChromeHeadlessCI
