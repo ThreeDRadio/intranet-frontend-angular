@@ -30,8 +30,8 @@ jobs:
         run: npm ci
 
       # Step 4: Run Angular unit tests headlessly
-      #- name: Run Angular Tests
-      #  run: npm run test -- --watch=false --browsers=ChromeHeadlessCI
+      - name: Run Angular Tests
+        run: npm run test
 
   build:
     needs: run-tests
