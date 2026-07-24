@@ -7,14 +7,35 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="comment">
-    <th mat-header-cell mat-sort-header *matHeaderCellDef>comment</th>
+    <th mat-header-cell mat-sort-header *matHeaderCellDef>Comment</th>
     <td mat-cell *matCellDef="let element">
       <strong>
-        {{ element.release.artist }} - {{ element.release.title }} </strong
-      ><br />
+        {{ element.release.artist }} - {{ element.release.title }}
+      </strong>
+      <br />
       <div class="comment-text">{{ element.comment }}</div>
     </td>
   </ng-container>
+  @if (isModerator) {
+    <ng-container matColumnDef="tools">
+      <th
+        mat-header-cell
+        mat-sort-header
+        *matHeaderCellDef
+        [disabled]="true"
+      ></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          matMiniFab
+          color="primary"
+          aria-label="Remove this comment."
+          (click)="onHideClicked($event, element)"
+        >
+          <mat-icon>visibility_off</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  }
 
   <tr mat-header-row sticky *matHeaderRowDef="commentColumns"></tr>
   <tr
