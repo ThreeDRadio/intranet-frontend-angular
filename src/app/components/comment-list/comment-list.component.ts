@@ -25,6 +25,7 @@ import { Store } from "@ngrx/store";
 import { Groups } from "../../constants";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
+import { CommentActions } from "../../store/actions/comment.actions";
 
 @Component({
   selector: "app-comment-list-table",
@@ -77,10 +78,11 @@ export class CommentListComponent {
   }
 
   onHideClicked(event: Event, element: any) {
-    // CRITICAL: Stops the row click from firing
+    // Don't take us to the release.
     event.stopPropagation();
-
-    console.log("Button clicked specifically!", element);
-    // Insert your specific button actions here (e.g., delete, edit)
+    // Hide the comment
+    this.store.dispatch(
+      new CommentActions.ModeratorRemoveComment({ commentId: element.id }),
+    );
   }
 }

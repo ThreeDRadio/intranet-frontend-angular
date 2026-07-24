@@ -1,13 +1,14 @@
-import { Comment } from 'app/models/comment';
+import { Comment } from "app/models/comment";
 
 export namespace CommentActions {
   export const Types = {
-    requestForRelease: '[Comment][Request] for release',
-    responseForRelease: '[Comment][Response] for release',
-    errorForRelease: '[Comment][Error] for release',
-    requestMostRecent: '[Comment][Request] most recent',
-    responseList: '[Comment][Response] list',
-    errorList: '[Comment][Error] list'
+    requestForRelease: "[Comment][Request] for release",
+    responseForRelease: "[Comment][Response] for release",
+    errorForRelease: "[Comment][Error] for release",
+    requestMostRecent: "[Comment][Request] most recent",
+    responseList: "[Comment][Response] list",
+    errorList: "[Comment][Error] list",
+    moderatorRemoveComment: "[Comment][Moderator] remove",
   };
 
   export class RequestForRelease {
@@ -19,6 +20,12 @@ export namespace CommentActions {
     readonly type = Types.responseForRelease;
     constructor(public payload: { releaseId: string; comments: Array<any> }) {}
   }
+
+  export class ModeratorRemoveComment {
+    readonly type = Types.moderatorRemoveComment;
+    constructor(public payload: { commentId: number }) {}
+  }
+
   export class RequestMostRecent {
     readonly type = Types.requestMostRecent;
   }
@@ -30,7 +37,7 @@ export namespace CommentActions {
         next: string;
         previous: string;
         results: Array<Comment>;
-      }
+      },
     ) {}
   }
   export class ErrorList {
@@ -42,5 +49,9 @@ export namespace CommentActions {
     constructor(public payload: any) {}
   }
 
-  export type Actions = RequestForRelease | ResponseForRelease | ErrorForRelease;
+  export type Actions =
+    | RequestForRelease
+    | ResponseForRelease
+    | ErrorForRelease
+    | ModeratorRemoveComment;
 }
