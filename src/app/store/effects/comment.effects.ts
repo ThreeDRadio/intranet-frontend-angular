@@ -45,6 +45,22 @@ export class CommentEffects {
     ),
   );
 
+  moderatorRemoveComment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CommentActions.Types.requestModeratorRemoveComment),
+      switchMap((action) => {
+        return this.api.hideComment(action.payload.commentId).pipe(
+          map((response) => {
+            return new CommentActions.ResponseModeratorRemoveComment(
+              action.payload.commentId,
+            );
+          }),
+          catchError((err) => of(new CommentActions.ErrorList(err))),
+        );
+      }),
+    ),
+  );
+
   constructor(
     private actions$: Actions<CommentActions.Actions>,
     private api: CommentApi,

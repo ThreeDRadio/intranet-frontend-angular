@@ -82,7 +82,9 @@ export class CommentListComponent {
     event.stopPropagation();
     // Hide the comment
     this.store.dispatch(
-      new CommentActions.ModeratorRemoveComment({ commentId: element.id }),
+      new CommentActions.RequestModeratorRemoveComment({
+        commentId: element.id,
+      }),
     );
   }
 }
