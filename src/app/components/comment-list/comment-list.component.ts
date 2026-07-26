@@ -95,13 +95,6 @@ export class CommentListComponent {
           comments: this.comments,
         }),
       );
-    } else {
-      this.store.dispatch(
-        new CommentActions.RequestModeratorRestoreComment({
-          commentId: element.id,
-          comments: this.comments,
-        }),
-      );
     }
   }
 }

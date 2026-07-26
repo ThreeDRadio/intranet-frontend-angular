@@ -73,37 +73,12 @@ export function reducer(
 
     case actions.Types.requestModeratorRemoveComment: {
       const a = action as actions.RequestModeratorRemoveComment;
+
       return {
         ...state,
+        ids: state.ids.filter((id) => id !== a.payload.commentId),
         entities: a.payload.comments.reduce((accum, current) => {
-          if (current.id === a.payload.commentId) {
-            accum[current.id] = { ...current, visible: false };
-          } else {
-            accum[current.id] = current;
-          }
-          return accum;
-        }, {}),
-        loading: true,
-      };
-    }
-
-    case actions.Types.responseModeratorRemoveComment: {
-      const a = action as actions.ResponseModeratorRemoveComment;
-
-      return {
-        ...state,
-        loading: false,
-      };
-    }
-
-    case actions.Types.requestModeratorRestoreComment: {
-      const a = action as actions.RequestModeratorRestoreComment;
-      return {
-        ...state,
-        entities: a.payload.comments.reduce((accum, current) => {
-          if (current.id === a.payload.commentId) {
-            accum[current.id] = { ...current, visible: true };
-          } else {
+          if (current.id !== a.payload.commentId) {
             accum[current.id] = current;
           }
           return accum;

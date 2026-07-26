@@ -1,4 +1,4 @@
-@if ((loading$ | async) !== true) {
+@if ((loading$ | async) === false) {
   <table mat-table matSort [dataSource]="comments">
     <ng-container matColumnDef="author">
       <th mat-header-cell mat-sort-header *matHeaderCellDef>Author</th>
