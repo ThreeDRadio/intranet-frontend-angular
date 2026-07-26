@@ -52,8 +52,9 @@ export class CommentListComponent {
   private store: Store<any> = inject(Store<any>);
 
   commentColumns = ["author", "comment"];
+
   @Input()
-  comments: Array<Comment> = [];
+  comments: Comment[] = [];
 
   @Input()
   truncate = false;
@@ -80,6 +81,7 @@ export class CommentListComponent {
   onVisibilityClicked(event: Event, element: any) {
     // Don't take us to the release.
     event.stopPropagation();
+
     // Change the comment
     if (element.visible) {
       this.store.dispatch(
@@ -94,5 +96,12 @@ export class CommentListComponent {
         }),
       );
     }
+    // Refresh the comments list display.
+    this.comments = this.comments.map((c) => {
+      if (c.id === element.id) {
+        return { ...c, visible: !c.visible };
+      }
+      return c;
+    });
   }
 }

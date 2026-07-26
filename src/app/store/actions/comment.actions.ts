@@ -54,7 +54,7 @@ export namespace CommentActions {
         count: number;
         next: string;
         previous: string;
-        results: Array<Comment>;
+        results: Comment[];
       },
     ) {}
   }

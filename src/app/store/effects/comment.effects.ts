@@ -13,13 +13,12 @@ export class CommentEffects {
       ofType(CommentActions.Types.requestForRelease),
       switchMap((action: CommentActions.RequestForRelease) => {
         return this.api.getForRelease(action.payload.releaseId).pipe(
-          map(
-            (response) =>
-              new CommentActions.ResponseForRelease({
-                releaseId: action.payload.releaseId,
-                comments: response as any,
-              }),
-          ),
+          map((response) => {
+            return new CommentActions.ResponseForRelease({
+              releaseId: action.payload.releaseId,
+              comments: response as any,
+            });
+          }),
           catchError((err) => of(new CommentActions.ErrorForRelease(err))),
         );
       }),
