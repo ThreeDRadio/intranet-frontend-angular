@@ -52,7 +52,6 @@ export class CommentEffects {
           map((response) => {
             return new CommentActions.ResponseModeratorRemoveComment({
               commentId: action.payload.commentId,
-              comments: action.payload.comments,
             });
           }),
           catchError((err) => of(new CommentActions.ErrorList(err))),

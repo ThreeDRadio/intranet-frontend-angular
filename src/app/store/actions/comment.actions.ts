@@ -24,12 +24,12 @@ export namespace CommentActions {
 
   export class RequestModeratorRemoveComment {
     readonly type = Types.requestModeratorRemoveComment;
-    constructor(public payload: { commentId: number; comments: Array<any> }) {}
+    constructor(public payload: { commentId: number }) {}
   }
 
   export class ResponseModeratorRemoveComment {
     readonly type = Types.responseModeratorRemoveComment;
-    constructor(public payload: { commentId: number; comments: Array<any> }) {}
+    constructor(public payload: { commentId: number }) {}
   }
 
   export class RequestMostRecent {

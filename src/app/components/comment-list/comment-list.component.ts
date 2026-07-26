@@ -91,7 +91,6 @@ export class CommentListComponent {
     this.store.dispatch(
       new CommentActions.RequestModeratorRemoveComment({
         commentId: element.id,
-        comments: this.comments,
       }),
     );
   }
