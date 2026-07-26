@@ -80,11 +80,13 @@ export class CommentListComponent {
   onHideClicked(event: Event, element: any) {
     // Don't take us to the release.
     event.stopPropagation();
-    // Hide the comment
-    this.store.dispatch(
-      new CommentActions.RequestModeratorRemoveComment({
-        commentId: element.id,
-      }),
-    );
+    // Change the comment
+    if (element.visible) {
+      this.store.dispatch(
+        new CommentActions.RequestModeratorRemoveComment({
+          commentId: element.id,
+        }),
+      );
+    }
   }
 }
