@@ -77,7 +77,7 @@ export class CommentListComponent {
     });
   }
 
-  onHideClicked(event: Event, element: any) {
+  onVisibilityClicked(event: Event, element: any) {
     // Don't take us to the release.
     event.stopPropagation();
     // Change the comment

@@ -33,9 +33,13 @@
           matMiniFab
           color="primary"
           aria-label="Remove this comment."
-          (click)="onHideClicked($event, element)"
+          (click)="onVisibilityClicked($event, element)"
         >
-          <mat-icon>visibility_off</mat-icon>
+          @if (element.visible) {
+            <mat-icon>visibility_off</mat-icon>
+          } @else {
+            <mat-icon>visibility_on</mat-icon>
+          }
         </button>
       </td>
     </ng-container>
@@ -45,6 +49,6 @@
   <tr
     mat-row
     *matRowDef="let row; columns: commentColumns"
-    (click)="commentSelected.emit(row)"
+    (click)="row.visible && commentSelected.emit(row)"
   ></tr>
 </table>
