@@ -1,6 +1,8 @@
 import { Comment } from "app/models/comment";
 import { CommentActions as actions } from "../actions/comment.actions";
 
+type ReleaseEntities = { [id: string]: string[] };
+
 export interface CommentState {
   // All the tracks we currently have in the store
   entities: { [id: string]: Comment };
@@ -11,7 +13,7 @@ export interface CommentState {
   loading: boolean;
 
   /// Maps a release ID to a list of track ids
-  releaseEntities: { [id: string]: Array<string> };
+  releaseEntities: ReleaseEntities;
 
   count?: number;
   nextPage?: string;

@@ -88,13 +88,11 @@ export class CommentListComponent {
     event.stopPropagation();
 
     // Change the comment
-    if (element.visible) {
-      this.store.dispatch(
-        new CommentActions.RequestModeratorRemoveComment({
-          commentId: element.id,
-          comments: this.comments,
-        }),
-      );
-    }
+    this.store.dispatch(
+      new CommentActions.RequestModeratorRemoveComment({
+        commentId: element.id,
+        comments: this.comments,
+      }),
+    );
   }
 }

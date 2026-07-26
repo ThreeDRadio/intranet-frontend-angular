@@ -61,23 +61,6 @@ export class CommentEffects {
     ),
   );
 
-  moderatorRestoreComment$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CommentActions.Types.requestModeratorRestoreComment),
-      switchMap((action) => {
-        return this.api.restoreComment(action.payload.commentId).pipe(
-          map((response) => {
-            return new CommentActions.ResponseModeratorRestoreComment({
-              commentId: action.payload.commentId,
-              comments: action.payload.comments,
-            });
-          }),
-          catchError((err) => of(new CommentActions.ErrorList(err))),
-        );
-      }),
-    ),
-  );
-
   constructor(
     private actions$: Actions<CommentActions.Actions>,
     private api: CommentApi,

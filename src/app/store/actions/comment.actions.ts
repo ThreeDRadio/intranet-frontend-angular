@@ -10,8 +10,6 @@ export namespace CommentActions {
     errorList: "[Comment][Error] list",
     requestModeratorRemoveComment: "[Comment][Request] remove comment",
     responseModeratorRemoveComment: "[Comment][Response] remove comment",
-    requestModeratorRestoreComment: "[Comment][Request] restore comment",
-    responseModeratorRestoreComment: "[Comment][Response] restore comment",
   };
 
   export class RequestForRelease {
@@ -31,16 +29,6 @@ export namespace CommentActions {
 
   export class ResponseModeratorRemoveComment {
     readonly type = Types.responseModeratorRemoveComment;
-    constructor(public payload: { commentId: number; comments: Array<any> }) {}
-  }
-
-  export class RequestModeratorRestoreComment {
-    readonly type = Types.requestModeratorRestoreComment;
-    constructor(public payload: { commentId: number; comments: Array<any> }) {}
-  }
-
-  export class ResponseModeratorRestoreComment {
-    readonly type = Types.responseModeratorRestoreComment;
     constructor(public payload: { commentId: number; comments: Array<any> }) {}
   }
 
@@ -72,7 +60,5 @@ export namespace CommentActions {
     | ResponseForRelease
     | ErrorForRelease
     | RequestModeratorRemoveComment
-    | ResponseModeratorRemoveComment
-    | RequestModeratorRestoreComment
-    | ResponseModeratorRestoreComment;
+    | ResponseModeratorRemoveComment;
 }
