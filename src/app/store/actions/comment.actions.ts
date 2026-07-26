@@ -26,22 +26,22 @@ export namespace CommentActions {
 
   export class RequestModeratorRemoveComment {
     readonly type = Types.requestModeratorRemoveComment;
-    constructor(public payload: { commentId: number }) {}
+    constructor(public payload: { commentId: number; comments: Array<any> }) {}
   }
 
   export class ResponseModeratorRemoveComment {
     readonly type = Types.responseModeratorRemoveComment;
-    constructor(public payload: { commentId: number }) {}
+    constructor(public payload: { commentId: number; comments: Array<any> }) {}
   }
 
   export class RequestModeratorRestoreComment {
     readonly type = Types.requestModeratorRestoreComment;
-    constructor(public payload: { commentId: number }) {}
+    constructor(public payload: { commentId: number; comments: Array<any> }) {}
   }
 
   export class ResponseModeratorRestoreComment {
     readonly type = Types.responseModeratorRestoreComment;
-    constructor(public payload: { commentId: number }) {}
+    constructor(public payload: { commentId: number; comments: Array<any> }) {}
   }
 
   export class RequestMostRecent {

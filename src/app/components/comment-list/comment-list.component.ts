@@ -87,21 +87,16 @@ export class CommentListComponent {
       this.store.dispatch(
         new CommentActions.RequestModeratorRemoveComment({
           commentId: element.id,
+          comments: this.comments,
         }),
       );
     } else {
       this.store.dispatch(
         new CommentActions.RequestModeratorRestoreComment({
           commentId: element.id,
+          comments: this.comments,
         }),
       );
     }
-    // Refresh the comments list display.
-    this.comments = this.comments.map((c) => {
-      if (c.id === element.id) {
-        return { ...c, visible: !c.visible };
-      }
-      return c;
-    });
   }
 }

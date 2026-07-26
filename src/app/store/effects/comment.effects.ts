@@ -50,9 +50,10 @@ export class CommentEffects {
       switchMap((action) => {
         return this.api.hideComment(action.payload.commentId).pipe(
           map((response) => {
-            return new CommentActions.ResponseModeratorRemoveComment(
-              action.payload.commentId,
-            );
+            return new CommentActions.ResponseModeratorRemoveComment({
+              commentId: action.payload.commentId,
+              comments: action.payload.comments,
+            });
           }),
           catchError((err) => of(new CommentActions.ErrorList(err))),
         );
@@ -66,9 +67,10 @@ export class CommentEffects {
       switchMap((action) => {
         return this.api.restoreComment(action.payload.commentId).pipe(
           map((response) => {
-            return new CommentActions.ResponseModeratorRestoreComment(
-              action.payload.commentId,
-            );
+            return new CommentActions.ResponseModeratorRestoreComment({
+              commentId: action.payload.commentId,
+              comments: action.payload.comments,
+            });
           }),
           catchError((err) => of(new CommentActions.ErrorList(err))),
         );

@@ -1,5 +1,5 @@
-import { Comment } from 'app/models/comment';
-import { CommentActions as actions } from '../actions/comment.actions';
+import { Comment } from "app/models/comment";
+import { CommentActions as actions } from "../actions/comment.actions";
 
 export interface CommentState {
   // All the tracks we currently have in the store
@@ -24,10 +24,13 @@ export const initialState: CommentState = {
   entities: {},
   ids: [],
   loading: false,
-  releaseEntities: {}
+  releaseEntities: {},
 };
 
-export function reducer(state: CommentState = initialState, action: actions.Actions): CommentState {
+export function reducer(
+  state: CommentState = initialState,
+  action: actions.Actions,
+): CommentState {
   switch (action.type) {
     case actions.Types.requestForRelease:
       return { ...state, loading: true };
@@ -41,11 +44,11 @@ export function reducer(state: CommentState = initialState, action: actions.Acti
           previousPage: a.payload.previous,
           nextPage: a.payload.next,
           count: a.payload.count,
-          ids: a.payload.results.map(item => item.id),
+          ids: a.payload.results.map((item) => item.id),
           entities: a.payload.results.reduce((accum, current) => {
             accum[current.id] = current;
             return accum;
-          }, {})
+          }, {}),
         };
       }
       break;
@@ -53,7 +56,7 @@ export function reducer(state: CommentState = initialState, action: actions.Acti
     case actions.Types.responseForRelease: {
       const a = action as actions.ResponseForRelease;
       const releaseId = a.payload.releaseId;
-      const commentIds = a.payload.comments.map(comment => comment.id);
+      const commentIds = a.payload.comments.map((comment) => comment.id);
       const ids = Array.from(new Set([...state.ids, ...commentIds]));
       const entities = a.payload.comments.reduce((accum, current) => {
         accum[current.id] = current;
@@ -64,9 +67,60 @@ export function reducer(state: CommentState = initialState, action: actions.Acti
         loading: false,
         ids,
         releaseEntities: { ...state.releaseEntities, [releaseId]: commentIds },
-        entities: { ...state.entities, ...entities }
+        entities: { ...state.entities, ...entities },
       };
     }
+
+    case actions.Types.requestModeratorRemoveComment: {
+      const a = action as actions.RequestModeratorRemoveComment;
+      return {
+        ...state,
+        entities: a.payload.comments.reduce((accum, current) => {
+          if (current.id === a.payload.commentId) {
+            accum[current.id] = { ...current, visible: false };
+          } else {
+            accum[current.id] = current;
+          }
+          return accum;
+        }, {}),
+        loading: true,
+      };
+    }
+
+    case actions.Types.responseModeratorRemoveComment: {
+      const a = action as actions.ResponseModeratorRemoveComment;
+
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+
+    case actions.Types.requestModeratorRestoreComment: {
+      const a = action as actions.RequestModeratorRestoreComment;
+      return {
+        ...state,
+        entities: a.payload.comments.reduce((accum, current) => {
+          if (current.id === a.payload.commentId) {
+            accum[current.id] = { ...current, visible: true };
+          } else {
+            accum[current.id] = current;
+          }
+          return accum;
+        }, {}),
+        loading: true,
+      };
+    }
+
+    case actions.Types.responseModeratorRemoveComment: {
+      const a = action as actions.ResponseModeratorRemoveComment;
+
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+
     default:
       return state;
   }
