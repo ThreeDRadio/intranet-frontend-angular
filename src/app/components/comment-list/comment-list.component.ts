@@ -87,6 +87,12 @@ export class CommentListComponent {
           commentId: element.id,
         }),
       );
+    } else {
+      this.store.dispatch(
+        new CommentActions.RequestModeratorRestoreComment({
+          commentId: element.id,
+        }),
+      );
     }
   }
 }

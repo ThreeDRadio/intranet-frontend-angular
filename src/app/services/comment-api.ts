@@ -17,4 +17,8 @@ export class CommentApi extends ModelApi<Comment> {
   hideComment(commentId: number) {
     return this.http.patch(`comments/${commentId}`, { visible: false });
   }
+
+  restoreComment(commentId: number) {
+    return this.http.patch(`comments/${commentId}`, { visible: true });
+  }
 }
