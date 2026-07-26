@@ -26,6 +26,9 @@ import { Groups } from "../../constants";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { CommentActions } from "../../store/actions/comment.actions";
+import { AsyncPipe } from "@angular/common";
+import { Observable } from "rxjs";
+import { isLoading } from "../../store/selectors";
 
 @Component({
   selector: "app-comment-list-table",
@@ -46,11 +49,12 @@ import { CommentActions } from "../../store/actions/comment.actions";
     MatRow,
     MatIcon,
     MatButtonModule,
+    AsyncPipe,
   ],
 })
 export class CommentListComponent {
   private store: Store<any> = inject(Store<any>);
-
+  public loading$: Observable<boolean>;
   commentColumns = ["author", "comment"];
 
   @Input()
@@ -69,6 +73,7 @@ export class CommentListComponent {
   isModerator: boolean = false;
 
   constructor() {
+    this.loading$ = this.store.select(isLoading);
     effect(() => {
       let moderator = this.userGroups().includes(this.groups.CommentModerators);
       this.isModerator = moderator;
