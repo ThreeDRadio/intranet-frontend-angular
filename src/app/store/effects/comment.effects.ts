@@ -13,13 +13,12 @@ export class CommentEffects {
       ofType(CommentActions.Types.requestForRelease),
       switchMap((action: CommentActions.RequestForRelease) => {
         return this.api.getForRelease(action.payload.releaseId).pipe(
-          map(
-            (response) =>
-              new CommentActions.ResponseForRelease({
-                releaseId: action.payload.releaseId,
-                comments: response as any,
-              }),
-          ),
+          map((response) => {
+            return new CommentActions.ResponseForRelease({
+              releaseId: action.payload.releaseId,
+              comments: response as any,
+            });
+          }),
           catchError((err) => of(new CommentActions.ErrorForRelease(err))),
         );
       }),
@@ -39,6 +38,22 @@ export class CommentEffects {
         };
         return this.api.list(options).pipe(
           map((response) => new CommentActions.ResponseList(response)),
+          catchError((err) => of(new CommentActions.ErrorList(err))),
+        );
+      }),
+    ),
+  );
+
+  moderatorRemoveComment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CommentActions.Types.requestModeratorRemoveComment),
+      switchMap((action) => {
+        return this.api.hideComment(action.payload.commentId).pipe(
+          map((response) => {
+            return new CommentActions.ResponseModeratorRemoveComment({
+              commentId: action.payload.commentId,
+            });
+          }),
           catchError((err) => of(new CommentActions.ErrorList(err))),
         );
       }),
