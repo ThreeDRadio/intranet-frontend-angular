@@ -1,4 +1,4 @@
-import { ApiModel } from 'app/services/model-api';
+import { ApiModel } from "app/services/model-api";
 
 export class Comment implements ApiModel {
   id: number;
@@ -9,4 +9,5 @@ export class Comment implements ApiModel {
     last_name: string;
     gravatarUrl: string;
   };
+  visible: boolean;
 }
