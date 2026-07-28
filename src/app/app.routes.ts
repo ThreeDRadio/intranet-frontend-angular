@@ -10,7 +10,7 @@ import { SearchComponent } from "./pages/search/search.component";
 import { ReleasePageComponent } from "./pages/release/release.component";
 import { NewReleasesPageComponent } from "./pages/new-releases/new-releases.component";
 import { NgModule } from "@angular/core";
-import { RecentPlaylistsPageComponent } from "./pages/recent-playlists.component/recent-playlists.component";
+import { RecentPlaylistsPageComponent } from "./pages/recent-playlists/recent-playlists.component";
 
 const ROUTES: Array<Route> = [
   {
