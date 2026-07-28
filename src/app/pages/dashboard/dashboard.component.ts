@@ -1,8 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 import { RequestAuthLogoutAction } from "../../store";
-import { Groups } from "app/constants";
 import { TopNavComponent } from "../../components/topnav/topnav.component";
 import {
   MatSidenavContainer,
@@ -22,6 +21,8 @@ import { InGroupDirective } from "../../directives/in-group.directive";
 import { MatToolbar } from "@angular/material/toolbar";
 import { PlayControllerComponent } from "../../components/play-controller/play-controller.component";
 import packageJson from "../../../../package.json";
+import { getLoggedInUser } from "../../store/selectors";
+import { Groups } from "../../constants";
 
 @Component({
   // dashboard is one word. No kebab case required. GO AWAY
@@ -50,8 +51,17 @@ import packageJson from "../../../../package.json";
 export class DashboardComponent {
   public groups = Groups;
   public appVersion: string = packageJson.version;
+  public isPresenter: boolean = true;
+  private store: Store<any> = inject(Store);
 
-  constructor(private store: Store<any>) {}
+  constructor() {
+    this.store.select(getLoggedInUser).subscribe((user) => {
+      if (user && user.groups) {
+        this.isPresenter = user.groups.indexOf(Groups.Presenters) > -1;
+        console.log(this.isPresenter);
+      }
+    });
+  }
 
   public logout() {
     this.store.dispatch(new RequestAuthLogoutAction());
