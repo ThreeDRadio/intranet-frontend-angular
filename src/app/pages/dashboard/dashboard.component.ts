@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 import { RequestAuthLogoutAction } from "../../store";
@@ -52,8 +52,9 @@ export class DashboardComponent {
   public groups = Groups;
   public appVersion: string = packageJson.version;
   public isPresenter: boolean = true;
+  private store: Store<any> = inject(Store);
 
-  constructor(private store: Store<any>) {
+  constructor() {
     this.store.select(getLoggedInUser).subscribe((user) => {
       if (user && user.groups) {
         this.isPresenter = user.groups.indexOf(Groups.Presenters) > -1;
