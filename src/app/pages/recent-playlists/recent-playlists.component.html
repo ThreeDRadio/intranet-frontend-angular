@@ -1,1 +1,5 @@
-<p>recent-playlists.component works!</p>
+@if (store.isLoading()) {
+  <p>Loading</p>
+} @else {
+  <p>Loaded</p>
+}
