@@ -16,6 +16,6 @@ export class RecentPlaylistsPageComponent {
   page: number = 1;
 
   ngOnInit() {
-    this.store.getPlaylists(this.page);
+    this.store.fetchPlaylists(this.page);
   }
 }

@@ -1,4 +1,4 @@
-import { inject } from "@angular/core";
+import { computed, inject } from "@angular/core";
 import {
   getState,
   patchState,
@@ -11,6 +11,11 @@ import { PlaylistService } from "../services/playlist.service";
 import { Playlist } from "../models/playlist";
 import { Show } from "../models/show";
 import { ShowService } from "../services/show.service";
+
+export class PlaylistsByDate {
+  date: string;
+  playlists: Playlist[];
+}
 
 type LoggerState = {
   isLoading: boolean;
@@ -32,10 +37,31 @@ export const LoggerStore = signalStore(
       playlistService = inject(PlaylistService),
       showService = inject(ShowService),
     ) => ({
-      getShow(id: number) {
+      // Getters
+      getShowById(id: number) {
+        return computed(() => store.shows().find((s) => s.id === id));
+      },
+      getPlaylistsByDate(): PlaylistsByDate[] {
+        return Array.from(new Set(store.playlists().map((p) => p.date))).map(
+          (d) => {
+            const playlistsForThisDate = store
+              .playlists()
+              .filter((p) => p.date === d);
+            console.log(playlistsForThisDate);
+            return {
+              date: d,
+              playlists: playlistsForThisDate,
+            };
+          },
+        );
+      },
+
+      // Fetching from services
+      fetchShow(id: number) {
         let cachedShows = getState(store).shows;
         // Don't bother downloading a show again.
         if (cachedShows.find((show) => show.id === id)) return;
+        patchState(store, { isLoading: true });
         const thisShow$ = showService.getShows([id]);
         thisShow$.subscribe({
           next: (showsResult) => {
@@ -50,7 +76,7 @@ export const LoggerStore = signalStore(
           },
         });
       },
-      getPlaylists(page: number) {
+      fetchPlaylists(page: number) {
         patchState(store, { playlists: [], isLoading: true });
         const thisPage$ = playlistService.getPlaylistPage(page);
         thisPage$.subscribe({

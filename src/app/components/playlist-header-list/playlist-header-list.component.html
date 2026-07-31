@@ -1,7 +1,13 @@
 @if (isLoading) {
   <p>Loading...</p>
 } @else {
-  @for (playlist of playlists; track playlist) {
-    <app-playlist-header [playlist]="playlist"></app-playlist-header>
+  @for (byDate of playlistsByDate; track byDate.date) {
+    <h1>{{ byDate.date }}</h1>
+
+    @for (playlist of byDate.playlists; track playlist.id) {
+      <app-playlist-header [playlist]="playlist"></app-playlist-header>
+    }
+  } @empty {
+    <h4>No recent playlists.</h4>
   }
 }
