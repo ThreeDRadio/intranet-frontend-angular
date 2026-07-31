@@ -8,14 +8,9 @@ import {
   withState,
 } from "@ngrx/signals";
 import { PlaylistService } from "../services/playlist.service";
-import { Playlist } from "../models/playlist";
+import { Playlist, PlaylistsByDate } from "../models/playlist";
 import { Show } from "../models/show";
 import { ShowService } from "../services/show.service";
-
-export class PlaylistsByDate {
-  date: string;
-  playlists: Playlist[];
-}
 
 type LoggerState = {
   isLoading: boolean;
@@ -44,13 +39,9 @@ export const LoggerStore = signalStore(
       getPlaylistsByDate(): PlaylistsByDate[] {
         return Array.from(new Set(store.playlists().map((p) => p.date))).map(
           (d) => {
-            const playlistsForThisDate = store
-              .playlists()
-              .filter((p) => p.date === d);
-            console.log(playlistsForThisDate);
             return {
               date: d,
-              playlists: playlistsForThisDate,
+              playlists: store.playlists().filter((p) => p.date === d),
             };
           },
         );

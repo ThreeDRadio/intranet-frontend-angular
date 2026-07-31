@@ -14,3 +14,8 @@ export class Playlist implements ApiModel {
   localQuota: number;
   australianQuota: number;
 }
+
+export class PlaylistsByDate {
+  date: string;
+  playlists: Playlist[];
+}

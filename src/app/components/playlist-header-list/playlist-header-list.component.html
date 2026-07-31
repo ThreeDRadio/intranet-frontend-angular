@@ -2,7 +2,7 @@
   <p>Loading...</p>
 } @else {
   @for (byDate of playlistsByDate; track byDate.date) {
-    <h1>{{ byDate.date }}</h1>
+    <h1>{{ getFormattedDate(byDate.date) }}</h1>
 
     @for (playlist of byDate.playlists; track playlist.id) {
       <app-playlist-header [playlist]="playlist"></app-playlist-header>

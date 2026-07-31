@@ -1,8 +1,8 @@
 import { Component, input, Input } from "@angular/core";
-import { Playlist } from "../../models/playlist";
+import { PlaylistsByDate } from "../../models/playlist";
 import { PlaylistHeaderComponent } from "../playlist-header/playlist-header.component";
-import { PlaylistsByDate } from "../../store";
 import { MatDivider } from "@angular/material/divider";
+import moment from "moment-timezone";
 
 @Component({
   selector: "app-playlist-header-list",
@@ -15,4 +15,8 @@ export class PlaylistHeaderListComponent {
   isLoading: boolean;
   @Input()
   playlistsByDate: PlaylistsByDate;
+
+  getFormattedDate(raw: string): string {
+    return moment(raw).format("dddd, MMMM Do YYYY");
+  }
 }
