@@ -1,1 +1,33 @@
-<p>playlist-header.component works!</p>
+<mat-card>
+  <mat-card-header>
+    <h1>
+      {{ playlist.showname }}
+      <span class="faded-text-in-h1">
+        {{ this.formattedDate() }}, hosted by {{ playlist.host }}
+      </span>
+    </h1>
+  </mat-card-header>
+  <mat-card-content>
+    <span class="faded-text">
+      {{ playlist.notes }}
+    </span>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions>
+    <a matFab extended color="primary" routerLink=".">
+      <mat-icon>art_track</mat-icon>
+      View
+    </a>
+    <mat-divider [vertical]="false"></mat-divider>
+    <a matFab extended color="secondary" routerLink=".">
+      <mat-icon>edit</mat-icon>
+      Edit
+    </a>
+    <mat-divider [vertical]="false"></mat-divider>
+    <a matFab extended color="accent" routerLink=".">
+      <mat-icon>build</mat-icon>
+      Export
+    </a>
+  </mat-card-actions>
+  <mat-card-footer></mat-card-footer>
+</mat-card>

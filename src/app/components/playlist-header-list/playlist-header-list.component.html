@@ -1,0 +1,7 @@
+@if (isLoading) {
+  <p>Loading...</p>
+} @else {
+  @for (playlist of playlists; track playlist) {
+    <app-playlist-header [playlist]="playlist"></app-playlist-header>
+  }
+}

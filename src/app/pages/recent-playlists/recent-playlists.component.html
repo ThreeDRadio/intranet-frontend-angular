@@ -1,5 +1,5 @@
-@if (store.isLoading()) {
-  <p>Loading</p>
-} @else {
-  <p>Loaded</p>
-}
+<app-playlist-header-list
+  [isLoading]="store.isLoading()"
+  [playlists]="store.playlists()"
+>
+</app-playlist-header-list>
