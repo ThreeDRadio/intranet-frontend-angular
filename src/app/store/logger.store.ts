@@ -18,7 +18,7 @@ type LoggerState = {
   playlists: Playlist[];
 };
 
-const initialState: LoggerState = {
+export const initialState: LoggerState = {
   isLoading: false,
   shows: [],
   playlists: [],
