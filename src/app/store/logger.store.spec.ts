@@ -45,6 +45,25 @@ describe("LoggerStore", () => {
         australianQuota: 20,
       },
     ];
+
+    let fakeShows = [
+      {
+        id: 1,
+        name: "Test Show 1",
+        startTime: "09:00:00",
+        endTime: "11:00:00",
+        defaultHost: "Test Host 1",
+        active: true,
+        playlists: "",
+        topartists: "",
+        statistics: "",
+        customQuotas: false,
+        femaleQuota: 40,
+        localQuota: 20,
+        australianQuota: 20,
+      },
+    ];
+
     const mockPlaylistService = {
       getPlaylistPage: (page: number) => {
         if (page === 1) {
@@ -55,7 +74,13 @@ describe("LoggerStore", () => {
       },
     };
 
-    const mockShowService = {};
+    const mockShowService = {
+      getShows: (ids: number[]) => {
+        if (ids.find((id) => id === 1) >= 0) {
+          return from([fakeShows]);
+        }
+      },
+    };
 
     TestBed.configureTestingModule({
       imports: [],
@@ -111,4 +136,6 @@ describe("LoggerStore", () => {
     expect(firstPlaylistPage2.host).toBe("Test Host 2");
     expect(firstPlaylistPage2.complete).toBeTruthy();
   });
+
+  it("should be updated with a show from the service", () => {});
 });
