@@ -72,6 +72,7 @@ jobs:
             docker pull ghcr.io/threedradio/intranet-frontend-angular:latest
             docker run \
               -p 8005:443 \
+              --restart always \
               --name intranet-frontend-angular \
               -v /srv/docker/intranet-frontend-angular/keys/server.key:/etc/nginx/ssl/ssl.key/server.key:z \
               -v /srv/docker/intranet-frontend-angular/certs/server.crt:/etc/nginx/ssl/ssl.cert/server.crt:z \
