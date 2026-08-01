@@ -6,6 +6,8 @@ import {
   MatCardContent,
   MatCardFooter,
   MatCardHeader,
+  MatCardSubtitle,
+  MatCardTitle,
 } from "@angular/material/card";
 import { MatIcon } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
@@ -18,6 +20,8 @@ import { LoggerStore } from "../../store";
   imports: [
     MatCard,
     MatCardHeader,
+    MatCardTitle,
+    MatCardSubtitle,
     MatCardContent,
     MatCardActions,
     MatCardFooter,

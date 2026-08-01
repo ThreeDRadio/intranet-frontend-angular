@@ -1,11 +1,12 @@
 <mat-card>
   @if (store.getShowById(playlist.show)(); as show) {
     <mat-card-header>
+      <mat-card-title>{{ show.name }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ this.formattedDate() }}, hosted by {{ playlist.host }}
+      </mat-card-subtitle>
       <h1>
-        {{ show.name }}
-        <span class="faded-text-in-h1">
-          {{ this.formattedDate() }}, hosted by {{ playlist.host }}
-        </span>
+        <span class="faded-text-in-h1"> </span>
       </h1>
     </mat-card-header>
     <mat-card-content>

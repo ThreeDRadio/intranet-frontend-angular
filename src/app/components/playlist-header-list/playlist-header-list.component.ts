@@ -1,8 +1,8 @@
-import { Component, input, Input } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { PlaylistsByDate } from "../../models/playlist";
 import { PlaylistHeaderComponent } from "../playlist-header/playlist-header.component";
-import { MatDivider } from "@angular/material/divider";
 import moment from "moment-timezone";
+import { MatDivider } from "@angular/material/divider";
 
 @Component({
   selector: "app-playlist-header-list",
