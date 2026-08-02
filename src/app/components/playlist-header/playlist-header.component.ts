@@ -21,6 +21,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatDividerModule } from "@angular/material/divider";
 import moment from "moment-timezone";
 import { LoggerStore } from "../../store";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-playlist-header",
@@ -35,6 +36,7 @@ import { LoggerStore } from "../../store";
     MatIcon,
     MatButtonModule,
     MatDividerModule,
+    RouterLink,
   ],
   providers: [LoggerStore],
   templateUrl: "./playlist-header.component.html",
