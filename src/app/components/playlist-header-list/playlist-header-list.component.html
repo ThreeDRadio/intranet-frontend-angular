@@ -1,0 +1,15 @@
+@if (isLoading) {
+  <p>Loading...</p>
+} @else {
+  @for (byDate of playlistsByDate; track byDate.date) {
+    <h1>{{ getFormattedDate(byDate.date) }}</h1>
+    <mat-divider />
+    <div class="card-container">
+      @for (playlist of byDate.playlists; track playlist.id) {
+        <app-playlist-header [playlist]="playlist"></app-playlist-header>
+      }
+    </div>
+  } @empty {
+    <h4>No recent playlists.</h4>
+  }
+}

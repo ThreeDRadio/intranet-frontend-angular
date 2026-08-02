@@ -10,6 +10,7 @@ import { SearchComponent } from "./pages/search/search.component";
 import { ReleasePageComponent } from "./pages/release/release.component";
 import { NewReleasesPageComponent } from "./pages/new-releases/new-releases.component";
 import { NgModule } from "@angular/core";
+import { RecentPlaylistsPageComponent } from "./pages/recent-playlists/recent-playlists.component";
 
 const ROUTES: Array<Route> = [
   {
@@ -18,6 +19,7 @@ const ROUTES: Array<Route> = [
     canActivate: [ReadyGuard, AuthenticatedGuard],
     children: [
       { path: "", component: HomePageComponent },
+      { path: "recent-playlists", component: RecentPlaylistsPageComponent },
       { path: "new-releases", component: NewReleasesPageComponent },
       { path: "upload", component: MusicUploadComponent },
       { path: "search", component: SearchComponent },

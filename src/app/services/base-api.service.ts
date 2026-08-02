@@ -1,16 +1,16 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { inject, Inject, Injectable, InjectionToken } from "@angular/core";
+import { Observable, of } from "rxjs";
+import { map } from "rxjs/operators";
 
-export const API_URL = new InjectionToken<string>('Three D API URL');
+export const API_URL = new InjectionToken<string>("Three D API URL");
 
 export interface HttpOptions {
   headers?: HttpHeaders;
-  observe?: 'body';
+  observe?: "body";
   params?: HttpParams | { [param: string]: any | any[] };
   reportProgress?: boolean;
-  responseType: 'json';
+  responseType: "json";
   withCredentials?: boolean;
 }
 
@@ -18,23 +18,29 @@ export interface HttpOptions {
 export class BaseApi {
   static authToken: string;
   static userId: number;
-  constructor(private http: HttpClient, @Inject(API_URL) private baseUrl) {}
 
-  public login(params: { username: string; password: string }): Observable<any> {
+  private http: HttpClient = inject(HttpClient);
+  private baseUrl = inject(API_URL);
+  constructor() {}
+
+  public login(params: {
+    username: string;
+    password: string;
+  }): Observable<any> {
     const form = new FormData();
-    form.append('username', params.username);
-    form.append('password', params.password);
+    form.append("username", params.username);
+    form.append("password", params.password);
     return this.http.post(`${this.baseUrl}/auth`, form).pipe(
       map((response: any) => {
         BaseApi.authToken = response.token;
         BaseApi.userId = response.userId;
         return response;
-      })
+      }),
     );
   }
 
   public getProfile() {
-    return this.get('users/me');
+    return this.get("users/me");
   }
 
   public logout() {
@@ -71,12 +77,20 @@ export class BaseApi {
    * @param urlSegment The URL segment from the API base
    * @param options Any options that should be passed to the request
    */
-  public put(urlSegment: string, body: any, options?: HttpOptions): Observable<Object> {
+  public put(
+    urlSegment: string,
+    body: any,
+    options?: HttpOptions,
+  ): Observable<Object> {
     const finalOptions = this.completeOptions(options);
     return this.http.put(this.buildUrl(urlSegment), body, finalOptions);
   }
 
-  public patch(urlSegment: string, body: any, options?: HttpOptions): Observable<Object> {
+  public patch(
+    urlSegment: string,
+    body: any,
+    options?: HttpOptions,
+  ): Observable<Object> {
     const finalOptions = this.completeOptions(options);
     return this.http.patch(this.buildUrl(urlSegment), body, finalOptions);
   }
@@ -87,7 +101,11 @@ export class BaseApi {
    * @param urlSegment The URL segment from the API base
    * @param options Any options that should be passed to the request
    */
-  public post(urlSegment: string, body: any, options?: HttpOptions): Observable<Object> {
+  public post(
+    urlSegment: string,
+    body: any,
+    options?: HttpOptions,
+  ): Observable<Object> {
     const finalOptions = this.completeOptions(options);
     return this.http.post(this.buildUrl(urlSegment), body, finalOptions);
   }
@@ -110,10 +128,14 @@ export class BaseApi {
    * @param file The file object to upload
    * @param options Any options that should be passed to the request
    */
-  public upload(urlSegment: string, file: File, options?: HttpOptions): Observable<Object> {
+  public upload(
+    urlSegment: string,
+    file: File,
+    options?: HttpOptions,
+  ): Observable<Object> {
     const formData: FormData = new FormData();
     if (file) {
-      formData.append('file', file, file.name);
+      formData.append("file", file, file.name);
     }
     return this.post(urlSegment, formData);
   }
@@ -122,11 +144,13 @@ export class BaseApi {
    * Creates an HttpOptions object for use in requests.
    * @param baseOptions The http options object to start with
    */
-  private completeOptions(baseOptions: HttpOptions = { responseType: 'json' }): HttpOptions {
+  private completeOptions(
+    baseOptions: HttpOptions = { responseType: "json" },
+  ): HttpOptions {
     const token = `Token ${BaseApi.authToken}`;
     let finalHeaders = new HttpHeaders({ Authorization: token });
     if (baseOptions.headers) {
-      finalHeaders = baseOptions.headers.set('Authorization', token);
+      finalHeaders = baseOptions.headers.set("Authorization", token);
     }
     return { ...baseOptions, headers: finalHeaders };
   }

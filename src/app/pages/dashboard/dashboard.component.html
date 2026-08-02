@@ -6,7 +6,7 @@
         <mat-icon matListItemIcon>home</mat-icon>
         <span matListItemTitle>Home</span>
       </a>
-      @if (isPresenter) {
+      @if (hasPlaylists) {
         <h3 mat-subheader>Logger</h3>
         <a mat-list-item routerLink="/recent-playlists">
           <mat-icon matListItemIcon>list</mat-icon>

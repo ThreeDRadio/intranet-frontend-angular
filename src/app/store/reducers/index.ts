@@ -1,9 +1,9 @@
-import * as auth from './auth.reducer';
-import * as comments from './comment.reducer';
-import * as player from './player.reducer';
-import * as releases from './release.reducer';
-import * as tracks from './track.reducer';
-import * as MusicUpload from './music-upload.reducer';
+import * as auth from "./auth.reducer";
+import * as comments from "./comment.reducer";
+import * as player from "./player.reducer";
+import * as releases from "./release.reducer";
+import * as tracks from "./track.reducer";
+import * as MusicUpload from "./music-upload.reducer";
 
 export interface State {
   auth: auth.State;
@@ -20,5 +20,5 @@ export const REDUCER = {
   musicUpload: MusicUpload.reducer,
   player: player.reducer,
   releases: releases.reducer,
-  tracks: tracks.reducer
+  tracks: tracks.reducer,
 };

@@ -51,16 +51,24 @@ import { Groups } from "../../constants";
 export class DashboardComponent {
   public groups = Groups;
   public appVersion: string = packageJson.version;
-  public isPresenter: boolean = true;
+  public hasPlaylists: boolean = true;
   private store: Store<any> = inject(Store);
 
   constructor() {
     this.store.select(getLoggedInUser).subscribe((user) => {
       if (user && user.groups) {
-        this.isPresenter = user.groups.indexOf(Groups.Presenters) > -1;
-        console.log(this.isPresenter);
+        this.hasPlaylists =
+          this.isPresenter(user) || this.isPlaylistEditor(user);
       }
     });
+  }
+
+  private isPresenter(user): boolean {
+    return user?.groups?.indexOf(Groups.Presenters) > -1;
+  }
+
+  private isPlaylistEditor(user): boolean {
+    return user?.groups?.indexOf(Groups.PlaylistEditors) > -1;
   }
 
   public logout() {
