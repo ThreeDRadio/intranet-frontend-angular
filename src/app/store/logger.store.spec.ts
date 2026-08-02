@@ -1,18 +1,24 @@
-import { TestBed, tick } from "@angular/core/testing";
-import { beforeAll, describe, expect, it } from "vitest";
+import { TestBed } from "@angular/core/testing";
+import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { initialState, LoggerStore } from "./logger.store";
+import { unprotected } from "@ngrx/signals/testing";
 import {
   BrowserTestingModule,
   platformBrowserTesting,
 } from "@angular/platform-browser/testing";
 import { PlaylistService } from "../services/playlist.service";
 import { ShowService } from "../services/show.service";
-import { getState } from "@ngrx/signals";
+import { getState, patchState } from "@ngrx/signals";
 import { from } from "rxjs";
 
 describe("LoggerStore", () => {
   beforeAll(() => {
-    TestBed.initTestEnvironment(BrowserTestingModule, platformBrowserTesting());
+    TestBed.initTestEnvironment(
+      BrowserTestingModule,
+      platformBrowserTesting(),
+      { teardown: { destroyAfterEach: true } },
+    );
+
     let fakePlaylistsP1 = [
       {
         id: 1,
@@ -62,6 +68,21 @@ describe("LoggerStore", () => {
         localQuota: 20,
         australianQuota: 20,
       },
+      {
+        id: 2,
+        name: "Test Show 2",
+        startTime: "11:00:00",
+        endTime: "13:00:00",
+        defaultHost: "Test Host 2",
+        active: true,
+        playlists: "",
+        topartists: "",
+        statistics: "",
+        customQuotas: false,
+        femaleQuota: 40,
+        localQuota: 20,
+        australianQuota: 20,
+      },
     ];
 
     const mockPlaylistService = {
@@ -76,9 +97,7 @@ describe("LoggerStore", () => {
 
     const mockShowService = {
       getShows: (ids: number[]) => {
-        if (ids.find((id) => id === 1) >= 0) {
-          return from([fakeShows]);
-        }
+        return from([fakeShows.filter((f) => ids.includes(f.id))]);
       },
     };
 
@@ -90,6 +109,12 @@ describe("LoggerStore", () => {
         { provide: ShowService, useValue: mockShowService },
       ],
     });
+  });
+
+  beforeEach(() => {
+    let store = TestBed.inject(LoggerStore);
+    // Reset state to initial default values before each test
+    patchState(unprotected(store), initialState);
   });
 
   it("should be empty to begin with", () => {
@@ -137,5 +162,54 @@ describe("LoggerStore", () => {
     expect(firstPlaylistPage2.complete).toBeTruthy();
   });
 
-  it("should be updated with a show from the service", () => {});
+  it("should be updated with a show from the service", () => {
+    const store = TestBed.inject(LoggerStore);
+    store.fetchShow(1);
+    TestBed.tick();
+    expect(store.isLoading()).toBeFalsy();
+    const results = store.shows();
+    expect(results).toBeDefined();
+    expect(results.length).toBe(1);
+    const show1 = results[0];
+    expect(show1).toBeDefined();
+    expect(show1.startTime).toBe("09:00:00");
+    expect(show1.endTime).toBe("11:00:00");
+    expect(show1.defaultHost).toBe("Test Host 1");
+  });
+
+  it("should retain the first show when a second show is retrieved", () => {
+    const store = TestBed.inject(LoggerStore);
+    store.fetchShow(1);
+    TestBed.tick();
+    expect(store.isLoading()).toBeFalsy();
+    const results = store.shows();
+    expect(results).toBeDefined();
+    expect(results.length).toBe(1);
+    store.fetchShow(2);
+    TestBed.tick();
+    expect(store.isLoading()).toBeFalsy();
+    const results2 = store.shows();
+    expect(results2).toBeDefined();
+    expect(results2.length).toBe(2);
+    console.log(results2);
+    const show1 = results2[0];
+    const show2 = results2[1];
+    expect(show1).toBeDefined();
+    expect(show1.id).toBe(1);
+    expect(show2).toBeDefined();
+    expect(show2.id).toBe(2);
+  });
+
+  it("should not update a show from the service if it's id has already been fetched", () => {
+    const store = TestBed.inject(LoggerStore);
+    // Idempotent
+    store.fetchShow(1);
+    store.fetchShow(1);
+    store.fetchShow(1);
+    TestBed.tick();
+    expect(store.isLoading()).toBeFalsy();
+    const currentState = getState(store);
+    expect(currentState.shows).toBeDefined();
+    expect(currentState.shows.length).toBe(1);
+  });
 });

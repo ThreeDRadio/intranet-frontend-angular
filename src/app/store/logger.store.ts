@@ -51,7 +51,7 @@ export const LoggerStore = signalStore(
       fetchShow(id: number) {
         let cachedShows = getState(store).shows;
         // Don't bother downloading a show again.
-        if (cachedShows.find((show) => show.id === id)) return;
+        if (cachedShows?.find((show) => show?.id === id)) return;
         patchState(store, { isLoading: true });
         const thisShow$ = showService.getShows([id]);
         thisShow$.subscribe({
