@@ -191,7 +191,6 @@ describe("LoggerStore", () => {
     const results2 = store.shows();
     expect(results2).toBeDefined();
     expect(results2.length).toBe(2);
-    console.log(results2);
     const show1 = results2[0];
     const show2 = results2[1];
     expect(show1).toBeDefined();

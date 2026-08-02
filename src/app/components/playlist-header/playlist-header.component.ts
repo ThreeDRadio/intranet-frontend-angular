@@ -1,4 +1,11 @@
-import { Component, computed, inject, input, Input } from "@angular/core";
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  Input,
+  OnInit,
+} from "@angular/core";
 import { Playlist } from "../../models";
 import {
   MatCard,
@@ -33,7 +40,7 @@ import { LoggerStore } from "../../store";
   templateUrl: "./playlist-header.component.html",
   styleUrl: "./playlist-header.component.scss",
 })
-export class PlaylistHeaderComponent {
+export class PlaylistHeaderComponent implements OnInit {
   store = inject(LoggerStore);
 
   @Input()

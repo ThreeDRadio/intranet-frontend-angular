@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Inject, Injectable, InjectionToken } from "@angular/core";
+import { inject, Inject, Injectable, InjectionToken } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 
@@ -18,10 +18,10 @@ export interface HttpOptions {
 export class BaseApi {
   static authToken: string;
   static userId: number;
-  constructor(
-    private http: HttpClient,
-    @Inject(API_URL) private baseUrl,
-  ) {}
+
+  private http: HttpClient = inject(HttpClient);
+  private baseUrl = inject(API_URL);
+  constructor() {}
 
   public login(params: {
     username: string;
