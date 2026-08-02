@@ -36,6 +36,9 @@ export const LoggerStore = signalStore(
       getShowById(id: number) {
         return computed(() => store.shows().find((s) => s.id === id));
       },
+      getPlaylistById(id: number) {
+        return computed(() => store.playlists().find((p) => p.id === id));
+      },
       getPlaylistsByDate(): PlaylistsByDate[] {
         return Array.from(new Set(store.playlists().map((p) => p.date))).map(
           (d) => {
@@ -67,6 +70,24 @@ export const LoggerStore = signalStore(
           },
         });
       },
+      fetchPlaylist(id: number) {
+        let cachedPlaylists = getState(store).playlists;
+        // Don't bother downloading a playlist again.
+        if (cachedPlaylists?.find((playlist) => playlist?.id === id)) return;
+        patchState(store, { isLoading: true });
+        const thisPlaylist$ = playlistService.getPlaylistById(id);
+        thisPlaylist$.subscribe({
+          next: (playlistResult) => {
+            patchState(store, {
+              playlists: [...cachedPlaylists, playlistResult],
+              isLoading: false,
+            });
+          },
+          error: (err) => {
+            patchState(store, { isLoading: false });
+          },
+        });
+      },
       fetchPlaylists(page: number) {
         patchState(store, { playlists: [], isLoading: true });
         const thisPage$ = playlistService.getPlaylistPage(page);
@@ -78,7 +99,6 @@ export const LoggerStore = signalStore(
             });
           },
           error: (err) => {
-            console.error(err);
             patchState(store, { playlists: [], isLoading: false });
           },
         });

@@ -22,4 +22,16 @@ export class PlaylistService {
       }),
     );
   }
+
+  getPlaylistById(id: number): Observable<Playlist> {
+    const observable = this.playlistApi.getPlaylist({
+      id: id,
+    });
+
+    return observable.pipe(
+      map((response: any) => {
+        return response as Playlist;
+      }),
+    );
+  }
 }

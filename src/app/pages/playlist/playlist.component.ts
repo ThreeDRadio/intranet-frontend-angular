@@ -14,11 +14,13 @@ import { ShowService } from "../../services/show.service";
 })
 export class PlaylistPageComponent implements OnInit {
   store = inject(LoggerStore);
-  id: number | null = -1;
+  id: number = -1;
 
   constructor(private route: ActivatedRoute) {
     this.id = Number(this.route.snapshot.paramMap.get("id"));
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.fetchPlaylist(this.id);
+  }
 }
