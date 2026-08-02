@@ -21,6 +21,7 @@
         extended
         color="primary"
         [routerLink]="['/playlists', playlist.id]"
+        [state]="{ data: playlist }"
       >
         <mat-icon>art_track</mat-icon>
         View
