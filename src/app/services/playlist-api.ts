@@ -8,6 +8,10 @@ type PlaylistSearchParams = {
   ordering: string;
 };
 
+type PlaylistFetchParams = {
+  id: number;
+};
+
 @Injectable()
 export class PlaylistApi extends ModelApi<Playlist> {
   constructor() {
@@ -16,5 +20,9 @@ export class PlaylistApi extends ModelApi<Playlist> {
 
   getPlaylistPage(params: PlaylistSearchParams) {
     return super.list({ responseType: "json", params });
+  }
+
+  getPlaylist(params: PlaylistFetchParams) {
+    return super.get(params.id);
   }
 }
