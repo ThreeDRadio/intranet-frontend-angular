@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  Input,
-  OnInit,
-} from "@angular/core";
+import { Component, computed, inject, input } from "@angular/core";
 import { Playlist } from "../../models";
 import {
   MatCard,
@@ -38,21 +31,16 @@ import { RouterLink } from "@angular/router";
     MatDividerModule,
     RouterLink,
   ],
-  providers: [LoggerStore],
   templateUrl: "./playlist-header.component.html",
   styleUrl: "./playlist-header.component.scss",
 })
-export class PlaylistHeaderComponent implements OnInit {
+export class PlaylistHeaderComponent {
   store = inject(LoggerStore);
 
-  @Input()
-  playlist: Playlist;
+  readonly playlist = input.required<Playlist>();
+  readonly show = computed(() => this.store.showById()(this.playlist().show));
 
   readonly formattedDate = computed(() =>
-    moment(this.playlist.date).format("dddd, MMMM Do YYYY"),
+    moment(this.playlist().date).format("dddd, MMMM Do YYYY"),
   );
-
-  ngOnInit() {
-    this.store.fetchShow(this.playlist.show);
-  }
 }

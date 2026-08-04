@@ -1,5 +1,12 @@
 @if (store.isLoading()) {
   <h4>Loading...</h4>
 } @else {
-  @if (store.getPlaylistById(this.id)(); as playlist) {}
+  @if (playlist(); as pl) {
+    <h1>Logging Sheet - {{ show().name }}</h1>
+    <h3 style="opacity: 0.7">
+      {{ formattedDate() }}
+    </h3>
+  } @else {
+    <h4>Loading playlist...</h4>
+  }
 }

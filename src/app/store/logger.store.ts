@@ -1,16 +1,31 @@
 import { computed, inject } from "@angular/core";
 import {
-  getState,
   patchState,
   signalStore,
   withComputed,
   withMethods,
   withState,
 } from "@ngrx/signals";
+import { rxMethod } from "@ngrx/signals/rxjs-interop";
+import { tapResponse } from "@ngrx/operators";
 import { PlaylistService } from "../services/playlist.service";
 import { Playlist, PlaylistsByDate } from "../models/playlist";
 import { Show } from "../models/show";
 import { ShowService } from "../services/show.service";
+import {
+  catchError,
+  concatMap,
+  EMPTY,
+  exhaustMap,
+  filter,
+  finalize,
+  of,
+  pipe,
+  switchMap,
+  switchScan,
+  tap,
+} from "rxjs";
+import { isLoading } from "./selectors";
 
 type LoggerState = {
   isLoading: boolean;
@@ -25,84 +40,57 @@ export const initialState: LoggerState = {
 };
 
 export const LoggerStore = signalStore(
+  { providedIn: "root" },
   withState(initialState),
+  withComputed((store) => ({
+    playlistsByDate: computed(() => {
+      const uniqueDates = Array.from(
+        new Set(store.playlists().map((p) => p.date)),
+      );
+      return uniqueDates.map((date) => ({
+        date,
+        playlists: store.playlists().filter((p) => p.date === date),
+      }));
+    }),
+    playlistById: computed(() => (id: number) => {
+      return store.playlists().find((p) => p.id === id);
+    }),
+    showById: computed(() => (id: number) => {
+      return store.shows().find((s) => s.id === id);
+    }),
+  })),
   withMethods(
     (
       store,
       playlistService = inject(PlaylistService),
       showService = inject(ShowService),
     ) => ({
-      // Getters
-      getShowById(id: number) {
-        return computed(() => store.shows().find((s) => s.id === id));
-      },
-      getPlaylistById(id: number) {
-        return computed(() => store.playlists().find((p) => p.id === id));
-      },
-      getPlaylistsByDate(): PlaylistsByDate[] {
-        return Array.from(new Set(store.playlists().map((p) => p.date))).map(
-          (d) => {
-            return {
-              date: d,
-              playlists: store.playlists().filter((p) => p.date === d),
-            };
-          },
-        );
-      },
-
-      // Fetching from services
-      fetchShow(id: number) {
-        let cachedShows = getState(store).shows;
-        // Don't bother downloading a show again.
-        if (cachedShows?.find((show) => show?.id === id)) return;
-        patchState(store, { isLoading: true });
-        const thisShow$ = showService.getShows([id]);
-        thisShow$.subscribe({
-          next: (showsResult) => {
-            patchState(store, {
-              shows: [...cachedShows, showsResult[0]],
-              isLoading: false,
-            });
-          },
-          error: (err) => {
-            console.error(err);
-            patchState(store, { isLoading: false });
-          },
-        });
-      },
-      fetchPlaylist(id: number) {
-        let cachedPlaylists = getState(store).playlists;
-        // Don't bother downloading a playlist again.
-        if (cachedPlaylists?.find((playlist) => playlist?.id === id)) return;
-        patchState(store, { isLoading: true });
-        const thisPlaylist$ = playlistService.getPlaylistById(id);
-        thisPlaylist$.subscribe({
-          next: (playlistResult) => {
-            patchState(store, {
-              playlists: [...cachedPlaylists, playlistResult],
-              isLoading: false,
-            });
-          },
-          error: (err) => {
-            patchState(store, { isLoading: false });
-          },
-        });
-      },
-      fetchPlaylists(page: number) {
-        patchState(store, { playlists: [], isLoading: true });
-        const thisPage$ = playlistService.getPlaylistPage(page);
-        thisPage$.subscribe({
-          next: (playlistsResult) => {
-            patchState(store, {
-              playlists: playlistsResult,
-              isLoading: false,
-            });
-          },
-          error: (err) => {
-            patchState(store, { playlists: [], isLoading: false });
-          },
-        });
-      },
+      fetchPlaylists: rxMethod<number>(
+        pipe(
+          tap(() => patchState(store, { isLoading: true })),
+          switchMap((page) =>
+            playlistService.getPlaylistPage(page).pipe(
+              switchMap((playlists) => {
+                let unique = [...new Set(playlists.map((p) => p.show))];
+                return showService.getShows(unique).pipe(
+                  tap((shows) => {
+                    patchState(store, { playlists, shows });
+                  }),
+                  catchError((err) => {
+                    patchState(store, { playlists: [], shows: [] });
+                    return EMPTY;
+                  }),
+                );
+              }),
+              catchError((err) => {
+                patchState(store, { playlists: [] });
+                return EMPTY;
+              }),
+              finalize(() => patchState(store, { isLoading: false })),
+            ),
+          ),
+        ),
+      ),
     }),
   ),
 );

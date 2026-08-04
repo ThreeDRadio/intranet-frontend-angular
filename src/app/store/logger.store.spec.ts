@@ -198,17 +198,4 @@ describe("LoggerStore", () => {
     expect(show2).toBeDefined();
     expect(show2.id).toBe(2);
   });
-
-  it("should not update a show from the service if it's id has already been fetched", () => {
-    const store = TestBed.inject(LoggerStore);
-    // Idempotent
-    store.fetchShow(1);
-    store.fetchShow(1);
-    store.fetchShow(1);
-    TestBed.tick();
-    expect(store.isLoading()).toBeFalsy();
-    const currentState = getState(store);
-    expect(currentState.shows).toBeDefined();
-    expect(currentState.shows.length).toBe(1);
-  });
 });
