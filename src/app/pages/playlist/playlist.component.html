@@ -8,12 +8,14 @@
     </h3>
     <mat-chip-set aria-label="Quotas">
       <mat-chip aria-label="Local">
-        <mat-icon svgIcon="sa-icon"></mat-icon> 0/0
+        <mat-icon svgIcon="sa-icon"></mat-icon> 0/{{ getQuota("local") }}
       </mat-chip>
       <mat-chip aria-label="Australian">
-        <mat-icon svgIcon="aus-icon"></mat-icon> 0/0
+        <mat-icon svgIcon="aus-icon"></mat-icon> 0/{{ getQuota("aus") }}
       </mat-chip>
-      <mat-chip aria-label="Female"><mat-icon>female</mat-icon> 0/0</mat-chip>
+      <mat-chip aria-label="Female"
+        ><mat-icon>female</mat-icon> 0/{{ getQuota("female") }}</mat-chip
+      >
     </mat-chip-set>
     <br />
     <table mat-table [dataSource]="entries()" class="mat-shadow-2 demo-table">

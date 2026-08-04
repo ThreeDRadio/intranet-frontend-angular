@@ -45,6 +45,23 @@ export class PlaylistPageComponent implements OnInit {
     moment(this.playlist()?.date).format("dddd, MMMM Do YYYY"),
   );
 
+  getQuota(type: string): number {
+    let quota: number = 0;
+
+    if (type.toLocaleLowerCase() === "local") {
+      quota = this.playlist()?.localQuota ?? 0;
+    }
+    if (type.toLocaleLowerCase() === "aus") {
+      quota = this.playlist()?.australianQuota ?? 0;
+    }
+    if (type.toLocaleLowerCase() === "female") {
+      quota = this.playlist()?.femaleQuota ?? 0;
+    }
+
+    const percentage = quota / 100.0;
+    return Math.round(this.entries().length * percentage);
+  }
+
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       "sa-icon",
