@@ -18,6 +18,14 @@ export class ModelApi<ResponseType> {
   public get(id: string | number): Observable<ResponseType> {
     return <Observable<ResponseType>>this.http.get(`${this.modelName}/${id}`);
   }
+  public getSubresource(
+    id: string | number,
+    sub: string | number,
+  ): Observable<ResponseType> {
+    return <Observable<ResponseType>>(
+      this.http.get(`${this.modelName}/${id}/${sub}`)
+    );
+  }
   public create(object: Object): Observable<ResponseType> {
     return <Observable<ResponseType>>this.http.post(this.modelName, object);
   }

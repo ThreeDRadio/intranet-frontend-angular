@@ -25,18 +25,20 @@ import {
   switchScan,
   tap,
 } from "rxjs";
-import { isLoading } from "./selectors";
+import { PlaylistEntry } from "../models/playlist-entry";
 
 type LoggerState = {
   isLoading: boolean;
   shows: Show[];
   playlists: Playlist[];
+  playlistEntries: PlaylistEntry[];
 };
 
 export const initialState: LoggerState = {
   isLoading: false,
   shows: [],
   playlists: [],
+  playlistEntries: [],
 };
 
 export const LoggerStore = signalStore(
@@ -54,6 +56,9 @@ export const LoggerStore = signalStore(
     }),
     playlistById: computed(() => (id: number) => {
       return store.playlists().find((p) => p.id === id);
+    }),
+    playlistEntriesById: computed(() => (id: number) => {
+      return store.playlistEntries().filter((pe) => pe.playlist === id);
     }),
     showById: computed(() => (id: number) => {
       return store.shows().find((s) => s.id === id);
@@ -84,6 +89,24 @@ export const LoggerStore = signalStore(
               }),
               catchError((err) => {
                 patchState(store, { playlists: [] });
+                return EMPTY;
+              }),
+              finalize(() => patchState(store, { isLoading: false })),
+            ),
+          ),
+        ),
+      ),
+
+      fetchPlaylistEntries: rxMethod<number>(
+        pipe(
+          tap(() => patchState(store, { isLoading: true })),
+          switchMap((id) =>
+            playlistService.getEntriesForId(id).pipe(
+              tap((entries) => {
+                patchState(store, { playlistEntries: entries });
+              }),
+              catchError((err) => {
+                patchState(store, { playlistEntries: [] });
                 return EMPTY;
               }),
               finalize(() => patchState(store, { isLoading: false })),
