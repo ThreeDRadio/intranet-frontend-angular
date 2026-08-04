@@ -6,6 +6,68 @@
     <h3 style="opacity: 0.7">
       {{ formattedDate() }}
     </h3>
+    <table mat-table [dataSource]="entries()" class="mat-shadow-2 demo-table">
+      <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef><b>#</b></th>
+        <td mat-cell *matCellDef="let element">{{ element.index }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="artist">
+        <th mat-header-cell *matHeaderCellDef><b>Artist</b></th>
+        <td mat-cell *matCellDef="let element">{{ element.artist }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="track">
+        <th mat-header-cell *matHeaderCellDef><b>Track</b></th>
+        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="album">
+        <th mat-header-cell *matHeaderCellDef><b>Album</b></th>
+        <td mat-cell *matCellDef="let element">{{ element.album }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef><b>Duration</b></th>
+        <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
+      </ng-container>
+
+      <!-- Attributes -->
+      <ng-container matColumnDef="local">
+        <th mat-header-cell *matHeaderCellDef><b>Local</b></th>
+        <td mat-cell *matCellDef="let element">
+          @if (element.local) {
+            <mat-icon>check</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="australian">
+        <th mat-header-cell *matHeaderCellDef><b>Aus</b></th>
+        <td mat-cell *matCellDef="let element">
+          @if (element.australian) {
+            <mat-icon>check</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="female">
+        <th mat-header-cell *matHeaderCellDef><b>Fem</b></th>
+        <td mat-cell *matCellDef="let element">
+          @if (element.female) {
+            <mat-icon>check</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="newRelease">
+        <th mat-header-cell *matHeaderCellDef><b>NR</b></th>
+        <td mat-cell *matCellDef="let element">
+          @if (element.newRelease) {
+            <mat-icon>check</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
   } @else {
     <h4>Loading playlist...</h4>
   }

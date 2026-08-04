@@ -12,6 +12,10 @@ type PlaylistFetchParams = {
   id: number;
 };
 
+type PlaylistEntryFetchParams = {
+  id: number;
+};
+
 @Injectable()
 export class PlaylistApi extends ModelApi<Playlist> {
   constructor() {
@@ -24,5 +28,9 @@ export class PlaylistApi extends ModelApi<Playlist> {
 
   getPlaylist(params: PlaylistFetchParams) {
     return super.get(params.id);
+  }
+
+  getPlaylistEntries(params: PlaylistEntryFetchParams) {
+    return super.getSubresource(params.id, "tracks");
   }
 }

@@ -38,4 +38,20 @@ export class PlaylistService {
       }),
     );
   }
+
+  getEntriesForId(id: number): Observable<PlaylistEntry[]> {
+    const observable = this.playlistApi.getPlaylistEntries({
+      id: id,
+    });
+
+    return observable.pipe(
+      map((response: any) => {
+        const list = response;
+
+        return list.map((item: any) => {
+          return item as PlaylistEntry;
+        });
+      }),
+    );
+  }
 }

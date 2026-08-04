@@ -1,26 +1,49 @@
-import { Component, computed, inject, Input, OnInit } from "@angular/core";
+import { Component, computed, inject, OnInit } from "@angular/core";
 import { LoggerStore } from "../../store";
 import { ActivatedRoute } from "@angular/router";
-import { PlaylistService } from "../../services/playlist.service";
-import { ShowService } from "../../services/show.service";
+import { CdkDrag, DragDropModule } from "@angular/cdk/drag-drop";
 import moment from "moment";
+import { MatTableModule } from "@angular/material/table";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: "app-playlist-page",
-  imports: [],
+  imports: [MatTableModule, MatIcon],
   templateUrl: "./playlist.component.html",
   styleUrl: "./playlist.component.scss",
 })
-export class PlaylistPageComponent {
+export class PlaylistPageComponent implements OnInit {
   store = inject(LoggerStore);
+  displayedColumns: string[] = [
+    "index",
+    "artist",
+    "track",
+    "album",
+    "duration",
+    "local",
+    "australian",
+    "female",
+    "newRelease",
+  ];
   private route = inject(ActivatedRoute);
+
   readonly playlist = computed(() =>
     this.store.playlistById()(Number(this.route.snapshot.paramMap.get("id"))),
   );
+
   readonly show = computed(
     () => this.store.showById()(this.playlist().show) ?? undefined,
   );
-  readonly formattedDate = computed(() =>
-    moment(this.playlist().date).format("dddd, MMMM Do YYYY"),
+
+  readonly entries = computed(() =>
+    this.store.playlistEntriesById()(this.playlist()?.id),
   );
+
+  readonly formattedDate = computed(() =>
+    moment(this.playlist()?.date).format("dddd, MMMM Do YYYY"),
+  );
+
+  ngOnInit() {
+    this.store.fetchPlaylistEntries(this.playlist()?.id);
+  }
 }
