@@ -1,7 +1,6 @@
 import { Component, computed, inject, OnInit } from "@angular/core";
 import { LoggerStore } from "../../store";
 import { ActivatedRoute } from "@angular/router";
-import { CdkDrag, DragDropModule } from "@angular/cdk/drag-drop";
 import moment from "moment";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule, MatIconRegistry } from "@angular/material/icon";
@@ -45,7 +44,21 @@ export class PlaylistPageComponent implements OnInit {
     moment(this.playlist()?.date).format("dddd, MMMM Do YYYY"),
   );
 
-  getQuota(type: string): number {
+  getQuotaCount(type: string): number {
+    if (type.toLocaleLowerCase() === "local") {
+      return this.entries().filter((e) => e.local).length;
+    }
+    if (type.toLocaleLowerCase() === "aus") {
+      return this.entries().filter((e) => e.australian).length;
+    }
+    if (type.toLocaleLowerCase() === "female") {
+      return this.entries().filter((e) => e.female).length;
+    }
+
+    return 0;
+  }
+
+  getQuotaMinimum(type: string): number {
     let quota: number = 0;
 
     if (type.toLocaleLowerCase() === "local") {
