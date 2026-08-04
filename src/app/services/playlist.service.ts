@@ -2,6 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { Playlist } from "../models";
 import { PlaylistApi } from "./playlist-api";
+import { PlaylistEntry } from "../models/playlist-entry";
 
 @Injectable({
   providedIn: "root", // <-- This makes the service global
