@@ -1,7 +1,5 @@
 import { Component, computed, inject, OnInit } from "@angular/core";
 import { LoggerStore } from "../../store";
-import { PlaylistService } from "../../services/playlist.service";
-import { ShowService } from "../../services/show.service";
 import moment from "moment";
 import { PlaylistHeaderComponent } from "../../components/playlist-header/playlist-header.component";
 

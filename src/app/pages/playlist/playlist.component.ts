@@ -4,11 +4,13 @@ import { ActivatedRoute } from "@angular/router";
 import { CdkDrag, DragDropModule } from "@angular/cdk/drag-drop";
 import moment from "moment";
 import { MatTableModule } from "@angular/material/table";
-import { MatIcon } from "@angular/material/icon";
+import { MatIconModule, MatIconRegistry } from "@angular/material/icon";
+import { MatChipsModule } from "@angular/material/chips";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "app-playlist-page",
-  imports: [MatTableModule, MatIcon],
+  imports: [MatTableModule, MatIconModule, MatChipsModule],
   templateUrl: "./playlist.component.html",
   styleUrl: "./playlist.component.scss",
 })
@@ -42,6 +44,17 @@ export class PlaylistPageComponent implements OnInit {
   readonly formattedDate = computed(() =>
     moment(this.playlist()?.date).format("dddd, MMMM Do YYYY"),
   );
+
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      "sa-icon",
+      sanitizer.bypassSecurityTrustResourceUrl("assets/sa.svg"),
+    );
+    iconRegistry.addSvgIcon(
+      "aus-icon",
+      sanitizer.bypassSecurityTrustResourceUrl("assets/aus.svg"),
+    );
+  }
 
   ngOnInit() {
     this.store.fetchPlaylistEntries(this.playlist()?.id);
