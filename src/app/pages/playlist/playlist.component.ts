@@ -6,15 +6,19 @@ import { MatTableModule } from "@angular/material/table";
 import { MatIconModule, MatIconRegistry } from "@angular/material/icon";
 import { MatChipsModule } from "@angular/material/chips";
 import { DomSanitizer } from "@angular/platform-browser";
+import { DateService } from "../../services/date.service";
 
 @Component({
   selector: "app-playlist-page",
   imports: [MatTableModule, MatIconModule, MatChipsModule],
+  providers: [DateService],
   templateUrl: "./playlist.component.html",
   styleUrl: "./playlist.component.scss",
 })
 export class PlaylistPageComponent implements OnInit {
   store = inject(LoggerStore);
+  dateService = inject(DateService);
+
   displayedColumns: string[] = [
     "index",
     "artist",
@@ -26,6 +30,7 @@ export class PlaylistPageComponent implements OnInit {
     "female",
     "newRelease",
   ];
+
   private route = inject(ActivatedRoute);
 
   readonly playlist = computed(() =>
@@ -41,7 +46,7 @@ export class PlaylistPageComponent implements OnInit {
   );
 
   readonly formattedDate = computed(() =>
-    moment(this.playlist()?.date).format("dddd, MMMM Do YYYY"),
+    this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
   );
 
   getQuotaCount(type: string): number {

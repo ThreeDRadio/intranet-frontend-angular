@@ -2,7 +2,7 @@
   <p>Loading...</p>
 } @else {
   @for (byDate of playlistsByDate(); track byDate.date) {
-    <h1>{{ getFormattedDate(byDate.date) }}</h1>
+    <h1>{{ this.dateService.getDisplayDate(byDate.date) }}</h1>
     <mat-divider />
     <div class="card-container">
       @for (playlist of byDate.playlists; track playlist.id) {
