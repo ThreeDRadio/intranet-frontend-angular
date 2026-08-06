@@ -1,17 +1,24 @@
 import { Component, computed, inject, OnInit } from "@angular/core";
 import { LoggerStore } from "../../store";
 import { ActivatedRoute } from "@angular/router";
-import moment from "moment";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule, MatIconRegistry } from "@angular/material/icon";
 import { MatChipsModule } from "@angular/material/chips";
 import { DomSanitizer } from "@angular/platform-browser";
 import { DateService } from "../../services/date.service";
-import { QuotaService, QuotaParams } from "../../services/quota.service";
+import { QuotaService } from "../../services/quota.service";
+import { QuotaIndicatorComponent } from "../../components/quota-indicator/quota-indicator.component";
+import { MatDividerModule } from "@angular/material/divider";
 
 @Component({
   selector: "app-playlist-page",
-  imports: [MatTableModule, MatIconModule, MatChipsModule],
+  imports: [
+    MatTableModule,
+    MatIconModule,
+    MatChipsModule,
+    MatDividerModule,
+    QuotaIndicatorComponent,
+  ],
   providers: [DateService, QuotaService],
   templateUrl: "./playlist.component.html",
   styleUrl: "./playlist.component.scss",
@@ -65,17 +72,6 @@ export class PlaylistPageComponent implements OnInit {
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
   );
-
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
-      "sa-icon",
-      sanitizer.bypassSecurityTrustResourceUrl("assets/sa.svg"),
-    );
-    iconRegistry.addSvgIcon(
-      "aus-icon",
-      sanitizer.bypassSecurityTrustResourceUrl("assets/aus.svg"),
-    );
-  }
 
   ngOnInit() {
     this.store.fetchPlaylistEntries(this.playlist()?.id);

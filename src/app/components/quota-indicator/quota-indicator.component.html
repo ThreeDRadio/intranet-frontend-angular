@@ -1,0 +1,10 @@
+@if (this.svg()) {
+  <mat-icon [svgIcon]="this.icon()"></mat-icon>
+} @else {
+  <mat-icon>female</mat-icon>
+}
+@if (quota(); as q) {
+  {{ q.count }}/{{ q.quota }}
+} @else {
+  ?/?
+}
