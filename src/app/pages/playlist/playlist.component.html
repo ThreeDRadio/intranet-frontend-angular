@@ -22,11 +22,14 @@
           icon="female"
           [quota]="q.female"
         ></app-quota-indicator>
+        <app-duration-indicator
+          [duration]="totalDuration()"
+        ></app-duration-indicator>
       </div>
     }
     <br />
     <mat-divider />
-    <table mat-table [dataSource]="entries()" class="mat-shadow-2 demo-table">
+    <table mat-table [dataSource]="entries()" class="mat-shadow-2">
       <ng-container matColumnDef="index">
         <th mat-header-cell *matHeaderCellDef><b>#</b></th>
         <td mat-cell *matCellDef="let element">{{ element.index }}</td>
