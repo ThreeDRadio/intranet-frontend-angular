@@ -7,20 +7,22 @@
       {{ formattedDate() }}
     </h3>
     @if (this.quotas(); as q) {
-      <app-quota-indicator
-        svg="true"
-        icon="sa-icon"
-        [quota]="q.local"
-      ></app-quota-indicator>
-      <app-quota-indicator
-        svg="true"
-        icon="aus-icon"
-        [quota]="q.australian"
-      ></app-quota-indicator>
-      <app-quota-indicator
-        icon="female"
-        [quota]="q.female"
-      ></app-quota-indicator>
+      <div>
+        <app-quota-indicator
+          svg="true"
+          icon="sa-icon"
+          [quota]="q.local"
+        ></app-quota-indicator>
+        <app-quota-indicator
+          svg="true"
+          icon="aus-icon"
+          [quota]="q.australian"
+        ></app-quota-indicator>
+        <app-quota-indicator
+          icon="female"
+          [quota]="q.female"
+        ></app-quota-indicator>
+      </div>
     }
     <br />
     <mat-divider />
