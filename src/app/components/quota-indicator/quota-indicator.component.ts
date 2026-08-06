@@ -1,4 +1,4 @@
-import { Component, computed, input } from "@angular/core";
+import { Component, computed, inject, input } from "@angular/core";
 import { MatIcon, MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { QuotaResult } from "../../services/quota.service";
@@ -10,20 +10,23 @@ import { QuotaResult } from "../../services/quota.service";
   styleUrl: "./quota-indicator.component.scss",
 })
 export class QuotaIndicatorComponent {
+  iconRegistry = inject(MatIconRegistry);
+  sanitizer = inject(DomSanitizer);
+
   icon = input.required<string>();
   svg = input<boolean>();
   quota = input.required<QuotaResult>();
 
   readonly met = computed(() => this.quota().meets);
 
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
+  constructor() {
+    this.iconRegistry.addSvgIcon(
       "sa-icon",
-      sanitizer.bypassSecurityTrustResourceUrl("assets/sa.svg"),
+      this.sanitizer.bypassSecurityTrustResourceUrl("assets/sa.svg"),
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       "aus-icon",
-      sanitizer.bypassSecurityTrustResourceUrl("assets/aus.svg"),
+      this.sanitizer.bypassSecurityTrustResourceUrl("assets/aus.svg"),
     );
   }
 }
