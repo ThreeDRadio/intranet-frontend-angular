@@ -13,14 +13,26 @@ export type QuotaResult = {
 
 export class QuotaService {
   private getQuotaCount(entries: PlaylistEntry[], type: string): number {
-    if (type.toLocaleLowerCase() === "local") {
-      return entries.filter((e) => e.local).length;
+    // Guard against null or undefined entries array
+    if (!entries || !Array.isArray(entries)) {
+      return 0;
     }
-    if (type.toLocaleLowerCase() === "aus") {
-      return entries.filter((e) => e.australian).length;
+
+    // Guard against null, undefined, or empty type string
+    if (!type) {
+      return 0;
     }
-    if (type.toLocaleLowerCase() === "female") {
-      return entries.filter((e) => e.female).length;
+
+    const lower = type.toLocaleLowerCase();
+
+    if (lower === "local") {
+      return entries.filter((e) => e?.local).length;
+    }
+    if (lower === "aus") {
+      return entries.filter((e) => e?.australian).length;
+    }
+    if (lower === "female") {
+      return entries.filter((e) => e?.female).length;
     }
 
     return 0;
@@ -31,15 +43,21 @@ export class QuotaService {
     entries: PlaylistEntry[],
     type: string,
   ): number {
-    let quota: number = 0;
+    // Guard against missing parameters, empty playlists, or missing type
+    if (!params || !entries || !type) {
+      return 0;
+    }
 
-    if (type.toLocaleLowerCase() === "local") {
+    let quota: number = 0;
+    const lower = type.toLocaleLowerCase();
+
+    if (lower === "local") {
       quota = params.localQuota ?? 0;
     }
-    if (type.toLocaleLowerCase() === "aus") {
+    if (lower === "aus") {
       quota = params.australianQuota ?? 0;
     }
-    if (type.toLocaleLowerCase() === "female") {
+    if (lower === "female") {
       quota = params.femaleQuota ?? 0;
     }
 
