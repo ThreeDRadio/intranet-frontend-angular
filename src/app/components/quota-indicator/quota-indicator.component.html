@@ -1,6 +1,6 @@
 <div
   class="custom-box mat-elevation-z4"
-  [class]="met ? 'quota-met ' : 'quota-unmet '"
+  [class]="this.met() ? 'quota-met' : 'quota-unmet'"
 >
   @if (this.svg()) {
     <mat-icon [svgIcon]="this.icon()"></mat-icon>
