@@ -1,0 +1,23 @@
+.custom-box {
+  /* Box Dimensions & Padding */
+  padding: 12px;
+  border-radius: 4px; /* Material standard border radius */
+  margin: 6px;
+
+  /* Flexbox Layout inside the box */
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+
+  /* background fallback matched to material theme background */
+}
+
+.quota-met {
+  background-color: #5cb85c;
+  color: #fff;
+}
+
+.quota-unmet {
+  background-color: #d9534f;
+  color: #fff;
+}
