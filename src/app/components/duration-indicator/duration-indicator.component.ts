@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, input } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 
 @Component({
@@ -7,4 +7,6 @@ import { MatIcon } from "@angular/material/icon";
   templateUrl: "./duration-indicator.component.html",
   styleUrl: "./duration-indicator.component.scss",
 })
-export class DurationIndicatorComponent {}
+export class DurationIndicatorComponent {
+  duration = input.required<string>();
+}

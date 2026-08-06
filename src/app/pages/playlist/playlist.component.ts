@@ -10,6 +10,7 @@ import { QuotaService } from "../../services/quota.service";
 import { QuotaIndicatorComponent } from "../../components/quota-indicator/quota-indicator.component";
 import { MatDividerModule } from "@angular/material/divider";
 import { DurationIndicatorComponent } from "../../components/duration-indicator/duration-indicator.component";
+import moment from "moment";
 
 @Component({
   selector: "app-playlist-page",
@@ -74,6 +75,13 @@ export class PlaylistPageComponent implements OnInit {
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
   );
+
+  readonly totalDuration = computed(() => {
+    const result = this.entries().reduce((acc, curr) => {
+      return acc.add(moment.duration(curr.duration));
+    }, moment.duration(0));
+    return moment.utc(result.asMilliseconds()).format("HH:mm:ss");
+  });
 
   ngOnInit() {
     this.store.fetchPlaylistEntries(this.playlist()?.id);
