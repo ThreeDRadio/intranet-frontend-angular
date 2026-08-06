@@ -1,19 +1,33 @@
 import { Component, computed, inject, OnInit } from "@angular/core";
 import { LoggerStore } from "../../store";
 import { ActivatedRoute } from "@angular/router";
-import { CdkDrag, DragDropModule } from "@angular/cdk/drag-drop";
-import moment from "moment";
 import { MatTableModule } from "@angular/material/table";
-import { MatIcon } from "@angular/material/icon";
+import { MatIconModule, MatIconRegistry } from "@angular/material/icon";
+import { MatChipsModule } from "@angular/material/chips";
+import { DomSanitizer } from "@angular/platform-browser";
+import { DateService } from "../../services/date.service";
+import { QuotaService } from "../../services/quota.service";
+import { QuotaIndicatorComponent } from "../../components/quota-indicator/quota-indicator.component";
+import { MatDividerModule } from "@angular/material/divider";
 
 @Component({
   selector: "app-playlist-page",
-  imports: [MatTableModule, MatIcon],
+  imports: [
+    MatTableModule,
+    MatIconModule,
+    MatChipsModule,
+    MatDividerModule,
+    QuotaIndicatorComponent,
+  ],
+  providers: [DateService, QuotaService],
   templateUrl: "./playlist.component.html",
   styleUrl: "./playlist.component.scss",
 })
 export class PlaylistPageComponent implements OnInit {
   store = inject(LoggerStore);
+  dateService = inject(DateService);
+  quotaService = inject(QuotaService);
+
   displayedColumns: string[] = [
     "index",
     "artist",
@@ -25,6 +39,7 @@ export class PlaylistPageComponent implements OnInit {
     "female",
     "newRelease",
   ];
+
   private route = inject(ActivatedRoute);
 
   readonly playlist = computed(() =>
@@ -39,8 +54,23 @@ export class PlaylistPageComponent implements OnInit {
     this.store.playlistEntriesById()(this.playlist()?.id),
   );
 
+  readonly quotas = computed(() => {
+    const params = {
+      localQuota: this.playlist()?.localQuota ?? -1,
+      australianQuota: this.playlist()?.australianQuota ?? -1,
+      femaleQuota: this.playlist()?.femaleQuota ?? -1,
+    };
+    const input = this.entries();
+
+    return {
+      local: this.quotaService.getLocalQuota(params, input),
+      australian: this.quotaService.getAustralianQuota(params, input),
+      female: this.quotaService.getFemaleQuota(params, input),
+    };
+  });
+
   readonly formattedDate = computed(() =>
-    moment(this.playlist()?.date).format("dddd, MMMM Do YYYY"),
+    this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
   );
 
   ngOnInit() {

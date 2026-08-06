@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 .demo-table {
   width: 100%;
 }
@@ -16,4 +18,11 @@
 .mat-column-track {
   flex: 3; /* Takes twice as much remaining space as a flex: 1 column */
   min-width: 150px; /* Prevents text squeezing on smaller screens */
+}
+
+.quota-container {
+  /* Flexbox Layout inside the box */
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
 }
