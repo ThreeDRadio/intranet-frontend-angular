@@ -9,6 +9,7 @@ import { DateService } from "../../services/date.service";
 import { QuotaService } from "../../services/quota.service";
 import { QuotaIndicatorComponent } from "../../components/quota-indicator/quota-indicator.component";
 import { MatDividerModule } from "@angular/material/divider";
+import { DurationIndicatorComponent } from "../../components/duration-indicator/duration-indicator.component";
 
 @Component({
   selector: "app-playlist-page",
@@ -18,6 +19,7 @@ import { MatDividerModule } from "@angular/material/divider";
     MatChipsModule,
     MatDividerModule,
     QuotaIndicatorComponent,
+    DurationIndicatorComponent,
   ],
   providers: [DateService, QuotaService],
   templateUrl: "./playlist.component.html",
