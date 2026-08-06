@@ -6,21 +6,41 @@
     <h3 style="opacity: 0.7">
       {{ formattedDate() }}
     </h3>
-    <mat-chip-set aria-label="Quotas">
-      <mat-chip aria-label="Local">
-        <mat-icon svgIcon="sa-icon"></mat-icon>
-        {{ getQuotaCount("local") }}/{{ getQuotaMinimum("local") }}
-      </mat-chip>
-      <mat-chip aria-label="Australian">
-        <mat-icon svgIcon="aus-icon"></mat-icon> {{ getQuotaCount("aus") }}/{{
-          getQuotaMinimum("aus")
-        }}
-      </mat-chip>
-      <mat-chip aria-label="Female"
-        ><mat-icon>female</mat-icon> {{ getQuotaCount("female") }}/{{
-          getQuotaMinimum("female")
-        }}</mat-chip
-      >
+    <mat-chip-set
+      aria-label="Quotas"
+      style="display: flex; justify-content: center"
+    >
+      @if (this.quotas().local; as lq) {
+        <mat-chip aria-label="Local">
+          <mat-icon svgIcon="sa-icon"></mat-icon>
+          {{ lq.count }}/{{ lq.quota }}
+        </mat-chip>
+      } @else {
+        <mat-chip aria-label="Local">
+          <mat-icon svgIcon="sa-icon"></mat-icon>?/?
+        </mat-chip>
+      }
+
+      @if (this.quotas().australian; as aq) {
+        <mat-chip aria-label="Australian">
+          <mat-icon svgIcon="aus-icon"></mat-icon>
+          {{ aq.count }}/{{ aq.quota }}
+        </mat-chip>
+      } @else {
+        <mat-chip aria-label="Australian">
+          <mat-icon svgIcon="aus-icon"></mat-icon>?/?
+        </mat-chip>
+      }
+      @if (this.quotas().female; as fq) {
+        <mat-chip aria-label="Female">
+          <mat-icon>female</mat-icon>
+          {{ fq.count }}/{{ fq.quota }}
+        </mat-chip>
+      } @else {
+        <mat-chip aria-label="Female">
+          <mat-icon>female</mat-icon>?/?
+        </mat-chip>
+      }
     </mat-chip-set>
     <br />
     <table mat-table [dataSource]="entries()" class="mat-shadow-2 demo-table">

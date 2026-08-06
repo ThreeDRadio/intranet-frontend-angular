@@ -7,17 +7,19 @@ import { MatIconModule, MatIconRegistry } from "@angular/material/icon";
 import { MatChipsModule } from "@angular/material/chips";
 import { DomSanitizer } from "@angular/platform-browser";
 import { DateService } from "../../services/date.service";
+import { QuotaService, QuotaParams } from "../../services/quota.service";
 
 @Component({
   selector: "app-playlist-page",
   imports: [MatTableModule, MatIconModule, MatChipsModule],
-  providers: [DateService],
+  providers: [DateService, QuotaService],
   templateUrl: "./playlist.component.html",
   styleUrl: "./playlist.component.scss",
 })
 export class PlaylistPageComponent implements OnInit {
   store = inject(LoggerStore);
   dateService = inject(DateService);
+  quotaService = inject(QuotaService);
 
   displayedColumns: string[] = [
     "index",
@@ -45,40 +47,24 @@ export class PlaylistPageComponent implements OnInit {
     this.store.playlistEntriesById()(this.playlist()?.id),
   );
 
+  readonly quotas = computed(() => {
+    const params = {
+      localQuota: this.playlist()?.localQuota ?? -1,
+      australianQuota: this.playlist()?.australianQuota ?? -1,
+      femaleQuota: this.playlist()?.femaleQuota ?? -1,
+    };
+    const input = this.entries();
+
+    return {
+      local: this.quotaService.getLocalQuota(params, input),
+      australian: this.quotaService.getAustralianQuota(params, input),
+      female: this.quotaService.getFemaleQuota(params, input),
+    };
+  });
+
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
   );
-
-  getQuotaCount(type: string): number {
-    if (type.toLocaleLowerCase() === "local") {
-      return this.entries().filter((e) => e.local).length;
-    }
-    if (type.toLocaleLowerCase() === "aus") {
-      return this.entries().filter((e) => e.australian).length;
-    }
-    if (type.toLocaleLowerCase() === "female") {
-      return this.entries().filter((e) => e.female).length;
-    }
-
-    return 0;
-  }
-
-  getQuotaMinimum(type: string): number {
-    let quota: number = 0;
-
-    if (type.toLocaleLowerCase() === "local") {
-      quota = this.playlist()?.localQuota ?? 0;
-    }
-    if (type.toLocaleLowerCase() === "aus") {
-      quota = this.playlist()?.australianQuota ?? 0;
-    }
-    if (type.toLocaleLowerCase() === "female") {
-      quota = this.playlist()?.femaleQuota ?? 0;
-    }
-
-    const percentage = quota / 100.0;
-    return Math.round(this.entries().length * percentage);
-  }
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
