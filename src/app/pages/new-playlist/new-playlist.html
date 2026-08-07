@@ -60,6 +60,22 @@
       ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <div class="warning-container">
+      <div class="warning-banner">
+        <mat-icon>warning</mat-icon>
+        <span>Show notes may end up on the website one day.</span>
+      </div>
+      <mat-form-field>
+        <mat-label>Show Notes</mat-label>
+        <textarea
+          #notesInput
+          matInput
+          [formControl]="notesControl"
+          rows="5"
+          placeholder="Add your show notes here..."
+        ></textarea>
+      </mat-form-field>
+    </div>
   </div>
 </form>
 }
