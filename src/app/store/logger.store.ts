@@ -70,6 +70,21 @@ export const LoggerStore = signalStore(
       playlistService = inject(PlaylistService),
       showService = inject(ShowService),
     ) => ({
+      fetchAllShows: rxMethod<void>(
+        pipe(
+          tap(() => patchState(store, { isLoading: true })),
+          exhaustMap(() =>
+            showService.getAllShows().pipe(
+              tapResponse({
+                next: (shows) => patchState(store, { shows }),
+                error: (err) => patchState(store, { shows: [] }),
+                finalize: () => patchState(store, { isLoading: false }),
+              }),
+            ),
+          ),
+        ),
+      ),
+
       fetchPlaylists: rxMethod<number>(
         pipe(
           tap(() => patchState(store, { isLoading: true })),
