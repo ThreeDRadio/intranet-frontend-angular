@@ -22,10 +22,10 @@ import { Show } from "../../models/show";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter,
-} from "@angular/material-moment-adapter";
+import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatSelectModule } from "@angular/material/select";
+import { toSignal } from "@angular/core/rxjs-interop";
 
 export const LONG_DATE_FORMAT = {
   parse: {
@@ -49,6 +49,8 @@ export const LONG_DATE_FORMAT = {
     MatInputModule,
     MatFormFieldModule,
     MatDatepickerModule,
+    MatSlideToggleModule,
+    MatSelectModule,
     ReactiveFormsModule,
   ],
   providers: [
@@ -64,6 +66,14 @@ export const LONG_DATE_FORMAT = {
 })
 export class NewPlaylistPage implements OnInit {
   store = inject(LoggerStore);
+  readonly shows = computed(() =>
+    this.store
+      .shows()
+      .filter((s) => s.active)
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  );
+
+  // Inputs
   private showInput =
     viewChild.required<ElementRef<HTMLInputElement>>("showInput");
   private hostInput =
@@ -72,15 +82,35 @@ export class NewPlaylistPage implements OnInit {
   //Forms
   showControl = new FormControl();
   hostControl = new FormControl();
+  fillInControl = new FormControl();
   dateControl = new FormControl(new Date());
 
-  readonly shows = computed(() =>
-    this.store
-      .shows()
-      .filter((s) => s.active)
-      .sort((a, b) => a.name.localeCompare(b.name)),
-  );
+  // Filtering
   filteredShows = signal<Show[]>(this.shows().slice());
+  // Fillin logic
+  private readonly currentShowValue = toSignal(this.showControl.valueChanges, {
+    initialValue: this.showControl.value,
+  });
+
+  private readonly currentHostValue = toSignal(this.hostControl.valueChanges, {
+    initialValue: this.hostControl.value,
+  });
+
+  readonly isFillInVisible = computed(() => {
+    const show = this.currentShowValue();
+    const host = this.currentHostValue(); // This is just here to trigger the signal haha I don't know what I'm doing
+    const actualHost = this.hostInput().nativeElement.value;
+
+    if (show === null) {
+      return false;
+    }
+
+    if (show.defaultHost === "") {
+      return false;
+    }
+
+    return actualHost.toLowerCase() !== show.defaultHost.toLowerCase();
+  });
 
   ngOnInit() {
     this.store.fetchAllShows();

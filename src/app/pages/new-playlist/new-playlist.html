@@ -37,12 +37,20 @@
         [formControl]="hostControl"
       />
     </mat-form-field>
+    @if (isFillInVisible()) {
+    <mat-form-field>
+      <mat-label>Is this a fill-in?</mat-label>
+      <mat-select [formControl]="fillInControl">
+        <mat-option value="yes" selected>Yes</mat-option>
+        <mat-option value="no">No</mat-option>
+      </mat-select>
+    </mat-form-field>
+    }
     <mat-form-field>
       <mat-label>Date</mat-label>
       <input
         matInput
         [matDatepicker]="picker"
-        [startAt]="today"
         [formControl]="dateControl"
         readonly
       />
