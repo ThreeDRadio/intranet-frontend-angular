@@ -15,6 +15,7 @@ import { LoggerStore } from "../../store";
 import { MatInputModule } from "@angular/material/input";
 import { Show } from "../../models/show";
 import { FormControl } from "@angular/forms";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
   selector: "app-new-playlist",
@@ -24,14 +25,18 @@ import { FormControl } from "@angular/forms";
     MatAutocompleteModule,
     MatOptionModule,
     MatInputModule,
+    MatFormFieldModule,
   ],
   templateUrl: "./new-playlist.html",
   styleUrl: "./new-playlist.scss",
 })
 export class NewPlaylistPage implements OnInit {
-  input = viewChild.required<ElementRef<HTMLInputElement>>("showInput");
-  control = new FormControl("");
   store = inject(LoggerStore);
+  private showInput =
+    viewChild.required<ElementRef<HTMLInputElement>>("showInput");
+  private hostInput =
+    viewChild.required<ElementRef<HTMLInputElement>>("hostInput");
+  control = new FormControl("");
 
   readonly shows = computed(() =>
     this.store
@@ -41,8 +46,12 @@ export class NewPlaylistPage implements OnInit {
   );
   filteredShows = signal<Show[]>(this.shows().slice());
 
+  ngOnInit() {
+    this.store.fetchAllShows();
+  }
+
   filter(): void {
-    const filterValue = this.input().nativeElement.value.toLowerCase();
+    const filterValue = this.showInput().nativeElement.value.toLowerCase();
     const startsWith = this.shows().filter((s) =>
       s.name.toLowerCase().startsWith(filterValue),
     );
@@ -53,7 +62,15 @@ export class NewPlaylistPage implements OnInit {
     this.filteredShows.set([...startsWith, ...includes]);
   }
 
-  ngOnInit() {
-    this.store.fetchAllShows();
+  showOptionDisplay(show: Show): string {
+    return show.name;
+  }
+
+  onShowSelected(event) {
+    const show = event.option.value;
+
+    if (show) {
+      this.hostInput().nativeElement.value = show.defaultHost;
+    }
   }
 }

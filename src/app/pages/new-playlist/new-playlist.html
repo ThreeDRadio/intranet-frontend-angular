@@ -3,23 +3,40 @@
 } @else {
 <h1>New Playlist</h1>
 <form>
-  <mat-form-field>
-    <mat-label>Choose Show</mat-label>
-    <input
-      #showInput
-      type="text"
-      placeholder="---"
-      matInput
-      [formControl]="control"
-      [matAutocomplete]="showsAuto"
-      (input)="filter()"
-      (focus)="filter()"
-    />
-    <mat-autocomplete requireSelection #showsAuto="matAutocomplete">
-      @for (show of filteredShows(); track show.id) {
-      <mat-option [value]="show.name">{{show.name}}</mat-option>
-      }
-    </mat-autocomplete>
-  </mat-form-field>
+  <div class="vertical-form">
+    <mat-form-field>
+      <mat-label>Show</mat-label>
+      <input
+        #showInput
+        type="text"
+        placeholder="---"
+        matInput
+        [formControl]="control"
+        [matAutocomplete]="showsAuto"
+        (input)="filter()"
+        (focus)="filter()"
+      />
+      <mat-autocomplete
+        requireSelection
+        #showsAuto="matAutocomplete"
+        [displayWith]="showOptionDisplay"
+        (optionSelected)="onShowSelected($event)"
+      >
+        @for (show of filteredShows(); track show.id) {
+        <mat-option [value]="show"> {{show.name}} </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Host</mat-label>
+      <input
+        #hostInput
+        type="text"
+        placeholder=""
+        matInput
+        [formControl]="control"
+      />
+    </mat-form-field>
+  </div>
 </form>
 }
