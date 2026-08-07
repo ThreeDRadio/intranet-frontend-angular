@@ -31,9 +31,12 @@ import { MatFormFieldModule } from "@angular/material/form-field";
   styleUrl: "./new-playlist.scss",
 })
 export class NewPlaylistPage implements OnInit {
-  input = viewChild.required<ElementRef<HTMLInputElement>>("showInput");
-  control = new FormControl("");
   store = inject(LoggerStore);
+  private showInput =
+    viewChild.required<ElementRef<HTMLInputElement>>("showInput");
+  private hostInput =
+    viewChild.required<ElementRef<HTMLInputElement>>("hostInput");
+  control = new FormControl("");
 
   readonly shows = computed(() =>
     this.store
@@ -48,7 +51,7 @@ export class NewPlaylistPage implements OnInit {
   }
 
   filter(): void {
-    const filterValue = this.input().nativeElement.value.toLowerCase();
+    const filterValue = this.showInput().nativeElement.value.toLowerCase();
     const startsWith = this.shows().filter((s) =>
       s.name.toLowerCase().startsWith(filterValue),
     );
@@ -63,5 +66,11 @@ export class NewPlaylistPage implements OnInit {
     return show.name;
   }
 
-  onShowSelected(event) {}
+  onShowSelected(event) {
+    const show = event.option.value;
+
+    if (show) {
+      this.hostInput().nativeElement.value = show.defaultHost;
+    }
+  }
 }
