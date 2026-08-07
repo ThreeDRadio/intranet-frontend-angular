@@ -22,10 +22,9 @@ import { Show } from "../../models/show";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter,
-} from "@angular/material-moment-adapter";
+import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatSelectModule } from "@angular/material/select";
 
 export const LONG_DATE_FORMAT = {
   parse: {
@@ -49,6 +48,8 @@ export const LONG_DATE_FORMAT = {
     MatInputModule,
     MatFormFieldModule,
     MatDatepickerModule,
+    MatSlideToggleModule,
+    MatSelectModule,
     ReactiveFormsModule,
   ],
   providers: [
@@ -72,6 +73,7 @@ export class NewPlaylistPage implements OnInit {
   //Forms
   showControl = new FormControl();
   hostControl = new FormControl();
+  fillInControl = new FormControl();
   dateControl = new FormControl(new Date());
 
   readonly shows = computed(() =>
@@ -81,6 +83,7 @@ export class NewPlaylistPage implements OnInit {
       .sort((a, b) => a.name.localeCompare(b.name)),
   );
   filteredShows = signal<Show[]>(this.shows().slice());
+  readonly isFillInOptionVisible = computed(() => false);
 
   ngOnInit() {
     this.store.fetchAllShows();
