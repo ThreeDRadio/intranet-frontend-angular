@@ -43,6 +43,10 @@ export class NewPlaylistPage implements OnInit {
   );
   filteredShows = signal<Show[]>(this.shows().slice());
 
+  ngOnInit() {
+    this.store.fetchAllShows();
+  }
+
   filter(): void {
     const filterValue = this.input().nativeElement.value.toLowerCase();
     const startsWith = this.shows().filter((s) =>
@@ -55,7 +59,9 @@ export class NewPlaylistPage implements OnInit {
     this.filteredShows.set([...startsWith, ...includes]);
   }
 
-  ngOnInit() {
-    this.store.fetchAllShows();
+  showOptionDisplay(show: Show): string {
+    return show.name;
   }
+
+  onShowSelected(event) {}
 }

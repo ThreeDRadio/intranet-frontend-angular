@@ -16,9 +16,14 @@
         (input)="filter()"
         (focus)="filter()"
       />
-      <mat-autocomplete requireSelection #showsAuto="matAutocomplete">
+      <mat-autocomplete
+        requireSelection
+        #showsAuto="matAutocomplete"
+        [displayWith]="showOptionDisplay"
+        (optionSelected)="onShowSelected($event)"
+      >
         @for (show of filteredShows(); track show.id) {
-        <mat-option [value]="show.name">{{show.name}}</mat-option>
+        <mat-option [value]="show"> {{show.name}} </mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
