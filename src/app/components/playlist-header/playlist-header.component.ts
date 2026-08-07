@@ -1,5 +1,4 @@
 import { Component, computed, inject, input } from "@angular/core";
-import { Playlist } from "../../models";
 import {
   MatCard,
   MatCardActions,
@@ -12,10 +11,14 @@ import {
 import { MatIcon } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDividerModule } from "@angular/material/divider";
-import moment from "moment-timezone";
-import { LoggerStore } from "../../store";
 import { RouterLink } from "@angular/router";
+
+import { Playlist } from "../../models";
+import { LoggerStore } from "../../store";
 import { DateService } from "../../services/date.service";
+import { MatSelectModule } from "@angular/material/select";
+import { MatOptionModule } from "@angular/material/core";
+import { MatMenuModule } from "@angular/material/menu";
 
 @Component({
   selector: "app-playlist-header",
@@ -31,6 +34,9 @@ import { DateService } from "../../services/date.service";
     MatButtonModule,
     MatDividerModule,
     RouterLink,
+    MatSelectModule,
+    MatOptionModule,
+    MatMenuModule,
   ],
   providers: [DateService],
   templateUrl: "./playlist-header.component.html",

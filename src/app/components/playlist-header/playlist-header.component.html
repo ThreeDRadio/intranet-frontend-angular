@@ -15,7 +15,7 @@
     <mat-divider></mat-divider>
   </mat-card-content>
   <mat-card-actions>
-    <a
+    <button
       matFab
       extended
       color="primary"
@@ -23,17 +23,33 @@
     >
       <mat-icon>art_track</mat-icon>
       View
-    </a>
+    </button>
     <mat-divider [vertical]="false"></mat-divider>
-    <a matFab extended color="secondary" routerLink=".">
+    <button matFab extended color="secondary">
       <mat-icon>edit</mat-icon>
       Edit
-    </a>
+    </button>
     <mat-divider [vertical]="false"></mat-divider>
-    <a matFab extended color="accent" routerLink=".">
+    <button matFab extended color="accent" [matMenuTriggerFor]="exportMenu">
       <mat-icon>build</mat-icon>
       Export
-    </a>
+      <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+    </button>
   </mat-card-actions>
   <mat-card-footer></mat-card-footer>
 </mat-card>
+
+<mat-menu #exportMenu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>subdirectory_arrow_right</mat-icon>
+    <span>Artist - Track</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>subdirectory_arrow_right</mat-icon>
+    <span>Artist - Track, Album</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>code</mat-icon>
+    <span>CSV</span>
+  </button>
+</mat-menu>
