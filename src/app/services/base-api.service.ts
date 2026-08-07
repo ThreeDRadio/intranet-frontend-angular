@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { inject, Inject, Injectable, InjectionToken } from "@angular/core";
+import { inject, Injectable, InjectionToken } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 

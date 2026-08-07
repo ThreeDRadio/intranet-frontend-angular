@@ -1,5 +1,4 @@
 import { Component, computed, inject, input } from "@angular/core";
-import { Playlist } from "../../models";
 import {
   MatCard,
   MatCardActions,
@@ -12,10 +11,15 @@ import {
 import { MatIcon } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDividerModule } from "@angular/material/divider";
-import moment from "moment-timezone";
-import { LoggerStore } from "../../store";
 import { RouterLink } from "@angular/router";
+
+import { Playlist } from "../../models";
+import { LoggerStore } from "../../store";
 import { DateService } from "../../services/date.service";
+import { MatSelectModule } from "@angular/material/select";
+import { MatOptionModule } from "@angular/material/core";
+import { MatMenuModule } from "@angular/material/menu";
+import { API_URL, BaseApi } from "../../services/base-api.service";
 
 @Component({
   selector: "app-playlist-header",
@@ -31,6 +35,9 @@ import { DateService } from "../../services/date.service";
     MatButtonModule,
     MatDividerModule,
     RouterLink,
+    MatSelectModule,
+    MatOptionModule,
+    MatMenuModule,
   ],
   providers: [DateService],
   templateUrl: "./playlist-header.component.html",
@@ -38,6 +45,7 @@ import { DateService } from "../../services/date.service";
 })
 export class PlaylistHeaderComponent {
   store = inject(LoggerStore);
+  apiUrl = inject(API_URL);
   dateService = inject(DateService);
 
   readonly playlist = input.required<Playlist>();
@@ -46,4 +54,22 @@ export class PlaylistHeaderComponent {
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
   );
+
+  openTextNoAlbum() {
+    const id = this.playlist().id;
+    const url = `${this.apiUrl}/logger/playlists/${id}?format=text`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  openTextWithAlbum() {
+    const id = this.playlist().id;
+    const url = `${this.apiUrl}/logger/playlists/${id}?format=text&album=true`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  openCsv() {
+    const id = this.playlist().id;
+    const url = `${this.apiUrl}/logger/playlists/${id}?format=csv`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
 }
