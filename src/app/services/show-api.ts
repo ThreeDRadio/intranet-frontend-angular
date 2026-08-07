@@ -18,4 +18,8 @@ export class ShowApi extends ModelApi<Show> {
     let observables = params.ids.map((id) => this.http.get(`shows/${id}`));
     return forkJoin(observables);
   }
+
+  getAllShows() {
+    return super.list({ responseType: "json" });
+  }
 }
