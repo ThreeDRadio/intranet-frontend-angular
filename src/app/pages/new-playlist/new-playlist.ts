@@ -20,12 +20,14 @@ import { LoggerStore } from "../../store";
 import { MatInputModule } from "@angular/material/input";
 import { Show } from "../../models/show";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatFormFieldModule, MatHint } from "@angular/material/form-field";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatSelectModule } from "@angular/material/select";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatIconModule } from "@angular/material/icon";
 
 export const LONG_DATE_FORMAT = {
   parse: {
@@ -51,6 +53,9 @@ export const LONG_DATE_FORMAT = {
     MatDatepickerModule,
     MatSlideToggleModule,
     MatSelectModule,
+    MatDividerModule,
+    MatIconModule,
+    MatHint,
     ReactiveFormsModule,
   ],
   providers: [
@@ -84,6 +89,7 @@ export class NewPlaylistPage implements OnInit {
   hostControl = new FormControl();
   fillInControl = new FormControl();
   dateControl = new FormControl(new Date());
+  notesControl = new FormControl();
 
   // Filtering
   filteredShows = signal<Show[]>(this.shows().slice());
