@@ -11,7 +11,7 @@
         type="text"
         placeholder="---"
         matInput
-        [formControl]="control"
+        [formControl]="showControl"
         [matAutocomplete]="showsAuto"
         (input)="filter()"
         (focus)="filter()"
@@ -34,8 +34,23 @@
         type="text"
         placeholder=""
         matInput
-        [formControl]="control"
+        [formControl]="hostControl"
       />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [startAt]="today"
+        [formControl]="dateControl"
+        readonly
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
   </div>
 </form>

@@ -14,8 +14,9 @@ import { MatMenuModule } from "@angular/material/menu";
 import { LoggerStore } from "../../store";
 import { MatInputModule } from "@angular/material/input";
 import { Show } from "../../models/show";
-import { FormControl } from "@angular/forms";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 
 @Component({
   selector: "app-new-playlist",
@@ -26,6 +27,8 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     MatOptionModule,
     MatInputModule,
     MatFormFieldModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
   ],
   templateUrl: "./new-playlist.html",
   styleUrl: "./new-playlist.scss",
@@ -36,7 +39,11 @@ export class NewPlaylistPage implements OnInit {
     viewChild.required<ElementRef<HTMLInputElement>>("showInput");
   private hostInput =
     viewChild.required<ElementRef<HTMLInputElement>>("hostInput");
-  control = new FormControl("");
+
+  //Forms
+  showControl = new FormControl();
+  hostControl = new FormControl();
+  dateControl = new FormControl(new Date());
 
   readonly shows = computed(() =>
     this.store
@@ -63,7 +70,7 @@ export class NewPlaylistPage implements OnInit {
   }
 
   showOptionDisplay(show: Show): string {
-    return show.name;
+    return show?.name ?? "";
   }
 
   onShowSelected(event) {
