@@ -15,6 +15,7 @@ import { LoggerStore } from "../../store";
 import { MatInputModule } from "@angular/material/input";
 import { Show } from "../../models/show";
 import { FormControl } from "@angular/forms";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
   selector: "app-new-playlist",
@@ -24,6 +25,7 @@ import { FormControl } from "@angular/forms";
     MatAutocompleteModule,
     MatOptionModule,
     MatInputModule,
+    MatFormFieldModule,
   ],
   templateUrl: "./new-playlist.html",
   styleUrl: "./new-playlist.scss",
