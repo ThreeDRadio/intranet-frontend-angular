@@ -9,13 +9,35 @@ import {
 } from "@angular/core";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
-import { MatOptionModule } from "@angular/material/core";
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatOptionModule,
+} from "@angular/material/core";
 import { MatMenuModule } from "@angular/material/menu";
 import { LoggerStore } from "../../store";
 import { MatInputModule } from "@angular/material/input";
 import { Show } from "../../models/show";
-import { FormControl } from "@angular/forms";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+} from "@angular/material-moment-adapter";
+
+export const LONG_DATE_FORMAT = {
+  parse: {
+    dateInput: "dddd, MMMM Do YYYY",
+  },
+  display: {
+    dateInput: "dddd, MMMM Do YYYY",
+    monthYearLabel: "MMM YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "MMMM YYYY",
+  },
+};
 
 @Component({
   selector: "app-new-playlist",
@@ -26,6 +48,16 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     MatOptionModule,
     MatInputModule,
     MatFormFieldModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+  ],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: LONG_DATE_FORMAT },
   ],
   templateUrl: "./new-playlist.html",
   styleUrl: "./new-playlist.scss",
@@ -36,7 +68,11 @@ export class NewPlaylistPage implements OnInit {
     viewChild.required<ElementRef<HTMLInputElement>>("showInput");
   private hostInput =
     viewChild.required<ElementRef<HTMLInputElement>>("hostInput");
-  control = new FormControl("");
+
+  //Forms
+  showControl = new FormControl();
+  hostControl = new FormControl();
+  dateControl = new FormControl(new Date());
 
   readonly shows = computed(() =>
     this.store
@@ -63,7 +99,7 @@ export class NewPlaylistPage implements OnInit {
   }
 
   showOptionDisplay(show: Show): string {
-    return show.name;
+    return show?.name ?? "";
   }
 
   onShowSelected(event) {
