@@ -19,6 +19,7 @@ import { DateService } from "../../services/date.service";
 import { MatSelectModule } from "@angular/material/select";
 import { MatOptionModule } from "@angular/material/core";
 import { MatMenuModule } from "@angular/material/menu";
+import { API_URL, BaseApi } from "../../services/base-api.service";
 
 @Component({
   selector: "app-playlist-header",
@@ -44,6 +45,7 @@ import { MatMenuModule } from "@angular/material/menu";
 })
 export class PlaylistHeaderComponent {
   store = inject(LoggerStore);
+  apiUrl = inject(API_URL);
   dateService = inject(DateService);
 
   readonly playlist = input.required<Playlist>();
@@ -52,4 +54,22 @@ export class PlaylistHeaderComponent {
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
   );
+
+  openTextNoAlbum() {
+    const id = this.playlist().id;
+    const url = `${this.apiUrl}/logger/playlists/${id}?format=text`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  openTextWithAlbum() {
+    const id = this.playlist().id;
+    const url = `${this.apiUrl}/logger/playlists/${id}?format=text&album=true`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  openCsv() {
+    const id = this.playlist().id;
+    const url = `${this.apiUrl}/logger/playlists/${id}?format=csv`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
 }

@@ -40,15 +40,15 @@
 </mat-card>
 
 <mat-menu #exportMenu="matMenu">
-  <button mat-menu-item>
+  <button mat-menu-item (click)="openTextNoAlbum()">
     <mat-icon>subdirectory_arrow_right</mat-icon>
     <span>Artist - Track</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item (click)="openTextWithAlbum()">
     <mat-icon>subdirectory_arrow_right</mat-icon>
     <span>Artist - Track, Album</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item (click)="openCsv()">
     <mat-icon>code</mat-icon>
     <span>CSV</span>
   </button>
