@@ -12,6 +12,7 @@ import { NewReleasesPageComponent } from "./pages/new-releases/new-releases.comp
 import { NgModule } from "@angular/core";
 import { RecentPlaylistsPageComponent } from "./pages/recent-playlists/recent-playlists.component";
 import { PlaylistPageComponent } from "./pages/playlist/playlist.component";
+import { NewPlaylistPage } from "./pages/new-playlist/new-playlist";
 
 const ROUTES: Array<Route> = [
   {
@@ -21,15 +22,12 @@ const ROUTES: Array<Route> = [
     children: [
       { path: "", component: HomePageComponent },
       { path: "recent-playlists", component: RecentPlaylistsPageComponent },
+      { path: "new-playlist", component: NewPlaylistPage },
       { path: "new-releases", component: NewReleasesPageComponent },
       { path: "upload", component: MusicUploadComponent },
       { path: "search", component: SearchComponent },
       { path: "releases/:id", component: ReleasePageComponent },
       { path: "playlists/:id", component: PlaylistPageComponent },
-      /* {
-        path: 'supporters',
-        loadChildren: () => import('./supporters/supporters.module').then(m => m.SupportersModule)
-      } */
     ],
   },
   {
