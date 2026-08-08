@@ -104,7 +104,7 @@ export class NewPlaylistPage implements OnInit {
     showControl: new FormControl(),
     hostControl: new FormControl(),
     fillInControl: new FormControl(),
-    dateControl: new FormControl(new Date()),
+    dateControl: new FormControl(),
     notesControl: new FormControl(),
   });
 
@@ -229,7 +229,7 @@ export class NewPlaylistPage implements OnInit {
   onSubmit() {
     if (this.newShowForm.valid) {
       let result: NewPlaylist = {
-        show: this.newShowForm.controls.showControl.value,
+        show: this.newShowForm.controls.showControl.value.id,
         showname: "",
         host: this.hostInput().nativeElement.value,
         date: moment(this.newShowForm.controls.dateControl.value).format(
@@ -247,6 +247,7 @@ export class NewPlaylistPage implements OnInit {
           this.newShowForm.controls.showControl.value.australianQuota,
       };
 
+      console.log(result);
       this.store.createNewPlaylist(result);
       this.newShowForm.reset();
     }
