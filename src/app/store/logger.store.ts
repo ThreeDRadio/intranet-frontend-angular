@@ -147,6 +147,7 @@ export const LoggerStore = signalStore(
                 success: undefined,
                 statusCode: undefined,
                 state: "in-progress",
+                id: undefined,
               },
             }),
           ),

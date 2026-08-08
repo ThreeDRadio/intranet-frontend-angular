@@ -168,8 +168,11 @@ export class NewPlaylistPage implements OnInit {
 
   constructor() {
     effect(() => {
-      if (this.store.playlistSubmission()?.state === "created") {
-        this.router.navigate(["/playlist-editor"]);
+      const submission = this.store.playlistSubmission();
+
+      if (submission?.state === "created") {
+        this.newShowForm.reset();
+        this.router.navigate(["/playlists/edit", submission.id]);
       } else {
       }
     });
@@ -251,7 +254,6 @@ export class NewPlaylistPage implements OnInit {
       };
 
       this.store.createNewPlaylist(result);
-      this.newShowForm.reset();
     }
   }
 }

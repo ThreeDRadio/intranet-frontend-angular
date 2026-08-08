@@ -22,9 +22,9 @@ const ROUTES: Array<Route> = [
     canActivate: [ReadyGuard, AuthenticatedGuard],
     children: [
       { path: "", component: HomePageComponent },
-      { path: "recent-playlists", component: RecentPlaylistsPageComponent },
-      { path: "new-playlist", component: NewPlaylistPage },
-      { path: "playlist-editor", component: PlaylistEditorPage },
+      { path: "playlists/recent", component: RecentPlaylistsPageComponent },
+      { path: "playlists/new", component: NewPlaylistPage },
+      { path: "playlists/edit/:id", component: PlaylistEditorPage },
       { path: "new-releases", component: NewReleasesPageComponent },
       { path: "upload", component: MusicUploadComponent },
       { path: "search", component: SearchComponent },
