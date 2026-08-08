@@ -220,6 +220,9 @@ export class NewPlaylistPage implements OnInit {
         this.newShowForm.controls.fillInControl.value !== null &&
         this.newShowForm.controls.fillInControl.value !== "");
 
+    const isSubmitting =
+      this.store.playlistSubmission()?.state === "in-progress";
+
     return (
       show !== null &&
       actualHost !== null &&
@@ -227,7 +230,8 @@ export class NewPlaylistPage implements OnInit {
       dateString !== null &&
       dateString !== "" &&
       moment(dateObj).isValid() &&
-      fillInValid
+      fillInValid &&
+      !isSubmitting
     );
   });
 
