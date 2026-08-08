@@ -2,7 +2,7 @@
 <h4>Loading shows...</h4>
 } @else {
 <h1>New Playlist</h1>
-<form [formGroup]="newShowForm" class="vertical-form">
+<form [formGroup]="newShowForm" (ngSubmit)="onSubmit()" class="vertical-form">
   <mat-form-field>
     <mat-label>Show</mat-label>
     <input
@@ -73,7 +73,13 @@
       ></textarea>
     </mat-form-field>
   </div>
-  <button mat-button mat-raised-button matSuffix [disabled]="!isNewShowValid()">
+  <button
+    mat-button
+    mat-raised-button
+    matSuffix
+    type="submit"
+    [disabled]="!isNewShowValid()"
+  >
     Let's go
   </button>
 </form>

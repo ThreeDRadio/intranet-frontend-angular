@@ -34,6 +34,9 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import moment from "moment";
+import { NewPlaylist, Playlist } from "../../models";
+import { Router } from "@angular/router";
+import { PlaylistService } from "../../services/playlist.service";
 
 export const LONG_DATE_FORMAT = {
   parse: {
@@ -64,6 +67,7 @@ export const LONG_DATE_FORMAT = {
     ReactiveFormsModule,
   ],
   providers: [
+    PlaylistService,
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -76,6 +80,10 @@ export const LONG_DATE_FORMAT = {
 })
 export class NewPlaylistPage implements OnInit {
   store = inject(LoggerStore);
+  router = inject(Router);
+  // Services
+  playlistService = inject(PlaylistService);
+
   readonly shows = computed(() =>
     this.store
       .shows()
@@ -191,4 +199,30 @@ export class NewPlaylistPage implements OnInit {
       fillInValid
     );
   });
+
+  onSubmit() {
+    if (this.newShowForm.valid) {
+      let result: NewPlaylist = {
+        show: this.newShowForm.controls.showControl.value,
+        showname: "",
+        host: this.hostInput().nativeElement.value,
+        date: moment(this.newShowForm.controls.dateControl.value).format(
+          "YYYY-MM-DD",
+        ),
+        notes: this.newShowForm.controls.notesControl.value,
+        complete: false,
+        fillin:
+          this.newShowForm.controls.fillInControl.value === "yes"
+            ? true
+            : false,
+        femaleQuota: this.newShowForm.controls.showControl.value.femaleQuota,
+        localQuota: this.newShowForm.controls.showControl.value.localQuota,
+        australianQuota:
+          this.newShowForm.controls.showControl.value.australianQuota,
+      };
+
+      //this.playlistService.create(result);
+      //this.router.navigate(["/playlist-editor"], );
+    }
+  }
 }

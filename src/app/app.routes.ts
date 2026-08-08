@@ -13,6 +13,7 @@ import { NgModule } from "@angular/core";
 import { RecentPlaylistsPageComponent } from "./pages/recent-playlists/recent-playlists.component";
 import { PlaylistPageComponent } from "./pages/playlist/playlist.component";
 import { NewPlaylistPage } from "./pages/new-playlist/new-playlist";
+import { PlaylistEditorPage } from "./pages/playlist-editor/playlist-editor";
 
 const ROUTES: Array<Route> = [
   {
@@ -23,6 +24,7 @@ const ROUTES: Array<Route> = [
       { path: "", component: HomePageComponent },
       { path: "recent-playlists", component: RecentPlaylistsPageComponent },
       { path: "new-playlist", component: NewPlaylistPage },
+      { path: "playlist-editor", component: PlaylistEditorPage },
       { path: "new-releases", component: NewReleasesPageComponent },
       { path: "upload", component: MusicUploadComponent },
       { path: "search", component: SearchComponent },
