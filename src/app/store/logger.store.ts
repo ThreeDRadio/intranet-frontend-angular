@@ -26,9 +26,9 @@ import { PlaylistEntry } from "../models/playlist-entry";
 type PlaylistSubmissionState =
   | undefined
   | {
-      success: boolean;
-      statusCode: number;
-      statusText: string | undefined;
+      success: boolean | undefined;
+      statusCode: number | undefined;
+      state: string;
     };
 
 type LoggerState = {
@@ -140,30 +140,38 @@ export const LoggerStore = signalStore(
 
       createNewPlaylist: rxMethod<NewPlaylist>(
         pipe(
-          tap(() => patchState(store, { isLoading: true })),
+          tap(() =>
+            patchState(store, {
+              playlistSubmission: {
+                success: undefined,
+                statusCode: undefined,
+                state: "in-progress",
+              },
+            }),
+          ),
           exhaustMap((input) =>
             playlistService.create(input).pipe(
               tap((result) => {
                 patchState(store, (state) => ({
                   playlistSubmission: {
-                    success: false,
+                    success: true,
                     statusCode: 201,
-                    statusText: undefined,
+                    state: "complete",
                   },
                   playlists: [...state.playlists, result],
                 }));
+                return EMPTY;
               }),
               catchError((err) => {
                 patchState(store, {
                   playlistSubmission: {
                     success: false,
                     statusCode: err.status,
-                    statusText: err.statusText,
+                    state: "failed",
                   },
                 });
                 return EMPTY;
               }),
-              finalize(() => patchState(store, { isLoading: false })),
             ),
           ),
         ),

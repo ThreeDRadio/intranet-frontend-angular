@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   OnInit,
@@ -139,6 +140,14 @@ export class NewPlaylistPage implements OnInit {
     },
   );
 
+  readonly currentSubmitButtonText = computed(() => {
+    if (this.store.playlistSubmission()?.state === "in-progress") {
+      return "Creating...";
+    }
+
+    return "Let's go";
+  });
+
   readonly isFillInVisible = computed(() => {
     const show = this.currentShowValue();
     const host = this.currentHostValue(); // This is just here to trigger the signal haha I don't know what I'm doing
@@ -154,6 +163,15 @@ export class NewPlaylistPage implements OnInit {
 
     return actualHost.toLowerCase() !== show.defaultHost.toLowerCase();
   });
+
+  constructor() {
+    effect(() => {
+      if (this.store.playlistSubmission()?.state === "success") {
+        this.router.navigate(["/"]);
+      } else {
+      }
+    });
+  }
 
   ngOnInit() {
     this.store.fetchAllShows();
@@ -196,8 +214,6 @@ export class NewPlaylistPage implements OnInit {
       (this.isFillInVisible() &&
         this.newShowForm.controls.fillInControl.value !== null &&
         this.newShowForm.controls.fillInControl.value !== "");
-
-    console.log(fillInValid);
 
     return (
       show !== null &&
