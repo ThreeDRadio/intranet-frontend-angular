@@ -8,7 +8,7 @@ import {
   viewChild,
 } from "@angular/core";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
-import { MatButtonModule } from "@angular/material/button";
+import { MatButtonModule, MatIconButton } from "@angular/material/button";
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
@@ -19,7 +19,12 @@ import { MatMenuModule } from "@angular/material/menu";
 import { LoggerStore } from "../../store";
 import { MatInputModule } from "@angular/material/input";
 import { Show } from "../../models/show";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { MatFormFieldModule, MatHint } from "@angular/material/form-field";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
@@ -28,6 +33,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
+import moment from "moment";
 
 export const LONG_DATE_FORMAT = {
   parse: {
@@ -55,7 +61,6 @@ export const LONG_DATE_FORMAT = {
     MatSelectModule,
     MatDividerModule,
     MatIconModule,
-    MatHint,
     ReactiveFormsModule,
   ],
   providers: [
@@ -83,24 +88,41 @@ export class NewPlaylistPage implements OnInit {
     viewChild.required<ElementRef<HTMLInputElement>>("showInput");
   private hostInput =
     viewChild.required<ElementRef<HTMLInputElement>>("hostInput");
-
+  private dateInput =
+    viewChild.required<ElementRef<HTMLInputElement>>("dateInput");
   //Forms
-  showControl = new FormControl();
-  hostControl = new FormControl();
-  fillInControl = new FormControl();
-  dateControl = new FormControl(new Date());
-  notesControl = new FormControl();
+  newShowForm = new FormGroup({
+    showControl: new FormControl(),
+    hostControl: new FormControl(),
+    fillInControl: new FormControl(),
+    dateControl: new FormControl(new Date()),
+    notesControl: new FormControl(),
+  });
 
   // Filtering
   filteredShows = signal<Show[]>(this.shows().slice());
-  // Fillin logic
-  private readonly currentShowValue = toSignal(this.showControl.valueChanges, {
-    initialValue: this.showControl.value,
-  });
 
-  private readonly currentHostValue = toSignal(this.hostControl.valueChanges, {
-    initialValue: this.hostControl.value,
-  });
+  // Fillin logic
+  private readonly currentShowValue = toSignal(
+    this.newShowForm.controls.showControl.valueChanges,
+    {
+      initialValue: this.newShowForm.controls.showControl.value,
+    },
+  );
+
+  private readonly currentHostValue = toSignal(
+    this.newShowForm.controls.hostControl.valueChanges,
+    {
+      initialValue: this.newShowForm.controls.hostControl.value,
+    },
+  );
+
+  private readonly currentFillInValue = toSignal(
+    this.newShowForm.controls.fillInControl.valueChanges,
+    {
+      initialValue: this.newShowForm.controls.fillInControl.value,
+    },
+  );
 
   readonly isFillInVisible = computed(() => {
     const show = this.currentShowValue();
@@ -145,4 +167,28 @@ export class NewPlaylistPage implements OnInit {
       this.hostInput().nativeElement.value = show.defaultHost;
     }
   }
+
+  readonly isNewShowValid = computed(() => {
+    const show = this.currentShowValue();
+    const host = this.currentHostValue(); // This is just here to trigger the signal haha I don't know what I'm doing
+    const fillIn = this.currentFillInValue(); // This is just here to trigger the signal haha I don't know what I'm doing
+    const actualHost = this.hostInput().nativeElement.value;
+    const dateString = this.dateInput().nativeElement.value;
+    const dateObj = this.newShowForm.controls.dateControl.value;
+    const fillInValid =
+      !this.isFillInVisible() ||
+      (this.isFillInVisible() &&
+        this.newShowForm.controls.fillInControl.value !== null &&
+        this.newShowForm.controls.fillInControl.value !== "");
+
+    return (
+      show !== null &&
+      actualHost !== null &&
+      actualHost !== "" &&
+      dateString !== null &&
+      dateString !== "" &&
+      moment(dateObj).isValid() &&
+      fillInValid
+    );
+  });
 }
