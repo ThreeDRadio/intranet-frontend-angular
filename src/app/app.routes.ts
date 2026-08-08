@@ -29,7 +29,7 @@ const ROUTES: Array<Route> = [
       { path: "upload", component: MusicUploadComponent },
       { path: "search", component: SearchComponent },
       { path: "releases/:id", component: ReleasePageComponent },
-      { path: "playlists/:id", component: PlaylistPageComponent },
+      { path: "playlists/view/:id", component: PlaylistPageComponent },
     ],
   },
   {

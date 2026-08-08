@@ -19,13 +19,18 @@
       matFab
       extended
       color="primary"
-      [routerLink]="['/playlists', playlist().id]"
+      [routerLink]="['/playlists/view', playlist().id]"
     >
       <mat-icon>art_track</mat-icon>
       View
     </button>
     <mat-divider [vertical]="false"></mat-divider>
-    <button matFab extended color="secondary">
+    <button
+      matFab
+      extended
+      color="secondary"
+      [routerLink]="['/playlists/edit', playlist().id]"
+    >
       <mat-icon>edit</mat-icon>
       Edit
     </button>
