@@ -9,26 +9,33 @@ import {
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { tapResponse } from "@ngrx/operators";
 import { PlaylistService } from "../services/playlist.service";
-import { Playlist, PlaylistsByDate } from "../models/playlist";
+import { NewPlaylist, Playlist, PlaylistsByDate } from "../models/playlist";
 import { Show } from "../models/show";
 import { ShowService } from "../services/show.service";
 import {
   catchError,
-  concatMap,
   EMPTY,
   exhaustMap,
-  filter,
   finalize,
-  of,
   pipe,
   switchMap,
-  switchScan,
   tap,
 } from "rxjs";
 import { PlaylistEntry } from "../models/playlist-entry";
 
+type PlaylistSubmissionState =
+  | undefined
+  | {
+      success: boolean;
+      statusCode: number;
+      statusText: string | undefined;
+    };
+
 type LoggerState = {
   isLoading: boolean;
+  // Submission state
+  playlistSubmission: PlaylistSubmissionState;
+  // Internal state
   shows: Show[];
   playlists: Playlist[];
   playlistEntries: PlaylistEntry[];
@@ -36,6 +43,7 @@ type LoggerState = {
 
 export const initialState: LoggerState = {
   isLoading: false,
+  playlistSubmission: undefined,
   shows: [],
   playlists: [],
   playlistEntries: [],
@@ -129,6 +137,38 @@ export const LoggerStore = signalStore(
           ),
         ),
       ),
+
+      createNewPlaylist: rxMethod<NewPlaylist>(
+        pipe(
+          tap(() => patchState(store, { isLoading: true })),
+          exhaustMap((input) =>
+            playlistService.create(input).pipe(
+              tap((result) => {
+                patchState(store, (state) => ({
+                  playlistSubmission: {
+                    success: false,
+                    statusCode: 201,
+                    statusText: undefined,
+                  },
+                  playlists: [...state.playlists, result],
+                }));
+              }),
+              catchError((err) => {
+                patchState(store, {
+                  playlistSubmission: {
+                    success: false,
+                    statusCode: err.status,
+                    statusText: err.statusText,
+                  },
+                });
+                return EMPTY;
+              }),
+              finalize(() => patchState(store, { isLoading: false })),
+            ),
+          ),
+        ),
+      ),
     }),
   ),
 );
+``;

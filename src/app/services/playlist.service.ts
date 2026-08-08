@@ -55,12 +55,11 @@ export class PlaylistService {
     );
   }
 
-  // Create a new playlist
-  create(input: NewPlaylist): Observable<Playlist | undefined> {
+  create(input: NewPlaylist): Observable<Playlist> {
     const observable = this.playlistApi.create(input);
     return observable.pipe(
       map((response: any) => {
-        return undefined;
+        return response as Playlist;
       }),
     );
   }

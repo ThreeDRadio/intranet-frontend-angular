@@ -125,6 +125,13 @@ export class NewPlaylistPage implements OnInit {
     },
   );
 
+  private readonly currentDateValue = toSignal(
+    this.newShowForm.controls.dateControl.valueChanges,
+    {
+      initialValue: this.newShowForm.controls.dateControl.value,
+    },
+  );
+
   private readonly currentFillInValue = toSignal(
     this.newShowForm.controls.fillInControl.valueChanges,
     {
@@ -179,6 +186,7 @@ export class NewPlaylistPage implements OnInit {
   readonly isNewShowValid = computed(() => {
     const show = this.currentShowValue();
     const host = this.currentHostValue(); // This is just here to trigger the signal haha I don't know what I'm doing
+    const date = this.currentDateValue(); // This is just here to trigger the signal haha I don't know what I'm doing
     const fillIn = this.currentFillInValue(); // This is just here to trigger the signal haha I don't know what I'm doing
     const actualHost = this.hostInput().nativeElement.value;
     const dateString = this.dateInput().nativeElement.value;
@@ -188,6 +196,8 @@ export class NewPlaylistPage implements OnInit {
       (this.isFillInVisible() &&
         this.newShowForm.controls.fillInControl.value !== null &&
         this.newShowForm.controls.fillInControl.value !== "");
+
+    console.log(fillInValid);
 
     return (
       show !== null &&
@@ -221,8 +231,8 @@ export class NewPlaylistPage implements OnInit {
           this.newShowForm.controls.showControl.value.australianQuota,
       };
 
-      //this.playlistService.create(result);
-      //this.router.navigate(["/playlist-editor"], );
+      this.store.createNewPlaylist(result);
+      this.newShowForm.reset();
     }
   }
 }
