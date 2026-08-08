@@ -29,6 +29,7 @@ type PlaylistSubmissionState =
       success: boolean | undefined;
       statusCode: number | undefined;
       state: string;
+      id: number | undefined;
     };
 
 type LoggerState = {
@@ -156,7 +157,8 @@ export const LoggerStore = signalStore(
                   playlistSubmission: {
                     success: true,
                     statusCode: 201,
-                    state: "complete",
+                    state: "created",
+                    id: result.id,
                   },
                   playlists: [...state.playlists, result],
                 }));
@@ -168,6 +170,7 @@ export const LoggerStore = signalStore(
                     success: false,
                     statusCode: err.status,
                     state: "failed",
+                    id: undefined,
                   },
                 });
                 return EMPTY;

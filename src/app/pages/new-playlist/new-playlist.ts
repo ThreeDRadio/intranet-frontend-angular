@@ -82,9 +82,9 @@ export const LONG_DATE_FORMAT = {
 export class NewPlaylistPage implements OnInit {
   store = inject(LoggerStore);
   router = inject(Router);
+
   // Services
   playlistService = inject(PlaylistService);
-
   readonly shows = computed(() =>
     this.store
       .shows()
@@ -99,7 +99,8 @@ export class NewPlaylistPage implements OnInit {
     viewChild.required<ElementRef<HTMLInputElement>>("hostInput");
   private dateInput =
     viewChild.required<ElementRef<HTMLInputElement>>("dateInput");
-  //Forms
+
+  // Forms
   newShowForm = new FormGroup({
     showControl: new FormControl(),
     hostControl: new FormControl(),
@@ -140,6 +141,7 @@ export class NewPlaylistPage implements OnInit {
     },
   );
 
+  // Form state
   readonly currentSubmitButtonText = computed(() => {
     if (this.store.playlistSubmission()?.state === "in-progress") {
       return "Creating...";
@@ -166,8 +168,8 @@ export class NewPlaylistPage implements OnInit {
 
   constructor() {
     effect(() => {
-      if (this.store.playlistSubmission()?.state === "success") {
-        this.router.navigate(["/"]);
+      if (this.store.playlistSubmission()?.state === "created") {
+        this.router.navigate(["/playlist-editor"]);
       } else {
       }
     });
@@ -241,13 +243,13 @@ export class NewPlaylistPage implements OnInit {
           this.newShowForm.controls.fillInControl.value === "yes"
             ? true
             : false,
-        femaleQuota: this.newShowForm.controls.showControl.value.femaleQuota,
-        localQuota: this.newShowForm.controls.showControl.value.localQuota,
+        femaleQuota:
+          this.newShowForm.controls.showControl.value.femaleQuota ?? 0,
+        localQuota: this.newShowForm.controls.showControl.value.localQuota ?? 0,
         australianQuota:
-          this.newShowForm.controls.showControl.value.australianQuota,
+          this.newShowForm.controls.showControl.value.australianQuota ?? 0,
       };
 
-      console.log(result);
       this.store.createNewPlaylist(result);
       this.newShowForm.reset();
     }
