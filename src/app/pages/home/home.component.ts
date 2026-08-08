@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { ReleaseActions } from "app/store";
 import { Observable } from "rxjs";
@@ -52,6 +52,9 @@ import { CommentListComponent } from "../../components/comment-list/comment-list
   ],
 })
 export class HomePageComponent implements OnInit {
+  private store = inject(Store<any>);
+  private router = inject(Router);
+
   loading$: Observable<boolean>;
   releases$: Observable<Array<any>>;
   comments$: Observable<Array<Comment>>;
@@ -59,10 +62,7 @@ export class HomePageComponent implements OnInit {
 
   displayedColumns = ["artist", "title", "year", "createwhen", "tags"];
 
-  constructor(
-    private store: Store<any>,
-    private router: Router,
-  ) {
+  constructor() {
     this.loading$ = this.store.select(ReleaseSelectors.isLoading);
     this.releases$ = this.store.select(ReleaseSelectors.getAll);
     this.comments$ = this.store.select(CommentSelectors.getAll);
