@@ -12,3 +12,13 @@
 .horizontal-attribute-container {
   display: inline-flex;
 }
+
+.quota-met {
+  background-color: #5cb85c;
+  color: #fff;
+}
+
+.quota-unmet {
+  background-color: #d9534f;
+  color: #fff;
+}

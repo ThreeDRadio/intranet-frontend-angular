@@ -4,14 +4,28 @@
       <mat-card>
         <mat-card-header>
           <h1>
-            <mat-icon>music_note</mat-icon>
-            {{ entry.title }}
+            <div class="entry-icon-text-container">
+              <mat-icon>music_note</mat-icon>
+              <span>{{ entry.title }}</span>
+            </div>
           </h1>
         </mat-card-header>
         <mat-card-content>
-          <mat-icon>person</mat-icon>{{ entry.artist }}
-          <mat-icon>album</mat-icon>{{ entry.album }}
-          <mat-icon>av_timer</mat-icon>{{ entry.duration }}
+          <div class="entry-info-container">
+            <div class="entry-icon-text-container">
+              <mat-icon>person</mat-icon>
+              <span>{{ entry.artist }}</span>
+            </div>
+            <div class="entry-icon-text-container">
+              <mat-icon>album</mat-icon>
+              <span>{{ entry.album }}</span>
+            </div>
+            <div class="entry-icon-text-container">
+              <mat-icon>av_timer</mat-icon>
+              <span>{{ entry.duration }}</span>
+            </div>
+          </div>
+
           <div class="entry-quotas-container">
             @if (entry.local) {
               <mat-icon>check</mat-icon>
