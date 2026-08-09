@@ -1,11 +1,14 @@
 @if (this.input(); as entry) {
-  {{ this.action() }}
   <mat-card class="entry-card">
     <mat-card-header>
       <h1>
         <div class="entry-icon-text-container">
           <mat-icon>music_note</mat-icon>
-          <span>{{ entry.title }}</span>
+          @if (this.action() === "view") {
+            <span>{{ entry.title }}</span>
+          } @else {
+            <input matInput [value]="entry.title" />
+          }
         </div>
       </h1>
     </mat-card-header>
@@ -13,35 +16,64 @@
       <div class="entry-info-container">
         <div class="entry-icon-text-container">
           <mat-icon>person</mat-icon>
-          <span>{{ entry.artist }}</span>
+          @if (this.action() === "view") {
+            <span>{{ entry.artist }}</span>
+          } @else {
+            <input matInput [value]="entry.artist" />
+          }
         </div>
         <div class="entry-icon-text-container">
           <mat-icon>album</mat-icon>
-          <span>{{ entry.album }}</span>
+          @if (this.action() === "view") {
+            <span>{{ entry.album }}</span>
+          } @else {
+            <input matInput [value]="entry.album" />
+          }
         </div>
         <div class="entry-icon-text-container">
           <mat-icon>av_timer</mat-icon>
-          <span>{{ entry.duration }}</span>
+          @if (this.action() === "view") {
+            <span>{{ entry.duration }}</span>
+          } @else {
+            <input matInput [value]="entry.duration" />
+          }
         </div>
       </div>
 
-      <div class="quota-check-container">
-        @if (entry.local) {
-          <app-quota-check svg="true" icon="local-icon" met="true" />
-        }
-        @if (entry.australian) {
-          <app-quota-check svg="true" icon="aus-icon" met="true" />
-        }
-        @if (entry.female) {
-          <app-quota-check icon="female" met="true" />
-        }
-        @if (entry.newRelease) {
-          <div class="new-release-check mat-elevation-z0">
+      @if (this.action() === "view") {
+        <div class="quota-check-container">
+          @if (entry.local) {
+            <app-quota-check svg="true" icon="local-icon" met="true" />
+          }
+          @if (entry.australian) {
+            <app-quota-check svg="true" icon="aus-icon" met="true" />
+          }
+          @if (entry.female) {
+            <app-quota-check icon="female" met="true" />
+          }
+          @if (entry.newRelease) {
+            <div class="new-release-check mat-elevation-z0">
+              <span><b>NEW</b></span>
+              <mat-icon>check</mat-icon>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="quota-check-edit-container">
+          <mat-checkbox [checked]="entry.local">
+            <mat-icon svgIcon="local-icon"></mat-icon>
+          </mat-checkbox>
+          <mat-checkbox [checked]="entry.australian">
+            <mat-icon svgIcon="aus-icon"></mat-icon>
+          </mat-checkbox>
+          <mat-checkbox [checked]="entry.female">
+            <mat-icon>female</mat-icon>
+          </mat-checkbox>
+          <mat-checkbox [checked]="entry.newRelease">
             <span><b>NEW</b></span>
-            <mat-icon>check</mat-icon>
-          </div>
-        }
-      </div>
+          </mat-checkbox>
+        </div>
+      }
     </mat-card-content>
   </mat-card>
 }

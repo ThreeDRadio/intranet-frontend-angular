@@ -22,6 +22,14 @@
   margin-top: 8px;
 }
 
+.quota-check-edit-container {
+  /* Flexbox Layout inside the box */
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  gap: 24px;
+}
+
 .new-release-check {
   /* Box Dimensions & Padding */
   padding: 4px;
