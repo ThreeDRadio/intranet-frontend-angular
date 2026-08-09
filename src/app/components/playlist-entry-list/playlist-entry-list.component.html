@@ -1,7 +1,7 @@
 @if (this.playlist(); as pl) {
-  <div class="entry-list-container">
+  <div>
     @for (entry of this.entries(); track entry.id) {
-      <mat-card>
+      <mat-card class="entry-card">
         <mat-card-header>
           <h1>
             <div class="entry-icon-text-container">
@@ -26,17 +26,18 @@
             </div>
           </div>
 
-          <div class="entry-quotas-container">
+          <div class="quota-check-container">
             @if (entry.local) {
-              <mat-icon>check</mat-icon>
+              <app-quota-check svg="true" icon="local-icon" met="true" />
             }
             @if (entry.australian) {
-              <mat-icon>check</mat-icon>
+              <app-quota-check svg="true" icon="aus-icon" met="true" />
             }
             @if (entry.female) {
-              <mat-icon>check</mat-icon>
+              <app-quota-check icon="female" met="true" />
             }
             @if (entry.newRelease) {
+              <span><b>NEW</b></span>
               <mat-icon>check</mat-icon>
             }
           </div>

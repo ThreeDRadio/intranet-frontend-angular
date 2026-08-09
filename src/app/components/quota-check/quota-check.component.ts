@@ -1,23 +1,20 @@
-import { Component, computed, inject, input } from "@angular/core";
-import { MatIcon, MatIconRegistry } from "@angular/material/icon";
+import { Component, inject, input } from "@angular/core";
+import { MatIconModule, MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
-import { QuotaResult } from "../../services/quota.service";
 
 @Component({
-  selector: "app-quota-indicator",
-  imports: [MatIcon],
-  templateUrl: "./quota-indicator.component.html",
-  styleUrl: "./quota-indicator.component.scss",
+  selector: "app-quota-check",
+  imports: [MatIconModule],
+  templateUrl: "./quota-check.component.html",
+  styleUrl: "./quota-check.component.scss",
 })
-export class QuotaIndicatorComponent {
+export class QuotaCheckComponent {
   iconRegistry = inject(MatIconRegistry);
   sanitizer = inject(DomSanitizer);
 
   icon = input.required<string>();
   svg = input<boolean>();
-  quota = input.required<QuotaResult>();
-
-  readonly met = computed(() => this.quota().meets);
+  met = input.required<boolean>();
 
   constructor() {
     this.iconRegistry.addSvgIcon(
