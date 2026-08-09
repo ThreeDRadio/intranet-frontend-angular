@@ -1,1 +1,47 @@
-<p>playlist-entry.component works!</p>
+@if (this.input(); as entry) {
+  {{ this.action() }}
+  <mat-card class="entry-card">
+    <mat-card-header>
+      <h1>
+        <div class="entry-icon-text-container">
+          <mat-icon>music_note</mat-icon>
+          <span>{{ entry.title }}</span>
+        </div>
+      </h1>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="entry-info-container">
+        <div class="entry-icon-text-container">
+          <mat-icon>person</mat-icon>
+          <span>{{ entry.artist }}</span>
+        </div>
+        <div class="entry-icon-text-container">
+          <mat-icon>album</mat-icon>
+          <span>{{ entry.album }}</span>
+        </div>
+        <div class="entry-icon-text-container">
+          <mat-icon>av_timer</mat-icon>
+          <span>{{ entry.duration }}</span>
+        </div>
+      </div>
+
+      <div class="quota-check-container">
+        @if (entry.local) {
+          <app-quota-check svg="true" icon="local-icon" met="true" />
+        }
+        @if (entry.australian) {
+          <app-quota-check svg="true" icon="aus-icon" met="true" />
+        }
+        @if (entry.female) {
+          <app-quota-check icon="female" met="true" />
+        }
+        @if (entry.newRelease) {
+          <div class="new-release-check mat-elevation-z0">
+            <span><b>NEW</b></span>
+            <mat-icon>check</mat-icon>
+          </div>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+}

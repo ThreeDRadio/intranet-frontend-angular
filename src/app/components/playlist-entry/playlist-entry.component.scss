@@ -1,0 +1,35 @@
+.entry-card {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.entry-info-container {
+  display: flex;
+  gap: 8px;
+  //margin: 8px;
+}
+
+.entry-icon-text-container {
+  display: flex;
+  align-items: center; /* Vertically aligns items in the center */
+  gap: 4px; /* Adds optional clean spacing between icon and text */
+}
+
+.quota-check-container {
+  /* Flexbox Layout inside the box */
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+}
+
+.new-release-check {
+  /* Box Dimensions & Padding */
+  padding: 4px;
+  border-radius: 4px; /* Material standard border radius */
+  margin-right: 2px;
+
+  /* Flexbox Layout inside the box */
+  display: flex;
+  flex-direction: row;
+  //gap: 4px;
+}
