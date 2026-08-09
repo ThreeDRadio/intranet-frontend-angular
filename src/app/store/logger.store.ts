@@ -1,5 +1,6 @@
 import { computed, inject } from "@angular/core";
 import {
+  getState,
   patchState,
   signalStore,
   withComputed,
@@ -146,9 +147,18 @@ export const LoggerStore = signalStore(
             playlistService.deleteEntry(id).pipe(
               tap((response) => {
                 patchState(store, (state) => ({
-                  playlistEntries: state.playlistEntries.filter(
-                    (e) => e.id !== id,
-                  ),
+                  playlistEntries: state.playlistEntries.reduce<
+                    PlaylistEntry[]
+                  >((acc, current) => {
+                    if (current.id === id) return acc;
+
+                    acc.push({
+                      ...current,
+                      index: acc.length + 1,
+                    });
+
+                    return acc;
+                  }, []),
                 }));
               }),
               catchError((err) => {

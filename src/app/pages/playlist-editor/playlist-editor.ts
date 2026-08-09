@@ -22,7 +22,6 @@ import { MatDialog } from "@angular/material/dialog";
     MatIconModule,
     MatInputModule,
     MatSlideToggleModule,
-    ConfirmationDialogComponent,
   ],
   providers: [QuotaService, DateService],
   templateUrl: "./playlist-editor.html",
