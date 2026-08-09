@@ -5,6 +5,8 @@ import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatIconButton } from "@angular/material/button";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 @Component({
   selector: "app-playlist-entry",
@@ -13,6 +15,8 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
+    MatIconButton,
+    MatButtonToggleModule,
     QuotaCheckComponent,
   ],
   templateUrl: "./playlist-entry.component.html",

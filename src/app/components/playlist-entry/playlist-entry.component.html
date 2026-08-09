@@ -1,16 +1,23 @@
 @if (this.input(); as entry) {
   <mat-card class="entry-card">
     <mat-card-header>
-      <h1>
-        <div class="entry-icon-text-container">
+      @if (this.action() === "view") {
+        <mat-card-title style="display: flex; align-items: center; gap: 4px">
           <mat-icon>music_note</mat-icon>
-          @if (this.action() === "view") {
-            <span>{{ entry.title }}</span>
-          } @else {
-            <input matInput [value]="entry.title" />
-          }
-        </div>
-      </h1>
+          <span>{{ entry.title }}</span>
+        </mat-card-title>
+      } @else {
+        <mat-card-title style="display: flex; align-items: center; gap: 4px">
+          <mat-icon>music_note</mat-icon>
+          <input matInput [value]="entry.title" />
+        </mat-card-title>
+
+        <mat-card-title-group>
+          <button mat-icon-button aria-label="Remove" color="warn">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-card-title-group>
+      }
     </mat-card-header>
     <mat-card-content>
       <div class="entry-info-container">
@@ -59,20 +66,7 @@
           }
         </div>
       } @else {
-        <div class="quota-check-edit-container">
-          <mat-checkbox [checked]="entry.local">
-            <mat-icon svgIcon="local-icon"></mat-icon>
-          </mat-checkbox>
-          <mat-checkbox [checked]="entry.australian">
-            <mat-icon svgIcon="aus-icon"></mat-icon>
-          </mat-checkbox>
-          <mat-checkbox [checked]="entry.female">
-            <mat-icon>female</mat-icon>
-          </mat-checkbox>
-          <mat-checkbox [checked]="entry.newRelease">
-            <span><b>NEW</b></span>
-          </mat-checkbox>
-        </div>
+        <div class="quota-check-edit-container"></div>
       }
     </mat-card-content>
   </mat-card>
