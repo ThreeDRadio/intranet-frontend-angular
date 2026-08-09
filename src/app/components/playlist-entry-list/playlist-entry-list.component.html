@@ -1,0 +1,10 @@
+@if (this.playlist(); as pl) {
+  <div>
+    @for (entry of this.entries(); track entry.id) {
+      <app-playlist-entry
+        [input]="entry"
+        [action]="this.action()"
+      ></app-playlist-entry>
+    }
+  </div>
+}

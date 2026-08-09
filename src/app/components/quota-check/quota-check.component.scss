@@ -1,11 +1,11 @@
 .custom-box {
   /* Box Dimensions & Padding */
-  padding: 12px;
+  padding: 4px;
   border-radius: 4px; /* Material standard border radius */
-  margin: 6px;
+  margin-right: 2px;
 
   /* Flexbox Layout inside the box */
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  gap: 4px;
 }

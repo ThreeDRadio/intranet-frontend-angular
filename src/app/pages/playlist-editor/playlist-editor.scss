@@ -1,0 +1,21 @@
+@use "@angular/material" as mat;
+
+.demo-table {
+  width: 100%;
+}
+
+.mat-column-index {
+  width: 32px;
+  border-right: 1px solid currentColor;
+  padding-right: 24px;
+  text-align: center;
+}
+
+.mat-column-artist {
+  flex: 1;
+}
+
+.mat-column-track {
+  flex: 3; /* Takes twice as much remaining space as a flex: 1 column */
+  min-width: 150px; /* Prevents text squeezing on smaller screens */
+}

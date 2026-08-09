@@ -11,7 +11,7 @@ import { ReleasePageComponent } from "./pages/release/release.component";
 import { NewReleasesPageComponent } from "./pages/new-releases/new-releases.component";
 import { NgModule } from "@angular/core";
 import { RecentPlaylistsPageComponent } from "./pages/recent-playlists/recent-playlists.component";
-import { PlaylistPageComponent } from "./pages/playlist/playlist.component";
+import { PlaylistPageComponent } from "./pages/playlist/playlist";
 import { NewPlaylistPage } from "./pages/new-playlist/new-playlist";
 import { PlaylistEditorPage } from "./pages/playlist-editor/playlist-editor";
 
