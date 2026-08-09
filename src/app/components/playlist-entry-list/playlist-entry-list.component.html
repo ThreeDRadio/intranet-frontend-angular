@@ -37,8 +37,10 @@
               <app-quota-check icon="female" met="true" />
             }
             @if (entry.newRelease) {
-              <span><b>NEW</b></span>
-              <mat-icon>check</mat-icon>
+              <div class="new-release-check mat-elevation-z0">
+                <span><b>NEW</b></span>
+                <mat-icon>check</mat-icon>
+              </div>
             }
           </div>
         </mat-card-content>
