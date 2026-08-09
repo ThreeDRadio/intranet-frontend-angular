@@ -1,0 +1,33 @@
+@if (this.playlist(); as pl) {
+  <div class="entry-list-container">
+    @for (entry of this.entries(); track entry.id) {
+      <mat-card>
+        <mat-card-header>
+          <h1>
+            <mat-icon>music_note</mat-icon>
+            {{ entry.title }}
+          </h1>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-icon>person</mat-icon>{{ entry.artist }}
+          <mat-icon>album</mat-icon>{{ entry.album }}
+          <mat-icon>av_timer</mat-icon>{{ entry.duration }}
+          <div class="entry-quotas-container">
+            @if (entry.local) {
+              <mat-icon>check</mat-icon>
+            }
+            @if (entry.australian) {
+              <mat-icon>check</mat-icon>
+            }
+            @if (entry.female) {
+              <mat-icon>check</mat-icon>
+            }
+            @if (entry.newRelease) {
+              <mat-icon>check</mat-icon>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+}

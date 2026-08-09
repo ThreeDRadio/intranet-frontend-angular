@@ -1,20 +1,33 @@
-import { Component, computed, inject, Signal } from "@angular/core";
+import { Component, computed, inject, Signal, OnInit } from "@angular/core";
 import { LoggerStore } from "../../store/logger.store";
 import { ActivatedRoute } from "@angular/router";
 import { DateService } from "../../services/date.service";
 import { QuotaService } from "../../services/quota.service";
 import moment from "moment";
-import { PlaylistEntry } from "../../models/playlist-entry";
 import { QuotaDisplayComponent } from "../../components/quota-display/quota-display.component";
+import { MatDivider } from "@angular/material/divider";
+import { MatTableModule } from "@angular/material/table";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { PlaylistEntryListComponent } from "../../components/playlist-entry-list/playlist-entry-list.component";
 
 @Component({
   selector: "app-playlist-editor",
-  imports: [QuotaDisplayComponent],
+  imports: [
+    QuotaDisplayComponent,
+    PlaylistEntryListComponent,
+    MatTableModule,
+    MatDivider,
+    MatIconModule,
+    MatInputModule,
+    MatSlideToggleModule,
+  ],
   providers: [QuotaService, DateService],
   templateUrl: "./playlist-editor.html",
   styleUrl: "./playlist-editor.scss",
 })
-export class PlaylistEditorPage {
+export class PlaylistEditorPage implements OnInit {
   store = inject(LoggerStore);
   quotaService = inject(QuotaService);
   dateService = inject(DateService);
@@ -26,7 +39,8 @@ export class PlaylistEditorPage {
   readonly show = computed(
     () => this.store.showById()(this.playlist().show) ?? undefined,
   );
-  entries: Signal<PlaylistEntry[]> = computed(() => []);
+
+  entries = computed(() => this.store.playlistEntries());
 
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
@@ -51,4 +65,8 @@ export class PlaylistEditorPage {
       female: this.quotaService.getFemaleQuota(params, input),
     };
   });
+
+  ngOnInit() {
+    this.store.fetchPlaylistEntries(this.playlist()?.id);
+  }
 }

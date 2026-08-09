@@ -9,19 +9,21 @@ import { QuotaService } from "../../services/quota.service";
 import { MatDividerModule } from "@angular/material/divider";
 import moment from "moment";
 import { QuotaDisplayComponent } from "../../components/quota-display/quota-display.component";
+import { PlaylistEntryListComponent } from "../../components/playlist-entry-list/playlist-entry-list.component";
 
 @Component({
   selector: "app-playlist-page",
   imports: [
+    QuotaDisplayComponent,
+    PlaylistEntryListComponent,
     MatTableModule,
     MatIconModule,
     MatChipsModule,
     MatDividerModule,
-    QuotaDisplayComponent,
   ],
   providers: [DateService, QuotaService],
-  templateUrl: "./playlist.component.html",
-  styleUrl: "./playlist.component.scss",
+  templateUrl: "./playlist.html",
+  styleUrl: "./playlist.scss",
 })
 export class PlaylistPageComponent implements OnInit {
   store = inject(LoggerStore);
