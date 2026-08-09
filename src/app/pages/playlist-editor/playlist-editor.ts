@@ -67,4 +67,8 @@ export class PlaylistEditorPage implements OnInit {
   ngOnInit() {
     this.store.fetchPlaylistEntries(this.playlist()?.id);
   }
+
+  onEntryDeleted(index) {
+    console.log(index);
+  }
 }

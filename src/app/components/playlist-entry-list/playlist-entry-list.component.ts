@@ -1,4 +1,4 @@
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { Playlist } from "../../models/playlist";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { PlaylistEntryComponent } from "../playlist-entry/playlist-entry.component";
@@ -13,4 +13,9 @@ export class PlaylistEntryListComponent {
   playlist = input.required<Playlist>();
   entries = input.required<PlaylistEntry[]>();
   action = input<string>("view");
+  entryDeleted = output<number>();
+
+  onEntryDeleted(index) {
+    this.entryDeleted.emit(index);
+  }
 }

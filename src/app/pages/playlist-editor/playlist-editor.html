@@ -11,5 +11,6 @@
   [playlist]="pl"
   [entries]="this.entries()"
   [action]="edit"
+  (entryDeleted)="onEntryDeleted($event)"
 ></app-playlist-entry-list>
 } }
