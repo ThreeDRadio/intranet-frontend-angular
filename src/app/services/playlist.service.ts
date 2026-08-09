@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
-import { Playlist } from "../models";
+import { NewPlaylist, Playlist } from "../models";
 import { PlaylistApi } from "./playlist-api";
 import { PlaylistEntry } from "../models/playlist-entry";
 
@@ -51,6 +51,15 @@ export class PlaylistService {
         return list.map((item: any) => {
           return item as PlaylistEntry;
         });
+      }),
+    );
+  }
+
+  create(input: NewPlaylist): Observable<Playlist> {
+    const observable = this.playlistApi.create(input);
+    return observable.pipe(
+      map((response: any) => {
+        return response as Playlist;
       }),
     );
   }

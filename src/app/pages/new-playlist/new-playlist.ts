@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   OnInit,
@@ -34,6 +35,9 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import moment from "moment";
+import { NewPlaylist, Playlist } from "../../models";
+import { Router } from "@angular/router";
+import { PlaylistService } from "../../services/playlist.service";
 
 export const LONG_DATE_FORMAT = {
   parse: {
@@ -64,6 +68,7 @@ export const LONG_DATE_FORMAT = {
     ReactiveFormsModule,
   ],
   providers: [
+    PlaylistService,
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -76,6 +81,10 @@ export const LONG_DATE_FORMAT = {
 })
 export class NewPlaylistPage implements OnInit {
   store = inject(LoggerStore);
+  router = inject(Router);
+
+  // Services
+  playlistService = inject(PlaylistService);
   readonly shows = computed(() =>
     this.store
       .shows()
@@ -90,12 +99,13 @@ export class NewPlaylistPage implements OnInit {
     viewChild.required<ElementRef<HTMLInputElement>>("hostInput");
   private dateInput =
     viewChild.required<ElementRef<HTMLInputElement>>("dateInput");
-  //Forms
+
+  // Forms
   newShowForm = new FormGroup({
     showControl: new FormControl(),
     hostControl: new FormControl(),
     fillInControl: new FormControl(),
-    dateControl: new FormControl(new Date()),
+    dateControl: new FormControl(),
     notesControl: new FormControl(),
   });
 
@@ -117,12 +127,28 @@ export class NewPlaylistPage implements OnInit {
     },
   );
 
+  private readonly currentDateValue = toSignal(
+    this.newShowForm.controls.dateControl.valueChanges,
+    {
+      initialValue: this.newShowForm.controls.dateControl.value,
+    },
+  );
+
   private readonly currentFillInValue = toSignal(
     this.newShowForm.controls.fillInControl.valueChanges,
     {
       initialValue: this.newShowForm.controls.fillInControl.value,
     },
   );
+
+  // Form state
+  readonly currentSubmitButtonText = computed(() => {
+    if (this.store.playlistSubmission()?.state === "in-progress") {
+      return "Creating...";
+    }
+
+    return "Let's go";
+  });
 
   readonly isFillInVisible = computed(() => {
     const show = this.currentShowValue();
@@ -139,6 +165,18 @@ export class NewPlaylistPage implements OnInit {
 
     return actualHost.toLowerCase() !== show.defaultHost.toLowerCase();
   });
+
+  constructor() {
+    effect(() => {
+      const submission = this.store.playlistSubmission();
+
+      if (submission?.state === "created") {
+        this.newShowForm.reset();
+        this.router.navigate(["/playlists/edit", submission.id]);
+      } else {
+      }
+    });
+  }
 
   ngOnInit() {
     this.store.fetchAllShows();
@@ -171,6 +209,7 @@ export class NewPlaylistPage implements OnInit {
   readonly isNewShowValid = computed(() => {
     const show = this.currentShowValue();
     const host = this.currentHostValue(); // This is just here to trigger the signal haha I don't know what I'm doing
+    const date = this.currentDateValue(); // This is just here to trigger the signal haha I don't know what I'm doing
     const fillIn = this.currentFillInValue(); // This is just here to trigger the signal haha I don't know what I'm doing
     const actualHost = this.hostInput().nativeElement.value;
     const dateString = this.dateInput().nativeElement.value;
@@ -181,6 +220,9 @@ export class NewPlaylistPage implements OnInit {
         this.newShowForm.controls.fillInControl.value !== null &&
         this.newShowForm.controls.fillInControl.value !== "");
 
+    const isSubmitting =
+      this.store.playlistSubmission()?.state === "in-progress";
+
     return (
       show !== null &&
       actualHost !== null &&
@@ -188,7 +230,34 @@ export class NewPlaylistPage implements OnInit {
       dateString !== null &&
       dateString !== "" &&
       moment(dateObj).isValid() &&
-      fillInValid
+      fillInValid &&
+      !isSubmitting
     );
   });
+
+  onSubmit() {
+    if (this.newShowForm.valid) {
+      let result: NewPlaylist = {
+        show: this.newShowForm.controls.showControl.value.id,
+        showname: "",
+        host: this.hostInput().nativeElement.value,
+        date: moment(this.newShowForm.controls.dateControl.value).format(
+          "YYYY-MM-DD",
+        ),
+        notes: this.newShowForm.controls.notesControl.value,
+        complete: false,
+        fillin:
+          this.newShowForm.controls.fillInControl.value === "yes"
+            ? true
+            : false,
+        femaleQuota:
+          this.newShowForm.controls.showControl.value.femaleQuota ?? 0,
+        localQuota: this.newShowForm.controls.showControl.value.localQuota ?? 0,
+        australianQuota:
+          this.newShowForm.controls.showControl.value.australianQuota ?? 0,
+      };
+
+      this.store.createNewPlaylist(result);
+    }
+  }
 }

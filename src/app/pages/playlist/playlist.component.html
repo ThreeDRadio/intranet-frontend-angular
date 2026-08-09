@@ -6,27 +6,10 @@
     <h3 style="opacity: 0.7">
       {{ formattedDate() }}
     </h3>
-    @if (this.quotas(); as q) {
-      <div class="quota-container">
-        <app-quota-indicator
-          svg="true"
-          icon="sa-icon"
-          [quota]="q.local"
-        ></app-quota-indicator>
-        <app-quota-indicator
-          svg="true"
-          icon="aus-icon"
-          [quota]="q.australian"
-        ></app-quota-indicator>
-        <app-quota-indicator
-          icon="female"
-          [quota]="q.female"
-        ></app-quota-indicator>
-        <app-duration-indicator
-          [duration]="totalDuration()"
-        ></app-duration-indicator>
-      </div>
-    }
+    <app-quota-display
+      [quotas]="this.quotas()"
+      [totalDuration]="this.totalDuration()"
+    ></app-quota-display>
     <br />
     <mat-divider />
     <table mat-table [dataSource]="entries()" class="mat-shadow-2">

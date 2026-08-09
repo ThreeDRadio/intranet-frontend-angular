@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { Playlist } from "../models";
+import { NewPlaylist, Playlist } from "../models";
 import { ModelApi } from "./model-api";
 import { BaseApi } from "./base-api.service";
 
@@ -32,5 +32,9 @@ export class PlaylistApi extends ModelApi<Playlist> {
 
   getPlaylistEntries(params: PlaylistEntryFetchParams) {
     return super.getSubresource(params.id, "tracks");
+  }
+
+  postNewPlaylist(input: NewPlaylist) {
+    return super.create(input);
   }
 }
