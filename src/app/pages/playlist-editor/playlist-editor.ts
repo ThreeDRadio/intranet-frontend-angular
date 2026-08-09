@@ -5,7 +5,6 @@ import { DateService } from "../../services/date.service";
 import { QuotaService } from "../../services/quota.service";
 import moment from "moment";
 import { QuotaDisplayComponent } from "../../components/quota-display/quota-display.component";
-import { MatDivider } from "@angular/material/divider";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
@@ -18,7 +17,6 @@ import { PlaylistEntryListComponent } from "../../components/playlist-entry-list
     QuotaDisplayComponent,
     PlaylistEntryListComponent,
     MatTableModule,
-    MatDivider,
     MatIconModule,
     MatInputModule,
     MatSlideToggleModule,
