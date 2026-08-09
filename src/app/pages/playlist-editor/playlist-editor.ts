@@ -69,6 +69,10 @@ export class PlaylistEditorPage implements OnInit {
   }
 
   onEntryDeleted(index) {
-    console.log(index);
+    let atIndex = this.entries().find((e) => e.index === index);
+
+    if (atIndex) {
+      this.store.deletePlaylistEntry(atIndex.id);
+    }
   }
 }

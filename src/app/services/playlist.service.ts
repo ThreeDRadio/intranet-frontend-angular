@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { map, Observable } from "rxjs";
+import { EMPTY, from, map, Observable } from "rxjs";
 import { NewPlaylist, Playlist } from "../models";
 import { PlaylistApi } from "./playlist-api";
 import { PlaylistEntry } from "../models/playlist-entry";
@@ -53,6 +53,10 @@ export class PlaylistService {
         });
       }),
     );
+  }
+
+  deleteEntry(id: number): Observable<number> {
+    return from([1]);
   }
 
   create(input: NewPlaylist): Observable<Playlist> {

@@ -139,6 +139,27 @@ export const LoggerStore = signalStore(
         ),
       ),
 
+      deletePlaylistEntry: rxMethod<number>(
+        pipe(
+          tap(() => patchState(store, { isLoading: true })),
+          exhaustMap((id) =>
+            playlistService.deleteEntry(id).pipe(
+              tap((response) => {
+                patchState(store, (state) => ({
+                  playlistEntries: state.playlistEntries.filter(
+                    (e) => e.id !== id,
+                  ),
+                }));
+              }),
+              catchError((err) => {
+                return EMPTY;
+              }),
+              finalize(() => patchState(store, { isLoading: false })),
+            ),
+          ),
+        ),
+      ),
+
       createNewPlaylist: rxMethod<NewPlaylist>(
         pipe(
           tap(() =>
@@ -183,4 +204,3 @@ export const LoggerStore = signalStore(
     }),
   ),
 );
-``;
