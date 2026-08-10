@@ -183,7 +183,7 @@ export const LoggerStore = signalStore(
             }),
           ),
           exhaustMap((input) =>
-            playlistService.create(input).pipe(
+            playlistService.createPlaylist(input).pipe(
               tap((result) => {
                 patchState(store, (state) => ({
                   playlistSubmission: {
