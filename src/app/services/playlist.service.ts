@@ -1,14 +1,16 @@
 import { inject, Injectable } from "@angular/core";
-import { map, Observable } from "rxjs";
+import { catchError, from, map, Observable, of, tap } from "rxjs";
 import { NewPlaylist, Playlist } from "../models";
 import { PlaylistApi } from "./playlist-api";
 import { PlaylistEntry } from "../models/playlist-entry";
+import { PlaylistEntryApi } from "./playlist-entry-api";
 
 @Injectable({
-  providedIn: "root", // <-- This makes the service global
+  providedIn: "root",
 })
 export class PlaylistService {
   readonly playlistApi = inject(PlaylistApi);
+  readonly playlistEntryApi = inject(PlaylistEntryApi);
 
   getPlaylistPage(page: number): Observable<Playlist[]> {
     const observable = this.playlistApi.getPlaylistPage({
@@ -39,6 +41,16 @@ export class PlaylistService {
     );
   }
 
+  createPlaylist(input: NewPlaylist): Observable<Playlist> {
+    const observable = this.playlistApi.create(input);
+    return observable.pipe(
+      map((response: any) => {
+        return response as Playlist;
+      }),
+    );
+  }
+
+  // Entries
   getEntriesForId(id: number): Observable<PlaylistEntry[]> {
     const observable = this.playlistApi.getPlaylistEntries({
       id: id,
@@ -55,11 +67,17 @@ export class PlaylistService {
     );
   }
 
-  create(input: NewPlaylist): Observable<Playlist> {
-    const observable = this.playlistApi.create(input);
+  deleteEntry(id: number): Observable<boolean> {
+    const observable = this.playlistEntryApi.delete({
+      id: id,
+    });
+
     return observable.pipe(
-      map((response: any) => {
-        return response as Playlist;
+      tap((_: any) => {
+        return true;
+      }),
+      catchError((err, caught) => {
+        return of(false);
       }),
     );
   }

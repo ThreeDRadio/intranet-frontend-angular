@@ -1,10 +1,12 @@
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { QuotaCheckComponent } from "../quota-check/quota-check.component";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatIconButton } from "@angular/material/button";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 @Component({
   selector: "app-playlist-entry",
@@ -13,6 +15,8 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
+    MatIconButton,
+    MatButtonToggleModule,
     QuotaCheckComponent,
   ],
   templateUrl: "./playlist-entry.component.html",
@@ -21,4 +25,9 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 export class PlaylistEntryComponent {
   input = input.required<PlaylistEntry>();
   action = input<string>("view");
+  deletion = output<number>();
+
+  onEntryDeleted() {
+    this.deletion.emit(this.input().index);
+  }
 }

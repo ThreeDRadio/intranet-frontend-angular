@@ -1,5 +1,6 @@
 import { computed, inject } from "@angular/core";
 import {
+  getState,
   patchState,
   signalStore,
   withComputed,
@@ -139,6 +140,39 @@ export const LoggerStore = signalStore(
         ),
       ),
 
+      deletePlaylistEntry: rxMethod<number>(
+        pipe(
+          exhaustMap((id) => {
+            const previousEntries = store.playlistEntries();
+
+            patchState(store, (state) => ({
+              playlistEntries: state.playlistEntries.filter(
+                (entry) => entry.id !== id,
+              ),
+            }));
+
+            return playlistService.deleteEntry(id).pipe(
+              tap(() => {
+                // 2. Success step: Now safely recalculate indexes if required.
+                patchState(store, (state) => ({
+                  playlistEntries: state.playlistEntries.map(
+                    (current, idx) => ({
+                      ...current,
+                      index: idx + 1,
+                    }),
+                  ),
+                }));
+              }),
+              catchError((err) => {
+                // 3. Rollback step: Restore original list if server fails.
+                patchState(store, { playlistEntries: previousEntries });
+                return EMPTY;
+              }),
+            );
+          }),
+        ),
+      ),
+
       createNewPlaylist: rxMethod<NewPlaylist>(
         pipe(
           tap(() =>
@@ -152,7 +186,7 @@ export const LoggerStore = signalStore(
             }),
           ),
           exhaustMap((input) =>
-            playlistService.create(input).pipe(
+            playlistService.createPlaylist(input).pipe(
               tap((result) => {
                 patchState(store, (state) => ({
                   playlistSubmission: {
@@ -183,4 +217,3 @@ export const LoggerStore = signalStore(
     }),
   ),
 );
-``;

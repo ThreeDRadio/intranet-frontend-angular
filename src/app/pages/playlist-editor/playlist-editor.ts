@@ -10,6 +10,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { PlaylistEntryListComponent } from "../../components/playlist-entry-list/playlist-entry-list.component";
+import { ConfirmationDialogComponent } from "../../components/confirmation-dialog/confirmation-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: "app-playlist-editor",
@@ -29,6 +31,7 @@ export class PlaylistEditorPage implements OnInit {
   store = inject(LoggerStore);
   quotaService = inject(QuotaService);
   dateService = inject(DateService);
+  private dialog = inject(MatDialog);
   private route = inject(ActivatedRoute);
 
   readonly playlist = computed(() =>
@@ -66,5 +69,24 @@ export class PlaylistEditorPage implements OnInit {
 
   ngOnInit() {
     this.store.fetchPlaylistEntries(this.playlist()?.id);
+  }
+
+  onEntryDeleted(index) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: "Delete",
+        message: "Are you sure you want remove this entry?",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        let atIndex = this.entries().find((e) => e.index === index);
+
+        if (atIndex) {
+          this.store.deletePlaylistEntry(atIndex.id);
+        }
+      }
+    });
   }
 }
