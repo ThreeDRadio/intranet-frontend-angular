@@ -1,5 +1,13 @@
 import { TestBed, tick } from "@angular/core/testing";
-import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest";
 import { initialState, LoggerStore } from "./logger.store";
 import { unprotected } from "@ngrx/signals/testing";
 import {
@@ -302,9 +310,14 @@ describe("LoggerStore", () => {
 
     beforeEach(() => {
       vi.resetAllMocks();
+      vi.useFakeTimers();
       store = TestBed.inject(LoggerStore);
       // Seed initial data
       patchState(store, { playlistEntries: [...initialEntries] });
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
     });
 
     it("should remove the item optimistically before the API responds", async () => {
@@ -316,7 +329,7 @@ describe("LoggerStore", () => {
       );
 
       store.deletePlaylistEntry(102);
-      TestBed.tick();
+      await vi.advanceTimersByTimeAsync(0);
 
       // Assert: UI is instantly updated, item 102 is missing
       const entries = store.playlistEntries();
@@ -324,13 +337,13 @@ describe("LoggerStore", () => {
       expect(entries.find((e: PlaylistEntry) => e.id === 102)).toBeUndefined();
 
       // Clean up timer
-      TestBed.tick();
+      await vi.advanceTimersByTimeAsync(1000);
     });
 
-    it("should reindex the items only after the API succeeds", () => {
+    it("should reindex the items only after the API succeeds", async () => {
       mockPlaylistService.deleteEntry.mockReturnValue(of(true));
       store.deletePlaylistEntry(102);
-      TestBed.tick();
+      await vi.advanceTimersByTimeAsync(0);
 
       const entries = store.playlistEntries();
       expect(entries).toEqual([
@@ -363,18 +376,18 @@ describe("LoggerStore", () => {
       ]);
     });
 
-    it("should roll back to the original state if the API fails", () => {
+    it("should roll back to the original state if the API fails", async () => {
       mockPlaylistService.deleteEntry.mockReturnValue(
         throwError(() => new Error("Network Error")),
       );
 
       store.deletePlaylistEntry(102);
-      TestBed.tick();
+      await vi.advanceTimersByTimeAsync(0);
 
       expect(store.playlistEntries()).toEqual(initialEntries);
     });
 
-    it("should preserve original object references after a rollback", () => {
+    it("should preserve original object references after a rollback", async () => {
       mockPlaylistService.deleteEntry.mockReturnValue(
         throwError(() => new Error("Server Error")),
       );
@@ -382,25 +395,25 @@ describe("LoggerStore", () => {
       const firstItemBeforeClick = store.playlistEntries()[0];
 
       store.deletePlaylistEntry(102);
-      TestBed.tick();
+      await vi.advanceTimersByTimeAsync(0);
 
       const firstItemAfterRollback = store.playlistEntries()[0];
       expect(firstItemAfterRollback).toBe(firstItemBeforeClick);
     });
 
-    it("should keep the rxMethod stream alive to handle subsequent calls after a failure", () => {
+    it("should keep the rxMethod stream alive to handle subsequent calls after a failure", async () => {
       mockPlaylistService.deleteEntry
         .mockReturnValueOnce(throwError(() => new Error("First call fails")))
         .mockReturnValueOnce(of(true));
 
       // First attempt fails
       store.deletePlaylistEntry(102);
-      TestBed.tick();
+      await vi.advanceTimersByTimeAsync(0);
       expect(store.playlistEntries().length).toBe(3); // Rolled back
 
       // Second attempt on a different item succeeds
       store.deletePlaylistEntry(101);
-      TestBed.tick();
+      await vi.advanceTimersByTimeAsync(0);
       expect(store.playlistEntries().length).toBe(2); // Successfully removed
     });
 
@@ -415,13 +428,12 @@ describe("LoggerStore", () => {
       // User spams the delete button for two different items
       store.deletePlaylistEntry(102);
       store.deletePlaylistEntry(103);
-      TestBed.tick();
+      await vi.advanceTimersByTimeAsync(0);
 
       // Assert: Only the first call went through due to exhaustMap locking
       expect(mockPlaylistService.deleteEntry).toHaveBeenCalledTimes(1);
       expect(mockPlaylistService.deleteEntry).toHaveBeenCalledWith(102);
-
-      TestBed.tick(); // Resolve open timers
+      await vi.advanceTimersByTimeAsync(1000);
     });
   });
 });
