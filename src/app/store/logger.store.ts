@@ -142,31 +142,34 @@ export const LoggerStore = signalStore(
 
       deletePlaylistEntry: rxMethod<number>(
         pipe(
-          tap(() => patchState(store, { isLoading: true })),
-          exhaustMap((id) =>
-            playlistService.deleteEntry(id).pipe(
-              tap((response) => {
+          exhaustMap((id) => {
+            const previousEntries = store.playlistEntries();
+
+            patchState(store, (state) => ({
+              playlistEntries: state.playlistEntries.filter(
+                (entry) => entry.id !== id,
+              ),
+            }));
+
+            return playlistService.deleteEntry(id).pipe(
+              tap(() => {
+                // 2. Success step: Now safely recalculate indexes if required.
                 patchState(store, (state) => ({
-                  playlistEntries: state.playlistEntries.reduce<
-                    PlaylistEntry[]
-                  >((acc, current) => {
-                    if (current.id === id) return acc;
-
-                    acc.push({
+                  playlistEntries: state.playlistEntries.map(
+                    (current, idx) => ({
                       ...current,
-                      index: acc.length + 1,
-                    });
-
-                    return acc;
-                  }, []),
+                      index: idx + 1,
+                    }),
+                  ),
                 }));
               }),
               catchError((err) => {
+                // 3. Rollback step: Restore original list if server fails.
+                patchState(store, { playlistEntries: previousEntries });
                 return EMPTY;
               }),
-              finalize(() => patchState(store, { isLoading: false })),
-            ),
-          ),
+            );
+          }),
         ),
       ),
 
