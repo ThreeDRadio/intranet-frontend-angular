@@ -2,10 +2,11 @@ import { Component, input, output } from "@angular/core";
 import { Playlist } from "../../models/playlist";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { PlaylistEntryComponent } from "../playlist-entry/playlist-entry.component";
+import { PlaylistEntryEditorComponent } from "../playlist-entry-editor/playlist-entry-editor.component";
 
 @Component({
   selector: "app-playlist-entry-list",
-  imports: [PlaylistEntryComponent],
+  imports: [PlaylistEntryComponent, PlaylistEntryEditorComponent],
   templateUrl: "./playlist-entry-list.component.html",
   styleUrl: "./playlist-entry-list.component.scss",
 })

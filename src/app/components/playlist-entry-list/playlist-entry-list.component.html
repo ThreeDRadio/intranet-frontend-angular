@@ -2,9 +2,9 @@
   <div>
     @for (entry of entries(); track entry.id) {
       @if (action() === "view") {
-        <app-playlist-entry [input]="entry" action="view" />
+        <app-playlist-entry [input]="entry" />
       } @else {
-        <app-playlist-entry
+        <app-playlist-entry-editor
           [input]="entry"
           action="edit"
           (deletion)="entryDeleted.emit($event)"
