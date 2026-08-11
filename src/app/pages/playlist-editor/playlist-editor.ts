@@ -126,7 +126,10 @@ export class PlaylistEditorPage implements OnInit {
   onNewEntryAdded(event) {
     this.creatingNewEntry.set(true);
   }
-  onNewEntryCancelled(event) {
+  onNewEntrySaved() {
+    console.log("test");
+  }
+  onNewEntryCancelled() {
     this.creatingNewEntry.set(false);
   }
 }

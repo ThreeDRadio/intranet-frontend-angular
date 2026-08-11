@@ -1,94 +1,43 @@
 @if (input(); as entry) {
   <mat-card class="entry-card">
     <mat-card-header>
-      @if (this.action() === "view") {
-        <mat-card-title style="display: flex; align-items: center; gap: 4px">
-          <mat-icon>music_note</mat-icon>
-          <span>{{ entry.title }}</span>
-        </mat-card-title>
-      } @else {
-        <mat-card-title style="display: flex; align-items: center; gap: 4px">
-          <mat-icon>music_note</mat-icon>
-          <input matInput placeholder="Song" [value]="entry.title" />
-        </mat-card-title>
-        <mat-card-title-group>
-          @if (this.action() !== "create") {
-            <button
-              mat-icon-button
-              aria-label="Remove"
-              color="warn"
-              (click)="deletion.emit(entry.index)"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
-          }
-        </mat-card-title-group>
-      }
+      <mat-card-title style="display: flex; align-items: center; gap: 4px">
+        <mat-icon>music_note</mat-icon>
+        <span>{{ entry.title }}</span>
+      </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="entry-info-container">
         <div class="entry-icon-text-container">
           <mat-icon>person</mat-icon>
-          @if (this.action() === "view") {
-            <span>{{ entry.artist }}</span>
-          } @else {
-            <input matInput placeholder="Artist" [value]="entry.artist" />
-          }
+          <span>{{ entry.artist }}</span>
         </div>
         <div class="entry-icon-text-container">
           <mat-icon>album</mat-icon>
-          @if (this.action() === "view") {
-            <span>{{ entry.album }}</span>
-          } @else {
-            <input matInput placeholder="Album" [value]="entry.album" />
-          }
+          <span>{{ entry.album }}</span>
         </div>
         <div class="entry-icon-text-container">
           <mat-icon>av_timer</mat-icon>
-          @if (this.action() === "view") {
-            <span>{{ entry.duration }}</span>
-          } @else {
-            <input matInput placeholder="MM:SS" [value]="entry.duration" />
-          }
+          <span>{{ entry.duration }}</span>
         </div>
       </div>
-
-      @if (this.action() === "view") {
-        <div class="quota-check-container">
-          @if (entry.local) {
-            <app-quota-check svg="true" icon="local-icon" met="true" />
-          }
-          @if (entry.australian) {
-            <app-quota-check svg="true" icon="aus-icon" met="true" />
-          }
-          @if (entry.female) {
-            <app-quota-check icon="female" met="true" />
-          }
-          @if (entry.newRelease) {
-            <div class="new-release-check mat-elevation-z0">
-              <span><b>NEW</b></span>
-              <mat-icon>check</mat-icon>
-            </div>
-          }
-        </div>
-      } @else {
-        <div class="quota-check-edit-container"></div>
-      }
+      <div class="quota-check-container">
+        @if (entry.local) {
+          <app-quota-check svg="true" icon="local-icon" met="true" />
+        }
+        @if (entry.australian) {
+          <app-quota-check svg="true" icon="aus-icon" met="true" />
+        }
+        @if (entry.female) {
+          <app-quota-check icon="female" met="true" />
+        }
+        @if (entry.newRelease) {
+          <div class="new-release-check mat-elevation-z0">
+            <span><b>NEW</b></span>
+            <mat-icon>check</mat-icon>
+          </div>
+        }
+      </div>
     </mat-card-content>
-    @if (this.action() === "create") {
-      <mat-card-actions>
-        <button mat-icon-button aria-label="Save" (click)="saved.emit()">
-          <mat-icon>save</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          aria-label="Cancel"
-          color="warn"
-          (click)="cancelled.emit()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-card-actions>
-    }
   </mat-card>
 }

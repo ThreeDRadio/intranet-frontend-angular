@@ -19,6 +19,7 @@
 @if (creatingNewEntry()) {
 <app-playlist-entry
   [input]="newEntryTemplate()"
+  (saved)="onNewEntrySaved()"
   (cancelled)="onNewEntryCancelled()"
   action="create"
 />
