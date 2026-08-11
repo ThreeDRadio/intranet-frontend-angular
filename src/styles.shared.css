@@ -57,3 +57,19 @@
 .card-button:focus-visible mat-card {
   outline: 2px solid currentColor;
 }
+
+.entry-card {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.entry-info-container {
+  display: flex;
+  gap: 8px;
+  margin-top: 0px;
+}
+
+.entry-icon-text-container {
+  display: flex;
+  align-items: center; /* Vertically aligns items in the center */
+  gap: 4px; /* Adds optional clean spacing between icon and text */
+}
