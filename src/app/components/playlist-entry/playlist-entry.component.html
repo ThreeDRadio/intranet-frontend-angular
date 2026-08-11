@@ -1,4 +1,4 @@
-@if (this.input(); as entry) {
+@if (input(); as entry) {
   <mat-card class="entry-card">
     <mat-card-header>
       @if (this.action() === "view") {
@@ -17,7 +17,7 @@
               mat-icon-button
               aria-label="Remove"
               color="warn"
-              (click)="onEntryDeleted()"
+              (click)="deletion.emit(entry.index)"
             >
               <mat-icon>close</mat-icon>
             </button>
@@ -77,14 +77,14 @@
     </mat-card-content>
     @if (this.action() === "create") {
       <mat-card-actions>
-        <button mat-icon-button aria-label="Save" (click)="onNewEntrySaved()">
+        <button mat-icon-button aria-label="Save" (click)="saved.emit()">
           <mat-icon>save</mat-icon>
         </button>
         <button
           mat-icon-button
           aria-label="Cancel"
           color="warn"
-          (click)="onNewEntryCancelled()"
+          (click)="cancelled.emit()"
         >
           <mat-icon>close</mat-icon>
         </button>

@@ -1,15 +1,13 @@
-@if (this.playlist(); as pl) {
+@if (playlist(); as pl) {
   <div>
-    @for (entry of this.entries(); track entry.id) {
-      @if (this.action() === "view") {
+    @for (entry of entries(); track entry.id) {
+      @if (action() === "view") {
         <app-playlist-entry [input]="entry" action="view" />
       } @else {
         <app-playlist-entry
           [input]="entry"
           action="edit"
-          (deletion)="onEntryDeleted($event)"
-          (saved)="newEntrySaved($event)"
-          (cancelled)="newEntryCancelled($event)"
+          (deletion)="entryDeleted.emit($event)"
         />
       }
     }

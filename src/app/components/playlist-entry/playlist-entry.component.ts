@@ -25,20 +25,9 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 export class PlaylistEntryComponent {
   input = input.required<PlaylistEntry>();
   action = input<string>("view");
+
   // Outputs
   deletion = output<number>();
-  saved = output();
-  cancelled = output();
-
-  onEntryDeleted() {
-    this.deletion.emit(this.input().index);
-  }
-
-  onNewEntrySaved() {
-    this.saved.emit();
-  }
-
-  onNewEntryCancelled() {
-    this.cancelled.emit();
-  }
+  saved = output<void>();
+  cancelled = output<void>();
 }

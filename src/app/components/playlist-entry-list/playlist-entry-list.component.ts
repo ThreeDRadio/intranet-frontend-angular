@@ -16,18 +16,4 @@ export class PlaylistEntryListComponent {
 
   // Outputs
   entryDeleted = output<number>();
-  newEntrySaved = output();
-  newEntryCancelled = output();
-
-  onEntryDeleted(index) {
-    this.entryDeleted.emit(index);
-  }
-
-  onNewEntrySaved() {
-    this.newEntrySaved.emit();
-  }
-
-  onNewEntryCancelled() {
-    this.newEntryCancelled.emit();
-  }
 }

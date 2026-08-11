@@ -105,14 +105,6 @@ export class PlaylistEditorPage implements OnInit {
     };
   }
 
-  onNewEntryAdded(event) {
-    this.creatingNewEntry.set(true);
-  }
-
-  onNewEntryCancelled(event) {
-    this.creatingNewEntry.set(false);
-  }
-
   onEntryDeleted(index) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
@@ -130,5 +122,11 @@ export class PlaylistEditorPage implements OnInit {
         }
       }
     });
+  }
+  onNewEntryAdded(event) {
+    this.creatingNewEntry.set(true);
+  }
+  onNewEntryCancelled(event) {
+    this.creatingNewEntry.set(false);
   }
 }
