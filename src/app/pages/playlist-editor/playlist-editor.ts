@@ -1,4 +1,11 @@
-import { Component, computed, inject, Signal, OnInit } from "@angular/core";
+import {
+  Component,
+  computed,
+  inject,
+  Signal,
+  OnInit,
+  signal,
+} from "@angular/core";
 import { LoggerStore } from "../../store/logger.store";
 import { ActivatedRoute } from "@angular/router";
 import { DateService } from "../../services/date.service";
@@ -12,16 +19,22 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { PlaylistEntryListComponent } from "../../components/playlist-entry-list/playlist-entry-list.component";
 import { ConfirmationDialogComponent } from "../../components/confirmation-dialog/confirmation-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
+import { MatCardModule } from "@angular/material/card";
+import { MatIconButton } from "@angular/material/button";
+import { PlaylistEntryComponent } from "../../components/playlist-entry/playlist-entry.component";
+import { PlaylistEntry } from "../../models/playlist-entry";
 
 @Component({
   selector: "app-playlist-editor",
   imports: [
     QuotaDisplayComponent,
+    PlaylistEntryComponent,
     PlaylistEntryListComponent,
     MatTableModule,
     MatIconModule,
     MatInputModule,
     MatSlideToggleModule,
+    MatCardModule,
   ],
   providers: [QuotaService, DateService],
   templateUrl: "./playlist-editor.html",
@@ -69,6 +82,35 @@ export class PlaylistEditorPage implements OnInit {
 
   ngOnInit() {
     this.store.fetchPlaylistEntries(this.playlist()?.id);
+  }
+
+  // Internal state
+  creatingNewEntry = signal<boolean>(false);
+  newEntryTemplate(): PlaylistEntry {
+    return {
+      id: 0,
+      index:
+        this.entries().reduce((highest, current) => {
+          return current.index > highest.index ? current : highest;
+        }).index + 1,
+      artist: "",
+      album: "",
+      title: "",
+      duration: "",
+      local: false,
+      australian: false,
+      female: false,
+      newRelease: false,
+      playlist: this.playlist().id,
+    };
+  }
+
+  onNewEntryAdded(event) {
+    this.creatingNewEntry.set(true);
+  }
+
+  onNewEntryCancelled(event) {
+    this.creatingNewEntry.set(false);
   }
 
   onEntryDeleted(index) {

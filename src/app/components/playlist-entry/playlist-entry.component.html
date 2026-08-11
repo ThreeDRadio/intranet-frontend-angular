@@ -9,18 +9,19 @@
       } @else {
         <mat-card-title style="display: flex; align-items: center; gap: 4px">
           <mat-icon>music_note</mat-icon>
-          <input matInput [value]="entry.title" />
+          <input matInput placeholder="Song" [value]="entry.title" />
         </mat-card-title>
-
         <mat-card-title-group>
-          <button
-            mat-icon-button
-            aria-label="Remove"
-            color="warn"
-            (click)="onEntryDeleted()"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
+          @if (this.action() !== "create") {
+            <button
+              mat-icon-button
+              aria-label="Remove"
+              color="warn"
+              (click)="onEntryDeleted()"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          }
         </mat-card-title-group>
       }
     </mat-card-header>
@@ -31,7 +32,7 @@
           @if (this.action() === "view") {
             <span>{{ entry.artist }}</span>
           } @else {
-            <input matInput [value]="entry.artist" />
+            <input matInput placeholder="Artist" [value]="entry.artist" />
           }
         </div>
         <div class="entry-icon-text-container">
@@ -39,7 +40,7 @@
           @if (this.action() === "view") {
             <span>{{ entry.album }}</span>
           } @else {
-            <input matInput [value]="entry.album" />
+            <input matInput placeholder="Album" [value]="entry.album" />
           }
         </div>
         <div class="entry-icon-text-container">
@@ -47,7 +48,7 @@
           @if (this.action() === "view") {
             <span>{{ entry.duration }}</span>
           } @else {
-            <input matInput [value]="entry.duration" />
+            <input matInput placeholder="MM:SS" [value]="entry.duration" />
           }
         </div>
       </div>
@@ -74,5 +75,20 @@
         <div class="quota-check-edit-container"></div>
       }
     </mat-card-content>
+    @if (this.action() === "create") {
+      <mat-card-actions>
+        <button mat-icon-button aria-label="Save" (click)="onNewEntrySaved()">
+          <mat-icon>save</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          aria-label="Cancel"
+          color="warn"
+          (click)="onNewEntryCancelled()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-card-actions>
+    }
   </mat-card>
 }

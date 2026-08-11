@@ -8,6 +8,8 @@
           [input]="entry"
           action="edit"
           (deletion)="onEntryDeleted($event)"
+          (saved)="newEntrySaved($event)"
+          (cancelled)="newEntryCancelled($event)"
         />
       }
     }

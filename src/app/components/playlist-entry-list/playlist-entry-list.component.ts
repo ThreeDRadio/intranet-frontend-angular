@@ -13,9 +13,21 @@ export class PlaylistEntryListComponent {
   playlist = input.required<Playlist>();
   entries = input.required<PlaylistEntry[]>();
   action = input<string>("view");
+
+  // Outputs
   entryDeleted = output<number>();
+  newEntrySaved = output();
+  newEntryCancelled = output();
 
   onEntryDeleted(index) {
     this.entryDeleted.emit(index);
+  }
+
+  onNewEntrySaved() {
+    this.newEntrySaved.emit();
+  }
+
+  onNewEntryCancelled() {
+    this.newEntryCancelled.emit();
   }
 }

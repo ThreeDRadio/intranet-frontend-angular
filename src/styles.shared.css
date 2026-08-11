@@ -22,3 +22,38 @@
   background-color: #d9534f;
   color: #fff;
 }
+
+.big-icon {
+  width: 48px !important;
+  height: 48px !important;
+  font-size: 48px !important;
+}
+
+.card-button {
+  height: fit-content;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.card-button mat-card {
+  background-color: #5cb85c;
+  --mdc-card-container-color: #5cb85c;
+  color: #e0e0e0;
+  transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-button:hover mat-card {
+  background-color: #52a352;
+  --mdc-card-container-color: #52a352;
+  color: #e0e0e0;
+  /* Elevate or highlight on hover if desired */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-button:focus-visible mat-card {
+  outline: 2px solid currentColor;
+}
