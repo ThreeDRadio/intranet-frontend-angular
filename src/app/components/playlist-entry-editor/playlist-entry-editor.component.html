@@ -1,5 +1,5 @@
 @if (input(); as entry) {
-  <mat-card class="entry-card">
+  <mat-card class="entry-card" [class.is-creating]="creating()">
     <mat-card-header>
       <mat-card-title style="display: flex; align-items: center; gap: 4px">
         <mat-icon>music_note</mat-icon>

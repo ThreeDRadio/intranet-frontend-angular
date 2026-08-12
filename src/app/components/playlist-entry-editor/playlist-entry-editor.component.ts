@@ -1,4 +1,4 @@
-import { Component, input, output, OnInit } from "@angular/core";
+import { Component, input, output, OnInit, signal } from "@angular/core";
 import { MatIconButton } from "@angular/material/button";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatCardModule } from "@angular/material/card";
@@ -61,6 +61,10 @@ export class PlaylistEntryEditorComponent implements OnInit {
         this.albumControl.valid &&
         this.durationControl.valid;
     });
+  }
+
+  creating() {
+    return this.action() === "create";
   }
 
   canSave() {
