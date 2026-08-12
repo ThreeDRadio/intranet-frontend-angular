@@ -8,10 +8,7 @@ import { PlaylistEntry } from "../../models/playlist-entry";
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { merge } from "rxjs";
 import { MatDividerModule } from "@angular/material/divider";
-import {
-  MatButtonToggle,
-  MatButtonToggleModule,
-} from "@angular/material/button-toggle";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 @Component({
   selector: "app-playlist-entry-editor",
@@ -24,7 +21,6 @@ import {
     ReactiveFormsModule,
     MatButtonToggleModule,
     MatButtonModule,
-    MatButtonToggle,
     MatDividerModule,
     MatIconModule,
   ],
@@ -46,6 +42,7 @@ export class PlaylistEntryEditorComponent implements OnInit {
   artistControl = new FormControl("", [Validators.required]);
   albumControl = new FormControl("", [Validators.required]);
   durationControl = new FormControl("", [Validators.required]);
+  quotas = { local: false, aus: false, fem: false, nr: false };
   isFormValid: boolean = false;
 
   ngOnInit() {
@@ -54,6 +51,12 @@ export class PlaylistEntryEditorComponent implements OnInit {
     this.artistControl.setValue(initialData.artist || "");
     this.albumControl.setValue(initialData.album || "");
     this.durationControl.setValue(initialData.duration || "");
+    this.quotas = {
+      local: initialData.local,
+      aus: initialData.australian,
+      fem: initialData.female,
+      nr: initialData.newRelease,
+    };
 
     // Listen to changes across all controls simultaneously
     merge(
@@ -86,7 +89,28 @@ export class PlaylistEntryEditorComponent implements OnInit {
       artist: this.artistControl.value ?? "",
       album: this.albumControl.value ?? "",
       duration: this.durationControl.value ?? "",
+      local: this.quotas.local,
+      australian: this.quotas.aus,
+      female: this.quotas.fem,
+      newRelease: this.quotas.nr,
     });
+  }
+
+  onQuotaChanged(event, name: string) {
+    switch (name.toLocaleLowerCase()) {
+      case "local":
+        this.quotas.local = !this.quotas.local;
+        break;
+      case "aus":
+        this.quotas.aus = !this.quotas.aus;
+        break;
+      case "fem":
+        this.quotas.fem = !this.quotas.fem;
+        break;
+      case "nr":
+        this.quotas.nr = !this.quotas.nr;
+        break;
+    }
   }
 
   canUndo() {

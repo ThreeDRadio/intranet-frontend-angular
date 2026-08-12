@@ -10,18 +10,6 @@
           [formControl]="songControl"
         />
       </mat-card-title>
-      <mat-card-title-group>
-        @if (this.action() !== "create") {
-          <button
-            mat-icon-button
-            aria-label="Remove"
-            color="warn"
-            (click)="deletion.emit(entry.index)"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        }
-      </mat-card-title-group>
     </mat-card-header>
     <mat-card-content>
       <div class="entry-info-container">
@@ -56,23 +44,33 @@
 
       <!-- Quota toggles -->
       <div>
-        <mat-button-toggle [checked]="entry.local" aria-label="Toggle local">
+        <mat-button-toggle
+          [checked]="entry.local"
+          (change)="onQuotaChanged($event, 'local')"
+          aria-label="Toggle local"
+        >
           <mat-icon svgIcon="local-icon"></mat-icon>
         </mat-button-toggle>
 
         <mat-button-toggle
           [checked]="entry.australian"
+          (change)="onQuotaChanged($event, 'aus')"
           aria-label="Toggle australian"
         >
           <mat-icon svgIcon="aus-icon"></mat-icon>
         </mat-button-toggle>
 
-        <mat-button-toggle [checked]="entry.female" aria-label="Toggle female">
+        <mat-button-toggle
+          [checked]="entry.female"
+          (change)="onQuotaChanged($event, 'fem')"
+          aria-label="Toggle female"
+        >
           <mat-icon>female</mat-icon>
         </mat-button-toggle>
 
         <mat-button-toggle
           [checked]="entry.newRelease"
+          (change)="onQuotaChanged($event, 'nr')"
           aria-label="Toggle new release"
         >
           <mat-icon>fiber_new</mat-icon>
@@ -106,6 +104,14 @@
           (click)="undone.emit()"
         >
           <mat-icon>undo</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          aria-label="Remove"
+          color="warn"
+          (click)="deletion.emit(entry.index)"
+        >
+          <mat-icon>close</mat-icon>
         </button>
       }
     </mat-card-actions>
