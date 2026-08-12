@@ -1,4 +1,11 @@
-import { Component, input, output, OnInit, signal } from "@angular/core";
+import {
+  Component,
+  input,
+  output,
+  OnInit,
+  signal,
+  inject,
+} from "@angular/core";
 import { MatButtonModule, MatIconButton } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -9,6 +16,7 @@ import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { merge } from "rxjs";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { DurationService } from "../../services/duration.service";
 
 @Component({
   selector: "app-playlist-entry-editor",
@@ -24,10 +32,13 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
     MatDividerModule,
     MatIconModule,
   ],
+  providers: [DurationService],
   templateUrl: "./playlist-entry-editor.component.html",
   styleUrl: "./playlist-entry-editor.component.scss",
 })
 export class PlaylistEntryEditorComponent implements OnInit {
+  private durationService = inject(DurationService);
+
   input = input.required<PlaylistEntry>();
   action = input.required<string>();
 
@@ -43,7 +54,7 @@ export class PlaylistEntryEditorComponent implements OnInit {
   albumControl = new FormControl("", [Validators.required]);
   durationControl = new FormControl("", [Validators.required]);
   quotas = { local: false, aus: false, fem: false, nr: false };
-  isFormValid: boolean = false;
+  canBeSaved: boolean = false;
 
   ngOnInit() {
     const initialData = this.input();
@@ -66,11 +77,12 @@ export class PlaylistEntryEditorComponent implements OnInit {
       this.durationControl.valueChanges,
     ).subscribe(() => {
       // Update our validity flag whenever any field changes
-      this.isFormValid =
+      this.canBeSaved =
         this.songControl.valid &&
         this.artistControl.valid &&
         this.albumControl.valid &&
-        this.durationControl.valid;
+        this.durationControl.valid &&
+        this.durationService.isValidDuration(this.durationControl.value ?? "");
     });
   }
 
@@ -79,7 +91,7 @@ export class PlaylistEntryEditorComponent implements OnInit {
   }
 
   canSave() {
-    return this.isFormValid;
+    return this.canBeSaved;
   }
 
   save() {
