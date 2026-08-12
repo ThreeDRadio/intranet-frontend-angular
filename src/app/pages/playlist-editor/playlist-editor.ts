@@ -5,9 +5,6 @@ import {
   Signal,
   OnInit,
   signal,
-  effect,
-  ViewChild,
-  ElementRef,
 } from "@angular/core";
 import { LoggerStore } from "../../store/logger.store";
 import { ActivatedRoute } from "@angular/router";
