@@ -107,7 +107,7 @@ export class PlaylistEditorPage implements OnInit {
   onEntryDeleted(index) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
-        title: "Delete",
+        title: "Remove",
         message: "Are you sure you want remove this entry?",
       },
     });

@@ -5,11 +5,26 @@
         <mat-icon>music_note</mat-icon>
         <input
           matInput
+          matTooltip="Song Title"
           placeholder="Song"
           [value]="entry.title"
           [formControl]="songControl"
         />
       </mat-card-title>
+      <mat-card-title-group>
+        @if (this.action() !== "create") {
+          <button
+            matFab
+            extended
+            aria-label="Remove"
+            color="warn"
+            (click)="deletion.emit(entry.index)"
+          >
+            <mat-icon>close</mat-icon>
+            Remove
+          </button>
+        }
+      </mat-card-title-group>
     </mat-card-header>
     <mat-card-content>
       <div class="entry-info-container">
@@ -17,6 +32,7 @@
           <mat-icon>person</mat-icon>
           <input
             matInput
+            matTooltip="Artist"
             placeholder="Artist"
             [value]="entry.artist"
             [formControl]="artistControl"
@@ -26,6 +42,7 @@
           <mat-icon>album</mat-icon>
           <input
             matInput
+            matTooltip="Album"
             placeholder="Album"
             [value]="entry.album"
             [formControl]="albumControl"
@@ -35,6 +52,7 @@
           <mat-icon>av_timer</mat-icon>
           <input
             matInput
+            matTooltip="Duration"
             placeholder="MM:SS"
             [value]="entry.duration"
             [formControl]="durationControl"
@@ -79,39 +97,36 @@
     </mat-card-content>
     <mat-card-actions>
       <button
-        mat-icon-button
+        matFab
+        extended
+        color="primary"
         aria-label="Save"
         [disabled]="!canSave()"
         (click)="save()"
       >
         <mat-icon>save</mat-icon>
+        Save
       </button>
       @if (action() === "create") {
         <button
-          mat-icon-button
+          matFab
+          extended
+          color="accent"
           aria-label="Cancel"
-          color="warn"
           (click)="cancelled.emit()"
         >
           <mat-icon>close</mat-icon>
+          Cancel
         </button>
       } @else {
         <button
-          mat-icon-button
+          matIconButton
           aria-label="Undo"
           color="warn"
           [disabled]="!canUndo()"
           (click)="undone.emit()"
         >
           <mat-icon>undo</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          aria-label="Remove"
-          color="warn"
-          (click)="deletion.emit(entry.index)"
-        >
-          <mat-icon>close</mat-icon>
         </button>
       }
     </mat-card-actions>
