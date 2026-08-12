@@ -1,5 +1,5 @@
 @if (input(); as entry) {
-  <mat-card class="entry-card" [class.is-creating]="creating()">
+  <mat-card class="entry-card">
     <mat-card-header>
       <mat-card-title style="display: flex; align-items: center; gap: 4px">
         <mat-icon>music_note</mat-icon>
@@ -53,26 +53,31 @@
           />
         </div>
       </div>
-      <section>
+
+      <!-- Quota toggles -->
+      <div>
         <mat-button-toggle [checked]="entry.local" aria-label="Toggle local">
           <mat-icon svgIcon="local-icon"></mat-icon>
         </mat-button-toggle>
+
         <mat-button-toggle
           [checked]="entry.australian"
           aria-label="Toggle australian"
         >
           <mat-icon svgIcon="aus-icon"></mat-icon>
         </mat-button-toggle>
+
         <mat-button-toggle [checked]="entry.female" aria-label="Toggle female">
           <mat-icon>female</mat-icon>
         </mat-button-toggle>
+
         <mat-button-toggle
           [checked]="entry.newRelease"
           aria-label="Toggle new release"
         >
-          <b>New Release</b>
+          <mat-icon>fiber_new</mat-icon>
         </mat-button-toggle>
-      </section>
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <button

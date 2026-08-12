@@ -8,7 +8,10 @@ import { PlaylistEntry } from "../../models/playlist-entry";
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { merge } from "rxjs";
 import { MatDividerModule } from "@angular/material/divider";
-import { MatButtonToggle } from "@angular/material/button-toggle";
+import {
+  MatButtonToggle,
+  MatButtonToggleModule,
+} from "@angular/material/button-toggle";
 
 @Component({
   selector: "app-playlist-entry-editor",
@@ -19,6 +22,7 @@ import { MatButtonToggle } from "@angular/material/button-toggle";
     MatIconModule,
     MatIconButton,
     ReactiveFormsModule,
+    MatButtonToggleModule,
     MatButtonModule,
     MatButtonToggle,
     MatDividerModule,
