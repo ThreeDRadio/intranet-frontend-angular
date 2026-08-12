@@ -23,12 +23,14 @@ import { MatCardModule } from "@angular/material/card";
 import { MatIconButton } from "@angular/material/button";
 import { PlaylistEntryComponent } from "../../components/playlist-entry/playlist-entry.component";
 import { PlaylistEntry } from "../../models/playlist-entry";
+import { PlaylistEntryEditorComponent } from "../../components/playlist-entry-editor/playlist-entry-editor.component";
 
 @Component({
   selector: "app-playlist-editor",
   imports: [
     QuotaDisplayComponent,
     PlaylistEntryComponent,
+    PlaylistEntryEditorComponent,
     PlaylistEntryListComponent,
     MatTableModule,
     MatIconModule,
@@ -126,9 +128,11 @@ export class PlaylistEditorPage implements OnInit {
   onNewEntryAdded(event) {
     this.creatingNewEntry.set(true);
   }
-  onNewEntrySaved() {
-    console.log("test");
+
+  onNewEntrySaved(entry) {
+    console.log(entry);
   }
+
   onNewEntryCancelled() {
     this.creatingNewEntry.set(false);
   }

@@ -17,9 +17,9 @@
 ></app-playlist-entry-list>
 
 @if (creatingNewEntry()) {
-<app-playlist-entry
+<app-playlist-entry-editor
   [input]="newEntryTemplate()"
-  (saved)="onNewEntrySaved()"
+  (saved)="onNewEntrySaved($event)"
   (cancelled)="onNewEntryCancelled()"
   action="create"
 />

@@ -56,17 +56,34 @@
       <div class="quota-check-edit-container"></div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-icon-button aria-label="Save" (click)="saved.emit()">
-        <mat-icon>save</mat-icon>
-      </button>
       <button
         mat-icon-button
-        aria-label="Cancel"
-        color="warn"
-        (click)="cancelled.emit()"
+        aria-label="Save"
+        [disabled]="!canSave()"
+        (click)="save()"
       >
-        <mat-icon>close</mat-icon>
+        <mat-icon>save</mat-icon>
       </button>
+      @if (action() === "create") {
+        <button
+          mat-icon-button
+          aria-label="Cancel"
+          color="warn"
+          (click)="cancelled.emit()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      } @else {
+        <button
+          mat-icon-button
+          aria-label="Undo"
+          color="warn"
+          [disabled]="!canUndo()"
+          (click)="undone.emit()"
+        >
+          <mat-icon>undo</mat-icon>
+        </button>
+      }
     </mat-card-actions>
   </mat-card>
 }
