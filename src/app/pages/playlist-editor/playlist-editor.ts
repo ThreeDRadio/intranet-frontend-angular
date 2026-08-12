@@ -20,8 +20,6 @@ import { PlaylistEntryListComponent } from "../../components/playlist-entry-list
 import { ConfirmationDialogComponent } from "../../components/confirmation-dialog/confirmation-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { MatCardModule } from "@angular/material/card";
-import { MatIconButton } from "@angular/material/button";
-import { PlaylistEntryComponent } from "../../components/playlist-entry/playlist-entry.component";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { PlaylistEntryEditorComponent } from "../../components/playlist-entry-editor/playlist-entry-editor.component";
 
@@ -29,7 +27,6 @@ import { PlaylistEntryEditorComponent } from "../../components/playlist-entry-ed
   selector: "app-playlist-editor",
   imports: [
     QuotaDisplayComponent,
-    PlaylistEntryComponent,
     PlaylistEntryEditorComponent,
     PlaylistEntryListComponent,
     MatTableModule,

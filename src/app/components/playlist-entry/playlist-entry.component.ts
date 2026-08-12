@@ -15,7 +15,6 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
-    MatIconButton,
     MatButtonToggleModule,
     QuotaCheckComponent,
   ],

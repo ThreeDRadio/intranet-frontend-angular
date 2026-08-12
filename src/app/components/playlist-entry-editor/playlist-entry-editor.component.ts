@@ -1,6 +1,5 @@
 import { Component, input, output, OnInit, signal } from "@angular/core";
-import { MatIconButton } from "@angular/material/button";
-import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MatButtonModule, MatIconButton } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatIconModule } from "@angular/material/icon";
@@ -8,6 +7,8 @@ import { MatInputModule } from "@angular/material/input";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { merge } from "rxjs";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatButtonToggle } from "@angular/material/button-toggle";
 
 @Component({
   selector: "app-playlist-entry-editor",
@@ -17,8 +18,11 @@ import { merge } from "rxjs";
     MatCheckboxModule,
     MatIconModule,
     MatIconButton,
-    MatButtonToggleModule,
     ReactiveFormsModule,
+    MatButtonModule,
+    MatButtonToggle,
+    MatDividerModule,
+    MatIconModule,
   ],
   templateUrl: "./playlist-entry-editor.component.html",
   styleUrl: "./playlist-entry-editor.component.scss",
