@@ -68,12 +68,9 @@ export class PlaylistService {
   }
 
   createEntry(input: PlaylistEntry): Observable<PlaylistEntry> {
-    const observable = this.playlistEntryApi.create(input);
-    return observable.pipe(
+    return this.playlistEntryApi.create(input).pipe(
       map((response: any) => {
-        return response.map((output: any) => {
-          return output as PlaylistEntry;
-        });
+        return response as PlaylistEntry;
       }),
       catchError((err, caught) => {
         return throwError(() => err);

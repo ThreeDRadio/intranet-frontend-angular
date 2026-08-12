@@ -142,26 +142,22 @@ export const LoggerStore = signalStore(
         ),
       ),
 
-      createEmptyPlaylistEntry: rxMethod<number>(
+      createPlaylistEntry: rxMethod<PlaylistEntry>(
         pipe(
-          concatMap((playlist) => {
-            return EMPTY;
-            // const before = store.playlistEntries();
-            // const lastIdx = before.reduce((highest, current) => {
-            //   return current.index > highest.index ? current : highest;
-            // }).index;
-            // return playlistService.createEntry(input).pipe(
-            //   tap((result) => {
-            //     patchState(store, {
-            //       playlistEntries: [...before, result], // Forget the temporary entry, replace it with the result from the backend.
-            //     });
-            //   }),
-            //   catchError((err) => {
-            //     patchState(store, { playlistEntries: before });
-            //     return EMPTY;
-            //   }),
-            // );
-          }),
+          concatMap((input) =>
+            playlistService.createEntry(input).pipe(
+              tapResponse({
+                next: (result) => {
+                  patchState(store, {
+                    playlistEntries: [...store.playlistEntries(), result],
+                  });
+                },
+                error: (err) => {
+                  console.error("API Error details:", err);
+                },
+              }),
+            ),
+          ),
         ),
       ),
 
