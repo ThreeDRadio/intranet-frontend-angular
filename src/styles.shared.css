@@ -41,16 +41,16 @@
   padding: 0;
   cursor: pointer;
   text-align: left;
-}
-
-.card-button mat-card {
   background-color: #5cb85c;
-  --mdc-card-container-color: #5cb85c;
   color: #e0e0e0;
   transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
 }
 
-.card-button:hover mat-card {
+.card-button:hover {
   background-color: #52a352;
   --mdc-card-container-color: #52a352;
   color: #e0e0e0;
@@ -58,7 +58,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.card-button:focus-visible mat-card {
+.card-button:focus-visible {
   outline: 2px solid currentColor;
 }
 
@@ -78,4 +78,14 @@
   display: flex;
   align-items: center; /* Vertically aligns items in the center */
   gap: 4px; /* Adds optional clean spacing between icon and text */
+}
+
+.med-input {
+  width: 100%; /* Spans the full width of the parent container */
+  max-width: 300px; /* Limits the absolute maximum size */
+}
+
+.short-input {
+  width: 100%;
+  max-width: 60px;
 }
