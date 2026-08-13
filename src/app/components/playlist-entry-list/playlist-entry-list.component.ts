@@ -2,10 +2,11 @@ import { Component, input, output } from "@angular/core";
 import { Playlist } from "../../models/playlist";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { PlaylistEntryComponent } from "../playlist-entry/playlist-entry.component";
+import { PlaylistEntryEditorComponent } from "../playlist-entry-editor/playlist-entry-editor.component";
 
 @Component({
   selector: "app-playlist-entry-list",
-  imports: [PlaylistEntryComponent],
+  imports: [PlaylistEntryComponent, PlaylistEntryEditorComponent],
   templateUrl: "./playlist-entry-list.component.html",
   styleUrl: "./playlist-entry-list.component.scss",
 })
@@ -13,9 +14,7 @@ export class PlaylistEntryListComponent {
   playlist = input.required<Playlist>();
   entries = input.required<PlaylistEntry[]>();
   action = input<string>("view");
-  entryDeleted = output<number>();
 
-  onEntryDeleted(index) {
-    this.entryDeleted.emit(index);
-  }
+  // Outputs
+  entryDeleted = output<number>();
 }

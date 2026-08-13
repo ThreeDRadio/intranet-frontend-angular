@@ -3,14 +3,29 @@
 } @else { @if (playlist(); as pl) {
 <h1>EDITING Logging Sheet - {{ show().name }}</h1>
 <h3 style="opacity: 0.7">{{ formattedDate() }}</h3>
+
 <app-quota-display
-  [quotas]="this.quotas()"
-  [totalDuration]="this.totalDuration()"
+  [quotas]="quotas()"
+  [totalDuration]="totalDuration()"
 ></app-quota-display>
+
 <app-playlist-entry-list
   [playlist]="pl"
-  [entries]="this.entries()"
+  [entries]="entries()"
   [action]="edit"
   (entryDeleted)="onEntryDeleted($event)"
 ></app-playlist-entry-list>
-} }
+
+@if (creatingNewEntry()) {
+<app-playlist-entry-editor
+  [input]="newEntryTemplate()"
+  (saved)="onNewEntrySaved($event)"
+  (cancelled)="onNewEntryCancelled()"
+  action="create"
+/>
+} @else {
+<button class="card-button" (click)="onNewEntryAdded($event)">
+  <mat-icon class="big-icon">add</mat-icon>
+  <b>Add a new track</b>
+</button>
+} } }

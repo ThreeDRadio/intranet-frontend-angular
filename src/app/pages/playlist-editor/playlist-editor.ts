@@ -1,4 +1,11 @@
-import { Component, computed, inject, Signal, OnInit } from "@angular/core";
+import {
+  Component,
+  computed,
+  inject,
+  Signal,
+  OnInit,
+  signal,
+} from "@angular/core";
 import { LoggerStore } from "../../store/logger.store";
 import { ActivatedRoute } from "@angular/router";
 import { DateService } from "../../services/date.service";
@@ -12,16 +19,21 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { PlaylistEntryListComponent } from "../../components/playlist-entry-list/playlist-entry-list.component";
 import { ConfirmationDialogComponent } from "../../components/confirmation-dialog/confirmation-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
+import { MatCardModule } from "@angular/material/card";
+import { PlaylistEntry } from "../../models/playlist-entry";
+import { PlaylistEntryEditorComponent } from "../../components/playlist-entry-editor/playlist-entry-editor.component";
 
 @Component({
   selector: "app-playlist-editor",
   imports: [
     QuotaDisplayComponent,
+    PlaylistEntryEditorComponent,
     PlaylistEntryListComponent,
     MatTableModule,
     MatIconModule,
     MatInputModule,
     MatSlideToggleModule,
+    MatCardModule,
   ],
   providers: [QuotaService, DateService],
   templateUrl: "./playlist-editor.html",
@@ -71,10 +83,35 @@ export class PlaylistEditorPage implements OnInit {
     this.store.fetchPlaylistEntries(this.playlist()?.id);
   }
 
+  // Internal state
+  creatingNewEntry = signal<boolean>(false);
+  newEntryTemplate(): PlaylistEntry {
+    const idx =
+      this.entries().length > 0
+        ? this.entries().reduce((highest, current) => {
+            return current.index > highest.index ? current : highest;
+          }).index + 1
+        : 1;
+
+    return {
+      id: 0,
+      index: idx,
+      artist: "",
+      album: "",
+      title: "",
+      duration: "",
+      local: false,
+      australian: false,
+      female: false,
+      newRelease: false,
+      playlist: this.playlist().id,
+    };
+  }
+
   onEntryDeleted(index) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
-        title: "Delete",
+        title: "Remove",
         message: "Are you sure you want remove this entry?",
       },
     });
@@ -88,5 +125,17 @@ export class PlaylistEditorPage implements OnInit {
         }
       }
     });
+  }
+  onNewEntryAdded(event) {
+    this.creatingNewEntry.set(true);
+  }
+
+  onNewEntrySaved(entry) {
+    this.store.createPlaylistEntry(entry);
+    this.creatingNewEntry.set(false);
+  }
+
+  onNewEntryCancelled() {
+    this.creatingNewEntry.set(false);
   }
 }

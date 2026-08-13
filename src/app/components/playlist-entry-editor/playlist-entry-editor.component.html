@@ -1,0 +1,125 @@
+@if (input(); as entry) {
+  <div class="editor-div">
+    <mat-icon>music_note</mat-icon>
+    <input
+      matTooltip="Song Title"
+      placeholder="Song"
+      [value]="entry.title"
+      [formControl]="songControl"
+      class="standalone-input med-input"
+    />
+    <mat-icon>person</mat-icon>
+    <input
+      matInput
+      matTooltip="Artist"
+      placeholder="Artist"
+      [value]="entry.artist"
+      [formControl]="artistControl"
+      class="standalone-input med-input"
+    />
+    <mat-icon>album</mat-icon>
+    <input
+      matInput
+      matTooltip="Album"
+      placeholder="Album"
+      [value]="entry.album"
+      [formControl]="albumControl"
+      class="standalone-input med-input"
+    />
+    <mat-icon>av_timer</mat-icon>
+    <input
+      matInput
+      matTooltip="Duration"
+      placeholder="MM:SS"
+      [value]="entry.duration"
+      [formControl]="durationControl"
+      class="standalone-input short-input"
+      type="text"
+      style="text-align: center"
+    />
+    <span style="width: 100%; max-width: 10px"></span>
+    <div class="checkbox-container">
+      <mat-icon svgIcon="local-icon"></mat-icon>
+      <mat-checkbox
+        [checked]="quotas().local"
+        (change)="onQuotaChanged($event, 'local')"
+      ></mat-checkbox>
+    </div>
+
+    <div class="checkbox-container">
+      <mat-icon svgIcon="aus-icon"></mat-icon>
+      <mat-checkbox
+        [checked]="quotas().australian"
+        (change)="onQuotaChanged($event, 'australian')"
+      ></mat-checkbox>
+    </div>
+
+    <div class="checkbox-container">
+      <mat-icon>female</mat-icon>
+      <mat-checkbox
+        [checked]="quotas().female"
+        (change)="onQuotaChanged($event, 'female')"
+      ></mat-checkbox>
+    </div>
+
+    <div class="checkbox-container">
+      <mat-icon>fiber_new</mat-icon>
+      <mat-checkbox
+        [checked]="quotas().newRelease"
+        (change)="onQuotaChanged($event, 'newRelease')"
+      ></mat-checkbox>
+    </div>
+    <span style="width: 100%; max-width: 10px"></span>
+    <div>
+      <button
+        matFab
+        extended
+        color="primary"
+        aria-label="Save"
+        [disabled]="!canSave()"
+        (click)="save()"
+      >
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+      @if (action() === "create") {
+        <button
+          matFab
+          extended
+          color="accent"
+          aria-label="Cancel"
+          (click)="cancelled.emit()"
+        >
+          <mat-icon>close</mat-icon>
+          Cancel
+        </button>
+      } @else {
+        <button
+          matIconButton
+          aria-label="Undo"
+          color="warn"
+          [disabled]="!canUndo()"
+          (click)="undone.emit()"
+        >
+          <mat-icon>undo</mat-icon>
+        </button>
+      }
+    </div>
+    <!-- Deletion to the right -->
+    @if (this.action() !== "create") {
+      <span class="spacer"></span>
+      <div class="remove-button-container">
+        <button
+          matFab
+          extended
+          aria-label="Remove"
+          color="warn"
+          (click)="deletion.emit(entry.index)"
+        >
+          <mat-icon>close</mat-icon>
+          Remove
+        </button>
+      </div>
+    }
+  </div>
+}

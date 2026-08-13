@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { catchError, from, map, Observable, of, tap } from "rxjs";
+import { catchError, from, map, Observable, of, tap, throwError } from "rxjs";
 import { NewPlaylist, Playlist } from "../models";
 import { PlaylistApi } from "./playlist-api";
 import { PlaylistEntry } from "../models/playlist-entry";
@@ -63,6 +63,17 @@ export class PlaylistService {
         return list.map((item: any) => {
           return item as PlaylistEntry;
         });
+      }),
+    );
+  }
+
+  createEntry(input: PlaylistEntry): Observable<PlaylistEntry> {
+    return this.playlistEntryApi.create(input).pipe(
+      map((response: any) => {
+        return response as PlaylistEntry;
+      }),
+      catchError((err, caught) => {
+        return throwError(() => err);
       }),
     );
   }

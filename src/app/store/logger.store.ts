@@ -15,9 +15,11 @@ import { Show } from "../models/show";
 import { ShowService } from "../services/show.service";
 import {
   catchError,
+  concatMap,
   EMPTY,
   exhaustMap,
   finalize,
+  map,
   pipe,
   switchMap,
   tap,
@@ -140,10 +142,29 @@ export const LoggerStore = signalStore(
         ),
       ),
 
+      createPlaylistEntry: rxMethod<PlaylistEntry>(
+        pipe(
+          concatMap((input) =>
+            playlistService.createEntry(input).pipe(
+              tapResponse({
+                next: (result) => {
+                  patchState(store, {
+                    playlistEntries: [...store.playlistEntries(), result],
+                  });
+                },
+                error: (err) => {
+                  console.error("API Error details:", err);
+                },
+              }),
+            ),
+          ),
+        ),
+      ),
+
       deletePlaylistEntry: rxMethod<number>(
         pipe(
           exhaustMap((id) => {
-            const previousEntries = store.playlistEntries();
+            const before = store.playlistEntries();
 
             patchState(store, (state) => ({
               playlistEntries: state.playlistEntries.filter(
@@ -165,7 +186,7 @@ export const LoggerStore = signalStore(
               }),
               catchError((err) => {
                 // 3. Rollback step: Restore original list if server fails.
-                patchState(store, { playlistEntries: previousEntries });
+                patchState(store, { playlistEntries: before });
                 return EMPTY;
               }),
             );

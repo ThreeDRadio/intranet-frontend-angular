@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { Component, input } from "@angular/core";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { QuotaCheckComponent } from "../quota-check/quota-check.component";
 import { MatCardModule } from "@angular/material/card";
@@ -15,7 +15,6 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
-    MatIconButton,
     MatButtonToggleModule,
     QuotaCheckComponent,
   ],
@@ -24,10 +23,4 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 })
 export class PlaylistEntryComponent {
   input = input.required<PlaylistEntry>();
-  action = input<string>("view");
-  deletion = output<number>();
-
-  onEntryDeleted() {
-    this.deletion.emit(this.input().index);
-  }
 }

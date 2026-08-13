@@ -22,3 +22,70 @@
   background-color: #d9534f;
   color: #fff;
 }
+
+.big-icon {
+  width: 48px !important;
+  height: 48px !important;
+  font-size: 48px !important;
+}
+
+.good-icon {
+  color: #5cb85c;
+}
+
+.card-button {
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  background-color: #5cb85c;
+  color: #e0e0e0;
+  transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 12px;
+  border-radius: 4px;
+}
+
+.card-button:hover {
+  background-color: #52a352;
+  --mdc-card-container-color: #52a352;
+  color: #e0e0e0;
+  /* Elevate or highlight on hover if desired */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-button:focus-visible {
+  outline: 2px solid currentColor;
+}
+
+.entry-card {
+  display: flex;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.entry-info-container {
+  display: flex;
+  gap: 8px;
+  margin-top: 0px;
+}
+
+.entry-icon-text-container {
+  display: flex;
+  align-items: center; /* Vertically aligns items in the center */
+  gap: 4px; /* Adds optional clean spacing between icon and text */
+}
+
+.med-input {
+  width: 100%; /* Spans the full width of the parent container */
+  max-width: 300px; /* Limits the absolute maximum size */
+}
+
+.short-input {
+  width: 100%;
+  max-width: 60px;
+}
