@@ -17,4 +17,5 @@ export class PlaylistEntryListComponent {
 
   // Outputs
   entryDeleted = output<number>();
+  entrySaved = output<PlaylistEntry>();
 }
