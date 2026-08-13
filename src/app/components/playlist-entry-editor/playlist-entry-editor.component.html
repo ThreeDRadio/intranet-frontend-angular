@@ -95,13 +95,15 @@
         </button>
       } @else {
         <button
-          matIconButton
+          matFab
+          extended
           aria-label="Undo"
           color="warn"
           [disabled]="!canUndo()"
           (click)="undone.emit()"
         >
           <mat-icon>undo</mat-icon>
+          Undo
         </button>
       }
     </div>
