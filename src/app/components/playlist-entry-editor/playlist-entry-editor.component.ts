@@ -134,6 +134,13 @@ export class PlaylistEntryEditorComponent implements OnInit {
       ...this.quotas(),
       [type]: event.checked,
     });
+
+    if (!this.creating()) {
+      // Editing
+      const identical = this.isIdenticalTo(this.input(), this.getOutput());
+      this.canBeSaved = !identical;
+      this.canBeUndone = !identical;
+    }
   }
 
   creating() {
