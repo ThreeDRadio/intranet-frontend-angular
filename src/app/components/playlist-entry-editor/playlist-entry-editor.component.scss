@@ -1,0 +1,33 @@
+@use "@angular/material" as mat;
+
+.editor-div {
+  // Applies the standard card shadow
+  @include mat.elevation(4);
+  background-color: var(--mat-sys-surface);
+  padding: 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.standalone-input {
+  --input-focus-color: var(--mat-sys-primary, #3f51b5);
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 8px 12px;
+  border-radius: 4px;
+
+  &:focus {
+    border-color: var(--input-focus-color);
+    box-shadow: 0 0 0 1px var(--input-focus-color);
+  }
+}
+
+.remove-button-container {
+  display: flex;
+  justify-content: flex-end; /* Pushes the button to the right */
+}
+
+.spacer {
+  flex: 1 1 auto; /* Expands to fill all available space */
+}

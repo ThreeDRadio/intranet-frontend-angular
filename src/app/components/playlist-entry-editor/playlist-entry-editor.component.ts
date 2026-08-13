@@ -5,12 +5,13 @@ import {
   OnInit,
   signal,
   inject,
+  computed,
 } from "@angular/core";
 import { MatButtonModule, MatIconButton } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
+import { MatInput, MatInputModule } from "@angular/material/input";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { merge } from "rxjs";
@@ -22,6 +23,7 @@ import { DurationService } from "../../services/duration.service";
   selector: "app-playlist-entry-editor",
   imports: [
     MatInputModule,
+    MatInput,
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
@@ -53,8 +55,22 @@ export class PlaylistEntryEditorComponent implements OnInit {
   artistControl = new FormControl("", [Validators.required]);
   albumControl = new FormControl("", [Validators.required]);
   durationControl = new FormControl("", [Validators.required]);
-  quotas = { local: false, aus: false, fem: false, nr: false };
   canBeSaved: boolean = false;
+
+  // Quota checks
+  quotas = signal({
+    local: false,
+    australian: false,
+    female: false,
+    newRelease: false,
+  });
+
+  quotaSelections = computed(() => {
+    const current = this.quotas();
+    return Object.keys(current).filter(
+      (key) => current[key as keyof typeof current],
+    );
+  });
 
   ngOnInit() {
     const initialData = this.input();
@@ -62,12 +78,12 @@ export class PlaylistEntryEditorComponent implements OnInit {
     this.artistControl.setValue(initialData.artist || "");
     this.albumControl.setValue(initialData.album || "");
     this.durationControl.setValue(initialData.duration || "");
-    this.quotas = {
+    this.quotas.set({
       local: initialData.local,
-      aus: initialData.australian,
-      fem: initialData.female,
-      nr: initialData.newRelease,
-    };
+      australian: initialData.australian,
+      female: initialData.female,
+      newRelease: initialData.newRelease,
+    });
 
     // Listen to changes across all controls simultaneously
     merge(
@@ -101,28 +117,22 @@ export class PlaylistEntryEditorComponent implements OnInit {
       artist: this.artistControl.value ?? "",
       album: this.albumControl.value ?? "",
       duration: this.durationControl.value ?? "",
-      local: this.quotas.local,
-      australian: this.quotas.aus,
-      female: this.quotas.fem,
-      newRelease: this.quotas.nr,
+      local: this.quotas().local,
+      australian: this.quotas().australian,
+      female: this.quotas().female,
+      newRelease: this.quotas().newRelease,
     });
   }
 
-  onQuotaChanged(event, name: string) {
-    switch (name.toLocaleLowerCase()) {
-      case "local":
-        this.quotas.local = !this.quotas.local;
-        break;
-      case "aus":
-        this.quotas.aus = !this.quotas.aus;
-        break;
-      case "fem":
-        this.quotas.fem = !this.quotas.fem;
-        break;
-      case "nr":
-        this.quotas.nr = !this.quotas.nr;
-        break;
-    }
+  onQuotaChanged(event: any) {
+    const selection = event.value as string[];
+
+    this.quotas.set({
+      local: selection.includes("local"),
+      australian: selection.includes("australian"),
+      female: selection.includes("female"),
+      newRelease: selection.includes("newRelease"),
+    });
   }
 
   canUndo() {

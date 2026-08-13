@@ -86,12 +86,16 @@ export class PlaylistEditorPage implements OnInit {
   // Internal state
   creatingNewEntry = signal<boolean>(false);
   newEntryTemplate(): PlaylistEntry {
+    const idx =
+      this.entries().length > 0
+        ? this.entries().reduce((highest, current) => {
+            return current.index > highest.index ? current : highest;
+          }).index + 1
+        : 1;
+
     return {
       id: 0,
-      index:
-        this.entries().reduce((highest, current) => {
-          return current.index > highest.index ? current : highest;
-        }).index + 1,
+      index: idx,
       artist: "",
       album: "",
       title: "",

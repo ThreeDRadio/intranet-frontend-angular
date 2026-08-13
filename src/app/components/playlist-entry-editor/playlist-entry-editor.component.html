@@ -1,4 +1,118 @@
 @if (input(); as entry) {
+  <div class="editor-div">
+    <mat-icon>music_note</mat-icon>
+    <input
+      matTooltip="Song Title"
+      placeholder="Song"
+      [value]="entry.title"
+      [formControl]="songControl"
+      class="standalone-input"
+    />
+    <mat-icon>person</mat-icon>
+    <input
+      matInput
+      matTooltip="Artist"
+      placeholder="Artist"
+      [value]="entry.artist"
+      [formControl]="artistControl"
+      class="standalone-input"
+    />
+    <mat-icon>album</mat-icon>
+    <input
+      matInput
+      matTooltip="Album"
+      placeholder="Album"
+      [value]="entry.album"
+      [formControl]="albumControl"
+      class="standalone-input"
+    />
+    <mat-icon>av_timer</mat-icon>
+    <input
+      matInput
+      matTooltip="Duration"
+      placeholder="MM:SS"
+      [value]="entry.duration"
+      [formControl]="durationControl"
+      class="standalone-input"
+    />
+
+    <mat-button-toggle-group
+      multiple
+      [value]="quotaSelections()"
+      (change)="onQuotaChanged($event)"
+    >
+      <mat-button-toggle value="local">
+        <mat-icon svgIcon="local-icon"></mat-icon>
+      </mat-button-toggle>
+
+      <mat-button-toggle value="australian">
+        <mat-icon svgIcon="aus-icon"></mat-icon>
+      </mat-button-toggle>
+
+      <mat-button-toggle value="female">
+        <mat-icon>female</mat-icon>
+      </mat-button-toggle>
+
+      <mat-button-toggle value="newRelease">
+        <mat-icon>fiber_new</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <div>
+      <button
+        matFab
+        extended
+        color="primary"
+        aria-label="Save"
+        [disabled]="!canSave()"
+        (click)="save()"
+      >
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+      @if (action() === "create") {
+        <button
+          matFab
+          extended
+          color="accent"
+          aria-label="Cancel"
+          (click)="cancelled.emit()"
+        >
+          <mat-icon>close</mat-icon>
+          Cancel
+        </button>
+      } @else {
+        <button
+          matIconButton
+          aria-label="Undo"
+          color="warn"
+          [disabled]="!canUndo()"
+          (click)="undone.emit()"
+        >
+          <mat-icon>undo</mat-icon>
+        </button>
+      }
+    </div>
+    <!-- Deletion to the right -->
+    @if (this.action() !== "create") {
+      <span class="spacer"></span>
+      <div class="remove-button-container">
+        <button
+          matFab
+          extended
+          aria-label="Remove"
+          color="warn"
+          (click)="deletion.emit(entry.index)"
+        >
+          <mat-icon>close</mat-icon>
+          Remove
+        </button>
+      </div>
+    }
+  </div>
+}
+
+<!-- @if (input(); as entry) {
   <mat-card class="entry-card">
     <mat-card-header>
       <mat-card-title style="display: flex; align-items: center; gap: 4px">
@@ -26,6 +140,7 @@
         }
       </mat-card-title-group>
     </mat-card-header>
+
     <mat-card-content>
       <div class="entry-info-container">
         <div class="entry-icon-text-container">
@@ -59,42 +174,30 @@
           />
         </div>
       </div>
-
-      <!-- Quota toggles -->
-      <div>
-        <mat-button-toggle
-          [checked]="entry.local"
-          (change)="onQuotaChanged($event, 'local')"
-          aria-label="Toggle local"
-        >
+     
+      <mat-button-toggle-group
+        multiple
+        [value]="quotaSelections()"
+        (change)="onQuotaChanged($event)"
+      >
+        <mat-button-toggle value="local">
           <mat-icon svgIcon="local-icon"></mat-icon>
         </mat-button-toggle>
 
-        <mat-button-toggle
-          [checked]="entry.australian"
-          (change)="onQuotaChanged($event, 'aus')"
-          aria-label="Toggle australian"
-        >
+        <mat-button-toggle value="australian">
           <mat-icon svgIcon="aus-icon"></mat-icon>
         </mat-button-toggle>
 
-        <mat-button-toggle
-          [checked]="entry.female"
-          (change)="onQuotaChanged($event, 'fem')"
-          aria-label="Toggle female"
-        >
+        <mat-button-toggle value="female">
           <mat-icon>female</mat-icon>
         </mat-button-toggle>
 
-        <mat-button-toggle
-          [checked]="entry.newRelease"
-          (change)="onQuotaChanged($event, 'nr')"
-          aria-label="Toggle new release"
-        >
+        <mat-button-toggle value="newRelease">
           <mat-icon>fiber_new</mat-icon>
         </mat-button-toggle>
-      </div>
+      </mat-button-toggle-group>
     </mat-card-content>
+
     <mat-card-actions>
       <button
         matFab
@@ -131,4 +234,4 @@
       }
     </mat-card-actions>
   </mat-card>
-}
+} -->
