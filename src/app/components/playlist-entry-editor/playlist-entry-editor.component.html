@@ -37,29 +37,39 @@
       type="text"
       style="text-align: center"
     />
-    <span style="width: 100%; max-width: 20px"></span>
-    <mat-button-toggle-group
-      multiple
-      [value]="quotaSelections()"
-      (change)="onQuotaChanged($event)"
-    >
-      <mat-button-toggle value="local">
-        <mat-icon svgIcon="local-icon"></mat-icon>
-      </mat-button-toggle>
+    <span style="width: 100%; max-width: 10px"></span>
+    <div class="checkbox-container">
+      <mat-icon svgIcon="local-icon"></mat-icon>
+      <mat-checkbox
+        [checked]="quotas().local"
+        (change)="onQuotaChanged($event, 'local')"
+      ></mat-checkbox>
+    </div>
 
-      <mat-button-toggle value="australian">
-        <mat-icon svgIcon="aus-icon"></mat-icon>
-      </mat-button-toggle>
+    <div class="checkbox-container">
+      <mat-icon svgIcon="aus-icon"></mat-icon>
+      <mat-checkbox
+        [checked]="quotas().australian"
+        (change)="onQuotaChanged($event, 'australian')"
+      ></mat-checkbox>
+    </div>
 
-      <mat-button-toggle value="female">
-        <mat-icon>female</mat-icon>
-      </mat-button-toggle>
+    <div class="checkbox-container">
+      <mat-icon>female</mat-icon>
+      <mat-checkbox
+        [checked]="quotas().female"
+        (change)="onQuotaChanged($event, 'female')"
+      ></mat-checkbox>
+    </div>
 
-      <mat-button-toggle value="newRelease">
-        <mat-icon>fiber_new</mat-icon>
-      </mat-button-toggle>
-    </mat-button-toggle-group>
-
+    <div class="checkbox-container">
+      <mat-icon>fiber_new</mat-icon>
+      <mat-checkbox
+        [checked]="quotas().newRelease"
+        (change)="onQuotaChanged($event, 'newRelease')"
+      ></mat-checkbox>
+    </div>
+    <span style="width: 100%; max-width: 10px"></span>
     <div>
       <button
         matFab

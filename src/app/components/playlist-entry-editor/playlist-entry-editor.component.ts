@@ -65,13 +65,6 @@ export class PlaylistEntryEditorComponent implements OnInit {
     newRelease: false,
   });
 
-  quotaSelections = computed(() => {
-    const current = this.quotas();
-    return Object.keys(current).filter(
-      (key) => current[key as keyof typeof current],
-    );
-  });
-
   ngOnInit() {
     const initialData = this.input();
     this.songControl.setValue(initialData.title || "");
@@ -102,12 +95,23 @@ export class PlaylistEntryEditorComponent implements OnInit {
     });
   }
 
+  onQuotaChanged(event, type) {
+    this.quotas.set({
+      ...this.quotas(),
+      [type]: event.checked,
+    });
+  }
+
   creating() {
     return this.action() === "create";
   }
 
   canSave() {
     return this.canBeSaved;
+  }
+
+  canUndo() {
+    return false;
   }
 
   save() {
@@ -122,20 +126,5 @@ export class PlaylistEntryEditorComponent implements OnInit {
       female: this.quotas().female,
       newRelease: this.quotas().newRelease,
     });
-  }
-
-  onQuotaChanged(event: any) {
-    const selection = event.value as string[];
-
-    this.quotas.set({
-      local: selection.includes("local"),
-      australian: selection.includes("australian"),
-      female: selection.includes("female"),
-      newRelease: selection.includes("newRelease"),
-    });
-  }
-
-  canUndo() {
-    return false;
   }
 }
