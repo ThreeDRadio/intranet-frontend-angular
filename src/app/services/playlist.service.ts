@@ -4,6 +4,7 @@ import { NewPlaylist, Playlist } from "../models";
 import { PlaylistApi } from "./playlist-api";
 import { PlaylistEntry } from "../models/playlist-entry";
 import { PlaylistEntryApi } from "./playlist-entry-api";
+import { ApiModel } from "./model-api";
 
 @Injectable({
   providedIn: "root",
@@ -46,6 +47,19 @@ export class PlaylistService {
     return observable.pipe(
       map((response: any) => {
         return response as Playlist;
+      }),
+    );
+  }
+
+  completePlaylist(id: number): Observable<boolean> {
+    const reducedPayload = { id: id, complete: true };
+    const fakeApiModel: ApiModel = reducedPayload;
+    return this.playlistApi.partialUpdate(fakeApiModel).pipe(
+      tap((_: any) => {
+        return true;
+      }),
+      catchError((err, caught) => {
+        return of(false);
       }),
     );
   }

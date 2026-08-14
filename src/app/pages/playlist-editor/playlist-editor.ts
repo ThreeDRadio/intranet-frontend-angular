@@ -121,6 +121,7 @@ export class PlaylistEditorPage implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
+        this.store.completePlaylist(this.playlist()?.id);
       }
     });
   }

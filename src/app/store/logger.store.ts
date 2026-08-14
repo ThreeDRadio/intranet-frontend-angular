@@ -255,6 +255,17 @@ export const LoggerStore = signalStore(
           ),
         ),
       ),
+
+      completePlaylist: rxMethod<number>(
+        pipe(
+          exhaustMap((id) => {
+            return playlistService.completePlaylist(id);
+          }),
+          catchError((err) => {
+            return EMPTY;
+          }),
+        ),
+      ),
     }),
   ),
 );
