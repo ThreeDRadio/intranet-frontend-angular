@@ -11,4 +11,5 @@ import { QuotaIndicatorComponent } from "../quota-indicator/quota-indicator.comp
 export class QuotaDisplayComponent {
   quotas = input.required();
   totalDuration = input.required();
+  complete = input<boolean>();
 }
