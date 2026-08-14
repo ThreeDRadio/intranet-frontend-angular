@@ -27,6 +27,12 @@
 } @else {
 <button class="card-button" (click)="onNewEntryAdded($event)">
   <mat-icon class="big-icon">add</mat-icon>
-  <b>Add a new track</b>
+  <b><span style="font-size: 24px">Add a new track</span></b>
 </button>
-} } }
+} }
+
+<button class="card-button-blue" color="primary" (click)="onSubmitted($event)">
+  <mat-icon class="big-icon">send</mat-icon>
+  <b><span style="font-size: 24px">Submit Logging Sheet</span></b>
+</button>
+}

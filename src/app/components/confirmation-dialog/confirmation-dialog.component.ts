@@ -11,5 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogModule } from "@angular/material/dialog";
 export class ConfirmationDialogComponent {
   title = input.required<string>();
   message = input.required<string>();
+  confirmButton = input<string>("Confirm");
+  cancelButton = input<string>("Cancel");
   public data = inject(MAT_DIALOG_DATA);
 }

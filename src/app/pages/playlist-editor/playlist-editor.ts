@@ -108,6 +108,23 @@ export class PlaylistEditorPage implements OnInit {
     };
   }
 
+  onSubmitted() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: "Submit",
+        message:
+          "Please ensure your logging sheet is complete and correct before submitting.",
+        confirmButton: "Submit",
+        cancelButton: "Cancel",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+      }
+    });
+  }
+
   onEntryDeleted(index) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
