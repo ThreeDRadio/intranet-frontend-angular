@@ -79,16 +79,7 @@ export class PlaylistEntryEditorComponent implements OnInit {
 
   ngOnInit() {
     const initialData = this.input();
-    this.songControl.setValue(initialData.title || "");
-    this.artistControl.setValue(initialData.artist || "");
-    this.albumControl.setValue(initialData.album || "");
-    this.durationControl.setValue(initialData.duration || "");
-    this.quotas.set({
-      local: initialData.local,
-      australian: initialData.australian,
-      female: initialData.female,
-      newRelease: initialData.newRelease,
-    });
+    this.setTo(initialData);
 
     // Listen to changes across all controls simultaneously
     merge(
@@ -111,6 +102,20 @@ export class PlaylistEntryEditorComponent implements OnInit {
         this.canBeSaved = !identical;
         this.canBeUndone = !identical;
       }
+    });
+  }
+
+  // Updates the form to match the given input.
+  setTo(value) {
+    this.songControl.setValue(value.title || "");
+    this.artistControl.setValue(value.artist || "");
+    this.albumControl.setValue(value.album || "");
+    this.durationControl.setValue(value.duration || "");
+    this.quotas.set({
+      local: value.local,
+      australian: value.australian,
+      female: value.female,
+      newRelease: value.newRelease,
     });
   }
 
@@ -171,5 +176,11 @@ export class PlaylistEntryEditorComponent implements OnInit {
 
   save() {
     this.saved.emit(this.getOutput());
+  }
+
+  undo() {
+    // Go back to the original input.
+    this.setTo(this.input());
+    this.undone.emit();
   }
 }
