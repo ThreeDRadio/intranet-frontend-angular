@@ -8,6 +8,7 @@
           [input]="entry"
           action="edit"
           (deletion)="entryDeleted.emit($event)"
+          (saved)="entrySaved.emit($event)"
         />
       }
     }

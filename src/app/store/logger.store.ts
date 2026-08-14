@@ -161,6 +161,27 @@ export const LoggerStore = signalStore(
         ),
       ),
 
+      updatePlaylistEntry: rxMethod<PlaylistEntry>(
+        pipe(
+          exhaustMap((update) => {
+            // Optimistic update - rollback if the update fails.
+            const before = store.playlistEntries();
+            patchState(store, (state) => ({
+              playlistEntries: state.playlistEntries.map((entry) =>
+                entry.id === update.id ? { ...entry, ...update } : entry,
+              ),
+            }));
+
+            return playlistService.updateEntry(update).pipe(
+              catchError((err) => {
+                patchState(store, { playlistEntries: before });
+                return EMPTY;
+              }),
+            );
+          }),
+        ),
+      ),
+
       deletePlaylistEntry: rxMethod<number>(
         pipe(
           exhaustMap((id) => {
@@ -185,7 +206,6 @@ export const LoggerStore = signalStore(
                 }));
               }),
               catchError((err) => {
-                // 3. Rollback step: Restore original list if server fails.
                 patchState(store, { playlistEntries: before });
                 return EMPTY;
               }),

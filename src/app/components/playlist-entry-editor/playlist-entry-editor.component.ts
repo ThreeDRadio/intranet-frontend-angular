@@ -5,9 +5,9 @@ import {
   OnInit,
   signal,
   inject,
-  computed,
+  effect,
 } from "@angular/core";
-import { MatButtonModule, MatIconButton } from "@angular/material/button";
+import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatIconModule } from "@angular/material/icon";
@@ -18,6 +18,7 @@ import { merge } from "rxjs";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { DurationService } from "../../services/duration.service";
+import moment from "moment-timezone";
 
 @Component({
   selector: "app-playlist-entry-editor",
@@ -27,7 +28,6 @@ import { DurationService } from "../../services/duration.service";
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
-    MatIconButton,
     ReactiveFormsModule,
     MatButtonToggleModule,
     MatButtonModule,
@@ -56,7 +56,7 @@ export class PlaylistEntryEditorComponent implements OnInit {
   albumControl = new FormControl("", [Validators.required]);
   durationControl = new FormControl("", [Validators.required]);
   canBeSaved: boolean = false;
-
+  canBeUndone: boolean = false;
   // Quota checks
   quotas = signal({
     local: false,
@@ -64,6 +64,18 @@ export class PlaylistEntryEditorComponent implements OnInit {
     female: false,
     newRelease: false,
   });
+
+  constructor() {
+    effect(() => {
+      // Whenever the parent store pushes new input data, reset the save flag
+      this.input();
+
+      if (!this.creating()) {
+        this.canBeSaved = false;
+        this.canBeUndone = false;
+      }
+    });
+  }
 
   ngOnInit() {
     const initialData = this.input();
@@ -92,7 +104,43 @@ export class PlaylistEntryEditorComponent implements OnInit {
         this.albumControl.valid &&
         this.durationControl.valid &&
         this.durationService.isValidDuration(this.durationControl.value ?? "");
+
+      if (!this.creating()) {
+        // Editing
+        const identical = this.isIdenticalTo(this.input(), this.getOutput());
+        this.canBeSaved = !identical;
+        this.canBeUndone = !identical;
+      }
     });
+  }
+
+  isIdenticalTo(original, current) {
+    return (
+      original.title.trim() === current.title.trim() &&
+      original.artist.trim() === current.artist.trim() &&
+      original.album.trim() === current.album.trim() &&
+      original.duration.trim() === current.duration.trim() &&
+      original.local === current.local &&
+      original.australian === current.australian &&
+      original.female === current.female &&
+      original.newRelease === current.newRelease
+    );
+  }
+
+  getOutput() {
+    return {
+      ...this.input(),
+      title: this.songControl.value ?? "",
+      artist: this.artistControl.value ?? "",
+      album: this.albumControl.value ?? "",
+      duration: this.durationService.parse(
+        this.durationControl.value ?? "00:00:00",
+      ),
+      local: this.quotas().local,
+      australian: this.quotas().australian,
+      female: this.quotas().female,
+      newRelease: this.quotas().newRelease,
+    };
   }
 
   onQuotaChanged(event, type) {
@@ -100,6 +148,13 @@ export class PlaylistEntryEditorComponent implements OnInit {
       ...this.quotas(),
       [type]: event.checked,
     });
+
+    if (!this.creating()) {
+      // Editing
+      const identical = this.isIdenticalTo(this.input(), this.getOutput());
+      this.canBeSaved = !identical;
+      this.canBeUndone = !identical;
+    }
   }
 
   creating() {
@@ -111,20 +166,10 @@ export class PlaylistEntryEditorComponent implements OnInit {
   }
 
   canUndo() {
-    return false;
+    return this.canBeUndone;
   }
 
   save() {
-    this.saved.emit({
-      ...this.input(),
-      title: this.songControl.value ?? "",
-      artist: this.artistControl.value ?? "",
-      album: this.albumControl.value ?? "",
-      duration: this.durationControl.value ?? "",
-      local: this.quotas().local,
-      australian: this.quotas().australian,
-      female: this.quotas().female,
-      newRelease: this.quotas().newRelease,
-    });
+    this.saved.emit(this.getOutput());
   }
 }

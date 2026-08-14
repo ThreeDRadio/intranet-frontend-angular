@@ -126,6 +126,12 @@ export class PlaylistEditorPage implements OnInit {
       }
     });
   }
+
+  onEntrySaved(entry) {
+    this.store.updatePlaylistEntry(entry);
+  }
+
+  // New entries
   onNewEntryAdded(event) {
     this.creatingNewEntry.set(true);
   }

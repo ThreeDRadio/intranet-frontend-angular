@@ -55,4 +55,41 @@ describe("DurationService", () => {
     const ds = TestBed.inject(DurationService);
     expect(ds.isValidDuration("3:00")).toBeTruthy();
   });
+
+  describe("DurationService.parse", () => {
+    it("should return 00:00:00 for a null input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.parse(null)).toBe("00:00:00");
+    });
+
+    it("should return 00:00:00 for an undefined input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.parse(undefined)).toBe("00:00:00");
+    });
+
+    it("should return 00:00:00 for an empty input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.parse("")).toBe("00:00:00");
+    });
+
+    it("should return 00:04:33 from the input '4:33'", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.parse("4:33")).toBe("00:04:33");
+    });
+
+    it("should return 00:04:33 from the input '04:33'", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.parse("04:33")).toBe("00:04:33");
+    });
+
+    it("should return 00:00:33 from the input '33'", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.parse("33")).toBe("00:00:33");
+    });
+
+    it("should return 00:33:25 from the input '33:25'", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.parse("33:25")).toBe("00:33:25");
+    });
+  });
 });
