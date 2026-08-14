@@ -3,12 +3,11 @@
 } @else { @if (playlist(); as pl) {
 <h1>EDITING Logging Sheet - {{ show().name }}</h1>
 <h3 style="opacity: 0.7">{{ formattedDate() }}</h3>
-
 <app-quota-display
   [quotas]="quotas()"
   [totalDuration]="totalDuration()"
+  [complete]="pl.complete"
 ></app-quota-display>
-
 <app-playlist-entry-list
   [playlist]="pl"
   [entries]="entries()"
@@ -16,7 +15,6 @@
   (entryDeleted)="onEntryDeleted($event)"
   (entrySaved)="onEntrySaved($event)"
 ></app-playlist-entry-list>
-
 @if (creatingNewEntry()) {
 <app-playlist-entry-editor
   [input]="newEntryTemplate()"
@@ -27,6 +25,15 @@
 } @else {
 <button class="card-button" (click)="onNewEntryAdded($event)">
   <mat-icon class="big-icon">add</mat-icon>
-  <b>Add a new track</b>
+  <b><span style="font-size: 24px">Add a new track</span></b>
 </button>
-} } }
+}
+<button class="card-button-blue" color="primary" (click)="onSubmitted($event)">
+  <mat-icon class="big-icon">send</mat-icon>
+  @if (pl.complete) {
+  <b><span style="font-size: 24px">Resubmit Logging Sheet</span></b>
+  } @else {
+  <b><span style="font-size: 24px">Submit Logging Sheet</span></b>
+  }
+</button>
+} }

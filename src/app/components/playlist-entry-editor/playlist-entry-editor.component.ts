@@ -94,7 +94,7 @@ export class PlaylistEntryEditorComponent implements OnInit {
         this.artistControl.valid &&
         this.albumControl.valid &&
         this.durationControl.valid &&
-        this.durationService.isValidDuration(this.durationControl.value ?? "");
+        this.durationService.validate(this.durationControl.value ?? "");
 
       if (!this.creating()) {
         // Editing

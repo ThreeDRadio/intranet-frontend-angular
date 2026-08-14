@@ -255,6 +255,30 @@ export const LoggerStore = signalStore(
           ),
         ),
       ),
+
+      completePlaylist: rxMethod<number>(
+        pipe(
+          tap((id) => {
+            patchState(store, (state) => ({
+              playlists: state.playlists.map((entry) =>
+                entry.id === id ? { ...entry, complete: true } : entry,
+              ),
+            }));
+          }),
+          exhaustMap((id) => {
+            return playlistService.completePlaylist(id).pipe(
+              catchError((err) => {
+                patchState(store, (state) => ({
+                  playlists: state.playlists.map((entry) =>
+                    entry.id === id ? { ...entry, complete: false } : entry,
+                  ),
+                }));
+                return EMPTY;
+              }),
+            );
+          }),
+        ),
+      ),
     }),
   ),
 );

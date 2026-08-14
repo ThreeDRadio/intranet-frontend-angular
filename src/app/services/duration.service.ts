@@ -32,8 +32,10 @@ export class DurationService {
     return "00:00:00";
   }
 
-  isValidDuration(input: string): boolean {
-    if (input !== "P0D" && moment.duration(input).toISOString() === "P0D") {
+  validate(input: string): boolean {
+    const parsed = moment.duration(input).toISOString();
+
+    if (input !== "P0D" && parsed === "P0D") {
       return false;
     }
 

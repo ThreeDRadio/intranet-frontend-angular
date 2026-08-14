@@ -19,41 +19,48 @@ describe("DurationService", () => {
     });
   });
 
-  // Falsehood
-  it("should return false for a null input.", () => {
-    const ds = TestBed.inject(DurationService);
-    expect(ds.isValidDuration(null)).toBeFalsy();
+  describe("DurationService.isValidDuration (falsehood)", () => {
+    it("should return false for a null input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.validate(null)).toBeFalsy();
+    });
+
+    it("should return false for an undefined input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.validate(undefined)).toBeFalsy();
+    });
+
+    it("should return false for a malformed input (1).", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.validate("0:0")).toBeFalsy();
+    });
+
+    it("should return false for a malformed input (2).", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.validate("0:")).toBeFalsy();
+    });
+
+    // it("should return false for a malformed input (3).", () => {
+    //   const ds = TestBed.inject(DurationService);
+    //   expect(ds.validate("6363636")).toBeFalsy();
+    // });
   });
 
-  it("should return false for an undefined input.", () => {
-    const ds = TestBed.inject(DurationService);
-    expect(ds.isValidDuration(undefined)).toBeFalsy();
-  });
+  describe("DurationService.isValidDuration (truth)", () => {
+    it("should return true for a full HH:MM:SS input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.validate("01:00:00")).toBeTruthy();
+    });
 
-  it("should return false for a malformed input (1).", () => {
-    const ds = TestBed.inject(DurationService);
-    expect(ds.isValidDuration("0:0")).toBeFalsy();
-  });
+    it("should return true for a MM:SS input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.validate("00:01")).toBeTruthy();
+    });
 
-  it("should return false for a malformed input (2).", () => {
-    const ds = TestBed.inject(DurationService);
-    expect(ds.isValidDuration("0:")).toBeFalsy();
-  });
-
-  // Truth
-  it("should return true for a full HH:MM:SS input.", () => {
-    const ds = TestBed.inject(DurationService);
-    expect(ds.isValidDuration("01:00:00")).toBeTruthy();
-  });
-
-  it("should return true for a MM:SS input.", () => {
-    const ds = TestBed.inject(DurationService);
-    expect(ds.isValidDuration("00:01")).toBeTruthy();
-  });
-
-  it("should return true for a M:SS input.", () => {
-    const ds = TestBed.inject(DurationService);
-    expect(ds.isValidDuration("3:00")).toBeTruthy();
+    it("should return true for a M:SS input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.validate("3:00")).toBeTruthy();
+    });
   });
 
   describe("DurationService.parse", () => {
