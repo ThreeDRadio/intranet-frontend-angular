@@ -5,10 +5,9 @@ import {
   OnInit,
   signal,
   inject,
-  computed,
   effect,
 } from "@angular/core";
-import { MatButtonModule, MatIconButton } from "@angular/material/button";
+import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatIconModule } from "@angular/material/icon";
@@ -19,6 +18,7 @@ import { merge } from "rxjs";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { DurationService } from "../../services/duration.service";
+import moment from "moment-timezone";
 
 @Component({
   selector: "app-playlist-entry-editor",
@@ -133,7 +133,9 @@ export class PlaylistEntryEditorComponent implements OnInit {
       title: this.songControl.value ?? "",
       artist: this.artistControl.value ?? "",
       album: this.albumControl.value ?? "",
-      duration: this.durationControl.value ?? "",
+      duration: this.durationService.parse(
+        this.durationControl.value ?? "00:00:00",
+      ),
       local: this.quotas().local,
       australian: this.quotas().australian,
       female: this.quotas().female,
