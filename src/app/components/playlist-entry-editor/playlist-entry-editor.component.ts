@@ -6,6 +6,7 @@ import {
   signal,
   inject,
   computed,
+  effect,
 } from "@angular/core";
 import { MatButtonModule, MatIconButton } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -56,7 +57,6 @@ export class PlaylistEntryEditorComponent implements OnInit {
   durationControl = new FormControl("", [Validators.required]);
   canBeSaved: boolean = false;
   canBeUndone: boolean = false;
-
   // Quota checks
   quotas = signal({
     local: false,
@@ -64,6 +64,18 @@ export class PlaylistEntryEditorComponent implements OnInit {
     female: false,
     newRelease: false,
   });
+
+  constructor() {
+    effect(() => {
+      // Whenever the parent store pushes new input data, reset the save flag
+      this.input();
+
+      if (!this.creating()) {
+        this.canBeSaved = false;
+        this.canBeUndone = false;
+      }
+    });
+  }
 
   ngOnInit() {
     const initialData = this.input();

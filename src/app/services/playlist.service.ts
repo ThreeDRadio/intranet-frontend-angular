@@ -78,6 +78,17 @@ export class PlaylistService {
     );
   }
 
+  updateEntry(input: PlaylistEntry): Observable<PlaylistEntry> {
+    return this.playlistEntryApi.partialUpdate(input).pipe(
+      map((response) => {
+        return response as PlaylistEntry;
+      }),
+      catchError((err, caught) => {
+        return throwError(() => err);
+      }),
+    );
+  }
+
   deleteEntry(id: number): Observable<boolean> {
     const observable = this.playlistEntryApi.delete({
       id: id,

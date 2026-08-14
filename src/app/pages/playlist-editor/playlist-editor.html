@@ -12,7 +12,7 @@
 <app-playlist-entry-list
   [playlist]="pl"
   [entries]="entries()"
-  [action]="edit"
+  action="edit"
   (entryDeleted)="onEntryDeleted($event)"
   (entrySaved)="onEntrySaved($event)"
 ></app-playlist-entry-list>
