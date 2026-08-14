@@ -100,7 +100,7 @@
           aria-label="Undo"
           color="accent"
           [disabled]="!canUndo()"
-          (click)="undone.emit()"
+          (click)="undo()"
         >
           <mat-icon>undo</mat-icon>
           Undo
