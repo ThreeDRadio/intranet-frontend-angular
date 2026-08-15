@@ -256,6 +256,16 @@ export const LoggerStore = signalStore(
         ),
       ),
 
+      clearPlaylistSubmission: rxMethod<void>(
+        pipe(
+          tap(() =>
+            patchState(store, {
+              playlistSubmission: undefined,
+            }),
+          ),
+        ),
+      ),
+
       completePlaylist: rxMethod<number>(
         pipe(
           tap((id) => {

@@ -172,8 +172,9 @@ export class NewPlaylistPage implements OnInit {
 
       if (submission?.state === "created") {
         this.newShowForm.reset();
+        // Kick off a clear of the playlist submission and go to the newly created playlist.
+        this.store.clearPlaylistSubmission();
         this.router.navigate(["/playlists/edit", submission.id]);
-      } else {
       }
     });
   }
