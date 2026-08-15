@@ -19,6 +19,7 @@ import {
   EMPTY,
   exhaustMap,
   finalize,
+  forkJoin,
   map,
   pipe,
   switchMap,
@@ -287,6 +288,37 @@ export const LoggerStore = signalStore(
               }),
             );
           }),
+        ),
+      ),
+
+      fetchPlaylistAndEntries: rxMethod<number>(
+        pipe(
+          tap(() => patchState(store, { isLoading: true })),
+
+          switchMap((id) =>
+            playlistService.getPlaylistById(id).pipe(
+              switchMap((playlist) =>
+                forkJoin({
+                  show: showService.getShows([playlist.show]),
+                  entries: playlistService.getEntriesForId(playlist.id),
+                }).pipe(
+                  tap(({ show, entries }) => {
+                    patchState(store, (state) => ({
+                      shows: [...state.shows, ...show],
+                      playlists: [...state.playlists, playlist],
+                      playlistEntries: entries,
+                      isLoading: false,
+                    }));
+                  }),
+                ),
+              ),
+              catchError((err) => {
+                console.error(err);
+                patchState(store, { isLoading: false });
+                return EMPTY;
+              }),
+            ),
+          ),
         ),
       ),
     }),

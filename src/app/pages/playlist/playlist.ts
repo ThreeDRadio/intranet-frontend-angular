@@ -71,6 +71,6 @@ export class PlaylistPageComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.store.fetchPlaylistEntries(this.id());
+    this.store.fetchPlaylistAndEntries(this.id());
   }
 }
