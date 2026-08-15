@@ -99,7 +99,7 @@ export class PlaylistEntryEditorComponent implements OnInit {
       if (!this.creating()) {
         // Editing
         const identical = this.isIdenticalTo(this.input(), this.getOutput());
-        this.canBeSaved = !identical;
+        this.canBeSaved = this.canBeSaved && !identical;
         this.canBeUndone = !identical;
       }
     });
