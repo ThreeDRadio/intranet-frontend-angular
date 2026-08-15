@@ -29,7 +29,7 @@
 </button>
 }
 <button
-  class="card-button-blue"
+  [class]="pl.complete ? 'card-button-blue-submitted' : 'card-button-blue'"
   color="primary"
   [disabled]="pl.complete"
   (click)="onSubmitted($event)"
