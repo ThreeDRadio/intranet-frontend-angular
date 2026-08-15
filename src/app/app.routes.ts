@@ -1,4 +1,4 @@
-import { Route, RouterModule } from "@angular/router";
+import { Route, RouterModule, Routes } from "@angular/router";
 import { LoginPageComponent } from "./pages/login/login.component";
 
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
@@ -15,7 +15,7 @@ import { PlaylistPageComponent } from "./pages/playlist/playlist";
 import { NewPlaylistPage } from "./pages/new-playlist/new-playlist";
 import { PlaylistEditorPage } from "./pages/playlist-editor/playlist-editor";
 
-const ROUTES: Array<Route> = [
+export const ROUTES: Routes = [
   {
     path: "",
     component: DashboardComponent,

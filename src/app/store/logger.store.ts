@@ -19,6 +19,7 @@ import {
   EMPTY,
   exhaustMap,
   finalize,
+  forkJoin,
   map,
   pipe,
   switchMap,
@@ -283,6 +284,56 @@ export const LoggerStore = signalStore(
                     entry.id === id ? { ...entry, complete: false } : entry,
                   ),
                 }));
+                return EMPTY;
+              }),
+            );
+          }),
+        ),
+      ),
+
+      fetchPlaylistAndEntries: rxMethod<number>(
+        pipe(
+          tap(() => patchState(store, { isLoading: true })),
+          switchMap((id) => {
+            // If all else fails, get everything.
+            return playlistService.getPlaylistById(id).pipe(
+              switchMap((playlist) => {
+                const existingShow = store
+                  .shows()
+                  .find((s) => s.id === playlist.show);
+
+                if (existingShow) {
+                  // Only get the entries
+                  return forkJoin({
+                    entries: playlistService.getEntriesForId(playlist.id),
+                  }).pipe(
+                    tap(({ entries }) => {
+                      patchState(store, (state) => ({
+                        playlists: [...state.playlists, playlist],
+                        playlistEntries: entries,
+                        isLoading: false,
+                      }));
+                    }),
+                  );
+                }
+
+                return forkJoin({
+                  show: showService.getShows([playlist.show]),
+                  entries: playlistService.getEntriesForId(playlist.id),
+                }).pipe(
+                  tap(({ show, entries }) => {
+                    patchState(store, (state) => ({
+                      shows: [...state.shows, ...show],
+                      playlists: [...state.playlists, playlist],
+                      playlistEntries: entries,
+                      isLoading: false,
+                    }));
+                  }),
+                );
+              }),
+              catchError((err) => {
+                console.error(err);
+                patchState(store, { isLoading: false });
                 return EMPTY;
               }),
             );

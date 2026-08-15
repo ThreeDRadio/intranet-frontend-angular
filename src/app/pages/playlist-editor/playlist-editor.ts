@@ -5,6 +5,7 @@ import {
   Signal,
   OnInit,
   signal,
+  input,
 } from "@angular/core";
 import { LoggerStore } from "../../store/logger.store";
 import { ActivatedRoute } from "@angular/router";
@@ -46,9 +47,11 @@ export class PlaylistEditorPage implements OnInit {
   private dialog = inject(MatDialog);
   private route = inject(ActivatedRoute);
 
-  readonly playlist = computed(() =>
-    this.store.playlistById()(Number(this.route.snapshot.paramMap.get("id"))),
-  );
+  readonly id = input.required<number, string>({
+    transform: (value: string) => Number(value),
+  });
+
+  readonly playlist = computed(() => this.store.playlistById()(this.id()));
   readonly show = computed(
     () => this.store.showById()(this.playlist().show) ?? undefined,
   );
@@ -80,7 +83,7 @@ export class PlaylistEditorPage implements OnInit {
   });
 
   ngOnInit() {
-    this.store.fetchPlaylistEntries(this.playlist()?.id);
+    this.store.fetchPlaylistAndEntries(this.id());
   }
 
   // Internal state
@@ -104,7 +107,7 @@ export class PlaylistEditorPage implements OnInit {
       australian: false,
       female: false,
       newRelease: false,
-      playlist: this.playlist().id,
+      playlist: this.id(),
     };
   }
 
@@ -121,7 +124,7 @@ export class PlaylistEditorPage implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.store.completePlaylist(this.playlist()?.id);
+        this.store.completePlaylist(this.id());
       }
     });
   }

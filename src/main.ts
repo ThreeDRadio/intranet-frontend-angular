@@ -28,7 +28,7 @@ import { DirectivesModule } from "./app/directives";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
-import { AppRoutingModule } from "./app/app.routes";
+import { AppRoutingModule, ROUTES } from "./app/app.routes";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { MaterialModule } from "./app/material.module";
 import {
@@ -40,6 +40,7 @@ import { PAGES } from "./app/pages";
 import { PIPES } from "./app/pipes";
 import { AppComponent } from "./app/app.component";
 import { EFFECTS, REDUCER } from "app/store";
+import { provideRouter, withComponentInputBinding } from "@angular/router";
 
 Sentry.init({
   dsn: "https://f972382f58e44de9b3468f7c896e10d5@o120815.ingest.sentry.io/5712655",
@@ -62,6 +63,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideRouter(ROUTES, withComponentInputBinding()),
     importProvidersFrom(
       BrowserModule,
       DirectivesModule,
