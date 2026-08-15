@@ -29,10 +29,15 @@
       matFab
       extended
       color="secondary"
+      [disabled]="playlist().complete"
       [routerLink]="['/playlists/edit', playlist().id]"
     >
       <mat-icon>edit</mat-icon>
-      Edit
+      @if (playlist().complete) {
+        Submitted
+      } @else {
+        Edit
+      }
     </button>
     <mat-divider [vertical]="false"></mat-divider>
     <button matFab extended color="accent" [matMenuTriggerFor]="exportMenu">
