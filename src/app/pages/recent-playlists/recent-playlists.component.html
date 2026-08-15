@@ -1,5 +1,5 @@
 @if (store.isLoading()) {
-  <h4>Loading recent playlists...</h4>
+  <h4>Loading recent logging sheets...</h4>
 } @else {
   @for (byDate of playlistsByDate(); track byDate.date) {
     <h1>{{ this.dateService.getDisplayDate(byDate.date) }}</h1>
@@ -10,6 +10,6 @@
       }
     </div>
   } @empty {
-    <h4>No recent playlists.</h4>
+    <h4>No recent logging sheets.</h4>
   }
 }
