@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from "@angular/core";
+import { Component, computed, inject, input, OnInit } from "@angular/core";
 import { LoggerStore } from "../../store";
 import { ActivatedRoute } from "@angular/router";
 import { MatTableModule } from "@angular/material/table";
@@ -30,30 +30,18 @@ export class PlaylistPageComponent implements OnInit {
   dateService = inject(DateService);
   quotaService = inject(QuotaService);
 
-  displayedColumns: string[] = [
-    "index",
-    "artist",
-    "track",
-    "album",
-    "duration",
-    "local",
-    "australian",
-    "female",
-    "newRelease",
-  ];
+  readonly id = input.required<number, string>({
+    transform: (value: string) => Number(value),
+  });
 
-  private route = inject(ActivatedRoute);
-
-  readonly playlist = computed(() =>
-    this.store.playlistById()(Number(this.route.snapshot.paramMap.get("id"))),
-  );
+  readonly playlist = computed(() => this.store.playlistById()(this.id()));
 
   readonly show = computed(
     () => this.store.showById()(this.playlist().show) ?? undefined,
   );
 
   readonly entries = computed(() =>
-    this.store.playlistEntriesById()(this.playlist()?.id),
+    this.store.playlistEntriesById()(this.id()),
   );
 
   readonly quotas = computed(() => {
@@ -83,6 +71,6 @@ export class PlaylistPageComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.store.fetchPlaylistEntries(this.playlist()?.id);
+    this.store.fetchPlaylistEntries(this.id());
   }
 }
