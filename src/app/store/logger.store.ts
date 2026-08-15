@@ -294,10 +294,30 @@ export const LoggerStore = signalStore(
       fetchPlaylistAndEntries: rxMethod<number>(
         pipe(
           tap(() => patchState(store, { isLoading: true })),
-          switchMap((id) =>
-            playlistService.getPlaylistById(id).pipe(
-              switchMap((playlist) =>
-                forkJoin({
+          switchMap((id) => {
+            // If all else fails, get everything.
+            return playlistService.getPlaylistById(id).pipe(
+              switchMap((playlist) => {
+                const existingShow = store
+                  .shows()
+                  .find((s) => s.id === playlist.show);
+
+                if (existingShow) {
+                  // Only get the entries
+                  return forkJoin({
+                    entries: playlistService.getEntriesForId(playlist.id),
+                  }).pipe(
+                    tap(({ entries }) => {
+                      patchState(store, (state) => ({
+                        playlists: [...state.playlists, playlist],
+                        playlistEntries: entries,
+                        isLoading: false,
+                      }));
+                    }),
+                  );
+                }
+
+                return forkJoin({
                   show: showService.getShows([playlist.show]),
                   entries: playlistService.getEntriesForId(playlist.id),
                 }).pipe(
@@ -309,15 +329,15 @@ export const LoggerStore = signalStore(
                       isLoading: false,
                     }));
                   }),
-                ),
-              ),
+                );
+              }),
               catchError((err) => {
                 console.error(err);
                 patchState(store, { isLoading: false });
                 return EMPTY;
               }),
-            ),
-          ),
+            );
+          }),
         ),
       ),
     }),
