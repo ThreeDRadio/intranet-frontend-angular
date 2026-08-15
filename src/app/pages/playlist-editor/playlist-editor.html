@@ -28,10 +28,15 @@
   <b><span style="font-size: 24px">Add a new track</span></b>
 </button>
 }
-<button class="card-button-blue" color="primary" (click)="onSubmitted($event)">
+<button
+  class="card-button-blue"
+  color="primary"
+  [disabled]="pl.complete"
+  (click)="onSubmitted($event)"
+>
   <mat-icon class="big-icon">send</mat-icon>
   @if (pl.complete) {
-  <b><span style="font-size: 24px">Resubmit Logging Sheet</span></b>
+  <b><span style="font-size: 24px">Submitted</span></b>
   } @else {
   <b><span style="font-size: 24px">Submit Logging Sheet</span></b>
   }
