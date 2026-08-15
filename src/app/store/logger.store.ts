@@ -294,7 +294,6 @@ export const LoggerStore = signalStore(
       fetchPlaylistAndEntries: rxMethod<number>(
         pipe(
           tap(() => patchState(store, { isLoading: true })),
-
           switchMap((id) =>
             playlistService.getPlaylistById(id).pipe(
               switchMap((playlist) =>
