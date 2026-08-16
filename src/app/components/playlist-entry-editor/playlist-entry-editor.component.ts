@@ -54,7 +54,7 @@ export class PlaylistEntryEditorComponent implements OnInit {
   songControl = new FormControl("", [Validators.required]);
   artistControl = new FormControl("", [Validators.required]);
   albumControl = new FormControl("", [Validators.required]);
-  durationControl = new FormControl("", [Validators.required]);
+  durationControl = new FormControl("");
   canBeSaved: boolean = false;
   canBeUndone: boolean = false;
   // Quota checks

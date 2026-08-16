@@ -7,6 +7,7 @@ export class DurationService {
     }
 
     const parts = input.split(":");
+
     if (parts.length === 3) {
       const values = moment({
         hours: parseInt(parts[0], 10),
@@ -33,6 +34,10 @@ export class DurationService {
   }
 
   validate(input: string): boolean {
+    // Exit early for special cases.
+    // Make any field using this service optional.
+    if (input === "00:00" || input === "0:00" || input === "") return true;
+
     const parsed = moment.duration(input).toISOString();
 
     if (input !== "P0D" && parsed === "P0D") {
