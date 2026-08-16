@@ -13,5 +13,7 @@ export class ConfirmationDialogComponent {
   message = input.required<string>();
   confirmButton = input<string>("Confirm");
   cancelButton = input<string>("Cancel");
+  // Determines the colours of the confirmation inputs.
+  resultOutcome = input<string>("destructive");
   public data = inject(MAT_DIALOG_DATA);
 }
