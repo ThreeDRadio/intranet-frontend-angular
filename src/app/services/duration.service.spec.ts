@@ -39,11 +39,6 @@ describe("DurationService", () => {
       const ds = TestBed.inject(DurationService);
       expect(ds.validate("0:")).toBeFalsy();
     });
-
-    // it("should return false for a malformed input (3).", () => {
-    //   const ds = TestBed.inject(DurationService);
-    //   expect(ds.validate("6363636")).toBeFalsy();
-    // });
   });
 
   describe("DurationService.isValidDuration (truth)", () => {
@@ -61,6 +56,16 @@ describe("DurationService", () => {
       const ds = TestBed.inject(DurationService);
       expect(ds.validate("3:00")).toBeTruthy();
     });
+
+    it("should return true for a 00:00 input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.validate("00:00")).toBeTruthy();
+    });
+
+    it("should return true for an empty input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.validate("")).toBeTruthy();
+    });
   });
 
   describe("DurationService.parse", () => {
@@ -77,6 +82,11 @@ describe("DurationService", () => {
     it("should return 00:00:00 for an empty input.", () => {
       const ds = TestBed.inject(DurationService);
       expect(ds.parse("")).toBe("00:00:00");
+    });
+
+    it("should return 00:00:00 for a 00:00 input.", () => {
+      const ds = TestBed.inject(DurationService);
+      expect(ds.parse("00:00")).toBe("00:00:00");
     });
 
     it("should return 00:04:33 from the input '4:33'", () => {
