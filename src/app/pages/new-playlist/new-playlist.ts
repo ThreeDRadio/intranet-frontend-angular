@@ -38,10 +38,11 @@ import moment from "moment";
 import { NewPlaylist, Playlist } from "../../models";
 import { Router } from "@angular/router";
 import { PlaylistService } from "../../services/playlist.service";
+import { DATE_PIPE_DEFAULT_OPTIONS } from "@angular/common";
 
 export const LONG_DATE_FORMAT = {
   parse: {
-    dateInput: "dddd, MMMM Do YYYY",
+    dateInput: ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"],
   },
   display: {
     dateInput: "dddd, MMMM Do YYYY",
@@ -75,6 +76,13 @@ export const LONG_DATE_FORMAT = {
       deps: [MAT_DATE_LOCALE],
     },
     { provide: MAT_DATE_FORMATS, useValue: LONG_DATE_FORMAT },
+    {
+      provide: DATE_PIPE_DEFAULT_OPTIONS,
+      useValue: {
+        timezone: "Australia/Adelaide", // Set component-specific timezone
+        dateFormat: "shortTime", // Optional default format
+      },
+    },
   ],
   templateUrl: "./new-playlist.html",
   styleUrl: "./new-playlist.scss",
@@ -105,7 +113,7 @@ export class NewPlaylistPage implements OnInit {
     showControl: new FormControl(),
     hostControl: new FormControl(),
     fillInControl: new FormControl(),
-    dateControl: new FormControl(),
+    dateControl: new FormControl(new Date()),
     notesControl: new FormControl(),
   });
 
