@@ -2,13 +2,13 @@ import {
   Component,
   computed,
   inject,
-  Signal,
   OnInit,
   signal,
   input,
+  effect,
 } from "@angular/core";
 import { LoggerStore } from "../../store/logger.store";
-import { ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { DateService } from "../../services/date.service";
 import { QuotaService } from "../../services/quota.service";
 import moment from "moment";
@@ -45,13 +45,14 @@ export class PlaylistEditorPage implements OnInit {
   quotaService = inject(QuotaService);
   dateService = inject(DateService);
   private dialog = inject(MatDialog);
-  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   readonly id = input.required<number, string>({
     transform: (value: string) => Number(value),
   });
 
   readonly playlist = computed(() => this.store.playlistById()(this.id()));
+
   readonly show = computed(
     () => this.store.showById()(this.playlist().show) ?? undefined,
   );
@@ -61,12 +62,14 @@ export class PlaylistEditorPage implements OnInit {
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
   );
+
   readonly totalDuration = computed(() => {
     const result = this.entries().reduce((acc, curr) => {
       return acc.add(moment.duration(curr.duration));
     }, moment.duration(0));
     return moment.utc(result.asMilliseconds()).format("HH:mm:ss");
   });
+
   readonly quotas = computed(() => {
     const params = {
       localQuota: this.playlist()?.localQuota ?? 0,
@@ -81,6 +84,16 @@ export class PlaylistEditorPage implements OnInit {
       female: this.quotaService.getFemaleQuota(params, input),
     };
   });
+
+  constructor() {
+    effect(() => {
+      // Playlist completion will now trigger a navigation back to recent playlists.
+      // Navigate ONLY if we started a submit and the store has finished processing it
+      if (!this.store.isLoading() && this.playlist()?.complete) {
+        this.router.navigate(["/playlists/recent"]);
+      }
+    });
+  }
 
   ngOnInit() {
     this.store.fetchPlaylistAndEntries(this.id());
