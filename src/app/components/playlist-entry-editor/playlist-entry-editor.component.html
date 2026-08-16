@@ -1,13 +1,5 @@
 @if (input(); as entry) {
   <div class="editor-div">
-    <mat-icon>music_note</mat-icon>
-    <input
-      matTooltip="Song Title"
-      placeholder="Song"
-      [value]="entry.title"
-      [formControl]="songControl"
-      class="standalone-input med-input"
-    />
     <mat-icon>person</mat-icon>
     <input
       matInput
@@ -15,6 +7,14 @@
       placeholder="Artist"
       [value]="entry.artist"
       [formControl]="artistControl"
+      class="standalone-input med-input"
+    />
+    <mat-icon>music_note</mat-icon>
+    <input
+      matTooltip="Song Title"
+      placeholder="Song"
+      [value]="entry.title"
+      [formControl]="songControl"
       class="standalone-input med-input"
     />
     <mat-icon>album</mat-icon>
