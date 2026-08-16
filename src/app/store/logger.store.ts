@@ -272,16 +272,21 @@ export const LoggerStore = signalStore(
           tap((id) => {
             patchState(store, (state) => ({
               playlists: state.playlists.map((entry) =>
-                entry.id === id ? { ...entry, complete: true } : entry,
+                entry.id === id
+                  ? { ...entry, isLoading: true, complete: true }
+                  : entry,
               ),
             }));
           }),
           exhaustMap((id) => {
             return playlistService.completePlaylist(id).pipe(
+              tap(() => patchState(store, { isLoading: false })),
               catchError((err) => {
                 patchState(store, (state) => ({
                   playlists: state.playlists.map((entry) =>
-                    entry.id === id ? { ...entry, complete: false } : entry,
+                    entry.id === id
+                      ? { ...entry, isLoading: false, complete: false }
+                      : entry,
                   ),
                 }));
                 return EMPTY;
