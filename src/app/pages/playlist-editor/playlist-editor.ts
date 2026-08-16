@@ -119,6 +119,7 @@ export class PlaylistEditorPage implements OnInit {
           "Please ensure your logging sheet is complete and correct before submitting.",
         confirmButton: "Submit",
         cancelButton: "Cancel",
+        resultOutcome: "constructive",
       },
     });
 
@@ -134,6 +135,8 @@ export class PlaylistEditorPage implements OnInit {
       data: {
         title: "Remove",
         message: "Are you sure you want remove this entry?",
+        confirmButton: "Remove",
+        cancelButton: "Cancel",
       },
     });
 
