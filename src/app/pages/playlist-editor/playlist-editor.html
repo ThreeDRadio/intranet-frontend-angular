@@ -23,7 +23,11 @@
   action="create"
 />
 } @else {
-<button class="card-button" (click)="onNewEntryAdded($event)">
+<button class="card-button" (click)="onCataloguePressed($event)">
+  <mat-icon class="big-icon">search</mat-icon>
+  <b><span style="font-size: 24px">Choose from the catalogue</span></b>
+</button>
+<button class="card-button-orange" (click)="onNewEntryAdded($event)">
   <mat-icon class="big-icon">add</mat-icon>
   <b><span style="font-size: 24px">Add a new track</span></b>
 </button>

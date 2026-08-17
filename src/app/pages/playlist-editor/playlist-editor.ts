@@ -87,10 +87,19 @@ export class PlaylistEditorPage implements OnInit {
 
   constructor() {
     effect(() => {
+      const isComplete = !this.store.isLoading() && this.playlist()?.complete;
+      const userSelectedCatalogueInput =
+        this.catalogueInputSelected() &&
+        this.store.catalogueInputState() !== undefined;
+
       // Playlist completion will now trigger a navigation back to recent playlists.
       // Navigate ONLY if we started a submit and the store has finished processing it
-      if (!this.store.isLoading() && this.playlist()?.complete) {
+      if (isComplete) {
         this.router.navigate(["/playlists/recent"]);
+      }
+      // Move to the quick search area if we detect playlist input state.
+      if (userSelectedCatalogueInput) {
+        this.router.navigate(["/search"]);
       }
     });
   }
@@ -101,6 +110,8 @@ export class PlaylistEditorPage implements OnInit {
 
   // Internal state
   creatingNewEntry = signal<boolean>(false);
+  catalogueInputSelected = signal<boolean>(false);
+
   newEntryTemplate(): PlaylistEntry {
     const idx =
       this.entries().length > 0
@@ -171,6 +182,14 @@ export class PlaylistEditorPage implements OnInit {
   // New entries
   onNewEntryAdded(event) {
     this.creatingNewEntry.set(true);
+  }
+
+  onCataloguePressed(event) {
+    this.catalogueInputSelected.set(true);
+    this.store.setCatalogueInput({
+      show: this.show(),
+      playlist: this.playlist(),
+    });
   }
 
   onNewEntrySaved(entry) {
