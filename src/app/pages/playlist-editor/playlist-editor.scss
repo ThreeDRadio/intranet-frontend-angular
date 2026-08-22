@@ -23,3 +23,8 @@
 .mat-expansion-panel-header-title {
   color: #e0e0e0;
 }
+
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  font-size: 24px !important;
+}
