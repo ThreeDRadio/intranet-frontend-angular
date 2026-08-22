@@ -188,6 +188,4 @@ export class PlaylistEditorPage implements OnInit {
   onNewEntrySaved(entry) {
     this.store.createPlaylistEntry(entry);
   }
-
-  onNewEntryCancelled() {}
 }

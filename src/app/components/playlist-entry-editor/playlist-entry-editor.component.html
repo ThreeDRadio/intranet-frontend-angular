@@ -88,6 +88,7 @@
           extended
           color="accent"
           aria-label="Clear"
+          [disabled]="!canClear()"
           (click)="clear()"
         >
           <mat-icon>clear_all</mat-icon>
