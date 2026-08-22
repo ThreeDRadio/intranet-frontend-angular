@@ -87,11 +87,11 @@
           matFab
           extended
           color="accent"
-          aria-label="Cancel"
-          (click)="cancelled.emit()"
+          aria-label="Clear"
+          (click)="clear()"
         >
-          <mat-icon>close</mat-icon>
-          Cancel
+          <mat-icon>clear_all</mat-icon>
+          Clear
         </button>
       } @else {
         <button

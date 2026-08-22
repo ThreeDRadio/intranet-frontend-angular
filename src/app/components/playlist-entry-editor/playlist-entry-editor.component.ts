@@ -184,4 +184,9 @@ export class PlaylistEntryEditorComponent implements OnInit {
     this.setTo(this.input());
     this.undone.emit();
   }
+
+  clear() {
+    this.setTo(this.input());
+    this.cancelled.emit();
+  }
 }
