@@ -1,5 +1,5 @@
 @if (input(); as entry) {
-  <div class="editor-div">
+  <div [class]="shadow() ? 'editor-div' : 'editor-div-no-shadow'">
     <mat-icon>person</mat-icon>
     <input
       matInput

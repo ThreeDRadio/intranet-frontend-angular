@@ -23,6 +23,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatCardModule } from "@angular/material/card";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { PlaylistEntryEditorComponent } from "../../components/playlist-entry-editor/playlist-entry-editor.component";
+import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
 
 @Component({
   selector: "app-playlist-editor",
@@ -35,6 +36,8 @@ import { PlaylistEntryEditorComponent } from "../../components/playlist-entry-ed
     MatInputModule,
     MatSlideToggleModule,
     MatCardModule,
+    MatExpansionModule,
+    MatAccordion,
   ],
   providers: [QuotaService, DateService],
   templateUrl: "./playlist-editor.html",
@@ -88,18 +91,11 @@ export class PlaylistEditorPage implements OnInit {
   constructor() {
     effect(() => {
       const isComplete = !this.store.isLoading() && this.playlist()?.complete;
-      const userSelectedCatalogueInput =
-        this.catalogueInputSelected() &&
-        this.store.catalogueInputState() !== undefined;
 
       // Playlist completion will now trigger a navigation back to recent playlists.
       // Navigate ONLY if we started a submit and the store has finished processing it
       if (isComplete) {
         this.router.navigate(["/playlists/recent"]);
-      }
-      // Move to the quick search area if we detect playlist input state.
-      if (userSelectedCatalogueInput) {
-        this.router.navigate(["/search"]);
       }
     });
   }
@@ -185,11 +181,11 @@ export class PlaylistEditorPage implements OnInit {
   }
 
   onCataloguePressed(event) {
-    this.catalogueInputSelected.set(true);
-    this.store.setCatalogueInput({
-      show: this.show(),
-      playlist: this.playlist(),
-    });
+    // this.catalogueInputSelected.set(true);
+    // this.store.setCatalogueInput({
+    //   show: this.show(),
+    //   playlist: this.playlist(),
+    // });
   }
 
   onNewEntrySaved(entry) {

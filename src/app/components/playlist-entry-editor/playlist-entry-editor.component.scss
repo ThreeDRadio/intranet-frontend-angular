@@ -13,6 +13,19 @@
   flex-wrap: wrap;
 }
 
+.editor-div-no-shadow {
+  // Applies the standard card shadow
+  @include mat.elevation(0);
+  width: 100%;
+  background-color: var(--mat-sys-surface);
+  padding: 4px;
+  gap: 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .standalone-input {
   --input-focus-color: var(--mat-sys-primary, #3f51b5);
 

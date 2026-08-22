@@ -15,23 +15,34 @@
   (entryDeleted)="onEntryDeleted($event)"
   (entrySaved)="onEntrySaved($event)"
 ></app-playlist-entry-list>
-@if (creatingNewEntry()) {
-<app-playlist-entry-editor
-  [input]="newEntryTemplate()"
-  (saved)="onNewEntrySaved($event)"
-  (cancelled)="onNewEntryCancelled()"
-  action="create"
-/>
-} @else {
-<button class="card-button" (click)="onCataloguePressed($event)">
-  <mat-icon class="big-icon">search</mat-icon>
-  <b><span style="font-size: 24px">Choose from the catalogue</span></b>
-</button>
-<button class="card-button-orange" (click)="onNewEntryAdded($event)">
-  <mat-icon class="big-icon">add</mat-icon>
-  <b><span style="font-size: 24px">Add a new track</span></b>
-</button>
-}
+<mat-accordion class="catalogue-accordion mat-elevation-z0">
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon class="big-icon">search</mat-icon>
+        <b><span>Choose from the catalogue</span></b>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+  </mat-expansion-panel>
+</mat-accordion>
+<mat-accordion class="catalogue-accordion-orange mat-elevation-z0">
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon class="big-icon">add</mat-icon>
+        <b><span>Add a new track</span></b>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-playlist-entry-editor
+      [input]="newEntryTemplate()"
+      (saved)="onNewEntrySaved($event)"
+      (cancelled)="onNewEntryCancelled()"
+      action="create"
+      [shadow]="false"
+    />
+  </mat-expansion-panel>
+</mat-accordion>
 <button
   [class]="pl.complete ? 'card-button-blue-submitted' : 'card-button-blue'"
   color="primary"
@@ -40,9 +51,9 @@
 >
   <mat-icon class="big-icon">send</mat-icon>
   @if (pl.complete) {
-  <b><span style="font-size: 24px">Submitted</span></b>
+  <b><span>Submitted</span></b>
   } @else {
-  <b><span style="font-size: 24px">Submit Logging Sheet</span></b>
+  <b><span>Submit Logging Sheet</span></b>
   }
 </button>
 } }
