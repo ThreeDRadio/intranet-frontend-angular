@@ -8,13 +8,6 @@
   [totalDuration]="totalDuration()"
   [complete]="pl.complete"
 ></app-quota-display>
-<app-playlist-entry-list
-  [playlist]="pl"
-  [entries]="entries()"
-  action="edit"
-  (entryDeleted)="onEntryDeleted($event)"
-  (entrySaved)="onEntrySaved($event)"
-></app-playlist-entry-list>
 <mat-accordion class="catalogue-accordion mat-elevation-z0">
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
@@ -55,4 +48,19 @@
   <b><span>Submit Logging Sheet</span></b>
   }
 </button>
+<div style="padding-top: 24px">
+  <h3 style="opacity: 0.7">Track list</h3>
+  <mat-divider />
+  @if (entries().length === 0) {
+  <h5>No tracks</h5>
+  } @else {
+  <app-playlist-entry-list
+    [playlist]="pl"
+    [entries]="entries()"
+    action="edit"
+    (entryDeleted)="onEntryDeleted($event)"
+    (entrySaved)="onEntrySaved($event)"
+  ></app-playlist-entry-list>
+  }
+</div>
 } }

@@ -24,6 +24,7 @@ import { MatCardModule } from "@angular/material/card";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { PlaylistEntryEditorComponent } from "../../components/playlist-entry-editor/playlist-entry-editor.component";
 import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
+import { MatDividerModule } from "@angular/material/divider";
 
 @Component({
   selector: "app-playlist-editor",
@@ -38,6 +39,7 @@ import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
     MatCardModule,
     MatExpansionModule,
     MatAccordion,
+    MatDividerModule,
   ],
   providers: [QuotaService, DateService],
   templateUrl: "./playlist-editor.html",
