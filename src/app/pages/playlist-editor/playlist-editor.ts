@@ -105,7 +105,6 @@ export class PlaylistEditorPage implements OnInit {
   }
 
   // Internal state
-  creatingNewEntry = signal<boolean>(false);
   catalogueInputSelected = signal<boolean>(false);
 
   newEntryTemplate(): PlaylistEntry {
@@ -176,9 +175,7 @@ export class PlaylistEditorPage implements OnInit {
   }
 
   // New entries
-  onNewEntryAdded(event) {
-    this.creatingNewEntry.set(true);
-  }
+  onNewEntryAdded(event) {}
 
   onCataloguePressed(event) {
     // this.catalogueInputSelected.set(true);
@@ -190,10 +187,7 @@ export class PlaylistEditorPage implements OnInit {
 
   onNewEntrySaved(entry) {
     this.store.createPlaylistEntry(entry);
-    this.creatingNewEntry.set(false);
   }
 
-  onNewEntryCancelled() {
-    this.creatingNewEntry.set(false);
-  }
+  onNewEntryCancelled() {}
 }
