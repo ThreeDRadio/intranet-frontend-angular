@@ -177,6 +177,10 @@ export class PlaylistEntryEditorComponent implements OnInit {
 
   save() {
     this.saved.emit(this.getOutput());
+    // Reset the UI
+    if (this.creating()) {
+      this.setTo(this.input());
+    }
   }
 
   undo() {
