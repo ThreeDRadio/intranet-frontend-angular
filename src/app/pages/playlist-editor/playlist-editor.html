@@ -16,7 +16,6 @@
         <b><span>Choose from the catalogue</span></b>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <p>This is the primary content of the panel.</p>
   </mat-expansion-panel>
 </mat-accordion>
 <mat-accordion class="catalogue-accordion-orange mat-elevation-z0">
@@ -51,9 +50,6 @@
 <div style="padding-top: 24px">
   <h3 style="opacity: 0.7">Track list</h3>
   <mat-divider />
-  @if (entries().length === 0) {
-  <h5>No tracks</h5>
-  } @else {
   <app-playlist-entry-list
     [playlist]="pl"
     [entries]="entries()"
@@ -61,6 +57,5 @@
     (entryDeleted)="onEntryDeleted($event)"
     (entrySaved)="onEntrySaved($event)"
   ></app-playlist-entry-list>
-  }
 </div>
 } }

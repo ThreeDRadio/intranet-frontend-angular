@@ -191,3 +191,16 @@
   border-radius: 4px;
   font-size: 24px;
 }
+
+.standalone-input {
+  --input-focus-color: var(--mat-sys-primary, #3f51b5);
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 8px 12px;
+  border-radius: 4px;
+
+  &:focus {
+    border-color: var(--input-focus-color);
+    box-shadow: 0 0 0 1px var(--input-focus-color);
+  }
+}
