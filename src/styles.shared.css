@@ -166,6 +166,12 @@
   gap: 4px; /* Adds optional clean spacing between icon and text */
 }
 
+.fill-input {
+  flex-grow: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .med-input {
   width: 100%;
   max-width: 300px;
@@ -203,4 +209,8 @@
     border-color: var(--input-focus-color);
     box-shadow: 0 0 0 1px var(--input-focus-color);
   }
+}
+
+.full-width {
+  width: 100%;
 }
