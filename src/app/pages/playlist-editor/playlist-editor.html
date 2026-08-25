@@ -16,15 +16,19 @@
         <b><span>Choose from the catalogue</span></b>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="artist-search">
-      <mat-icon>person</mat-icon>
-      <input
-        matInput
-        matTooltip="Artist"
-        placeholder="Artist"
-        class="standalone-input fill-input"
-      />
-    </div>
+    <form [formGroup]="form">
+      <mat-form-field class="full-width">
+        <input
+          formControlName="search"
+          matInput
+          type="text"
+          placeholder="Search Terms"
+        />
+      </mat-form-field>
+
+      <button mat-raised-button (click)="quickSearch()">Search</button>
+      <mat-progress-bar mode="indeterminate" />
+    </form>
   </mat-expansion-panel>
 </mat-accordion>
 <mat-accordion class="catalogue-accordion-orange mat-elevation-z0">
@@ -43,20 +47,8 @@
     />
   </mat-expansion-panel>
 </mat-accordion>
-<button
-  [class]="pl.complete ? 'card-button-blue-submitted' : 'card-button-blue'"
-  color="primary"
-  [disabled]="pl.complete"
-  (click)="onSubmitted($event)"
->
-  <mat-icon class="big-icon">send</mat-icon>
-  @if (pl.complete) {
-  <b><span>Submitted</span></b>
-  } @else {
-  <b><span>Submit Logging Sheet</span></b>
-  }
-</button>
-<div style="padding-top: 24px">
+
+<div style="padding-top: 16px">
   <h3 style="opacity: 0.7">Track list</h3>
   <mat-divider />
   <app-playlist-entry-list
@@ -66,5 +58,18 @@
     (entryDeleted)="onEntryDeleted($event)"
     (entrySaved)="onEntrySaved($event)"
   ></app-playlist-entry-list>
+  <button
+    [class]="pl.complete ? 'card-button-blue-submitted' : 'card-button-blue'"
+    color="primary"
+    [disabled]="pl.complete"
+    (click)="onSubmitted($event)"
+  >
+    <mat-icon class="big-icon">send</mat-icon>
+    @if (pl.complete) {
+    <b><span>Submitted</span></b>
+    } @else {
+    <b><span>Submit Logging Sheet</span></b>
+    }
+  </button>
 </div>
 } }

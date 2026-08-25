@@ -26,6 +26,7 @@ import { PlaylistEntryEditorComponent } from "../../components/playlist-entry-ed
 import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonModule } from "@angular/material/button";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 @Component({
   selector: "app-playlist-editor",
@@ -42,6 +43,7 @@ import { MatButtonModule } from "@angular/material/button";
     MatAccordion,
     MatDividerModule,
     MatButtonModule,
+    MatProgressBarModule,
   ],
   providers: [QuotaService, DateService],
   templateUrl: "./playlist-editor.html",
