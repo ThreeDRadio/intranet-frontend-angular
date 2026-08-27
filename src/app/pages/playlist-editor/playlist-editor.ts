@@ -28,6 +28,11 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { SearchStore } from "../../store/search.store";
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 
 @Component({
   selector: "app-playlist-editor",
@@ -57,6 +62,10 @@ export class PlaylistEditorPage implements OnInit {
   dateService = inject(DateService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
+
+  form = new UntypedFormGroup({
+    search: new UntypedFormControl("", Validators.required),
+  });
 
   readonly id = input.required<number, string>({
     transform: (value: string) => Number(value),

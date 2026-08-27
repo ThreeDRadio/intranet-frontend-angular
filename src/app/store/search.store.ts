@@ -7,7 +7,7 @@ import {
   withState,
 } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { pipe, switchMap, tap } from "rxjs";
+import { catchError, EMPTY, pipe, switchMap, tap } from "rxjs";
 import { ReleaseService } from "../services/release.service";
 
 type SearchState = {
@@ -31,7 +31,15 @@ export const SearchStore = signalStore(
       pipe(
         tap(() => patchState(store, { isSearching: true })),
         switchMap((input) => {
-          return releaseService.quickSearch(input).pipe();
+          return releaseService.quickSearch(input).pipe(
+            tap((searchResults) => {
+              patchState(store, { isSearching: false });
+            }),
+            catchError((err) => {
+              patchState(store, { isSearching: false });
+              return EMPTY;
+            }),
+          );
         }),
       ),
     ),
