@@ -199,4 +199,8 @@ export class PlaylistEditorPage implements OnInit {
   onNewEntrySaved(entry) {
     this.loggerStore.createPlaylistEntry(entry);
   }
+
+  quickSearch() {
+    this.searchStore.quickSearch("");
+  }
 }
