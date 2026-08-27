@@ -1,4 +1,4 @@
-@if (store.isLoading()) {
+@if (loggerStore.isLoading()) {
 <h4>Loading...</h4>
 } @else { @if (playlist(); as pl) {
 <h1>EDITING Logging Sheet - {{ show().name }}</h1>
@@ -7,7 +7,8 @@
   [quotas]="quotas()"
   [totalDuration]="totalDuration()"
   [complete]="pl.complete"
-></app-quota-display>
+>
+</app-quota-display>
 <mat-accordion class="catalogue-accordion mat-elevation-z0">
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
@@ -27,7 +28,9 @@
       </mat-form-field>
 
       <button mat-raised-button (click)="quickSearch()">Search</button>
+      @if (searchStore.isSearching()) {
       <mat-progress-bar mode="indeterminate" />
+      } @else { @if (searchStore.hasSearchResults()) { test } }
     </form>
   </mat-expansion-panel>
 </mat-accordion>

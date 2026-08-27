@@ -27,6 +27,7 @@ import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { SearchStore } from "../../store/search.store";
 
 @Component({
   selector: "app-playlist-editor",
@@ -50,7 +51,8 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
   styleUrl: "./playlist-editor.scss",
 })
 export class PlaylistEditorPage implements OnInit {
-  store = inject(LoggerStore);
+  loggerStore = inject(LoggerStore);
+  searchStore = inject(SearchStore);
   quotaService = inject(QuotaService);
   dateService = inject(DateService);
   private dialog = inject(MatDialog);
@@ -60,13 +62,15 @@ export class PlaylistEditorPage implements OnInit {
     transform: (value: string) => Number(value),
   });
 
-  readonly playlist = computed(() => this.store.playlistById()(this.id()));
-
-  readonly show = computed(
-    () => this.store.showById()(this.playlist().show) ?? undefined,
+  readonly playlist = computed(() =>
+    this.loggerStore.playlistById()(this.id()),
   );
 
-  entries = computed(() => this.store.playlistEntries());
+  readonly show = computed(
+    () => this.loggerStore.showById()(this.playlist().show) ?? undefined,
+  );
+
+  entries = computed(() => this.loggerStore.playlistEntries());
 
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
@@ -96,7 +100,8 @@ export class PlaylistEditorPage implements OnInit {
 
   constructor() {
     effect(() => {
-      const isComplete = !this.store.isLoading() && this.playlist()?.complete;
+      const isComplete =
+        !this.loggerStore.isLoading() && this.playlist()?.complete;
 
       // Playlist completion will now trigger a navigation back to recent playlists.
       // Navigate ONLY if we started a submit and the store has finished processing it
@@ -107,7 +112,7 @@ export class PlaylistEditorPage implements OnInit {
   }
 
   ngOnInit() {
-    this.store.fetchPlaylistAndEntries(this.id());
+    this.loggerStore.fetchPlaylistAndEntries(this.id());
   }
 
   // Internal state
@@ -150,7 +155,7 @@ export class PlaylistEditorPage implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.store.completePlaylist(this.id());
+        this.loggerStore.completePlaylist(this.id());
       }
     });
   }
@@ -170,14 +175,14 @@ export class PlaylistEditorPage implements OnInit {
         let atIndex = this.entries().find((e) => e.index === index);
 
         if (atIndex) {
-          this.store.deletePlaylistEntry(atIndex.id);
+          this.loggerStore.deletePlaylistEntry(atIndex.id);
         }
       }
     });
   }
 
   onEntrySaved(entry) {
-    this.store.updatePlaylistEntry(entry);
+    this.loggerStore.updatePlaylistEntry(entry);
   }
 
   // New entries
@@ -192,6 +197,6 @@ export class PlaylistEditorPage implements OnInit {
   }
 
   onNewEntrySaved(entry) {
-    this.store.createPlaylistEntry(entry);
+    this.loggerStore.createPlaylistEntry(entry);
   }
 }
