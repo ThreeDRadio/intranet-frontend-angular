@@ -17,23 +17,7 @@
         <b><span>Choose from the catalogue</span></b>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <form [formGroup]="form">
-      <mat-form-field class="full-width">
-        <input
-          formControlName="search"
-          matInput
-          type="text"
-          placeholder="Search Terms"
-        />
-      </mat-form-field>
-
-      <button mat-raised-button type="button" (click)="quickSearch()">
-        Search
-      </button>
-      @if (searchStore.isSearching()) {
-      <mat-progress-bar mode="indeterminate" />
-      } @else { @if (searchStore.hasSearchResults()) { } }
-    </form>
+    <app-quick-search />
   </mat-expansion-panel>
 </mat-accordion>
 <mat-accordion class="catalogue-accordion-orange mat-elevation-z0">

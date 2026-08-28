@@ -1,0 +1,37 @@
+<form [formGroup]="form">
+  <mat-form-field class="full-width">
+    <input
+      formControlName="search"
+      matInput
+      type="text"
+      placeholder="Search Terms"
+    />
+  </mat-form-field>
+
+  <button mat-raised-button type="button" (click)="quickSearch()">
+    Search
+  </button>
+  @if (searchStore.isSearching()) {
+    <mat-progress-bar mode="indeterminate" />
+  } @else {
+    @if (searchStore.hasSearchResults()) {
+      <div>
+        <h3>{{ searchStore.searchResults().length }} Results</h3>
+        <app-release-list
+          [releases]="searchStore.searchResults()"
+          (sortChange)="sort($event)"
+          (releaseListOpen)="open($event)"
+        >
+        </app-release-list>
+        <mat-paginator
+          [pageSizeOptions]="pageSizes"
+          [pageIndex]="offset / pageSize"
+          [pageSize]="pageSize"
+          (page)="paginationChange($event)"
+          [length]="searchStore.searchResults().length"
+          [pageSize]="10"
+        ></mat-paginator>
+      </div>
+    }
+  }
+</form>

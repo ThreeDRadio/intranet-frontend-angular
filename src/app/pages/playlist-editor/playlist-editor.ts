@@ -27,12 +27,12 @@ import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { SearchStore } from "../../store/search.store";
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
+import { QuickSearchComponent } from "../../components/quick-search/quick-search.component";
 
 @Component({
   selector: "app-playlist-editor",
@@ -40,6 +40,7 @@ import {
     QuotaDisplayComponent,
     PlaylistEntryEditorComponent,
     PlaylistEntryListComponent,
+    QuickSearchComponent,
     MatTableModule,
     MatIconModule,
     MatInputModule,
@@ -57,15 +58,10 @@ import {
 })
 export class PlaylistEditorPage implements OnInit {
   loggerStore = inject(LoggerStore);
-  searchStore = inject(SearchStore);
   quotaService = inject(QuotaService);
   dateService = inject(DateService);
   private dialog = inject(MatDialog);
   private router = inject(Router);
-
-  form = new UntypedFormGroup({
-    search: new UntypedFormControl("", Validators.required),
-  });
 
   readonly id = input.required<number, string>({
     transform: (value: string) => Number(value),
@@ -207,9 +203,5 @@ export class PlaylistEditorPage implements OnInit {
 
   onNewEntrySaved(entry) {
     this.loggerStore.createPlaylistEntry(entry);
-  }
-
-  quickSearch() {
-    this.searchStore.quickSearch("");
   }
 }
