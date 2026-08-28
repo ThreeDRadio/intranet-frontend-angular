@@ -9,13 +9,24 @@ import {
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { catchError, EMPTY, pipe, switchMap, tap } from "rxjs";
 import { ReleaseService } from "../services/release.service";
+import { Release } from "../models/release";
+
+type QuickSearchParams = {
+  term: string;
+  size: number;
+  offset: number;
+};
 
 type SearchState = {
   isSearching: boolean;
+  count: number;
+  results: Release[];
 };
 
 export const initialState: SearchState = {
   isSearching: false,
+  count: 0,
+  results: [],
 };
 
 export const SearchStore = signalStore(
@@ -23,23 +34,33 @@ export const SearchStore = signalStore(
   withState(initialState),
   withComputed((store) => ({
     hasSearchResults: computed(() => {
-      return false;
+      return store.count() > 0;
     }),
   })),
   withMethods((store, releaseService = inject(ReleaseService)) => ({
-    quickSearch: rxMethod<string>(
+    quickSearch: rxMethod<QuickSearchParams>(
       pipe(
         tap(() => patchState(store, { isSearching: true })),
         switchMap((input) => {
-          return releaseService.quickSearch(input).pipe(
-            tap((searchResults) => {
-              patchState(store, { isSearching: false });
-            }),
-            catchError((err) => {
-              patchState(store, { isSearching: false });
-              return EMPTY;
-            }),
-          );
+          return releaseService
+            .quickSearch(input.term, input.size, input.offset)
+            .pipe(
+              tap((response) => {
+                patchState(store, {
+                  isSearching: false,
+                  count: response.count,
+                  results: response.results,
+                });
+              }),
+              catchError((err) => {
+                patchState(store, {
+                  isSearching: false,
+                  count: 0,
+                  results: [],
+                });
+                return EMPTY;
+              }),
+            );
         }),
       ),
     ),

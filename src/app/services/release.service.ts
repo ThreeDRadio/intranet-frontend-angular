@@ -8,11 +8,11 @@ import { ReleaseApi } from "./release-api";
 export class ReleaseService {
   readonly releaseApi = inject(ReleaseApi);
 
-  quickSearch(term: string) {
+  quickSearch(search: string, limit: number, offset: number) {
     return this.releaseApi.simpleSearch({
-      search: term,
-      limit: 10,
-      offset: 0,
+      search,
+      limit,
+      offset,
       ordering: "-createwhen",
     });
   }

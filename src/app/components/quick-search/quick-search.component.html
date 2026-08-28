@@ -16,9 +16,9 @@
   } @else {
     @if (searchStore.hasSearchResults()) {
       <div>
-        <h3>{{ searchStore.searchResults().length }} Results</h3>
+        <h3>{{ searchStore.count() }} Results</h3>
         <app-release-list
-          [releases]="searchStore.searchResults()"
+          [releases]="searchStore.results()"
           (sortChange)="sort($event)"
           (releaseListOpen)="open($event)"
         >
@@ -28,8 +28,7 @@
           [pageIndex]="offset / pageSize"
           [pageSize]="pageSize"
           (page)="paginationChange($event)"
-          [length]="searchStore.searchResults().length"
-          [pageSize]="10"
+          [length]="searchStore.count()"
         ></mat-paginator>
       </div>
     }

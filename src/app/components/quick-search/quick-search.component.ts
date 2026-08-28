@@ -11,7 +11,7 @@ import {
 } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { ReleaseListComponent } from "../release-list/release-list.component";
 
 @Component({
@@ -37,6 +37,10 @@ export class QuickSearchComponent {
   });
 
   quickSearch() {
-    this.searchStore.quickSearch("test");
+    this.searchStore.quickSearch({
+      term: this.form.controls.search.value,
+      size: 10,
+      offset: 0,
+    });
   }
 }
