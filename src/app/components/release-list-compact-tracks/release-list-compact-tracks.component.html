@@ -1,1 +1,14 @@
-<p>release-list-compact-tracks.component works!</p>
+@if (releaseStore.isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+} @else {
+  @if (tracklist().tracks; as tl) {
+    <mat-list>
+      @for (tr of tl; track tr.id) {
+        <mat-list-item>
+          <span matListItemTitle>#{{ tr.tracknum }} {{ tr.tracktitle }}</span>
+          <span matListItemLine>Second line</span>
+        </mat-list-item>
+      }
+    </mat-list>
+  }
+}
