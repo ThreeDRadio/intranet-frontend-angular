@@ -46,4 +46,9 @@ export class DurationService {
 
     return true;
   }
+
+  toReadableFromSeconds(input: number): string {
+    const formatted = moment().startOf("day").seconds(input).format("HH:mm:ss");
+    return formatted.toString();
+  }
 }

@@ -220,3 +220,10 @@
 .full-width {
   width: 100%;
 }
+
+.quota-check-container {
+  /* Flexbox Layout inside the box */
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+}

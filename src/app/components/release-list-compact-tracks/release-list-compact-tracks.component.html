@@ -5,8 +5,15 @@
     <mat-list>
       @for (tr of tl; track tr.id) {
         <mat-list-item>
-          <span matListItemTitle>#{{ tr.tracknum }} {{ tr.tracktitle }}</span>
-          <span matListItemLine>Second line</span>
+          <span matListItemTitle>
+            <div style="display: flex; align-items: center">
+              #{{ tr.tracknum }} {{ tr.tracktitle }}
+              <span style="margin-left: 6px; margin-right: 6px"></span>
+              <mat-icon>av_timer</mat-icon>
+              <span style="margin-left: 4px"></span>
+              {{ durationService.toReadableFromSeconds(tr.tracklength) }}
+            </div>
+          </span>
         </mat-list-item>
       }
     </mat-list>
