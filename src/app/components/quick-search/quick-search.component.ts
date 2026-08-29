@@ -11,12 +11,13 @@ import {
 } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
-import { ReleaseListComponent } from "../release-list/release-list.component";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { ReleaseListCompactComponent } from "../release-list-compact/release-list-compact.component";
 
 @Component({
   selector: "app-quick-search",
   imports: [
+    ReleaseListCompactComponent,
     ReactiveFormsModule,
     MatDividerModule,
     MatButtonModule,
@@ -24,7 +25,6 @@ import { ReleaseListComponent } from "../release-list/release-list.component";
     MatFormFieldModule,
     MatInputModule,
     MatPaginatorModule,
-    ReleaseListComponent,
   ],
   templateUrl: "./quick-search.component.html",
   styleUrl: "./quick-search.component.scss",

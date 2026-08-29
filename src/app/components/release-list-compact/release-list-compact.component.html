@@ -1,0 +1,25 @@
+@if (releases(); as list) {
+  <mat-accordion class="release-list-compact-accordion">
+    @for (release of list; track release.id) {
+      <mat-expansion-panel
+        togglePosition="before"
+        (opened)="onReleaseOpened(release)"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div style="gap: 8px; display: flex; align-items: center">
+              <mat-icon>person</mat-icon>
+              {{ release.artist }}
+            </div>
+          </mat-panel-title>
+          <mat-panel-description>
+            <div style="gap: 8px; display: flex; align-items: center">
+              <mat-icon>album</mat-icon>
+              {{ release.title }}
+            </div>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    }
+  </mat-accordion>
+}

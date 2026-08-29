@@ -191,6 +191,12 @@
   font-size: 24px;
 }
 
+.release-list-compact-accordion .mat-expansion-panel {
+  transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 4px;
+  font-size: 24px;
+}
+
 .catalogue-accordion-orange .mat-expansion-panel {
   background-color: #e28800;
   transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);

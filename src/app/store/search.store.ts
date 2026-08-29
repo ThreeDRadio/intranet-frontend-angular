@@ -17,6 +17,10 @@ type QuickSearchParams = {
   offset: number;
 };
 
+type ArtistSearchParams = {
+  name: string;
+};
+
 type SearchState = {
   isSearching: boolean;
   count: number;

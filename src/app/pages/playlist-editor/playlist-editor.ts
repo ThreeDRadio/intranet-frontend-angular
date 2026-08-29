@@ -41,6 +41,7 @@ import { QuickSearchComponent } from "../../components/quick-search/quick-search
     PlaylistEntryEditorComponent,
     PlaylistEntryListComponent,
     QuickSearchComponent,
+    // Material
     MatTableModule,
     MatIconModule,
     MatInputModule,
