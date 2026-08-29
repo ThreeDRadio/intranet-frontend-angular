@@ -28,4 +28,8 @@ export class ReleaseApi extends ModelApi<Release> {
       createwho: this.http.userId,
     });
   }
+
+  tracks(id: number) {
+    return super.getSubresource(id, "tracks");
+  }
 }
