@@ -3,8 +3,10 @@
 } @else {
   <table mat-table [dataSource]="tracklist().tracks" class="compact-mat-table">
     <ng-container matColumnDef="tracknum">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">#{{ element.tracknum }}</td>
+      <th mat-header-cell *matHeaderCellDef class="min-fit-table-column"></th>
+      <td mat-cell *matCellDef="let element" class="min-fit-table-column">
+        #{{ element.tracknum }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="tracktitle">
       <th mat-header-cell *matHeaderCellDef>Song</th>
@@ -18,7 +20,12 @@
     </ng-container>
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
-      <td mat-cell *matCellDef="let element"></td>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button>
+          <mat-icon>add</mat-icon>
+          Add to playlist
+        </button>
+      </td>
     </ng-container>
     <tr mat-header-row sticky *matHeaderRowDef="trackColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: trackColumns"></tr>

@@ -8,3 +8,9 @@
     padding-right: 8px !important;
   }
 }
+
+th.min-fit-table-column,
+td.min-fit-table-column {
+  width: 1px;
+  white-space: nowrap; /* Prevents text or element wrapping */
+}

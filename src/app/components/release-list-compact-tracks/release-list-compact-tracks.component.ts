@@ -6,10 +6,17 @@ import { QuotaCheckComponent } from "../quota-check/quota-check.component";
 import { MatIconModule } from "@angular/material/icon";
 import { DurationService } from "../../services/duration.service";
 import { MatTableModule } from "@angular/material/table";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: "app-release-list-compact-tracks",
-  imports: [MatListModule, MatProgressBarModule, MatTableModule],
+  imports: [
+    MatListModule,
+    MatProgressBarModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   providers: [DurationService],
   templateUrl: "./release-list-compact-tracks.component.html",
   styleUrl: "./release-list-compact-tracks.component.scss",
