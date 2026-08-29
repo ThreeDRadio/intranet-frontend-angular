@@ -7,7 +7,15 @@ import {
   withState,
 } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { catchError, EMPTY, filter, pipe, switchMap, tap } from "rxjs";
+import {
+  catchError,
+  EMPTY,
+  filter,
+  mergeMap,
+  pipe,
+  switchMap,
+  tap,
+} from "rxjs";
 import { ReleaseService } from "../services/release.service";
 import { Track } from "../models/track";
 
@@ -37,7 +45,7 @@ export const ReleaseStore = signalStore(
   withMethods((store, releaseService = inject(ReleaseService)) => ({
     fetchTracksForId: rxMethod<number>(
       pipe(
-        switchMap((id) => {
+        mergeMap((id) => {
           const existing = store.tracklists().find((t) => t.releaseId === id);
           // Don't bother with a request if the tracklist is already downloaded.
           if (existing !== null && existing !== undefined) return EMPTY;
