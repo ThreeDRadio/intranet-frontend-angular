@@ -47,10 +47,12 @@ export class QuickSearchComponent {
   }
 
   quickSearch() {
-    this.searchStore.quickSearch({
-      term: this.form.controls.search.value,
-      size: this.pageSize,
-      offset: this.offset,
-    });
+    if (this.form.valid) {
+      this.searchStore.quickSearch({
+        term: this.form.controls.search.value,
+        size: this.pageSize,
+        offset: this.offset,
+      });
+    }
   }
 }
