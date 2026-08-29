@@ -31,16 +31,26 @@ import { ReleaseListCompactComponent } from "../release-list-compact/release-lis
 })
 export class QuickSearchComponent {
   searchStore = inject(SearchStore);
+  // Paginator settings
+  pageSizes = [10, 20, 50, 100];
+  offset = 0;
+  pageSize = 10;
 
   form = new UntypedFormGroup({
     search: new UntypedFormControl("", Validators.required),
   });
 
+  paginationChange(event) {
+    this.pageSize = event.pageSize;
+    this.offset = event.pageIndex * this.pageSize;
+    this.quickSearch();
+  }
+
   quickSearch() {
     this.searchStore.quickSearch({
       term: this.form.controls.search.value,
-      size: 10,
-      offset: 0,
+      size: this.pageSize,
+      offset: this.offset,
     });
   }
 }
