@@ -1,21 +1,26 @@
 @if (releaseStore.isLoading()) {
   <mat-progress-bar mode="indeterminate" />
 } @else {
-  @if (tracklist().tracks; as tl) {
-    <mat-list>
-      @for (tr of tl; track tr.id) {
-        <mat-list-item>
-          <span matListItemTitle>
-            <div style="display: flex; align-items: center">
-              #{{ tr.tracknum }} {{ tr.tracktitle }}
-              <span style="margin-left: 6px; margin-right: 6px"></span>
-              <mat-icon>av_timer</mat-icon>
-              <span style="margin-left: 4px"></span>
-              {{ durationService.toReadableFromSeconds(tr.tracklength) }}
-            </div>
-          </span>
-        </mat-list-item>
-      }
-    </mat-list>
-  }
+  <table mat-table [dataSource]="tracklist().tracks" class="compact-mat-table">
+    <ng-container matColumnDef="tracknum">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">#{{ element.tracknum }}</td>
+    </ng-container>
+    <ng-container matColumnDef="tracktitle">
+      <th mat-header-cell *matHeaderCellDef>Song</th>
+      <td mat-cell *matCellDef="let element">{{ element.tracktitle }}</td>
+    </ng-container>
+    <ng-container matColumnDef="tracklength">
+      <th mat-header-cell *matHeaderCellDef>Length</th>
+      <td mat-cell *matCellDef="let element">
+        {{ durationService.toReadableFromSeconds(element.tracklength) }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element"></td>
+    </ng-container>
+    <tr mat-header-row sticky *matHeaderRowDef="trackColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: trackColumns"></tr>
+  </table>
 }
