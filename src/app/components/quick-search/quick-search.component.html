@@ -8,16 +8,17 @@
     />
   </mat-form-field>
 
-  <button mat-raised-button type="button" (click)="quickSearch()">
-    Search
-  </button>
-  @if (searchStore.isSearching()) {
-    <mat-progress-bar mode="indeterminate" />
-  } @else {
-    @if (searchStore.hasSearchResults()) {
-      <div>
-        <h3>{{ searchStore.count() }} Results</h3>
-        <app-release-list-compact [releases]="searchStore.results()">
+  <button mat-raised-button (click)="quickSearch()">Search</button>
+</form>
+
+@if (searchStore.isSearching()) {
+  <mat-progress-bar mode="indeterminate" />
+} @else {
+  @if (searchStore.hasSearchResults()) {
+    <h3>{{ searchStore.count() }} Results</h3>
+    <div>
+      @if (searchStore.results(); as currentResults) {
+        <app-release-list-compact [releases]="currentResults">
         </app-release-list-compact>
         <mat-paginator
           [pageSizeOptions]="pageSizes"
@@ -26,7 +27,7 @@
           (page)="paginationChange($event)"
           [length]="searchStore.count()"
         ></mat-paginator>
-      </div>
-    }
+      }
+    </div>
   }
-</form>
+}

@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnDestroy } from "@angular/core";
 import { SearchStore } from "../../store/search.store";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatButtonModule } from "@angular/material/button";
@@ -29,7 +29,7 @@ import { ReleaseListCompactComponent } from "../release-list-compact/release-lis
   templateUrl: "./quick-search.component.html",
   styleUrl: "./quick-search.component.scss",
 })
-export class QuickSearchComponent {
+export class QuickSearchComponent implements OnDestroy {
   searchStore = inject(SearchStore);
   // Paginator settings
   pageSizes = [10, 20, 50, 100];
@@ -54,5 +54,9 @@ export class QuickSearchComponent {
         offset: this.offset,
       });
     }
+  }
+
+  ngOnDestroy() {
+    this.searchStore.clearSearch();
   }
 }

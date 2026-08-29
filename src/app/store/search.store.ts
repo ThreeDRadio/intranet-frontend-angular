@@ -42,6 +42,9 @@ export const SearchStore = signalStore(
     }),
   })),
   withMethods((store, releaseService = inject(ReleaseService)) => ({
+    clearSearch(): void {
+      patchState(store, { ...initialState });
+    },
     quickSearch: rxMethod<QuickSearchParams>(
       pipe(
         tap(() => patchState(store, { isSearching: true })),
