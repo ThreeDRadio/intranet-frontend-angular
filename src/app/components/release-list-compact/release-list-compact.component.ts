@@ -21,6 +21,6 @@ export class ReleaseListCompactComponent {
   releaseStore = inject(ReleaseStore);
 
   onReleaseOpened(event) {
-    this.releaseStore.fetchTracksForId(event.id);
+    this.releaseStore.fetchAllForId(event.id);
   }
 }

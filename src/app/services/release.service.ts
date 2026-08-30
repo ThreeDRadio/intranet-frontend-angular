@@ -2,6 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { EMPTY, map, Observable } from "rxjs";
 import { ReleaseApi } from "./release-api";
 import { Track } from "../models/track";
+import { Release } from "../models/release";
 
 @Injectable({
   providedIn: "root",
@@ -16,6 +17,10 @@ export class ReleaseService {
       offset,
       ordering: "-createwhen",
     });
+  }
+
+  getRelease(id: number): Observable<Release> {
+    return this.releaseApi.get(id);
   }
 
   getTracklist(id: number): Observable<Track[]> {
