@@ -23,7 +23,89 @@
           @if (releaseStore.isLoading()) {
             <mat-progress-bar mode="indeterminate" />
           } @else {
-            <app-release-list-compact-tracks [releaseId]="release.id" />
+            <table
+              mat-table
+              [dataSource]="releaseStore.tracklistForId()(release.id).tracks"
+              class="compact-mat-table"
+            >
+              <ng-container matColumnDef="tracknum">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  class="min-fit-table-column"
+                ></th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  class="min-fit-table-column"
+                >
+                  #{{ element.tracknum }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="tracktitle">
+                <th mat-header-cell *matHeaderCellDef>Song</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.tracktitle }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="tracklength">
+                <th mat-header-cell *matHeaderCellDef>Length</th>
+                <td mat-cell *matCellDef="let element">
+                  {{
+                    durationService.toReadableFromSeconds(element.tracklength)
+                  }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="trackQuotas">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                  @if (releaseStore.releaseForId()(release.id); as info) {
+                    <div class="quota-check-container-table">
+                      @if (info.local === 2) {
+                        <app-quota-check-informational
+                          svg="true"
+                          icon="local-icon"
+                          state="good"
+                        />
+                      } @else {
+                        <app-quota-check-informational
+                          svg="true"
+                          icon="local-icon"
+                          [state]="info.local === 1 ? 'bad' : 'question'"
+                        />
+                      }
+                      <app-quota-check-informational
+                        svg="true"
+                        icon="aus-icon"
+                        state="question"
+                      />
+                      @if (info.female === 2) {
+                        <app-quota-check-informational
+                          icon="female"
+                          state="good"
+                        />
+                      } @else {
+                        <app-quota-check-informational
+                          icon="female"
+                          [state]="info.female === 1 ? 'bad' : 'question'"
+                        />
+                      }
+                    </div>
+                  }
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-raised-button>
+                    <mat-icon>add</mat-icon>
+                    Add to playlist
+                  </button>
+                </td>
+              </ng-container>
+              <tr mat-header-row sticky *matHeaderRowDef="trackColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: trackColumns"></tr>
+            </table>
           }
         </ng-template>
       </mat-expansion-panel>

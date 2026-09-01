@@ -18,8 +18,7 @@
     <h3>{{ searchStore.count() }} Results</h3>
     <div>
       @if (searchStore.results(); as currentResults) {
-        <app-release-list-compact [releases]="currentResults">
-        </app-release-list-compact>
+        <app-release-list-compact [releases]="currentResults" />
         <mat-paginator
           [pageSizeOptions]="pageSizes"
           [pageIndex]="offset / pageSize"
