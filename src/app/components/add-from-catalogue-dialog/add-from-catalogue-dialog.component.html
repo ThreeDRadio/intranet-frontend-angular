@@ -1,5 +1,47 @@
 <h2 mat-dialog-title>Add track from catalogue</h2>
 <mat-dialog-content>
+  <form [formGroup]="dialogTrackForm" class="vertical-form-unrestricted">
+    <mat-icon>person</mat-icon>
+    <mat-form-field>
+      <input
+        #artistInput
+        type="text"
+        placeholder="Artist"
+        matInput
+        formControlName="artistControl"
+      />
+    </mat-form-field>
+    <mat-icon>music_note</mat-icon>
+    <mat-form-field>
+      <input
+        #titleInput
+        type="text"
+        placeholder="Song"
+        matInput
+        formControlName="titleControl"
+      />
+    </mat-form-field>
+    <mat-icon>album</mat-icon>
+    <mat-form-field>
+      <input
+        #albumInput
+        type="text"
+        placeholder="Album"
+        matInput
+        formControlName="albumControl"
+      />
+    </mat-form-field>
+    <mat-icon>av_timer</mat-icon>
+    <mat-form-field>
+      <input
+        #durationInput
+        type="text"
+        placeholder="MM:SS"
+        matInput
+        formControlName="durationControl"
+      />
+    </mat-form-field>
+  </form>
   <div style="display: flex; flex-wrap: wrap; align-items: center">
     <div class="checkbox-container">
       <mat-icon svgIcon="local-icon"></mat-icon>

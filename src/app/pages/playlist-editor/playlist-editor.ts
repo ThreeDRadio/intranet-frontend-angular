@@ -197,6 +197,8 @@ export class PlaylistEditorPage implements OnInit {
   onAddedFromCatalogue(info) {
     const dialogRef = this.dialog.open(AddFromCatalogueDialogComponent, {
       data: {
+        track: info.element,
+        album: info.release.title,
         quotas: {
           local: info.release.local === 2,
           australian: false,

@@ -255,3 +255,14 @@
   padding-left: 1px;
   padding-right: 1px;
 }
+
+.vertical-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.vertical-form-unrestricted {
+  display: flex;
+  flex-direction: column;
+}
