@@ -17,7 +17,9 @@
         <b><span>Choose from the catalogue</span></b>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <app-quick-search />
+    <app-playlist-catalogue-finder
+      (addFromCatalogue)="onAddedFromCatalogue($event)"
+    />
   </mat-expansion-panel>
 </mat-accordion>
 <mat-accordion class="catalogue-accordion-orange mat-elevation-z0">

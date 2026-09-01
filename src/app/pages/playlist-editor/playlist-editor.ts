@@ -32,7 +32,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from "@angular/forms";
-import { QuickSearchComponent } from "../../components/quick-search/quick-search.component";
+import { QuickSearchComponent } from "../../components/playlist-catalogue-finder/playlist-catalogue-finder.component";
 
 @Component({
   selector: "app-playlist-editor",
@@ -194,15 +194,11 @@ export class PlaylistEditorPage implements OnInit {
   // New entries
   onNewEntryAdded(event) {}
 
-  onCataloguePressed(event) {
-    // this.catalogueInputSelected.set(true);
-    // this.store.setCatalogueInput({
-    //   show: this.show(),
-    //   playlist: this.playlist(),
-    // });
-  }
-
   onNewEntrySaved(entry) {
     this.loggerStore.createPlaylistEntry(entry);
+  }
+
+  onAddedFromCatalogue(track) {
+    console.log(track);
   }
 }

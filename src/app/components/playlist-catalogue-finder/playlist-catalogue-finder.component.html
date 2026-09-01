@@ -1,0 +1,157 @@
+<form [formGroup]="form">
+  <mat-form-field class="full-width">
+    <input
+      formControlName="search"
+      matInput
+      type="text"
+      placeholder="Search Terms"
+    />
+  </mat-form-field>
+
+  <button mat-raised-button (click)="quickSearch()">Search</button>
+</form>
+
+@if (searchStore.isSearching()) {
+  <mat-progress-bar mode="indeterminate" />
+} @else {
+  @if (searchStore.hasSearchResults()) {
+    <h3>{{ searchStore.count() }} Results</h3>
+    <div>
+      @if (searchStore.results(); as currentResults) {
+        <mat-accordion class="release-list-compact-accordion">
+          @for (release of currentResults; track release.id) {
+            <mat-expansion-panel
+              togglePosition="before"
+              (opened)="onReleaseOpened(release)"
+            >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div style="gap: 8px; display: flex; align-items: center">
+                    <mat-icon>person</mat-icon>
+                    {{ release.artist }}
+                  </div>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <div style="gap: 8px; display: flex; align-items: center">
+                    <mat-icon>album</mat-icon>
+                    {{ release.title }}
+                  </div>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+                @if (releaseStore.isLoading()) {
+                  <mat-progress-bar mode="indeterminate" />
+                } @else {
+                  <table
+                    mat-table
+                    [dataSource]="
+                      releaseStore.tracklistForId()(release.id).tracks
+                    "
+                    class="compact-mat-table"
+                  >
+                    <ng-container matColumnDef="tracknum">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="min-fit-table-column"
+                      ></th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="min-fit-table-column"
+                      >
+                        #{{ element.tracknum }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="tracktitle">
+                      <th mat-header-cell *matHeaderCellDef>Song</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.tracktitle }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="tracklength">
+                      <th mat-header-cell *matHeaderCellDef>Length</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{
+                          durationService.toReadableFromSeconds(
+                            element.tracklength
+                          )
+                        }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="trackQuotas">
+                      <th mat-header-cell *matHeaderCellDef></th>
+                      <td mat-cell *matCellDef="let element">
+                        @if (releaseStore.releaseForId()(release.id); as info) {
+                          <div class="quota-check-container-table">
+                            @if (info.local === 2) {
+                              <app-quota-check-informational
+                                svg="true"
+                                icon="local-icon"
+                                state="good"
+                              />
+                            } @else {
+                              <app-quota-check-informational
+                                svg="true"
+                                icon="local-icon"
+                                [state]="info.local === 1 ? 'bad' : 'question'"
+                              />
+                            }
+                            <app-quota-check-informational
+                              svg="true"
+                              icon="aus-icon"
+                              state="question"
+                            />
+                            @if (info.female === 2) {
+                              <app-quota-check-informational
+                                icon="female"
+                                state="good"
+                              />
+                            } @else {
+                              <app-quota-check-informational
+                                icon="female"
+                                [state]="info.female === 1 ? 'bad' : 'question'"
+                              />
+                            }
+                          </div>
+                        }
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef>Actions</th>
+                      <td mat-cell *matCellDef="let element">
+                        <button
+                          mat-raised-button
+                          (click)="addFromCatalogue.emit(element)"
+                        >
+                          <mat-icon>add</mat-icon>
+                          Add to playlist
+                        </button>
+                      </td>
+                    </ng-container>
+                    <tr
+                      mat-header-row
+                      sticky
+                      *matHeaderRowDef="trackColumns"
+                    ></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: trackColumns"
+                    ></tr>
+                  </table>
+                }
+              </ng-template>
+            </mat-expansion-panel>
+          }
+        </mat-accordion>
+        <mat-paginator
+          [pageSizeOptions]="pageSizes"
+          [pageIndex]="offset / pageSize"
+          [pageSize]="pageSize"
+          (page)="paginationChange($event)"
+          [length]="searchStore.count()"
+        ></mat-paginator>
+      }
+    </div>
+  }
+}
