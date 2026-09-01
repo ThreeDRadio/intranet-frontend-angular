@@ -60,7 +60,6 @@ export class QuickSearchComponent implements OnDestroy {
     "tracklength",
     "actions",
   ];
-
   // Actions
   addFromCatalogue = output<Track>();
 

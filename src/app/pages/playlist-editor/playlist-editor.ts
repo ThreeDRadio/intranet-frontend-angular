@@ -27,12 +27,8 @@ import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
 import { QuickSearchComponent } from "../../components/playlist-catalogue-finder/playlist-catalogue-finder.component";
+import { AddFromCatalogueDialogComponent } from "../../components/add-from-catalogue-dialog/add-from-catalogue-dialog.component";
 
 @Component({
   selector: "app-playlist-editor",
@@ -199,6 +195,15 @@ export class PlaylistEditorPage implements OnInit {
   }
 
   onAddedFromCatalogue(track) {
-    console.log(track);
+    const dialogRef = this.dialog.open(AddFromCatalogueDialogComponent, {
+      data: {
+        track: track,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+      }
+    });
   }
 }
