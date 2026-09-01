@@ -23,7 +23,7 @@
           @if (releaseStore.isLoading()) {
             <mat-progress-bar mode="indeterminate" />
           } @else {
-            <app-release-list-compact-tracks [release]="release.id" />
+            <app-release-list-compact-tracks [releaseId]="release.id" />
           }
         </ng-template>
       </mat-expansion-panel>

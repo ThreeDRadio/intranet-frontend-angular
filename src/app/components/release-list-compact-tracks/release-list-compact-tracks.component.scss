@@ -14,3 +14,9 @@ td.min-fit-table-column {
   width: 1px;
   white-space: nowrap; /* Prevents text or element wrapping */
 }
+
+.quota-check-container-table {
+  /* Flexbox Layout inside the box */
+  display: flex;
+  flex-direction: row;
+}

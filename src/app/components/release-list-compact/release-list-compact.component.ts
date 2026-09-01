@@ -4,6 +4,7 @@ import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
 import { MatIconModule } from "@angular/material/icon";
 import { ReleaseStore } from "../../store/release.store";
 import { ReleaseListCompactTracksComponent } from "../release-list-compact-tracks/release-list-compact-tracks.component";
+import { QuotaCheckComponent } from "../quota-check/quota-check.component";
 
 @Component({
   selector: "app-release-list-compact",

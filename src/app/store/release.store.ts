@@ -11,6 +11,7 @@ import {
   catchError,
   EMPTY,
   filter,
+  forkJoin,
   mergeMap,
   pipe,
   switchMap,
@@ -88,36 +89,29 @@ export const ReleaseStore = signalStore(
                 return EMPTY;
               }),
             );
-          } else {
-            // Everything
-            patchState(store, { isLoading: true });
-            return releaseService.getRelease(id).pipe(
-              tap((r) => {
-                patchState(store, {
-                  releases: [...store.releases(), r],
-                });
-                return releaseService.getTracklist(id).pipe(
-                  tap((tl) => {
-                    patchState(store, {
-                      isLoading: false,
-                      tracklists: [
-                        ...store.tracklists(),
-                        { releaseId: id, tracks: tl },
-                      ],
-                    });
-                  }),
-                  catchError((err) => {
-                    patchState(store, { isLoading: false });
-                    return EMPTY;
-                  }),
-                );
-              }),
-              catchError((err) => {
-                patchState(store, { isLoading: false });
-                return EMPTY;
-              }),
-            );
           }
+
+          // Get everything
+          patchState(store, { isLoading: true });
+          return forkJoin({
+            release: releaseService.getRelease(id),
+            tracklist: releaseService.getTracklist(id),
+          }).pipe(
+            tap(({ release, tracklist }) => {
+              patchState(store, {
+                isLoading: false,
+                releases: [...store.releases(), release],
+                tracklists: [
+                  ...store.tracklists(),
+                  { releaseId: id, tracks: tracklist },
+                ],
+              });
+            }),
+            catchError(() => {
+              patchState(store, { isLoading: false });
+              return EMPTY;
+            }),
+          );
         }),
       ),
     ),

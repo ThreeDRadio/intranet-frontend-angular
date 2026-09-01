@@ -2,15 +2,16 @@ import { Component, computed, inject, input, OnInit } from "@angular/core";
 import { ReleaseStore } from "../../store/release.store";
 import { MatListModule } from "@angular/material/list";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { QuotaCheckComponent } from "../quota-check/quota-check.component";
 import { MatIconModule } from "@angular/material/icon";
 import { DurationService } from "../../services/duration.service";
 import { MatTableModule } from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
+import { QuotaCheckInformationalComponent } from "../quota-check-informational/quota-check-informational.component";
 
 @Component({
   selector: "app-release-list-compact-tracks",
   imports: [
+    QuotaCheckInformationalComponent,
     MatListModule,
     MatProgressBarModule,
     MatTableModule,
@@ -22,12 +23,20 @@ import { MatButtonModule } from "@angular/material/button";
   styleUrl: "./release-list-compact-tracks.component.scss",
 })
 export class ReleaseListCompactTracksComponent {
-  release = input.required<number>();
+  releaseId = input.required<number>();
   releaseStore = inject(ReleaseStore);
   durationService = inject(DurationService);
-  trackColumns = ["tracknum", "tracktitle", "tracklength", "actions"];
+  trackColumns = [
+    "tracknum",
+    "tracktitle",
+    "trackQuotas",
+    "tracklength",
+    "actions",
+  ];
+
+  release = computed(() => this.releaseStore.releaseForId()(this.releaseId()));
 
   tracklist = computed(() =>
-    this.releaseStore.tracklistForId()(this.release()),
+    this.releaseStore.tracklistForId()(this.releaseId()),
   );
 }
