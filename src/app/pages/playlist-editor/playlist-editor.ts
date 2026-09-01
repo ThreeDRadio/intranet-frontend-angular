@@ -143,25 +143,15 @@ export class PlaylistEditorPage implements OnInit {
     };
   }
 
-  onSubmitted() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: {
-        title: "Submit",
-        message:
-          "Please ensure your logging sheet is complete and correct before submitting.",
-        confirmButton: "Submit",
-        cancelButton: "Cancel",
-        resultOutcome: "constructive",
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.loggerStore.completePlaylist(this.id());
-      }
-    });
+  onEntrySaved(entry) {
+    this.loggerStore.updatePlaylistEntry(entry);
   }
 
+  onNewEntrySaved(entry) {
+    this.loggerStore.createPlaylistEntry(entry);
+  }
+
+  // Dialogs
   onEntryDeleted(index) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
@@ -183,17 +173,6 @@ export class PlaylistEditorPage implements OnInit {
     });
   }
 
-  onEntrySaved(entry) {
-    this.loggerStore.updatePlaylistEntry(entry);
-  }
-
-  // New entries
-  onNewEntryAdded(event) {}
-
-  onNewEntrySaved(entry) {
-    this.loggerStore.createPlaylistEntry(entry);
-  }
-
   onAddedFromCatalogue(info) {
     const dialogRef = this.dialog.open(AddFromCatalogueDialogComponent, {
       data: {
@@ -208,8 +187,28 @@ export class PlaylistEditorPage implements OnInit {
       },
     });
 
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+        console.log(result);
+      }
+    });
+  }
+
+  onSubmitted() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: "Submit",
+        message:
+          "Please ensure your logging sheet is complete and correct before submitting.",
+        confirmButton: "Submit",
+        cancelButton: "Cancel",
+        resultOutcome: "constructive",
+      },
+    });
+
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
+        this.loggerStore.completePlaylist(this.id());
       }
     });
   }
