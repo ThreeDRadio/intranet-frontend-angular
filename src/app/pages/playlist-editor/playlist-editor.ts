@@ -194,10 +194,15 @@ export class PlaylistEditorPage implements OnInit {
     this.loggerStore.createPlaylistEntry(entry);
   }
 
-  onAddedFromCatalogue(track) {
+  onAddedFromCatalogue(info) {
     const dialogRef = this.dialog.open(AddFromCatalogueDialogComponent, {
       data: {
-        track: track,
+        quotas: {
+          local: info.release.local === 2,
+          australian: false,
+          female: info.release.female === 2,
+          newRelease: false,
+        },
       },
     });
 

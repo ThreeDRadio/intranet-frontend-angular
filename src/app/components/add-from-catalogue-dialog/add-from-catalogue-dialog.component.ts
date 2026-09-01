@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from "@angular/core";
+import { Component, inject, input, OnInit, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MAT_DIALOG_DATA, MatDialogModule } from "@angular/material/dialog";
 import { Track } from "../../models/track";
@@ -19,7 +19,7 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
   templateUrl: "./add-from-catalogue-dialog.component.html",
   styleUrl: "./add-from-catalogue-dialog.component.scss",
 })
-export class AddFromCatalogueDialogComponent {
+export class AddFromCatalogueDialogComponent implements OnInit {
   track = input<Track>();
   quotas = signal({
     local: false,
@@ -28,6 +28,15 @@ export class AddFromCatalogueDialogComponent {
     newRelease: false,
   });
   public data = inject(MAT_DIALOG_DATA);
+
+  ngOnInit(): void {
+    this.quotas.set({
+      local: this.data.quotas.local,
+      australian: this.data.quotas.australian,
+      female: this.data.quotas.female,
+      newRelease: this.data.quotas.newRelease,
+    });
+  }
 
   onQuotaChanged(event, type) {
     this.quotas.set({

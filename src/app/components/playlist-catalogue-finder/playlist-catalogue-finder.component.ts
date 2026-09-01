@@ -60,8 +60,9 @@ export class QuickSearchComponent implements OnDestroy {
     "tracklength",
     "actions",
   ];
+
   // Actions
-  addFromCatalogue = output<Track>();
+  addFromCatalogue = output();
 
   form = new UntypedFormGroup({
     search: new UntypedFormControl("", Validators.required),
