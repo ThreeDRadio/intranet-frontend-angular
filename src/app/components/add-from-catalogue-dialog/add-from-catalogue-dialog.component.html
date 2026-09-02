@@ -9,6 +9,9 @@
         matInput
         formControlName="artistControl"
       />
+      @if (dialogTrackForm.get("artistControl")?.hasError("required")) {
+        <mat-error>Please provide an artist name.</mat-error>
+      }
     </mat-form-field>
     <mat-icon>music_note</mat-icon>
     <mat-form-field>
@@ -18,6 +21,9 @@
         matInput
         formControlName="titleControl"
       />
+      @if (dialogTrackForm.get("titleControl")?.hasError("required")) {
+        <mat-error>Please provide a song title.</mat-error>
+      }
     </mat-form-field>
     <mat-icon>album</mat-icon>
     <mat-form-field>
@@ -27,6 +33,9 @@
         matInput
         formControlName="albumControl"
       />
+      @if (dialogTrackForm.get("albumControl")?.hasError("required")) {
+        <mat-error>Please provide an album name.</mat-error>
+      }
     </mat-form-field>
     <mat-icon>av_timer</mat-icon>
     <mat-form-field>
@@ -73,13 +82,7 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button
-    mat-button
-    [mat-dialog-close]="undefined"
-    [disabled]="dialogTrackForm.invalid"
-  >
-    Cancel
-  </button>
+  <button mat-button [mat-dialog-close]="undefined">Cancel</button>
   <button
     mat-button
     [mat-dialog-close]="getOutput()"
