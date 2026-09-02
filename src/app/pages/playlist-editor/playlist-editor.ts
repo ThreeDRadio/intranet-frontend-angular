@@ -184,7 +184,7 @@ export class PlaylistEditorPage implements OnInit {
         album: info.release.title,
         quotas: {
           local: info.release.local === 2,
-          australian: false,
+          australian: info.release.local === 2,
           female: info.release.female === 2,
           newRelease: false,
         },
