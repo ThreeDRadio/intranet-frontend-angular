@@ -4,7 +4,6 @@
     <mat-icon>person</mat-icon>
     <mat-form-field>
       <input
-        #artistInput
         type="text"
         placeholder="Artist"
         matInput
@@ -14,7 +13,6 @@
     <mat-icon>music_note</mat-icon>
     <mat-form-field>
       <input
-        #titleInput
         type="text"
         placeholder="Song"
         matInput
@@ -24,7 +22,6 @@
     <mat-icon>album</mat-icon>
     <mat-form-field>
       <input
-        #albumInput
         type="text"
         placeholder="Album"
         matInput
@@ -34,7 +31,6 @@
     <mat-icon>av_timer</mat-icon>
     <mat-form-field>
       <input
-        #durationInput
         type="text"
         placeholder="MM:SS"
         matInput
@@ -77,8 +73,19 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="undefined">Cancel</button>
-  <button mat-button [mat-dialog-close]="getOutput()" color="primary">
+  <button
+    mat-button
+    [mat-dialog-close]="undefined"
+    [disabled]="dialogTrackForm.invalid"
+  >
+    Cancel
+  </button>
+  <button
+    mat-button
+    [mat-dialog-close]="getOutput()"
+    color="primary"
+    [disabled]="dialogTrackForm.invalid"
+  >
     Add
   </button>
 </mat-dialog-actions>

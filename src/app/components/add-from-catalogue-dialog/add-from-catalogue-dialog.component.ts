@@ -10,7 +10,12 @@ import { Track } from "../../models/track";
 import { MatIconModule } from "@angular/material/icon";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { DurationService } from "../../services/duration.service";
@@ -46,9 +51,9 @@ export class AddFromCatalogueDialogComponent implements OnInit {
 
   // Forms
   dialogTrackForm = new FormGroup({
-    artistControl: new FormControl(),
-    titleControl: new FormControl(),
-    albumControl: new FormControl(),
+    artistControl: new FormControl("", [Validators.required]),
+    titleControl: new FormControl("", [Validators.required]),
+    albumControl: new FormControl("", [Validators.required]),
     durationControl: new FormControl(),
   });
 
