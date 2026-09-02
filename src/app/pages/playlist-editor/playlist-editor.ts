@@ -27,8 +27,9 @@ import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { QuickSearchComponent } from "../../components/playlist-catalogue-finder/playlist-catalogue-finder.component";
+import { PlaylistCatalogueFinder } from "../../components/playlist-catalogue-finder/playlist-catalogue-finder.component";
 import { AddFromCatalogueDialogComponent } from "../../components/add-from-catalogue-dialog/add-from-catalogue-dialog.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-playlist-editor",
@@ -36,7 +37,7 @@ import { AddFromCatalogueDialogComponent } from "../../components/add-from-catal
     QuotaDisplayComponent,
     PlaylistEntryEditorComponent,
     PlaylistEntryListComponent,
-    QuickSearchComponent,
+    PlaylistCatalogueFinder,
     // Material
     MatTableModule,
     MatIconModule,
@@ -57,9 +58,11 @@ export class PlaylistEditorPage implements OnInit {
   loggerStore = inject(LoggerStore);
   quotaService = inject(QuotaService);
   dateService = inject(DateService);
-  private dialog = inject(MatDialog);
-  private router = inject(Router);
+  private _dialog = inject(MatDialog);
+  private _router = inject(Router);
+  private _snackBar = inject(MatSnackBar);
 
+  // Inputs
   readonly id = input.required<number, string>({
     transform: (value: string) => Number(value),
   });
@@ -108,7 +111,7 @@ export class PlaylistEditorPage implements OnInit {
       // Playlist completion will now trigger a navigation back to recent playlists.
       // Navigate ONLY if we started a submit and the store has finished processing it
       if (isComplete) {
-        this.router.navigate(["/playlists/recent"]);
+        this._router.navigate(["/playlists/recent"]);
       }
     });
   }
@@ -154,7 +157,7 @@ export class PlaylistEditorPage implements OnInit {
 
   // Dialogs
   onEntryDeleted(index) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent, {
       data: {
         title: "Remove",
         message: "Are you sure you want remove this entry?",
@@ -175,7 +178,7 @@ export class PlaylistEditorPage implements OnInit {
   }
 
   onAddedFromCatalogue(info) {
-    const dialogRef = this.dialog.open(AddFromCatalogueDialogComponent, {
+    const dialogRef = this._dialog.open(AddFromCatalogueDialogComponent, {
       data: {
         track: info.element,
         album: info.release.title,
@@ -192,12 +195,19 @@ export class PlaylistEditorPage implements OnInit {
       if (result !== undefined) {
         const final = { ...result, playlist: this.id(), index: this.getIdx() };
         this.loggerStore.createPlaylistEntry(final);
+        this._snackBar.open(
+          `${final.artist} - ${final.title} added at #${final.index}`,
+          "OK",
+          {
+            duration: 3 * 1000,
+          },
+        );
       }
     });
   }
 
   onSubmitted() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent, {
       data: {
         title: "Submit",
         message:

@@ -44,7 +44,7 @@ import { Track } from "../../models/track";
   templateUrl: "./playlist-catalogue-finder.component.html",
   styleUrl: "./playlist-catalogue-finder.component.scss",
 })
-export class QuickSearchComponent implements OnDestroy {
+export class PlaylistCatalogueFinder implements OnDestroy {
   searchStore = inject(SearchStore);
   releaseStore = inject(ReleaseStore);
   durationService = inject(DurationService);

@@ -19,6 +19,7 @@ import {
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { DurationService } from "../../services/duration.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-add-from-catalogue-dialog",
@@ -47,7 +48,7 @@ export class AddFromCatalogueDialogComponent implements OnInit {
     newRelease: false,
   });
   public data = inject(MAT_DIALOG_DATA);
-  durationService = inject(DurationService);
+  private _durationService = inject(DurationService);
 
   // Forms
   dialogTrackForm = new FormGroup({
@@ -66,8 +67,9 @@ export class AddFromCatalogueDialogComponent implements OnInit {
     );
     this.dialogTrackForm.controls.albumControl.setValue(this.data.album || "");
     this.dialogTrackForm.controls.durationControl.setValue(
-      this.durationService.toReadableFromSeconds(this.data.track.tracklength) ||
-        "0:00",
+      this._durationService.toReadableFromSeconds(
+        this.data.track.tracklength,
+      ) || "0:00",
     );
 
     this.quotas.set({
@@ -90,7 +92,7 @@ export class AddFromCatalogueDialogComponent implements OnInit {
       title: this.dialogTrackForm.controls.titleControl.value ?? "",
       artist: this.dialogTrackForm.controls.artistControl.value ?? "",
       album: this.dialogTrackForm.controls.albumControl.value ?? "",
-      duration: this.durationService.parse(
+      duration: this._durationService.parse(
         this.dialogTrackForm.controls.durationControl.value ?? "00:00:00",
       ),
       local: this.quotas().local,
