@@ -23,6 +23,13 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatCardModule } from "@angular/material/card";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { PlaylistEntryEditorComponent } from "../../components/playlist-entry-editor/playlist-entry-editor.component";
+import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatButtonModule } from "@angular/material/button";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { PlaylistCatalogueFinder } from "../../components/playlist-catalogue-finder/playlist-catalogue-finder.component";
+import { AddFromCatalogueDialogComponent } from "../../components/add-from-catalogue-dialog/add-from-catalogue-dialog.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-playlist-editor",
@@ -30,34 +37,45 @@ import { PlaylistEntryEditorComponent } from "../../components/playlist-entry-ed
     QuotaDisplayComponent,
     PlaylistEntryEditorComponent,
     PlaylistEntryListComponent,
+    PlaylistCatalogueFinder,
+    // Material
     MatTableModule,
     MatIconModule,
     MatInputModule,
     MatSlideToggleModule,
     MatCardModule,
+    MatExpansionModule,
+    MatAccordion,
+    MatDividerModule,
+    MatButtonModule,
+    MatProgressBarModule,
   ],
   providers: [QuotaService, DateService],
   templateUrl: "./playlist-editor.html",
   styleUrl: "./playlist-editor.scss",
 })
 export class PlaylistEditorPage implements OnInit {
-  store = inject(LoggerStore);
+  loggerStore = inject(LoggerStore);
   quotaService = inject(QuotaService);
   dateService = inject(DateService);
-  private dialog = inject(MatDialog);
-  private router = inject(Router);
+  private _dialog = inject(MatDialog);
+  private _router = inject(Router);
+  private _snackBar = inject(MatSnackBar);
 
+  // Inputs
   readonly id = input.required<number, string>({
     transform: (value: string) => Number(value),
   });
 
-  readonly playlist = computed(() => this.store.playlistById()(this.id()));
-
-  readonly show = computed(
-    () => this.store.showById()(this.playlist().show) ?? undefined,
+  readonly playlist = computed(() =>
+    this.loggerStore.playlistById()(this.id()),
   );
 
-  entries = computed(() => this.store.playlistEntries());
+  readonly show = computed(
+    () => this.loggerStore.showById()(this.playlist().show) ?? undefined,
+  );
+
+  entries = computed(() => this.loggerStore.playlistEntries());
 
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
@@ -87,42 +105,36 @@ export class PlaylistEditorPage implements OnInit {
 
   constructor() {
     effect(() => {
-      const isComplete = !this.store.isLoading() && this.playlist()?.complete;
-      const userSelectedCatalogueInput =
-        this.catalogueInputSelected() &&
-        this.store.catalogueInputState() !== undefined;
+      const isComplete =
+        !this.loggerStore.isLoading() && this.playlist()?.complete;
 
       // Playlist completion will now trigger a navigation back to recent playlists.
       // Navigate ONLY if we started a submit and the store has finished processing it
       if (isComplete) {
-        this.router.navigate(["/playlists/recent"]);
-      }
-      // Move to the quick search area if we detect playlist input state.
-      if (userSelectedCatalogueInput) {
-        this.router.navigate(["/search"]);
+        this._router.navigate(["/playlists/recent"]);
       }
     });
   }
 
   ngOnInit() {
-    this.store.fetchPlaylistAndEntries(this.id());
+    this.loggerStore.fetchPlaylistAndEntries(this.id());
   }
 
   // Internal state
-  creatingNewEntry = signal<boolean>(false);
   catalogueInputSelected = signal<boolean>(false);
 
-  newEntryTemplate(): PlaylistEntry {
-    const idx =
-      this.entries().length > 0
-        ? this.entries().reduce((highest, current) => {
-            return current.index > highest.index ? current : highest;
-          }).index + 1
-        : 1;
+  private getIdx(): number {
+    return this.entries().length > 0
+      ? this.entries().reduce((highest, current) => {
+          return current.index > highest.index ? current : highest;
+        }).index + 1
+      : 1;
+  }
 
+  newEntryTemplate(): PlaylistEntry {
     return {
       id: 0,
-      index: idx,
+      index: this.getIdx(),
       artist: "",
       album: "",
       title: "",
@@ -135,27 +147,17 @@ export class PlaylistEditorPage implements OnInit {
     };
   }
 
-  onSubmitted() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: {
-        title: "Submit",
-        message:
-          "Please ensure your logging sheet is complete and correct before submitting.",
-        confirmButton: "Submit",
-        cancelButton: "Cancel",
-        resultOutcome: "constructive",
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.store.completePlaylist(this.id());
-      }
-    });
+  onEntrySaved(entry) {
+    this.loggerStore.updatePlaylistEntry(entry);
   }
 
+  onNewEntrySaved(entry) {
+    this.loggerStore.createPlaylistEntry(entry);
+  }
+
+  // Dialogs
   onEntryDeleted(index) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent, {
       data: {
         title: "Remove",
         message: "Are you sure you want remove this entry?",
@@ -169,35 +171,57 @@ export class PlaylistEditorPage implements OnInit {
         let atIndex = this.entries().find((e) => e.index === index);
 
         if (atIndex) {
-          this.store.deletePlaylistEntry(atIndex.id);
+          this.loggerStore.deletePlaylistEntry(atIndex.id);
         }
       }
     });
   }
 
-  onEntrySaved(entry) {
-    this.store.updatePlaylistEntry(entry);
-  }
+  onAddedFromCatalogue(info) {
+    const dialogRef = this._dialog.open(AddFromCatalogueDialogComponent, {
+      data: {
+        track: info.element,
+        album: info.release.title,
+        quotas: {
+          local: info.release.local === 2,
+          australian: info.release.local === 2,
+          female: info.release.female === 2,
+          newRelease: false,
+        },
+      },
+    });
 
-  // New entries
-  onNewEntryAdded(event) {
-    this.creatingNewEntry.set(true);
-  }
-
-  onCataloguePressed(event) {
-    this.catalogueInputSelected.set(true);
-    this.store.setCatalogueInput({
-      show: this.show(),
-      playlist: this.playlist(),
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+        const final = { ...result, playlist: this.id(), index: this.getIdx() };
+        this.loggerStore.createPlaylistEntry(final);
+        this._snackBar.open(
+          `${final.artist} - ${final.title} added at #${final.index}`,
+          "OK",
+          {
+            duration: 3 * 1000,
+          },
+        );
+      }
     });
   }
 
-  onNewEntrySaved(entry) {
-    this.store.createPlaylistEntry(entry);
-    this.creatingNewEntry.set(false);
-  }
+  onSubmitted() {
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: "Submit",
+        message:
+          "Please ensure your logging sheet is complete and correct before submitting.",
+        confirmButton: "Submit",
+        cancelButton: "Cancel",
+        resultOutcome: "constructive",
+      },
+    });
 
-  onNewEntryCancelled() {
-    this.creatingNewEntry.set(false);
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.loggerStore.completePlaylist(this.id());
+      }
+    });
   }
 }

@@ -1,4 +1,4 @@
-@if (store.isLoading()) {
+@if (loggerStore.isLoading()) {
 <h4>Loading...</h4>
 } @else { @if (playlist(); as pl) {
 <h1>EDITING Logging Sheet - {{ show().name }}</h1>
@@ -7,42 +7,59 @@
   [quotas]="quotas()"
   [totalDuration]="totalDuration()"
   [complete]="pl.complete"
-></app-quota-display>
-<app-playlist-entry-list
-  [playlist]="pl"
-  [entries]="entries()"
-  action="edit"
-  (entryDeleted)="onEntryDeleted($event)"
-  (entrySaved)="onEntrySaved($event)"
-></app-playlist-entry-list>
-@if (creatingNewEntry()) {
-<app-playlist-entry-editor
-  [input]="newEntryTemplate()"
-  (saved)="onNewEntrySaved($event)"
-  (cancelled)="onNewEntryCancelled()"
-  action="create"
-/>
-} @else {
-<button class="card-button" (click)="onCataloguePressed($event)">
-  <mat-icon class="big-icon">search</mat-icon>
-  <b><span style="font-size: 24px">Choose from the catalogue</span></b>
-</button>
-<button class="card-button-orange" (click)="onNewEntryAdded($event)">
-  <mat-icon class="big-icon">add</mat-icon>
-  <b><span style="font-size: 24px">Add a new track</span></b>
-</button>
-}
-<button
-  [class]="pl.complete ? 'card-button-blue-submitted' : 'card-button-blue'"
-  color="primary"
-  [disabled]="pl.complete"
-  (click)="onSubmitted($event)"
 >
-  <mat-icon class="big-icon">send</mat-icon>
-  @if (pl.complete) {
-  <b><span style="font-size: 24px">Submitted</span></b>
-  } @else {
-  <b><span style="font-size: 24px">Submit Logging Sheet</span></b>
-  }
-</button>
+</app-quota-display>
+<div style="padding-top: 16px">
+  <h3 style="opacity: 0.7">Track list</h3>
+  <mat-divider />
+  <app-playlist-entry-list
+    [playlist]="pl"
+    [entries]="entries()"
+    action="edit"
+    (entryDeleted)="onEntryDeleted($event)"
+    (entrySaved)="onEntrySaved($event)"
+  ></app-playlist-entry-list>
+  <mat-accordion class="catalogue-accordion mat-elevation-z0">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="big-icon">search</mat-icon>
+          <b><span>Choose from the catalogue</span></b>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-playlist-catalogue-finder
+        (addFromCatalogue)="onAddedFromCatalogue($event)"
+      />
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion class="catalogue-accordion-orange mat-elevation-z0">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="big-icon">add</mat-icon>
+          <b><span>Add a new track</span></b>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-playlist-entry-editor
+        [input]="newEntryTemplate()"
+        (saved)="onNewEntrySaved($event)"
+        action="create"
+        [shadow]="false"
+      />
+    </mat-expansion-panel>
+  </mat-accordion>
+  <button
+    [class]="pl.complete ? 'card-button-blue-submitted' : 'card-button-blue'"
+    color="primary"
+    [disabled]="pl.complete"
+    (click)="onSubmitted($event)"
+  >
+    <mat-icon class="big-icon">send</mat-icon>
+    @if (pl.complete) {
+    <b><span>Submitted</span></b>
+    } @else {
+    <b><span>Submit Logging Sheet</span></b>
+    }
+  </button>
+</div>
 } }

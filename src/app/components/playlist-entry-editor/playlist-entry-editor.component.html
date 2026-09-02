@@ -1,5 +1,6 @@
 @if (input(); as entry) {
-  <div class="editor-div">
+  <div [class]="shadow() ? 'editor-div' : 'editor-div-no-shadow'">
+    <span>#{{ entry.index }}</span>
     <mat-icon>person</mat-icon>
     <input
       matInput
@@ -37,7 +38,7 @@
       type="text"
       style="text-align: center"
     />
-    <span style="width: 100%; max-width: 10px"></span>
+    <span style="width: 100%; max-width: 8px"></span>
     <div class="checkbox-container">
       <mat-icon svgIcon="local-icon"></mat-icon>
       <mat-checkbox
@@ -69,7 +70,7 @@
         (change)="onQuotaChanged($event, 'newRelease')"
       ></mat-checkbox>
     </div>
-    <span style="width: 100%; max-width: 10px"></span>
+    <span style="width: 100%; max-width: 8px"></span>
     <div>
       <button
         matFab
@@ -87,11 +88,12 @@
           matFab
           extended
           color="accent"
-          aria-label="Cancel"
-          (click)="cancelled.emit()"
+          aria-label="Clear"
+          [disabled]="!canClear()"
+          (click)="clear()"
         >
-          <mat-icon>close</mat-icon>
-          Cancel
+          <mat-icon>clear_all</mat-icon>
+          Clear
         </button>
       } @else {
         <button

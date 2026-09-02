@@ -43,6 +43,7 @@ export class PlaylistEntryEditorComponent implements OnInit {
 
   input = input.required<PlaylistEntry>();
   action = input.required<string>();
+  shadow = input<boolean>(true);
 
   // Outputs
   deletion = output<number>();
@@ -57,6 +58,8 @@ export class PlaylistEntryEditorComponent implements OnInit {
   durationControl = new FormControl("");
   canBeSaved: boolean = false;
   canBeUndone: boolean = false;
+  canBeCleared: boolean = false;
+
   // Quota checks
   quotas = signal({
     local: false,
@@ -96,11 +99,14 @@ export class PlaylistEntryEditorComponent implements OnInit {
         this.durationControl.valid &&
         this.durationService.validate(this.durationControl.value ?? "");
 
+      const identical = this.isIdenticalTo(this.input(), this.getOutput());
+
       if (!this.creating()) {
         // Editing
-        const identical = this.isIdenticalTo(this.input(), this.getOutput());
         this.canBeSaved = this.canBeSaved && !identical;
         this.canBeUndone = !identical;
+      } else {
+        this.canBeCleared = !identical;
       }
     });
   }
@@ -154,11 +160,14 @@ export class PlaylistEntryEditorComponent implements OnInit {
       [type]: event.checked,
     });
 
+    const identical = this.isIdenticalTo(this.input(), this.getOutput());
+
     if (!this.creating()) {
       // Editing
-      const identical = this.isIdenticalTo(this.input(), this.getOutput());
       this.canBeSaved = !identical;
       this.canBeUndone = !identical;
+    } else {
+      this.canBeCleared = !identical;
     }
   }
 
@@ -174,13 +183,28 @@ export class PlaylistEntryEditorComponent implements OnInit {
     return this.canBeUndone;
   }
 
+  canClear() {
+    return this.canBeCleared;
+  }
+
   save() {
     this.saved.emit(this.getOutput());
+    // Reset the UI
+    if (this.creating()) {
+      this.setTo(this.input());
+      this.canBeCleared = false;
+    }
   }
 
   undo() {
     // Go back to the original input.
     this.setTo(this.input());
     this.undone.emit();
+  }
+
+  clear() {
+    this.setTo(this.input());
+    this.cancelled.emit();
+    this.canBeCleared = false;
   }
 }

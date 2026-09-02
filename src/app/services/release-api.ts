@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-import { BaseApi } from './base-api.service';
-import { ModelApi } from './model-api';
-import { Release } from '../models/release';
+import { BaseApi } from "./base-api.service";
+import { ModelApi } from "./model-api";
+import { Release } from "../models/release";
 
 @Injectable()
 export class ReleaseApi extends ModelApi<Release> {
   constructor(api: BaseApi) {
-    super('releases', api);
+    super("releases", api);
   }
 
   simpleSearch(params: {
@@ -17,11 +17,19 @@ export class ReleaseApi extends ModelApi<Release> {
     offset: number;
     ordering: string;
   }) {
-    return super.list({ responseType: 'json', params });
+    return super.list({ responseType: "json", params });
   }
 
   create(object: Object) {
     // need to add the user ID for now
-    return super.create({ ...object, modifywho: this.http.userId, createwho: this.http.userId });
+    return super.create({
+      ...object,
+      modifywho: this.http.userId,
+      createwho: this.http.userId,
+    });
+  }
+
+  tracks(id: number) {
+    return super.getSubresource(id, "tracks");
   }
 }

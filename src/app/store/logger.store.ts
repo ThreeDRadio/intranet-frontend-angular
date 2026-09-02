@@ -10,7 +10,7 @@ import {
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { tapResponse } from "@ngrx/operators";
 import { PlaylistService } from "../services/playlist.service";
-import { NewPlaylist, Playlist, PlaylistsByDate } from "../models/playlist";
+import { NewPlaylist, Playlist } from "../models/playlist";
 import { Show } from "../models/show";
 import { ShowService } from "../services/show.service";
 import {

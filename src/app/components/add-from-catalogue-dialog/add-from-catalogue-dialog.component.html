@@ -1,0 +1,94 @@
+<h2 mat-dialog-title>Add track from catalogue</h2>
+<mat-dialog-content>
+  <form [formGroup]="dialogTrackForm" class="vertical-form-unrestricted">
+    <mat-icon>person</mat-icon>
+    <mat-form-field>
+      <input
+        type="text"
+        placeholder="Artist"
+        matInput
+        formControlName="artistControl"
+      />
+      @if (dialogTrackForm.get("artistControl")?.hasError("required")) {
+        <mat-error>Please provide an artist name.</mat-error>
+      }
+    </mat-form-field>
+    <mat-icon>music_note</mat-icon>
+    <mat-form-field>
+      <input
+        type="text"
+        placeholder="Song"
+        matInput
+        formControlName="titleControl"
+      />
+      @if (dialogTrackForm.get("titleControl")?.hasError("required")) {
+        <mat-error>Please provide a song title.</mat-error>
+      }
+    </mat-form-field>
+    <mat-icon>album</mat-icon>
+    <mat-form-field>
+      <input
+        type="text"
+        placeholder="Album"
+        matInput
+        formControlName="albumControl"
+      />
+      @if (dialogTrackForm.get("albumControl")?.hasError("required")) {
+        <mat-error>Please provide an album name.</mat-error>
+      }
+    </mat-form-field>
+    <mat-icon>av_timer</mat-icon>
+    <mat-form-field>
+      <input
+        type="text"
+        placeholder="MM:SS"
+        matInput
+        formControlName="durationControl"
+      />
+    </mat-form-field>
+  </form>
+  <div style="display: flex; flex-wrap: wrap; align-items: center">
+    <div class="checkbox-container">
+      <mat-icon svgIcon="local-icon"></mat-icon>
+      <mat-checkbox
+        [checked]="quotas().local"
+        (change)="onQuotaChanged($event, 'local')"
+      ></mat-checkbox>
+    </div>
+
+    <div class="checkbox-container">
+      <mat-icon svgIcon="aus-icon"></mat-icon>
+      <mat-checkbox
+        [checked]="quotas().australian"
+        (change)="onQuotaChanged($event, 'australian')"
+      ></mat-checkbox>
+    </div>
+
+    <div class="checkbox-container">
+      <mat-icon>female</mat-icon>
+      <mat-checkbox
+        [checked]="quotas().female"
+        (change)="onQuotaChanged($event, 'female')"
+      ></mat-checkbox>
+    </div>
+
+    <div class="checkbox-container">
+      <mat-icon>fiber_new</mat-icon>
+      <mat-checkbox
+        [checked]="quotas().newRelease"
+        (change)="onQuotaChanged($event, 'newRelease')"
+      ></mat-checkbox>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Cancel</button>
+  <button
+    mat-button
+    [mat-dialog-close]="getOutput()"
+    color="primary"
+    [disabled]="dialogTrackForm.invalid"
+  >
+    Add
+  </button>
+</mat-dialog-actions>
