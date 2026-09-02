@@ -120,17 +120,18 @@ export class PlaylistEditorPage implements OnInit {
   // Internal state
   catalogueInputSelected = signal<boolean>(false);
 
-  newEntryTemplate(): PlaylistEntry {
-    const idx =
-      this.entries().length > 0
-        ? this.entries().reduce((highest, current) => {
-            return current.index > highest.index ? current : highest;
-          }).index + 1
-        : 1;
+  private getIdx(): number {
+    return this.entries().length > 0
+      ? this.entries().reduce((highest, current) => {
+          return current.index > highest.index ? current : highest;
+        }).index + 1
+      : 1;
+  }
 
+  newEntryTemplate(): PlaylistEntry {
     return {
       id: 0,
-      index: idx,
+      index: this.getIdx(),
       artist: "",
       album: "",
       title: "",
@@ -189,7 +190,8 @@ export class PlaylistEditorPage implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
-        console.log(result);
+        const final = { ...result, playlist: this.id(), index: this.getIdx() };
+        this.loggerStore.createPlaylistEntry(final);
       }
     });
   }
