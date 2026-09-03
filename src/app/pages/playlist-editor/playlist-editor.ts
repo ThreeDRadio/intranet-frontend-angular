@@ -134,7 +134,7 @@ export class PlaylistEditorPage implements OnInit {
   newEntryTemplate(): PlaylistEntry {
     return {
       id: 0,
-      index: this.getIdx(),
+      index: -1,
       artist: "",
       album: "",
       title: "",
@@ -152,7 +152,7 @@ export class PlaylistEditorPage implements OnInit {
   }
 
   onNewEntrySaved(entry) {
-    this.loggerStore.createPlaylistEntry(entry);
+    this.loggerStore.createPlaylistEntry({ ...entry, index: this.getIdx() });
   }
 
   // Dialogs
@@ -189,6 +189,10 @@ export class PlaylistEditorPage implements OnInit {
           newRelease: false,
         },
       },
+      width: "auto",
+      height: "auto",
+      maxWidth: "90vw",
+      minWidth: "400px",
     });
 
     dialogRef.afterClosed().subscribe((result) => {

@@ -1,6 +1,10 @@
 @if (input(); as entry) {
   <div [class]="shadow() ? 'editor-div' : 'editor-div-no-shadow'">
-    <span>#{{ entry.index }}</span>
+    <span style="min-width: 30px">
+      @if (entry.index > 0) {
+        <span>#{{ entry.index }}</span>
+      }
+    </span>
     <mat-icon>person</mat-icon>
     <input
       matInput
@@ -72,18 +76,18 @@
     </div>
     <span style="width: 100%; max-width: 8px"></span>
     <div>
-      <button
-        matFab
-        extended
-        color="primary"
-        aria-label="Save"
-        [disabled]="!canSave()"
-        (click)="save()"
-      >
-        <mat-icon>save</mat-icon>
-        Save
-      </button>
       @if (action() === "create") {
+        <button
+          matFab
+          extended
+          color="primary"
+          aria-label="Add"
+          [disabled]="!canSave()"
+          (click)="save()"
+        >
+          <mat-icon>add</mat-icon>
+          Add
+        </button>
         <button
           matFab
           extended
@@ -96,6 +100,17 @@
           Clear
         </button>
       } @else {
+        <button
+          matFab
+          extended
+          color="primary"
+          aria-label="Save"
+          [disabled]="!canSave()"
+          (click)="save()"
+        >
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
         <button
           matFab
           extended
