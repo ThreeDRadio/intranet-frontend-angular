@@ -20,6 +20,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { ReleaseStore } from "../../store/release.store";
 import { DurationService } from "../../services/duration.service";
 import { Track } from "../../models/track";
+import { Store } from "@ngrx/store";
+import { PlayerActions } from "../../store/actions/player.actions";
 
 @Component({
   selector: "app-playlist-catalogue-finder",
@@ -45,6 +47,7 @@ import { Track } from "../../models/track";
   styleUrl: "./playlist-catalogue-finder.component.scss",
 })
 export class PlaylistCatalogueFinder implements OnDestroy {
+  legacyStore = inject(Store<any>);
   searchStore = inject(SearchStore);
   releaseStore = inject(ReleaseStore);
   durationService = inject(DurationService);
@@ -86,6 +89,12 @@ export class PlaylistCatalogueFinder implements OnDestroy {
 
   onReleaseOpened(event) {
     this.releaseStore.fetchAllForId(event.id);
+  }
+
+  play(element) {
+    this.legacyStore.dispatch(
+      new PlayerActions.RequestPlay({ track: element }),
+    );
   }
 
   ngOnDestroy() {
