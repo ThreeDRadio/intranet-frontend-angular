@@ -41,6 +41,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 export class AddFromCatalogueDialogComponent implements OnInit {
   track = input<Track>();
   album = input<string>();
+  albumArtist = input<string>();
   quotas = signal({
     local: false,
     australian: false,
@@ -60,7 +61,7 @@ export class AddFromCatalogueDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialogTrackForm.controls.artistControl.setValue(
-      this.data.track.trackartist || "",
+      this.data.track.trackartist || this.data.albumArtist,
     );
     this.dialogTrackForm.controls.titleControl.setValue(
       this.data.track.tracktitle || "",
