@@ -33,6 +33,13 @@ export class DurationService {
     return "00:00:00";
   }
 
+  equivalent(left: string, right: string) {
+    if (left === "" && right === "00:00:00") return true;
+    if (left === "00:00:00" && right === "") return true;
+
+    return left === right;
+  }
+
   validate(input: string): boolean {
     // Exit early for special cases.
     // Make any field using this service optional.
