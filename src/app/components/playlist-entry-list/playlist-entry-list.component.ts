@@ -19,4 +19,8 @@ export class PlaylistEntryListComponent {
   // Outputs
   entryDeleted = output<number>();
   entrySaved = output<PlaylistEntry>();
+
+  entryDropped(event) {
+    console.log(event);
+  }
 }
