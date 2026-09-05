@@ -1,4 +1,11 @@
-import { Component, inject, input, OnDestroy, output } from "@angular/core";
+import {
+  Component,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  output,
+} from "@angular/core";
 import { SearchStore } from "../../store/search.store";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatButtonModule } from "@angular/material/button";
@@ -46,7 +53,7 @@ import { PlayerActions } from "../../store/actions/player.actions";
   templateUrl: "./playlist-catalogue-finder.component.html",
   styleUrl: "./playlist-catalogue-finder.component.scss",
 })
-export class PlaylistCatalogueFinder implements OnDestroy {
+export class PlaylistCatalogueFinder implements OnInit, OnDestroy {
   legacyStore = inject(Store<any>);
   searchStore = inject(SearchStore);
   releaseStore = inject(ReleaseStore);
@@ -63,6 +70,14 @@ export class PlaylistCatalogueFinder implements OnDestroy {
     "tracklength",
     "actions",
   ];
+  trackColumnsCompilation = [
+    "tracknum",
+    "trackartist",
+    "tracktitle",
+    "trackQuotas",
+    "tracklength",
+    "actions",
+  ];
 
   // Actions
   addFromCatalogue = output();
@@ -70,6 +85,8 @@ export class PlaylistCatalogueFinder implements OnDestroy {
   form = new UntypedFormGroup({
     search: new UntypedFormControl("", Validators.required),
   });
+
+  ngOnInit() {}
 
   quickSearch() {
     if (this.form.valid) {
