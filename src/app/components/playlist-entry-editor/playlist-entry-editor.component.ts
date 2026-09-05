@@ -19,6 +19,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { DurationService } from "../../services/duration.service";
 import moment from "moment-timezone";
+import { CdkDrag, CdkDragHandle } from "@angular/cdk/drag-drop";
 
 @Component({
   selector: "app-playlist-entry-editor",
@@ -33,6 +34,8 @@ import moment from "moment-timezone";
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    CdkDrag,
+    CdkDragHandle,
   ],
   providers: [DurationService],
   templateUrl: "./playlist-entry-editor.component.html",

@@ -3,10 +3,11 @@ import { Playlist } from "../../models/playlist";
 import { PlaylistEntry } from "../../models/playlist-entry";
 import { PlaylistEntryComponent } from "../playlist-entry/playlist-entry.component";
 import { PlaylistEntryEditorComponent } from "../playlist-entry-editor/playlist-entry-editor.component";
+import { CdkDropList } from "@angular/cdk/drag-drop";
 
 @Component({
   selector: "app-playlist-entry-list",
-  imports: [PlaylistEntryComponent, PlaylistEntryEditorComponent],
+  imports: [PlaylistEntryComponent, PlaylistEntryEditorComponent, CdkDropList],
   templateUrl: "./playlist-entry-list.component.html",
   styleUrl: "./playlist-entry-list.component.scss",
 })

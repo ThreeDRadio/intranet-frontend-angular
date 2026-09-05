@@ -1,9 +1,11 @@
 @if (playlist(); as pl) {
-  <div>
+  @if (action() === "view") {
     @for (entry of entries(); track entry.id) {
-      @if (action() === "view") {
-        <app-playlist-entry [input]="entry" />
-      } @else {
+      <app-playlist-entry [input]="entry" />
+    }
+  } @else {
+    <div cdkDropList>
+      @for (entry of entries(); track entry.id) {
         <app-playlist-entry-editor
           [input]="entry"
           action="edit"
@@ -11,6 +13,6 @@
           (saved)="entrySaved.emit($event)"
         />
       }
-    }
-  </div>
+    </div>
+  }
 }
