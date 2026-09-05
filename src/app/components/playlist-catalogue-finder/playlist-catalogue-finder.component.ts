@@ -53,7 +53,7 @@ import { PlayerActions } from "../../store/actions/player.actions";
   templateUrl: "./playlist-catalogue-finder.component.html",
   styleUrl: "./playlist-catalogue-finder.component.scss",
 })
-export class PlaylistCatalogueFinder implements OnInit, OnDestroy {
+export class PlaylistCatalogueFinder implements OnDestroy {
   legacyStore = inject(Store<any>);
   searchStore = inject(SearchStore);
   releaseStore = inject(ReleaseStore);
@@ -85,8 +85,6 @@ export class PlaylistCatalogueFinder implements OnInit, OnDestroy {
   form = new UntypedFormGroup({
     search: new UntypedFormControl("", Validators.required),
   });
-
-  ngOnInit() {}
 
   quickSearch() {
     if (this.form.valid) {
