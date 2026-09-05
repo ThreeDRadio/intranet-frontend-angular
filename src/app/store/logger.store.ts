@@ -21,6 +21,8 @@ import {
   finalize,
   forkJoin,
   map,
+  mergeAll,
+  mergeMap,
   pipe,
   switchMap,
   tap,
@@ -189,6 +191,36 @@ export const LoggerStore = signalStore(
             }));
 
             return playlistService.updateEntry(update).pipe(
+              catchError((err) => {
+                patchState(store, { playlistEntries: before });
+                return EMPTY;
+              }),
+            );
+          }),
+        ),
+      ),
+
+      reorderPlaylist: rxMethod<{ playlist: number; from: number; to: number }>(
+        pipe(
+          mergeMap((input) => {
+            const before = store.playlistEntries();
+            // Move the index
+            var after = [...before];
+            const [item] = after.splice(input.from - 1, 1);
+            after.splice(input.to - 1, 0, item);
+            // Reindex
+            after = after.map((e, idx) => {
+              return { ...e, index: idx + 1 };
+            });
+            // Update state optimistically.
+            patchState(store, {
+              playlistEntries: after,
+            });
+            const toUpdate = after.slice(
+              Math.min(input.from, input.to) - 1,
+              Math.max(input.from, input.to),
+            );
+            return playlistService.reorderEntries(toUpdate).pipe(
               catchError((err) => {
                 patchState(store, { playlistEntries: before });
                 return EMPTY;

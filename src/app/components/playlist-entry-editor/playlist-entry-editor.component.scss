@@ -4,7 +4,7 @@
   // Applies the standard card shadow
   @include mat.elevation(4);
   width: 100%;
-  background-color: var(--mat-sys-surface);
+  background-color: var(--mat-sys-surface, #ffffff);
   padding: 4px;
   gap: 8px;
   border-radius: 4px;
@@ -17,7 +17,7 @@
   // Applies the standard card shadow
   @include mat.elevation(0);
   width: 100%;
-  background-color: var(--mat-sys-surface);
+  background-color: var(--mat-sys-surface, #ffffff);
   padding: 4px;
   gap: 8px;
   border-radius: 4px;
