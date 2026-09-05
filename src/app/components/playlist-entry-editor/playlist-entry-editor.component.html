@@ -4,15 +4,20 @@
     cdkDragLockAxis="y"
     [class]="shadow() ? 'editor-div' : 'editor-div-no-shadow'"
   >
-    <div cdkDragHandle style="align-items: center">
-      <mat-icon>drag_indicator</mat-icon>
-    </div>
-    <!-- User can only click and drag from this handle -->
-    <span style="min-width: 30px">
-      @if (entry.index > 0) {
-        <span>#{{ entry.index }}</span>
-      }
-    </span>
+    @if (this.action() !== "create") {
+      <div cdkDragHandle style="align-items: center">
+        <mat-icon>drag_indicator</mat-icon>
+      </div>
+      <!-- User can only click and drag from this handle -->
+      <span style="min-width: 30px">
+        @if (entry.index > 0) {
+          <span>#{{ entry.index }}</span>
+        }
+      </span>
+    } @else {
+      <!-- SPacer -->
+      <span style="min-width: 62px"> </span>
+    }
 
     <mat-icon>person</mat-icon>
     <input
