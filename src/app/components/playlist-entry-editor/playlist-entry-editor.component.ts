@@ -145,7 +145,10 @@ export class PlaylistEntryEditorComponent implements OnInit {
       original.title.trim() === current.title.trim() &&
       original.artist.trim() === current.artist.trim() &&
       original.album.trim() === current.album.trim() &&
-      original.duration.trim() === current.duration.trim() &&
+      this.durationService.equivalent(
+        original.duration.trim(),
+        current.duration.trim(),
+      ) &&
       original.local === current.local &&
       original.australian === current.australian &&
       original.female === current.female &&
