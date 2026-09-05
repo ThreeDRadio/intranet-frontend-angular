@@ -216,7 +216,11 @@ export const LoggerStore = signalStore(
             patchState(store, {
               playlistEntries: after,
             });
-            return playlistService.reorderEntries(after).pipe(
+            const toUpdate = after.slice(
+              Math.min(input.from, input.to) - 1,
+              Math.max(input.from, input.to),
+            );
+            return playlistService.reorderEntries(toUpdate).pipe(
               catchError((err) => {
                 patchState(store, { playlistEntries: before });
                 return EMPTY;

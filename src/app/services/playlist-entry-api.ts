@@ -15,7 +15,6 @@ export class PlaylistEntryApi extends ModelApi<PlaylistEntry> {
   }
 
   reorderEntries(entries: PlaylistEntry[]) {
-    console.log(entries);
     let observables = entries.map((e) =>
       this.http.patch(`playlistentries/${e.id}`, { index: e.index }),
     );
