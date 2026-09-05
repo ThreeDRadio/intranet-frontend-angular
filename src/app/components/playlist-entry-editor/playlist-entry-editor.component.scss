@@ -1,8 +1,7 @@
 @use "@angular/material" as mat;
 
-.editor-div {
-  // Applies the standard card shadow
-  @include mat.elevation(4);
+.editor-div,
+.editor-div-no-shadow {
   width: 100%;
   background-color: var(--mat-sys-surface, #ffffff);
   padding: 4px;
@@ -13,17 +12,12 @@
   align-items: center;
 }
 
+.editor-div {
+  @include mat.elevation(4);
+}
+
 .editor-div-no-shadow {
-  // Applies the standard card shadow
   @include mat.elevation(0);
-  width: 100%;
-  background-color: var(--mat-sys-surface, #ffffff);
-  padding: 4px;
-  gap: 8px;
-  border-radius: 4px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
 }
 
 .remove-button-container {

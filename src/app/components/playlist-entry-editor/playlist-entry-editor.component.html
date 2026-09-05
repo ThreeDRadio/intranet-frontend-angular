@@ -16,47 +16,49 @@
         }
       </span>
     } @else {
-      <!-- SPacer -->
+      <!-- Spacer -->
       <span style="min-width: 62px"> </span>
     }
 
-    <mat-icon>person</mat-icon>
-    <input
-      matInput
-      matTooltip="Artist"
-      placeholder="Artist"
-      [value]="entry.artist"
-      [formControl]="artistControl"
-      class="standalone-input med-input"
-    />
-    <mat-icon>music_note</mat-icon>
-    <input
-      matTooltip="Song Title"
-      placeholder="Song"
-      [value]="entry.title"
-      [formControl]="songControl"
-      class="standalone-input med-input"
-    />
-    <mat-icon>album</mat-icon>
-    <input
-      matInput
-      matTooltip="Album"
-      placeholder="Album"
-      [value]="entry.album"
-      [formControl]="albumControl"
-      class="standalone-input med-input"
-    />
-    <mat-icon>av_timer</mat-icon>
-    <input
-      matInput
-      matTooltip="Duration"
-      placeholder="MM:SS"
-      [value]="entry.duration"
-      [formControl]="durationControl"
-      class="standalone-input short-input"
-      type="text"
-      style="text-align: center"
-    />
+    <div [formGroup]="form" style="display: flex; align-items: center">
+      <mat-icon>person</mat-icon>
+      <input
+        matInput
+        matTooltip="Artist"
+        placeholder="Artist"
+        [value]="entry.artist"
+        formControlName="artist"
+        class="standalone-input med-input"
+      />
+      <mat-icon>music_note</mat-icon>
+      <input
+        matTooltip="Song Title"
+        placeholder="Song"
+        [value]="entry.title"
+        formControlName="song"
+        class="standalone-input med-input"
+      />
+      <mat-icon>album</mat-icon>
+      <input
+        matInput
+        matTooltip="Album"
+        placeholder="Album"
+        [value]="entry.album"
+        formControlName="album"
+        class="standalone-input med-input"
+      />
+      <mat-icon>av_timer</mat-icon>
+      <input
+        matInput
+        matTooltip="Duration"
+        placeholder="MM:SS"
+        [value]="entry.duration"
+        formControlName="duration"
+        class="standalone-input short-input"
+        type="text"
+        style="text-align: center"
+      />
+    </div>
     <span style="width: 100%; max-width: 8px"></span>
     <div class="checkbox-container">
       <mat-icon svgIcon="local-icon"></mat-icon>
@@ -94,48 +96,40 @@
       @if (action() === "create") {
         <button
           matFab
-          extended
           color="primary"
           aria-label="Add"
-          [disabled]="!canSave()"
+          [disabled]="!canBeSaved()"
           (click)="save()"
         >
           <mat-icon>add</mat-icon>
-          Add
         </button>
         <button
           matFab
-          extended
           color="accent"
           aria-label="Clear"
-          [disabled]="!canClear()"
+          [disabled]="!canBeCleared()"
           (click)="clear()"
         >
-          <mat-icon>clear_all</mat-icon>
-          Clear
+          <mat-icon>undo</mat-icon>
         </button>
       } @else {
         <button
           matFab
-          extended
           color="primary"
           aria-label="Save"
-          [disabled]="!canSave()"
+          [disabled]="!canBeSaved()"
           (click)="save()"
         >
           <mat-icon>save</mat-icon>
-          Save
         </button>
         <button
           matFab
-          extended
           aria-label="Undo"
           color="accent"
-          [disabled]="!canUndo()"
+          [disabled]="!canBeUndone()"
           (click)="undo()"
         >
           <mat-icon>undo</mat-icon>
-          Undo
         </button>
       }
     </div>
@@ -145,13 +139,11 @@
       <div class="remove-button-container">
         <button
           matFab
-          extended
           aria-label="Remove"
           color="warn"
           (click)="deletion.emit(entry.index)"
         >
           <mat-icon>close</mat-icon>
-          Remove
         </button>
       </div>
     }
