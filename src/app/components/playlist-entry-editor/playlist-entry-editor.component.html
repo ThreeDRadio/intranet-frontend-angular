@@ -2,6 +2,7 @@
   <div
     cdkDrag
     cdkDragLockAxis="y"
+    [cdkDragDisabled]="this.action() === 'create'"
     [class]="shadow() ? 'editor-div' : 'editor-div-no-shadow'"
   >
     @if (this.action() !== "create") {
