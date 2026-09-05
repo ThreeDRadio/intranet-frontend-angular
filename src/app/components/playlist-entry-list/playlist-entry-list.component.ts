@@ -26,6 +26,10 @@ export class PlaylistEntryListComponent {
   entryDropped(event) {
     const before = event.previousIndex + 1;
     const after = event.currentIndex + 1;
-    this._loggerStore.reorderPlaylist({ from: before, to: after });
+    this._loggerStore.reorderPlaylist({
+      playlist: this.playlist().id,
+      from: before,
+      to: after,
+    });
   }
 }

@@ -103,6 +103,20 @@ export class PlaylistService {
     );
   }
 
+  reorderEntries(entries: PlaylistEntry[]) {
+    const observable = this.playlistEntryApi.reorderEntries(entries);
+
+    return observable.pipe(
+      map((response: any) => {
+        const list = response;
+
+        return list.map((item: any) => {
+          return item as PlaylistEntry;
+        });
+      }),
+    );
+  }
+
   deleteEntry(id: number): Observable<boolean> {
     const observable = this.playlistEntryApi.delete({
       id: id,

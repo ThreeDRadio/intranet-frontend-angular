@@ -200,7 +200,7 @@ export const LoggerStore = signalStore(
         ),
       ),
 
-      reorderPlaylist: rxMethod<{ from: number; to: number }>(
+      reorderPlaylist: rxMethod<{ playlist: number; from: number; to: number }>(
         pipe(
           mergeMap((input) => {
             const before = store.playlistEntries();
@@ -208,10 +208,20 @@ export const LoggerStore = signalStore(
             var after = [...before];
             const [item] = after.splice(input.from - 1, 1);
             after.splice(input.to - 1, 0, item);
+            // Reindex
+            after = after.map((e, idx) => {
+              return { ...e, index: idx + 1 };
+            });
             // Update state optimistically.
-            console.log(before);
-            console.log(after);
-            return EMPTY;
+            patchState(store, {
+              playlistEntries: after,
+            });
+            return playlistService.reorderEntries(after).pipe(
+              catchError((err) => {
+                patchState(store, { playlistEntries: before });
+                return EMPTY;
+              }),
+            );
           }),
         ),
       ),
