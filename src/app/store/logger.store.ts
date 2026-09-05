@@ -198,6 +198,14 @@ export const LoggerStore = signalStore(
         ),
       ),
 
+      reorderPlaylist: rxMethod<{ from: number; to: number }>(
+        pipe(
+          tap((r) => {
+            console.log(r);
+          }),
+        ),
+      ),
+
       deletePlaylistEntry: rxMethod<number>(
         pipe(
           exhaustMap((id) => {
