@@ -1,4 +1,11 @@
-import { Component, inject, input, OnDestroy, output } from "@angular/core";
+import {
+  Component,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  output,
+} from "@angular/core";
 import { SearchStore } from "../../store/search.store";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatButtonModule } from "@angular/material/button";
@@ -58,6 +65,14 @@ export class PlaylistCatalogueFinder implements OnDestroy {
   // Table
   trackColumns = [
     "tracknum",
+    "tracktitle",
+    "trackQuotas",
+    "tracklength",
+    "actions",
+  ];
+  trackColumnsCompilation = [
+    "tracknum",
+    "trackartist",
     "tracktitle",
     "trackQuotas",
     "tracklength",
