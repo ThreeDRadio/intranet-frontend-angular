@@ -25,17 +25,22 @@
               (opened)="onReleaseOpened(release)"
             >
               <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <div style="gap: 8px; display: flex; align-items: center">
-                    <mat-icon>person</mat-icon>
-                    {{ release.artist }}
-                  </div>
+                <mat-panel-title class="release-list-compact-panel-title">
+                  <mat-icon>person</mat-icon> {{ release.artist }}
                 </mat-panel-title>
-                <mat-panel-description>
-                  <div style="gap: 8px; display: flex; align-items: center">
-                    <mat-icon>album</mat-icon>
-                    {{ release.title }}
-                  </div>
+                <mat-panel-description class="release-list-compact-desc-top">
+                  <mat-panel-description
+                    class="release-list-compact-desc-internal"
+                  >
+                    <mat-icon>album</mat-icon> {{ release.title }}
+                  </mat-panel-description>
+                  <mat-panel-description
+                    class="release-list-compact-desc-internal"
+                  >
+                    @if (release.genre) {
+                      <mat-icon>library_music</mat-icon> {{ release.genre }}
+                    }
+                  </mat-panel-description>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <ng-template matExpansionPanelContent>

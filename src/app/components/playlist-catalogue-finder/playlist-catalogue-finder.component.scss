@@ -20,3 +20,32 @@ td.min-fit-table-column {
   display: flex;
   flex-direction: row;
 }
+
+.release-list-compact-panel-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.release-list-compact-desc-top {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+}
+
+.release-list-compact-desc-internal {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+}
