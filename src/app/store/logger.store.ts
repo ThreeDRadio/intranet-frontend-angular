@@ -21,6 +21,8 @@ import {
   finalize,
   forkJoin,
   map,
+  mergeAll,
+  mergeMap,
   pipe,
   switchMap,
   tap,
@@ -200,8 +202,16 @@ export const LoggerStore = signalStore(
 
       reorderPlaylist: rxMethod<{ from: number; to: number }>(
         pipe(
-          tap((r) => {
-            console.log(r);
+          mergeMap((input) => {
+            const before = store.playlistEntries();
+            // Move the index
+            var after = [...before];
+            const [item] = after.splice(input.from - 1, 1);
+            after.splice(input.to - 1, 0, item);
+            // Update state optimistically.
+            console.log(before);
+            console.log(after);
+            return EMPTY;
           }),
         ),
       ),
