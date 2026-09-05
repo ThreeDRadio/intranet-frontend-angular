@@ -1,5 +1,11 @@
 mat-sidenav {
   width: auto;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Shrunk/Collapsed Sidebar Style */
+mat-sidenav.collapsed {
+  width: auto;
 }
 
 .pad {
@@ -8,4 +14,34 @@ mat-sidenav {
 
 .filler {
   flex: 1 1 auto;
+}
+
+.toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  $w: 30px;
+  $h: 30px;
+  width: $w;
+  height: $h;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 22px;
+  right: calc($w / -2) - 2px;
+  border: 1px solid gray;
+  border-radius: 50%;
+  background-color: white;
+  cursor: pointer;
+
+  &:hover {
+    border: 2px solid rgb(36, 82, 231);
+  }
+
+  mat-icon {
+    font-size: 1.5em;
+
+    width: fit-content;
+    height: fit-content;
+  }
 }

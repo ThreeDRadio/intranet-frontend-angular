@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 import { RequestAuthLogoutAction } from "../../store";
@@ -23,6 +23,7 @@ import { PlayControllerComponent } from "../../components/play-controller/play-c
 import packageJson from "../../../../package.json";
 import { getLoggedInUser } from "../../store/selectors";
 import { Groups } from "../../constants";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   // dashboard is one word. No kebab case required. GO AWAY
@@ -45,6 +46,7 @@ import { Groups } from "../../constants";
     MatSidenavContent,
     RouterOutlet,
     MatToolbar,
+    MatButtonModule,
     PlayControllerComponent,
   ],
 })
@@ -53,6 +55,7 @@ export class DashboardComponent {
   public appVersion: string = packageJson.version;
   public hasPlaylists: boolean = true;
   private store: Store<any> = inject(Store);
+  sidenavCollapsed = signal<boolean>(false);
 
   constructor() {
     this.store.select(getLoggedInUser).subscribe((user) => {
@@ -73,5 +76,9 @@ export class DashboardComponent {
 
   public logout() {
     this.store.dispatch(new RequestAuthLogoutAction());
+  }
+
+  toggleSidenav() {
+    this.sidenavCollapsed.set(!this.sidenavCollapsed());
   }
 }
