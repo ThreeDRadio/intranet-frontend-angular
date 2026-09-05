@@ -191,10 +191,15 @@
   font-size: 24px;
 }
 
-.release-list-compact-accordion .mat-expansion-panel {
-  transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 4px;
-  font-size: 24px;
+.release-list-compact-accordion {
+  .mat-expansion-panel {
+    transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 4px;
+    font-size: 24px;
+    height: auto !important;
+    min-height: min-content;
+    display: block; /* Avoid flexbox conflicts that collapse heights */
+  }
 }
 
 .catalogue-accordion-orange .mat-expansion-panel {
