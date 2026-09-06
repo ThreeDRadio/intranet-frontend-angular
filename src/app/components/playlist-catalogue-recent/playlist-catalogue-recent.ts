@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, output } from "@angular/core";
 import { SearchStore } from "../../store/search.store";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonModule } from "@angular/material/button";
@@ -9,10 +9,14 @@ import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
 import { MatListModule } from "@angular/material/list";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
+import { ReleaseStore } from "../../store/release.store";
+import { DurationService } from "../../services/duration.service";
+import { QuotaCheckInformationalComponent } from "../quota-check-informational/quota-check-informational.component";
 
 @Component({
   selector: "app-playlist-catalogue-recent",
   imports: [
+    QuotaCheckInformationalComponent,
     MatDividerModule,
     MatButtonModule,
     MatProgressBarModule,
@@ -26,12 +30,43 @@ import { MatIconModule } from "@angular/material/icon";
     MatButtonModule,
     MatIconModule,
   ],
+  providers: [DurationService],
   templateUrl: "./playlist-catalogue-recent.html",
   styleUrl: "./playlist-catalogue-recent.scss",
 })
 export class PlaylistCatalogueRecent {
   searchStore = inject(SearchStore);
+  releaseStore = inject(ReleaseStore);
+  durationService = inject(DurationService);
+  // Pagination
   pageSizes = [10, 20, 50, 100];
   offset = 0;
   pageSize = 10;
+  // Table
+  trackColumns = [
+    "tracknum",
+    "tracktitle",
+    "trackQuotas",
+    "tracklength",
+    "actions",
+  ];
+  trackColumnsCompilation = [
+    "tracknum",
+    "trackartist",
+    "tracktitle",
+    "trackQuotas",
+    "tracklength",
+    "actions",
+  ];
+  // Actions
+  addFromCatalogue = output();
+
+  paginationChange(event) {
+    this.pageSize = event.pageSize;
+    this.offset = event.pageIndex * this.pageSize;
+  }
+
+  onReleaseOpened(event) {
+    this.releaseStore.fetchAllForId(event.id);
+  }
 }

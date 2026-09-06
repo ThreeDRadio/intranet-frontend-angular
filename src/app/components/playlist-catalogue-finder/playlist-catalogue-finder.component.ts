@@ -78,7 +78,6 @@ export class PlaylistCatalogueFinder implements OnDestroy {
     "tracklength",
     "actions",
   ];
-
   // Actions
   addFromCatalogue = output();
 
