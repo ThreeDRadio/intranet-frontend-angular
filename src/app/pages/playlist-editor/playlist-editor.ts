@@ -64,6 +64,9 @@ export class PlaylistEditorPage implements OnInit {
   private _router = inject(Router);
   private _snackBar = inject(MatSnackBar);
 
+  // Internal state
+  catalogueInputSelected = signal<boolean>(false);
+
   // Inputs
   readonly id = input.required<number, string>({
     transform: (value: string) => Number(value),
@@ -121,9 +124,6 @@ export class PlaylistEditorPage implements OnInit {
   ngOnInit() {
     this.loggerStore.fetchPlaylistAndEntries(this.id());
   }
-
-  // Internal state
-  catalogueInputSelected = signal<boolean>(false);
 
   private getIdx(): number {
     return this.entries().length > 0

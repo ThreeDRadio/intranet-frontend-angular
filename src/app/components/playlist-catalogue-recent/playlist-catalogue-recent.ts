@@ -1,4 +1,4 @@
-import { Component, inject, output } from "@angular/core";
+import { Component, inject, OnInit, output } from "@angular/core";
 import { SearchStore } from "../../store/search.store";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonModule } from "@angular/material/button";
@@ -34,7 +34,7 @@ import { QuotaCheckInformationalComponent } from "../quota-check-informational/q
   templateUrl: "./playlist-catalogue-recent.html",
   styleUrl: "./playlist-catalogue-recent.scss",
 })
-export class PlaylistCatalogueRecent {
+export class PlaylistCatalogueRecent implements OnInit {
   searchStore = inject(SearchStore);
   releaseStore = inject(ReleaseStore);
   durationService = inject(DurationService);
@@ -60,6 +60,10 @@ export class PlaylistCatalogueRecent {
   ];
   // Actions
   addFromCatalogue = output();
+
+  ngOnInit() {
+    this.recentUploads();
+  }
 
   recentUploads() {
     this.searchStore.recentlyUploaded({
