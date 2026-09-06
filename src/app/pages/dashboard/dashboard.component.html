@@ -1,100 +1,70 @@
 <app-topnav (logout)="logout()"></app-topnav>
-<mat-sidenav-container>
+<mat-sidenav-container autosize>
   <mat-sidenav opened mode="side" [class]="{ collapsed: sidenavCollapsed() }">
-    @if (sidenavCollapsed()) {
-      <mat-nav-list>
-        <a mat-list-item routerLink="/">
-          <mat-icon matListItemIcon>home</mat-icon>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/">
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle class="hide-collapsed">Home</span>
+      </a>
+      @if (hasPlaylists) {
+        <h3 mat-subheader class="hide-collapsed">Logging Sheets</h3>
+        <hr class="show-collapsed" />
+        <a mat-list-item routerLink="/playlists/recent">
+          <mat-icon matListItemIcon>list</mat-icon>
+          <span matListItemTitle class="hide-collapsed">Recent Sheets</span>
         </a>
-        @if (hasPlaylists) {
-          <hr />
-          <a mat-list-item routerLink="/playlists/recent">
-            <mat-icon matListItemIcon>list</mat-icon>
-          </a>
-          <a mat-list-item routerLink="/playlists/new">
-            <mat-icon matListItemIcon>note_add</mat-icon>
-          </a>
-        }
-        <hr />
-        <a mat-list-item routerLink="/new-releases">
-          <mat-icon matListItemIcon>new_releases</mat-icon>
+        <a mat-list-item routerLink="/playlists/new">
+          <mat-icon matListItemIcon>note_add</mat-icon>
+          <span matListItemTitle class="hide-collapsed">New Sheet</span>
         </a>
-        <a mat-list-item routerLink="/search">
-          <mat-icon matListItemIcon>search</mat-icon>
-        </a>
-        <hr />
-        <a
-          mat-list-item
-          routerLink="/upload"
-          *appInGroup="groups.MusicUploaders"
-        >
-          <mat-icon matListItemIcon>file_upload</mat-icon>
-        </a>
-        <hr *appInGroup="groups.SupporterManagement" />
-        <a
-          mat-list-item
-          href="https://threedradio.profilersystem.com/ProfilerWeb/"
-          target="_blank"
-          rel="noopener noreferrer"
-          *appInGroup="groups.SupporterManagement"
-        >
-          <mat-icon matListItemIcon>dashboard</mat-icon>
-        </a>
-      </mat-nav-list>
-    } @else {
-      <mat-nav-list>
-        <a mat-list-item routerLink="/">
-          <mat-icon matListItemIcon>home</mat-icon>
-          <span matListItemTitle>Home</span>
-        </a>
-        @if (hasPlaylists) {
-          <h3 mat-subheader>Logging Sheets</h3>
-          <a mat-list-item routerLink="/playlists/recent">
-            <mat-icon matListItemIcon>list</mat-icon>
-            <span matListItemTitle>Recent Sheets</span>
-          </a>
-          <a mat-list-item routerLink="/playlists/new">
-            <mat-icon matListItemIcon>note_add</mat-icon>
-            <span matListItemTitle>New Sheet</span>
-          </a>
-        }
-        <h3 mat-subheader>Catalogue</h3>
-        <a mat-list-item routerLink="/new-releases">
-          <mat-icon matListItemIcon>new_releases</mat-icon>
-          <span matListItemTitle>Recently Uploaded</span>
-        </a>
-        <a mat-list-item routerLink="/search">
-          <mat-icon matListItemIcon>search</mat-icon>
-          <span matListItemTitle>Quick Search</span>
-        </a>
-        <h3 mat-subheader>Manage</h3>
-        <a
-          mat-list-item
-          routerLink="/upload"
-          *appInGroup="groups.MusicUploaders"
-        >
-          <mat-icon matListItemIcon>file_upload</mat-icon>
-          <span matListItemTitle>Upload Music</span>
-        </a>
-        <h3 mat-subheader *appInGroup="groups.SupporterManagement">
-          Supporters
-        </h3>
-        <a
-          mat-list-item
-          href="https://threedradio.profilersystem.com/ProfilerWeb/"
-          target="_blank"
-          rel="noopener noreferrer"
-          *appInGroup="groups.SupporterManagement"
-        >
-          <mat-icon matListItemIcon>dashboard</mat-icon>
-          <span matListItemTitle>Profiler</span>
-        </a>
+      }
+      <h3 mat-subheader class="hide-collapsed">Catalogue</h3>
+      <hr class="show-collapsed" />
+      <a mat-list-item routerLink="/new-releases">
+        <mat-icon matListItemIcon>new_releases</mat-icon>
+        <span matListItemTitle class="hide-collapsed">Recently Uploaded</span>
+      </a>
+      <a mat-list-item routerLink="/search">
+        <mat-icon matListItemIcon>search</mat-icon>
+        <span matListItemTitle class="hide-collapsed">Quick Search</span>
+      </a>
+      <h3
+        mat-subheader
+        *appInGroup="groups.MusicUploaders"
+        class="hide-collapsed"
+      >
+        Manage
+      </h3>
+      <hr class="show-collapsed" *appInGroup="groups.MusicUploaders" />
+      <a mat-list-item routerLink="/upload" *appInGroup="groups.MusicUploaders">
+        <mat-icon matListItemIcon>file_upload</mat-icon>
+        <span matListItemTitle class="hide-collapsed">Upload Music</span>
+      </a>
+      <h3
+        mat-subheader
+        *appInGroup="groups.SupporterManagement"
+        class="hide-collapsed"
+      >
+        Supporters
+      </h3>
+      <hr class="show-collapsed" *appInGroup="groups.SupporterManagement" />
+      <a
+        mat-list-item
+        href="https://threedradio.profilersystem.com/ProfilerWeb/"
+        target="_blank"
+        rel="noopener noreferrer"
+        *appInGroup="groups.SupporterManagement"
+      >
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle class="hide-collapsed">Profiler</span>
+      </a>
+      @if (!sidenavCollapsed()) {
         <hr />
         <pre>
-        <code>Version {{ appVersion }}</code>
-      </pre>
-      </mat-nav-list>
-    }
+          <code>Version {{ appVersion }}</code>
+        </pre>
+      }
+    </mat-nav-list>
 
     <button class="toggle-button" (click)="toggleSidenav()">
       <mat-icon>{{
@@ -102,7 +72,6 @@
       }}</mat-icon>
     </button>
   </mat-sidenav>
-
   <mat-sidenav-content class="mat-typography">
     <div class="pad">
       <router-outlet></router-outlet>
