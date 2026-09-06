@@ -16,21 +16,24 @@ type QuickSearchParams = {
   size: number;
   offset: number;
 };
-
-type ArtistSearchParams = {
-  name: string;
+type RecentUploadSearchParams = {
+  size: number;
+  offset: number;
 };
-
 type SearchState = {
   isSearching: boolean;
   count: number;
   results: Release[];
+  isGettingRecent: boolean;
+  recent: Release[];
 };
 
 export const initialState: SearchState = {
   isSearching: false,
   count: 0,
   results: [],
+  isGettingRecent: false,
+  recent: [],
 };
 
 export const SearchStore = signalStore(
@@ -68,6 +71,28 @@ export const SearchStore = signalStore(
                 return EMPTY;
               }),
             );
+        }),
+      ),
+    ),
+    recentlyUploaded: rxMethod<RecentUploadSearchParams>(
+      pipe(
+        tap(() => patchState(store, { isGettingRecent: true })),
+        switchMap((input) => {
+          return releaseService.recentlyUploaded(input.size, input.offset).pipe(
+            tap((response) => {
+              patchState(store, {
+                isGettingRecent: false,
+                recent: response.results,
+              });
+            }),
+            catchError((err) => {
+              patchState(store, {
+                isGettingRecent: false,
+                recent: [],
+              });
+              return EMPTY;
+            }),
+          );
         }),
       ),
     ),

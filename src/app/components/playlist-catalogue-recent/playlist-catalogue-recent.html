@@ -1,9 +1,8 @@
-@if (searchStore.isSearching()) {
+@if (searchStore.isGettingRecent()) {
 <mat-progress-bar mode="indeterminate" />
-} @else { @if (searchStore.hasSearchResults()) {
-<h3>{{ searchStore.count() }} Results</h3>
+} @else { @if (searchStore.recent().length > 0) {
 <div>
-  @if (searchStore.results(); as currentResults) {
+  @if (searchStore.recent(); as currentResults) {
   <mat-accordion class="release-list-compact-accordion">
     @for (release of currentResults; track release.id) {
     <mat-expansion-panel
@@ -139,7 +138,7 @@
     [pageIndex]="offset / pageSize"
     [pageSize]="pageSize"
     (page)="paginationChange($event)"
-    [length]="searchStore.count()"
+    [length]="searchStore.recent().length"
   ></mat-paginator>
   }
 </div>

@@ -3,6 +3,7 @@ import { EMPTY, map, Observable } from "rxjs";
 import { ReleaseApi } from "./release-api";
 import { Track } from "../models/track";
 import { Release } from "../models/release";
+import moment from "moment";
 
 @Injectable({
   providedIn: "root",
@@ -13,6 +14,15 @@ export class ReleaseService {
   quickSearch(search: string, limit: number, offset: number) {
     return this.releaseApi.simpleSearch({
       search,
+      limit,
+      offset,
+      ordering: "-createwhen",
+    });
+  }
+
+  recentlyUploaded(limit: number, offset: number) {
+    return this.releaseApi.simpleSearch({
+      min_arrival: moment().subtract(2, "months").format("YYYY-MM-DD"),
       limit,
       offset,
       ordering: "-createwhen",

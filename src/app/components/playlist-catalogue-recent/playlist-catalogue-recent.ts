@@ -61,9 +61,17 @@ export class PlaylistCatalogueRecent {
   // Actions
   addFromCatalogue = output();
 
+  recentUploads() {
+    this.searchStore.recentlyUploaded({
+      size: this.pageSize,
+      offset: this.offset,
+    });
+  }
+
   paginationChange(event) {
     this.pageSize = event.pageSize;
     this.offset = event.pageIndex * this.pageSize;
+    this.recentUploads();
   }
 
   onReleaseOpened(event) {
