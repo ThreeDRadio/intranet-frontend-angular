@@ -30,6 +30,7 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { PlaylistCatalogueFinder } from "../../components/playlist-catalogue-finder/playlist-catalogue-finder.component";
 import { AddFromCatalogueDialogComponent } from "../../components/add-from-catalogue-dialog/add-from-catalogue-dialog.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { PlaylistCatalogueRecent } from "../../components/playlist-catalogue-recent/playlist-catalogue-recent";
 
 @Component({
   selector: "app-playlist-editor",
@@ -38,6 +39,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
     PlaylistEntryEditorComponent,
     PlaylistEntryListComponent,
     PlaylistCatalogueFinder,
+    PlaylistCatalogueRecent,
     // Material
     MatTableModule,
     MatIconModule,
@@ -61,6 +63,9 @@ export class PlaylistEditorPage implements OnInit {
   private _dialog = inject(MatDialog);
   private _router = inject(Router);
   private _snackBar = inject(MatSnackBar);
+
+  // Internal state
+  catalogueInputSelected = signal<boolean>(false);
 
   // Inputs
   readonly id = input.required<number, string>({
@@ -119,9 +124,6 @@ export class PlaylistEditorPage implements OnInit {
   ngOnInit() {
     this.loggerStore.fetchPlaylistAndEntries(this.id());
   }
-
-  // Internal state
-  catalogueInputSelected = signal<boolean>(false);
 
   private getIdx(): number {
     return this.entries().length > 0

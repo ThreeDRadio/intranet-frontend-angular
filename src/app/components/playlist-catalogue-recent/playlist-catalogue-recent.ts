@@ -1,45 +1,26 @@
-import {
-  Component,
-  inject,
-  input,
-  OnDestroy,
-  OnInit,
-  output,
-} from "@angular/core";
+import { Component, inject, OnInit, output } from "@angular/core";
 import { SearchStore } from "../../store/search.store";
-import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { MatButtonModule } from "@angular/material/button";
 import { MatDividerModule } from "@angular/material/divider";
-import {
-  ReactiveFormsModule,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
 import { MatPaginatorModule } from "@angular/material/paginator";
-import { QuotaCheckInformationalComponent } from "../quota-check-informational/quota-check-informational.component";
 import { MatAccordion, MatExpansionModule } from "@angular/material/expansion";
 import { MatListModule } from "@angular/material/list";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
 import { ReleaseStore } from "../../store/release.store";
 import { DurationService } from "../../services/duration.service";
-import { Track } from "../../models/track";
-import { Store } from "@ngrx/store";
-import { PlayerActions } from "../../store/actions/player.actions";
+import { QuotaCheckInformationalComponent } from "../quota-check-informational/quota-check-informational.component";
 
 @Component({
-  selector: "app-playlist-catalogue-finder",
+  selector: "app-playlist-catalogue-recent",
   imports: [
     QuotaCheckInformationalComponent,
-    ReactiveFormsModule,
     MatDividerModule,
     MatButtonModule,
     MatProgressBarModule,
     MatFormFieldModule,
-    MatInputModule,
     MatPaginatorModule,
     MatAccordion,
     MatExpansionModule,
@@ -50,15 +31,14 @@ import { PlayerActions } from "../../store/actions/player.actions";
     MatIconModule,
   ],
   providers: [DurationService],
-  templateUrl: "./playlist-catalogue-finder.component.html",
-  styleUrl: "./playlist-catalogue-finder.component.scss",
+  templateUrl: "./playlist-catalogue-recent.html",
+  styleUrl: "./playlist-catalogue-recent.scss",
 })
-export class PlaylistCatalogueFinder implements OnDestroy {
-  legacyStore = inject(Store<any>);
+export class PlaylistCatalogueRecent implements OnInit {
   searchStore = inject(SearchStore);
   releaseStore = inject(ReleaseStore);
   durationService = inject(DurationService);
-  // Paginator settings
+  // Pagination
   pageSizes = [10, 20, 50, 100];
   offset = 0;
   pageSize = 10;
@@ -81,37 +61,24 @@ export class PlaylistCatalogueFinder implements OnDestroy {
   // Actions
   addFromCatalogue = output();
 
-  form = new UntypedFormGroup({
-    search: new UntypedFormControl("", Validators.required),
-  });
+  ngOnInit() {
+    this.recentUploads();
+  }
 
-  quickSearch() {
-    if (this.form.valid) {
-      this.searchStore.quickSearch({
-        term: this.form.controls.search.value,
-        size: this.pageSize,
-        offset: this.offset,
-      });
-    }
+  recentUploads() {
+    this.searchStore.recentlyUploaded({
+      size: this.pageSize,
+      offset: this.offset,
+    });
   }
 
   paginationChange(event) {
     this.pageSize = event.pageSize;
     this.offset = event.pageIndex * this.pageSize;
-    this.quickSearch();
+    this.recentUploads();
   }
 
   onReleaseOpened(event) {
     this.releaseStore.fetchAllForId(event.id);
-  }
-
-  play(element) {
-    this.legacyStore.dispatch(
-      new PlayerActions.RequestPlay({ track: element }),
-    );
-  }
-
-  ngOnDestroy() {
-    this.searchStore.clearSearch();
   }
 }
