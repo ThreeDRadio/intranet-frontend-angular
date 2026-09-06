@@ -30,6 +30,7 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { PlaylistCatalogueFinder } from "../../components/playlist-catalogue-finder/playlist-catalogue-finder.component";
 import { AddFromCatalogueDialogComponent } from "../../components/add-from-catalogue-dialog/add-from-catalogue-dialog.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { PlaylistCatalogueRecent } from "../../components/playlist-catalogue-recent/playlist-catalogue-recent";
 
 @Component({
   selector: "app-playlist-editor",
@@ -38,6 +39,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
     PlaylistEntryEditorComponent,
     PlaylistEntryListComponent,
     PlaylistCatalogueFinder,
+    PlaylistCatalogueRecent,
     // Material
     MatTableModule,
     MatIconModule,
