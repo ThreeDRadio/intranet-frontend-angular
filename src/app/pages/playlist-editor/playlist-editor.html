@@ -15,12 +15,24 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon class="big-icon">search</mat-icon>
-          <b><span>Choose from the catalogue</span></b>
+          <b><span>Search the catalogue</span></b>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <app-playlist-catalogue-finder
         (addFromCatalogue)="onAddedFromCatalogue($event)"
       />
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion
+    class="catalogue-accordion-sapphire-nightfall mat-elevation-z0"
+  >
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="big-icon">new_releases</mat-icon>
+          <b><span>See recently uploaded</span></b>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
     </mat-expansion-panel>
   </mat-accordion>
   <mat-divider />
