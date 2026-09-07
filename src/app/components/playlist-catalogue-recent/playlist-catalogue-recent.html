@@ -4,6 +4,7 @@
 <div>
   @if (searchStore.recent(); as currentResults) {
   <mat-accordion class="release-list-compact-accordion">
+    <h3>{{ currentResults.length }} Recent Uploads</h3>
     @for (release of currentResults; track release.id) {
     <mat-expansion-panel
       togglePosition="before"
@@ -14,13 +15,16 @@
           <mat-icon>person</mat-icon> {{ release.artist }}
         </mat-panel-title>
         <mat-panel-description class="release-list-compact-desc-top">
-          <mat-panel-description class="release-list-compact-desc-internal">
+          <div class="release-list-compact-desc-internal-large">
             <mat-icon>album</mat-icon> {{ release.title }}
-          </mat-panel-description>
-          <mat-panel-description class="release-list-compact-desc-internal">
+          </div>
+          <div class="release-list-compact-desc-internal">
+            <mat-icon>calendar_month</mat-icon> {{ release.year }}
+          </div>
+          <div class="release-list-compact-desc-internal">
             @if (release.genre) {
             <mat-icon>library_music</mat-icon> {{ release.genre }} }
-          </mat-panel-description>
+          </div>
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
