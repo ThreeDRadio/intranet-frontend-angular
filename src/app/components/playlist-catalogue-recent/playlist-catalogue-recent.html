@@ -1,6 +1,3 @@
-@if (searchStore.recentUploads().isGettingRecent) {
-<mat-progress-bar mode="indeterminate" />
-} @else { @if (searchStore.recentUploads().count > 0) {
 <div>
   @if (searchStore.recentUploads().results; as currentResults) {
   <mat-accordion class="release-list-compact-accordion">
@@ -147,4 +144,3 @@
   ></mat-paginator>
   }
 </div>
-} }
