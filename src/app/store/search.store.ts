@@ -24,16 +24,23 @@ type SearchState = {
   isSearching: boolean;
   count: number;
   results: Release[];
+  recentUploads: RecentUploadState;
+};
+type RecentUploadState = {
   isGettingRecent: boolean;
-  recent: Release[];
+  count: number;
+  results: Release[];
 };
 
 export const initialState: SearchState = {
   isSearching: false,
   count: 0,
   results: [],
-  isGettingRecent: false,
-  recent: [],
+  recentUploads: {
+    isGettingRecent: false,
+    count: 0,
+    results: [],
+  },
 };
 
 export const SearchStore = signalStore(
@@ -76,19 +83,29 @@ export const SearchStore = signalStore(
     ),
     recentlyUploaded: rxMethod<RecentUploadSearchParams>(
       pipe(
-        tap(() => patchState(store, { isGettingRecent: true })),
+        tap(() =>
+          patchState(store, {
+            recentUploads: { ...store.recentUploads(), isGettingRecent: true },
+          }),
+        ),
         switchMap((input) => {
           return releaseService.recentlyUploaded(input.size, input.offset).pipe(
             tap((response) => {
               patchState(store, {
-                isGettingRecent: false,
-                recent: response.results,
+                recentUploads: {
+                  isGettingRecent: false,
+                  count: response.count,
+                  results: response.results,
+                },
               });
             }),
             catchError((err) => {
               patchState(store, {
-                isGettingRecent: false,
-                recent: [],
+                recentUploads: {
+                  isGettingRecent: false,
+                  count: 0,
+                  results: [],
+                },
               });
               return EMPTY;
             }),

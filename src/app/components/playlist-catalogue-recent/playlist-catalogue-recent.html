@@ -1,10 +1,10 @@
-@if (searchStore.isGettingRecent()) {
+@if (searchStore.recentUploads().isGettingRecent) {
 <mat-progress-bar mode="indeterminate" />
-} @else { @if (searchStore.recent().length > 0) {
+} @else { @if (searchStore.recentUploads().count > 0) {
 <div>
-  @if (searchStore.recent(); as currentResults) {
+  @if (searchStore.recentUploads().results; as currentResults) {
   <mat-accordion class="release-list-compact-accordion">
-    <h3>{{ currentResults.length }} Recent Uploads</h3>
+    <h3>{{ searchStore.recentUploads().count }} Recent Uploads</h3>
     @for (release of currentResults; track release.id) {
     <mat-expansion-panel
       togglePosition="before"
@@ -28,6 +28,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
+        <!-- Wait for the release store to finish loading before retrieving anything. -->
         @if (releaseStore.isLoading()) {
         <mat-progress-bar mode="indeterminate" />
         } @else {
@@ -142,7 +143,7 @@
     [pageIndex]="offset / pageSize"
     [pageSize]="pageSize"
     (page)="paginationChange($event)"
-    [length]="searchStore.recent().length"
+    [length]="searchStore.recentUploads().count"
   ></mat-paginator>
   }
 </div>
