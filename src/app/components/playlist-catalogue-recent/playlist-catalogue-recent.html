@@ -1,9 +1,10 @@
-@if (searchStore.isGettingRecent()) {
+@if (searchStore.recentUploads().isGettingRecent) {
 <mat-progress-bar mode="indeterminate" />
-} @else { @if (searchStore.recent().length > 0) {
+} @else { @if (searchStore.recentUploads().count > 0) {
 <div>
-  @if (searchStore.recent(); as currentResults) {
+  @if (searchStore.recentUploads().results; as currentResults) {
   <mat-accordion class="release-list-compact-accordion">
+    <h3>{{ searchStore.recentUploads().count }} Recent Uploads</h3>
     @for (release of currentResults; track release.id) {
     <mat-expansion-panel
       togglePosition="before"
@@ -14,16 +15,20 @@
           <mat-icon>person</mat-icon> {{ release.artist }}
         </mat-panel-title>
         <mat-panel-description class="release-list-compact-desc-top">
-          <mat-panel-description class="release-list-compact-desc-internal">
+          <div class="release-list-compact-desc-internal-large">
             <mat-icon>album</mat-icon> {{ release.title }}
-          </mat-panel-description>
-          <mat-panel-description class="release-list-compact-desc-internal">
+          </div>
+          <div class="release-list-compact-desc-internal">
+            <mat-icon>calendar_month</mat-icon> {{ release.year }}
+          </div>
+          <div class="release-list-compact-desc-internal">
             @if (release.genre) {
             <mat-icon>library_music</mat-icon> {{ release.genre }} }
-          </mat-panel-description>
+          </div>
         </mat-panel-description>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
+        <!-- Wait for the release store to finish loading before retrieving anything. -->
         @if (releaseStore.isLoading()) {
         <mat-progress-bar mode="indeterminate" />
         } @else {
@@ -138,7 +143,7 @@
     [pageIndex]="offset / pageSize"
     [pageSize]="pageSize"
     (page)="paginationChange($event)"
-    [length]="searchStore.recent().length"
+    [length]="searchStore.recentUploads().count"
   ></mat-paginator>
   }
 </div>
