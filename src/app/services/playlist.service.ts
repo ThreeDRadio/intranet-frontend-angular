@@ -51,6 +51,15 @@ export class PlaylistService {
     );
   }
 
+  updatePlaylist(input: Playlist): Observable<Playlist> {
+    const observable = this.playlistApi.update(input);
+    return observable.pipe(
+      map((response: any) => {
+        return response as Playlist;
+      }),
+    );
+  }
+
   completePlaylist(id: number): Observable<boolean> {
     const reducedPayload = { id: id, complete: true };
     const fakeApiModel: ApiModel = reducedPayload;
