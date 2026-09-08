@@ -5,4 +5,7 @@ export class DateService {
     if (input === undefined || input === null) return "";
     return moment(input).format("dddd, MMMM Do YYYY");
   }
+  getApiFormat(input: Date) {
+    console.log(input.getFullYear());
+  }
 }
