@@ -33,7 +33,20 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlaylistCatalogueRecent } from "../../components/playlist-catalogue-recent/playlist-catalogue-recent";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { FormControl } from "@angular/forms";
+import { MAT_DATE_FORMATS, MatDateFormats } from "@angular/material/core";
+import { provideMomentDateAdapter } from "@angular/material-moment-adapter";
 
+export const MY_DATE_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: "DD/MM/YYYY",
+  },
+  display: {
+    dateInput: "DD/MM/YYYY",
+    monthYearLabel: "MMMM YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "MMMM YYYY",
+  },
+};
 @Component({
   selector: "app-playlist-editor",
   imports: [
@@ -55,7 +68,12 @@ import { FormControl } from "@angular/forms";
     MatProgressBarModule,
     MatDatepickerModule,
   ],
-  providers: [QuotaService, DateService],
+  providers: [
+    QuotaService,
+    DateService,
+    provideMomentDateAdapter(),
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+  ],
   templateUrl: "./playlist-editor.html",
   styleUrl: "./playlist-editor.scss",
 })
@@ -236,5 +254,13 @@ export class PlaylistEditorPage implements OnInit {
         this.loggerStore.completePlaylist(this.id());
       }
     });
+  }
+
+  onDateUpdated(event) {
+    const updatedDate = event.value;
+
+    if (updatedDate) {
+      console.log("The date was updated to:", updatedDate);
+    }
   }
 }

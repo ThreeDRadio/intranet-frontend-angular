@@ -10,6 +10,7 @@
       [matDatepicker]="datepicker"
       [value]="pl.date"
       [formControl]="showDateControl"
+      (dateChange)="onDateUpdated($event)"
     />
     <mat-datepicker-toggle
       matIconSuffix
