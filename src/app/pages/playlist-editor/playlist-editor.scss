@@ -32,3 +32,13 @@
   display: flex;
   align-items: center;
 }
+
+.datestring-with-picker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.datestring-with-picker h3 {
+  margin: 0;
+}
