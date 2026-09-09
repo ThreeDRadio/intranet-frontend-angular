@@ -31,6 +31,22 @@ import { PlaylistCatalogueFinder } from "../../components/playlist-catalogue-fin
 import { AddFromCatalogueDialogComponent } from "../../components/add-from-catalogue-dialog/add-from-catalogue-dialog.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlaylistCatalogueRecent } from "../../components/playlist-catalogue-recent/playlist-catalogue-recent";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { FormControl } from "@angular/forms";
+import { MAT_DATE_FORMATS } from "@angular/material/core";
+import { provideMomentDateAdapter } from "@angular/material-moment-adapter";
+
+export const LONG_DATE_FORMAT = {
+  parse: {
+    dateInput: ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"],
+  },
+  display: {
+    dateInput: "dddd, MMMM Do YYYY",
+    monthYearLabel: "MMM YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "MMMM YYYY",
+  },
+};
 
 @Component({
   selector: "app-playlist-editor",
@@ -51,8 +67,14 @@ import { PlaylistCatalogueRecent } from "../../components/playlist-catalogue-rec
     MatDividerModule,
     MatButtonModule,
     MatProgressBarModule,
+    MatDatepickerModule,
   ],
-  providers: [QuotaService, DateService],
+  providers: [
+    QuotaService,
+    DateService,
+    provideMomentDateAdapter(),
+    { provide: MAT_DATE_FORMATS, useValue: LONG_DATE_FORMAT },
+  ],
   templateUrl: "./playlist-editor.html",
   styleUrl: "./playlist-editor.scss",
 })
@@ -81,6 +103,9 @@ export class PlaylistEditorPage implements OnInit {
   );
 
   entries = computed(() => this.loggerStore.playlistEntries());
+
+  // Control
+  showDateControl = new FormControl(new Date());
 
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
@@ -230,5 +255,16 @@ export class PlaylistEditorPage implements OnInit {
         this.loggerStore.completePlaylist(this.id());
       }
     });
+  }
+
+  onDateUpdated(event) {
+    const updatedDate = event.value;
+
+    if (updatedDate) {
+      this.loggerStore.updatePlaylist({
+        ...this.playlist(),
+        date: this.dateService.getApiFormat(updatedDate),
+      });
+    }
   }
 }

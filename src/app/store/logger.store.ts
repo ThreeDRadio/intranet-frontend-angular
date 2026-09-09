@@ -142,6 +142,27 @@ export const LoggerStore = signalStore(
         ),
       ),
 
+      updatePlaylist: rxMethod<Playlist>(
+        pipe(
+          exhaustMap((update) => {
+            // Optimistic update - rollback if the update fails.
+            const before = store.playlists();
+            patchState(store, (state) => ({
+              playlists: state.playlists.map((entry) =>
+                entry.id === update.id ? { ...entry, ...update } : entry,
+              ),
+            }));
+
+            return playlistService.updatePlaylist(update).pipe(
+              catchError((err) => {
+                patchState(store, { playlists: before });
+                return EMPTY;
+              }),
+            );
+          }),
+        ),
+      ),
+
       fetchPlaylistEntries: rxMethod<number>(
         pipe(
           tap(() => patchState(store, { isLoading: true })),
