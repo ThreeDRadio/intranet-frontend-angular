@@ -261,9 +261,10 @@ export class PlaylistEditorPage implements OnInit {
     const updatedDate = event.value;
 
     if (updatedDate) {
-      console.log(event.value);
-
-      const newDate = this.dateService.getApiFormat(updatedDate);
+      this.loggerStore.updatePlaylist({
+        ...this.playlist(),
+        date: this.dateService.getApiFormat(updatedDate),
+      });
     }
   }
 }
