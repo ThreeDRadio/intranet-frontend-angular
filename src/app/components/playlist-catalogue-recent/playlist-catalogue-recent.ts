@@ -12,6 +12,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { ReleaseStore } from "../../store/release.store";
 import { DurationService } from "../../services/duration.service";
 import { QuotaCheckInformationalComponent } from "../quota-check-informational/quota-check-informational.component";
+import { Store } from "@ngrx/store";
+import { PlayerActions } from "../../store/actions/player.actions";
 
 @Component({
   selector: "app-playlist-catalogue-recent",
@@ -35,6 +37,7 @@ import { QuotaCheckInformationalComponent } from "../quota-check-informational/q
   styleUrl: "./playlist-catalogue-recent.scss",
 })
 export class PlaylistCatalogueRecent implements OnInit {
+  legacyStore = inject(Store<any>);
   searchStore = inject(SearchStore);
   releaseStore = inject(ReleaseStore);
   durationService = inject(DurationService);
@@ -80,5 +83,11 @@ export class PlaylistCatalogueRecent implements OnInit {
 
   onReleaseOpened(event) {
     this.releaseStore.fetchAllForId(event.id);
+  }
+
+  play(element) {
+    this.legacyStore.dispatch(
+      new PlayerActions.RequestPlay({ track: element }),
+    );
   }
 }
