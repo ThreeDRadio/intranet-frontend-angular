@@ -14,17 +14,13 @@ export const AuthenticatedGuard: CanActivateFn = () => {
 
   return store.select(selectors.getAuth).pipe(
     switchMap((token) => {
-      // 1. If token exists, allow access immediately
       if (token) {
         return of(true);
       }
 
-      // 2. If no token, check the IP whitelist asynchronously
       return ipService.getIpAddress().pipe(
         map((response) => {
           console.log(response);
-
-          // 3. Not tokenized and not whitelisted -> Redirect to login
           router.navigate(["login"]);
           return false;
         }),
