@@ -1,15 +1,18 @@
-import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { catchError, map, Observable, of, tap } from "rxjs";
+import { BaseApi } from "./base-api.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class IpAddressService {
-  private ipEchoEndpoint = "https://ipify.org";
-  private http = inject(HttpClient);
+  private baseApi = inject(BaseApi);
 
-  getIpAddress(): Observable<{ ip: string }> {
-    return this.http.get<{ ip: string }>(this.ipEchoEndpoint);
+  getIpAddress(): Observable<string> {
+    return this.baseApi.getIp().pipe(map((r) => r as string));
+  }
+
+  IsWhitelisted(ip: string) {
+    return false;
   }
 }

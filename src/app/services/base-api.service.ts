@@ -16,12 +16,11 @@ export interface HttpOptions {
 
 @Injectable()
 export class BaseApi {
-  static authToken: string;
+  static authToken: string | undefined;
   static userId: number;
 
   private http: HttpClient = inject(HttpClient);
   private baseUrl = inject(API_URL);
-  constructor() {}
 
   public login(params: {
     username: string;
@@ -46,6 +45,10 @@ export class BaseApi {
   public logout() {
     BaseApi.authToken = undefined;
     return of(true);
+  }
+
+  public getIp() {
+    return this.http.get(`${this.baseUrl}/echo-ip`);
   }
 
   public setToken(token: string) {
