@@ -39,6 +39,10 @@ export class BaseApi {
     );
   }
 
+  isLoggedIn(): boolean {
+    return BaseApi.authToken !== undefined && BaseApi.userId !== undefined;
+  }
+
   public isWhitelisted(): Observable<boolean> {
     return this.http
       .get(`${this.baseUrl}/api/session/whitelist`, { observe: "response" })
