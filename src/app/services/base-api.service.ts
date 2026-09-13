@@ -18,6 +18,7 @@ export interface HttpOptions {
 export class BaseApi {
   static authToken: string | undefined;
   static userId: number;
+  static whitelisted: boolean;
 
   private http: HttpClient = inject(HttpClient);
   private baseUrl = inject(API_URL);
@@ -43,7 +44,8 @@ export class BaseApi {
       .get(`${this.baseUrl}/api/session/whitelist`, { observe: "response" })
       .pipe(
         map((m) => {
-          return m.ok && m.status === 202;
+          BaseApi.whitelisted = m.ok && m.status === 202;
+          return BaseApi.whitelisted;
         }),
         catchError((error) => {
           return of(false);
@@ -159,13 +161,22 @@ export class BaseApi {
   private completeOptions(
     baseOptions: HttpOptions = { responseType: "json" },
   ): HttpOptions {
+    // If no one is logged in, but the app is whitelisted.
+    if (BaseApi.whitelisted && BaseApi.authToken === undefined) {
+      // Don't send any auth header.
+      return baseOptions;
+    }
+
     const token = `Token ${BaseApi.authToken}`;
     let finalHeaders = new HttpHeaders({ Authorization: token });
+
     if (baseOptions.headers) {
       finalHeaders = baseOptions.headers.set("Authorization", token);
     }
+
     return { ...baseOptions, headers: finalHeaders };
   }
+
   private buildUrl(segment: string): string {
     return `${this.baseUrl}/api/${segment}/`;
   }

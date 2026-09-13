@@ -20,8 +20,6 @@ export const AuthenticatedGuard: CanActivateFn = () => {
 
       return ipService.isWhitelisted().pipe(
         map((response) => {
-          console.log(response);
-
           if (!response) {
             router.navigate(["login"]);
             return false;
