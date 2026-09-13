@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
-import { catchError, map, Observable, of, tap } from "rxjs";
 import { BaseApi } from "./base-api.service";
+import { map, Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -8,11 +8,7 @@ import { BaseApi } from "./base-api.service";
 export class IpAddressService {
   private baseApi = inject(BaseApi);
 
-  getIpAddress(): Observable<string> {
-    return this.baseApi.getIp().pipe(map((r) => r as string));
-  }
-
-  IsWhitelisted(ip: string) {
-    return false;
+  isWhitelisted(): Observable<boolean> {
+    return this.baseApi.isWhitelisted();
   }
 }

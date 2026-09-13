@@ -1,4 +1,4 @@
-import { inject, Injectable } from "@angular/core";
+import { inject } from "@angular/core";
 import { CanActivateFn, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { of } from "rxjs";
@@ -18,17 +18,19 @@ export const AuthenticatedGuard: CanActivateFn = () => {
         return of(true);
       }
 
-      return ipService.getIpAddress().pipe(
+      return ipService.isWhitelisted().pipe(
         map((response) => {
-          if (ipService.IsWhitelisted(response)) {
-            return true;
+          console.log(response);
+
+          if (!response) {
+            router.navigate(["login"]);
+            return false;
           }
 
-          router.navigate(["login"]);
-          return false;
+          return true;
         }),
         catchError((err) => {
-          console.error("Failed to get IP address", err);
+          console.error("Error when logging in via whitelist.", err);
           router.navigate(["login"]);
           return of(false);
         }),

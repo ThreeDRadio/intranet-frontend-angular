@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { inject, Injectable, InjectionToken } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 
 export const API_URL = new InjectionToken<string>("Three D API URL");
 
@@ -38,6 +38,19 @@ export class BaseApi {
     );
   }
 
+  public isWhitelisted(): Observable<boolean> {
+    return this.http
+      .get(`${this.baseUrl}/api/session/whitelist`, { observe: "response" })
+      .pipe(
+        map((m) => {
+          return m.ok && m.status === 202;
+        }),
+        catchError((error) => {
+          return of(false);
+        }),
+      );
+  }
+
   public getProfile() {
     return this.get("users/me");
   }
@@ -45,10 +58,6 @@ export class BaseApi {
   public logout() {
     BaseApi.authToken = undefined;
     return of(true);
-  }
-
-  public getIp() {
-    return this.http.get(`${this.baseUrl}/echo-ip`);
   }
 
   public setToken(token: string) {
