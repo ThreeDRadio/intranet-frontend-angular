@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { inject, Injectable, InjectionToken } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 
 export const API_URL = new InjectionToken<string>("Three D API URL");
 
@@ -16,12 +16,12 @@ export interface HttpOptions {
 
 @Injectable()
 export class BaseApi {
-  static authToken: string;
+  static authToken: string | undefined;
   static userId: number;
+  static whitelisted: boolean;
 
   private http: HttpClient = inject(HttpClient);
   private baseUrl = inject(API_URL);
-  constructor() {}
 
   public login(params: {
     username: string;
@@ -37,6 +37,24 @@ export class BaseApi {
         return response;
       }),
     );
+  }
+
+  isLoggedIn(): boolean {
+    return BaseApi.authToken !== undefined && BaseApi.userId !== undefined;
+  }
+
+  public isWhitelisted(): Observable<boolean> {
+    return this.http
+      .get(`${this.baseUrl}/api/session/whitelist`, { observe: "response" })
+      .pipe(
+        map((m) => {
+          BaseApi.whitelisted = m.ok && m.status === 202;
+          return BaseApi.whitelisted;
+        }),
+        catchError((error) => {
+          return of(false);
+        }),
+      );
   }
 
   public getProfile() {
@@ -147,13 +165,22 @@ export class BaseApi {
   private completeOptions(
     baseOptions: HttpOptions = { responseType: "json" },
   ): HttpOptions {
+    // If no one is logged in, but the app is whitelisted.
+    if (BaseApi.whitelisted && BaseApi.authToken === undefined) {
+      // Don't send any auth header.
+      return baseOptions;
+    }
+
     const token = `Token ${BaseApi.authToken}`;
     let finalHeaders = new HttpHeaders({ Authorization: token });
+
     if (baseOptions.headers) {
       finalHeaders = baseOptions.headers.set("Authorization", token);
     }
+
     return { ...baseOptions, headers: finalHeaders };
   }
+
   private buildUrl(segment: string): string {
     return `${this.baseUrl}/api/${segment}/`;
   }

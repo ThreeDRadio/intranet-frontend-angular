@@ -2,7 +2,6 @@ import {
   enableProdMode,
   ErrorHandler,
   importProvidersFrom,
-  provideZoneChangeDetection,
 } from "@angular/core";
 
 import * as Sentry from "@sentry/angular";
@@ -14,10 +13,7 @@ import { BaseApi, API_URL } from "./app/services/base-api.service";
 import { API } from "./app/services";
 import { Id3Service } from "./app/services/id3.service";
 import { errorHandler } from "./app/app.module";
-import {
-  NFErrorHandler,
-  ERROR_LOGGING_SERVICE,
-} from "./app/services/error-handler";
+import { ERROR_LOGGING_SERVICE } from "./app/services/error-handler";
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -35,9 +31,6 @@ import {
   StoreRouterConnectingModule,
   FullRouterStateSerializer,
 } from "@ngrx/router-store";
-import { COMPONENTS } from "./app/components";
-import { PAGES } from "./app/pages";
-import { PIPES } from "./app/pipes";
 import { AppComponent } from "./app/app.component";
 import { EFFECTS, REDUCER } from "app/store";
 import { provideRouter, withComponentInputBinding } from "@angular/router";
@@ -78,7 +71,6 @@ bootstrapApplication(AppComponent, {
         serializer: FullRouterStateSerializer,
       }),
     ),
-    ...GUARDS,
     AppRestartService,
     BaseApi,
     ...API,
