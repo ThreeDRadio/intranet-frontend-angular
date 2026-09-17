@@ -1,6 +1,5 @@
 import { Component, computed, inject, input, OnInit } from "@angular/core";
 import { LoggerStore } from "../../store";
-import { ActivatedRoute } from "@angular/router";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
 import { MatChipsModule } from "@angular/material/chips";

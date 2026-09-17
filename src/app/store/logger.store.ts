@@ -93,6 +93,9 @@ export const LoggerStore = signalStore(
     showById: computed(() => (id: number) => {
       return store.shows().find((s) => s.id === id);
     }),
+    playlistsByShow: computed(() => (id: number) => {
+      return store.playlists().filter((p) => p.show === id);
+    }),
   })),
   withMethods(
     (
@@ -131,6 +134,24 @@ export const LoggerStore = signalStore(
                     return EMPTY;
                   }),
                 );
+              }),
+              catchError((err) => {
+                patchState(store, { playlists: [] });
+                return EMPTY;
+              }),
+              finalize(() => patchState(store, { isLoading: false })),
+            ),
+          ),
+        ),
+      ),
+
+      fetchPlaylistsForShow: rxMethod<number>(
+        pipe(
+          tap(() => patchState(store, { isLoading: true })),
+          switchMap((showId) =>
+            playlistService.getPlaylistsForShow(showId).pipe(
+              tap((playlists) => {
+                patchState(store, { playlists });
               }),
               catchError((err) => {
                 patchState(store, { playlists: [] });

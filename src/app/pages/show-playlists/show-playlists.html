@@ -1,0 +1,15 @@
+@if (loggerStore.isLoading()) {
+<h4>Loading {{ show()?.name }}...</h4>
+} @else {
+<h1>{{ show().name }}</h1>
+<h3 style="opacity: 0.7">All Playlists</h3>
+<mat-divider />
+<div class="playlist-header-container">
+  @for (playlist of playlists(); track playlist.id) {
+  <app-playlist-header
+    [playlist]="playlist"
+    [linkToShow]="false"
+  ></app-playlist-header>
+  }
+</div>
+}

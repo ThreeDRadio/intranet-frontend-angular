@@ -49,6 +49,7 @@ export class PlaylistHeaderComponent {
   dateService = inject(DateService);
 
   readonly playlist = input.required<Playlist>();
+  readonly linkToShow = input<boolean>(true);
   readonly show = computed(() => this.store.showById()(this.playlist().show));
 
   readonly formattedDate = computed(() =>
