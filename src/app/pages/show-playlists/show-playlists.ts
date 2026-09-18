@@ -6,6 +6,9 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatTableModule } from "@angular/material/table";
 import { ShowService } from "../../services/show.service";
+import { BaseChartDirective } from "ng2-charts";
+import { provideCharts, withDefaultRegisterables } from "ng2-charts";
+import { ChartConfiguration } from "chart.js";
 
 @Component({
   selector: "app-show-playlists",
@@ -15,7 +18,9 @@ import { ShowService } from "../../services/show.service";
     MatListModule,
     MatIconModule,
     MatTableModule,
+    BaseChartDirective,
   ],
+  providers: [provideCharts(withDefaultRegisterables())],
   templateUrl: "./show-playlists.html",
   styleUrl: "./show-playlists.scss",
 })
@@ -32,10 +37,32 @@ export class ShowPlaylistsPage implements OnInit {
   playlists = computed(() => {
     return this.loggerStore.playlists().filter((p) => p.show === this.id());
   });
-  // This does not need to be stored, so avoid using SignalStore.
-  readonly topartists = computed(() =>
-    this.showService.getTopArtists(this.id()),
-  );
+
+  // Bar charts for stats
+  public statsOptions: ChartConfiguration<"bar">["options"] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {},
+      y: { min: 0 },
+    },
+  };
+
+  // return {
+  //   labels: [
+  //     "Total tracks",
+  //     "Unique Artists",
+  //     "Local",
+  //     "Australian",
+  //     "Female",
+  //   ],
+  //   datasets: [
+  //     {
+  //       data: [65, 59, 80, 81, 1],
+  //       backgroundColor: "#3f51b5", // Angular Material Primary Indigo
+  //     },
+  //   ],
+  // };
 
   ngOnInit() {
     this.loggerStore.fetchPlaylistsForShow(this.id());

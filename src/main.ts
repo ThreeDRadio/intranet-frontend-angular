@@ -7,7 +7,6 @@ import {
 import * as Sentry from "@sentry/angular";
 
 import { environment } from "environments/environment";
-import { GUARDS } from "./app/guards";
 import { AppRestartService } from "./app/services/app-restart.service";
 import { BaseApi, API_URL } from "./app/services/base-api.service";
 import { API } from "./app/services";

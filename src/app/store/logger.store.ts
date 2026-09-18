@@ -54,8 +54,7 @@ type LoggerState = {
   isLoading: boolean;
   // Submission state
   playlistSubmission: PlaylistSubmissionState;
-  // Catalogue input state
-  catalogueInputState: CatalogueInputState;
+
   // Internal state
   shows: Show[];
   playlists: Playlist[];
@@ -65,7 +64,6 @@ type LoggerState = {
 export const initialState: LoggerState = {
   isLoading: false,
   playlistSubmission: undefined,
-  catalogueInputState: undefined,
   shows: [],
   playlists: [],
   playlistEntries: [],

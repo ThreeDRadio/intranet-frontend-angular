@@ -32,6 +32,10 @@ export class ShowApi extends ModelApi<Show> {
     return super.list({ responseType: "json" });
   }
 
+  getStatistics(id: number): Observable<any> {
+    return this.http.get(`shows/${id}/statistics`);
+  }
+
   getTopArtists(id: number): Observable<any> {
     return this.http.get(`shows/${id}/topartists`);
   }

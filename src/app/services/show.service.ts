@@ -8,6 +8,11 @@ export type TopArtist = {
   plays: number;
 };
 
+export type Statistic = {
+  name: string;
+  value: number;
+};
+
 @Injectable({
   providedIn: "root", // <-- This makes the service global
 })
@@ -56,8 +61,14 @@ export class ShowService {
     );
   }
 
-  getStats(showId: number) {
-    throw new Error("Method not implemented.");
+  getStats(showId: number): Observable<Statistic[]> {
+    return this.showApi.getStatistics(showId).pipe(
+      map((response) => {
+        return response.map((item) => {
+          return item as Statistic;
+        });
+      }),
+    );
   }
 
   getTopArtists(showId: number) {

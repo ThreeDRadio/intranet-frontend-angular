@@ -23,3 +23,10 @@
 .show-stats-card {
   flex: 2 1;
 }
+
+// I set this up to prevent the chart from wobbling when a user hovered over. It was VERY disorienting.
+.stats-chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 400px;
+}
