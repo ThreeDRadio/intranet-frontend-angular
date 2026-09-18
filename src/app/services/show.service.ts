@@ -3,6 +3,11 @@ import { map, Observable } from "rxjs";
 import { Show } from "../models/show";
 import { ShowApi } from "./show-api";
 
+export type TopArtist = {
+  artist: string;
+  plays: number;
+};
+
 @Injectable({
   providedIn: "root", // <-- This makes the service global
 })
@@ -46,6 +51,20 @@ export class ShowService {
 
         return list.map((item: any) => {
           return item as Show;
+        });
+      }),
+    );
+  }
+
+  getStats(showId: number) {
+    throw new Error("Method not implemented.");
+  }
+
+  getTopArtists(showId: number) {
+    return this.showApi.getTopArtists(showId).pipe(
+      map((response) => {
+        return response.map((item) => {
+          return item as TopArtist;
         });
       }),
     );

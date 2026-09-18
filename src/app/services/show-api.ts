@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { ModelApi } from "./model-api";
 import { BaseApi } from "./base-api.service";
 import { Show } from "../models/show";
-import { forkJoin, of } from "rxjs";
+import { forkJoin, Observable, of } from "rxjs";
 
 type ShowSearchParams = {
   ids: number[];
@@ -30,5 +30,9 @@ export class ShowApi extends ModelApi<Show> {
 
   getAllShows() {
     return super.list({ responseType: "json" });
+  }
+
+  getTopArtists(id: number): Observable<any> {
+    return this.http.get(`shows/${id}/topartists`);
   }
 }

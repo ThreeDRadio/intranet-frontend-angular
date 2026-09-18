@@ -2,6 +2,38 @@
 <h4>Loading {{ show()?.name }}...</h4>
 } @else {
 <h1>{{ show().name }}</h1>
+<div style="width: 100%; display: flex; flex-direction: row; gap: 8px">
+  <mat-card style="flex: 1 1">
+    <mat-card-header>
+      <mat-card-title>Most played artists</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="topartists()" class="mat-typography">
+        <ng-container matColumnDef="artist">
+          <th mat-header-cell *matHeaderCellDef><b>Artist</b></th>
+          <td mat-cell *matCellDef="let element">{{ element.artist }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="plays">
+          <th mat-header-cell *matHeaderCellDef class="numeric-cell">
+            <b>Plays</b>
+          </th>
+          <td mat-cell *matCellDef="let element" class="numeric-cell">
+            {{ element.plays }}
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['artist', 'plays'];"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <mat-card style="flex: 2 1">
+    <mat-card-header>
+      <mat-card-title>Statistics</mat-card-title>
+    </mat-card-header>
+    <mat-card-content></mat-card-content>
+  </mat-card>
+</div>
 <h3 style="opacity: 0.7">All Playlists</h3>
 <mat-divider />
 <div class="playlist-header-container">
