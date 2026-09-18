@@ -2,8 +2,8 @@
 <h4>Loading {{ show()?.name }}...</h4>
 } @else {
 <h1>{{ show().name }}</h1>
-<div style="width: 100%; display: flex; flex-direction: row; gap: 8px">
-  <mat-card style="flex: 1 1">
+<div class="top-artists-container">
+  <mat-card class="show-ta-card">
     <mat-card-header>
       <mat-card-title>Most played artists</mat-card-title>
     </mat-card-header>
@@ -22,12 +22,12 @@
             {{ element.plays }}
           </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="['artist', 'plays']"></tr>
         <tr mat-row *matRowDef="let row; columns: ['artist', 'plays'];"></tr>
       </table>
     </mat-card-content>
   </mat-card>
-  <mat-card style="flex: 2 1">
+  <mat-card class="show-stats-card">
     <mat-card-header>
       <mat-card-title>Statistics</mat-card-title>
     </mat-card-header>
