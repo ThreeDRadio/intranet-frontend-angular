@@ -40,6 +40,21 @@ export class ShowPlaylistsPage implements OnInit {
   readonly topArtists = computed(() => {
     return this.loggerStore.showStats()?.topArtists;
   });
+  readonly stats = computed(() => {
+    const fromStore = this.loggerStore.showStats()?.statistics;
+    const labels = fromStore?.map((s) => s.name);
+    const values = fromStore?.map((s) => s.value);
+    return {
+      labels,
+      datasets: [
+        {
+          data: values,
+          label: "Tracks",
+          backgroundColor: "#3f51b5", // Angular Material Primary Indigo
+        },
+      ],
+    };
+  });
 
   // Bar charts for stats
   public statsOptions: ChartConfiguration<"bar">["options"] = {
@@ -50,22 +65,6 @@ export class ShowPlaylistsPage implements OnInit {
       y: { min: 0 },
     },
   };
-
-  // return {
-  //   labels: [
-  //     "Total tracks",
-  //     "Unique Artists",
-  //     "Local",
-  //     "Australian",
-  //     "Female",
-  //   ],
-  //   datasets: [
-  //     {
-  //       data: [65, 59, 80, 81, 1],
-  //       backgroundColor: "#3f51b5", // Angular Material Primary Indigo
-  //     },
-  //   ],
-  // };
 
   ngOnInit() {
     this.loggerStore.fetchShowStatistics(this.id());
