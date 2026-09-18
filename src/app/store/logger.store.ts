@@ -17,6 +17,7 @@ import {
   concatMap,
   EMPTY,
   exhaustMap,
+  filter,
   finalize,
   forkJoin,
   map,
@@ -90,6 +91,9 @@ export const LoggerStore = signalStore(
     playlistsByShow: computed(() => (id: number) => {
       return store.playlists().filter((p) => p.show === id);
     }),
+    statsByShow: computed(() => (id: number) => {
+      return store.showStats();
+    }),
   })),
   withMethods(
     (
@@ -136,6 +140,26 @@ export const LoggerStore = signalStore(
               finalize(() => patchState(store, { isLoading: false })),
             ),
           ),
+        ),
+      ),
+
+      fetchShow: rxMethod<number>(
+        pipe(
+          filter((showId) => !store.shows().some((s) => s.id === showId)),
+          tap(() => patchState(store, { isLoading: true })),
+          switchMap((showId) => {
+            return showService.getShow(showId).pipe(
+              tap((show) => {
+                patchState(store, (state) => ({
+                  shows: [...state.shows, show],
+                }));
+              }),
+              catchError((err) => {
+                return EMPTY;
+              }),
+              finalize(() => patchState(store, { isLoading: false })),
+            );
+          }),
         ),
       ),
 

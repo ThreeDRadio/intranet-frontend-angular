@@ -25,10 +25,7 @@ export class ShowService {
     return observable.pipe(
       map((response: any) => {
         const list = response;
-
-        return list.map((item: any) => {
-          return item as Show;
-        });
+        return list[0] as Show;
       }),
     );
   }

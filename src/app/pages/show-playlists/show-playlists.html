@@ -1,11 +1,12 @@
-<h1>{{ show().name }}</h1>
+@if (show(); as sh) {
+<h1>{{ sh.name }}</h1>
 <div class="top-artists-container">
   <mat-card class="show-ta-card">
     <mat-card-header>
       <mat-card-title>Most played artists</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      @if (loggerStore.showStats(); as statistics) {
+      @if (topArtists()) {
       <table mat-table [dataSource]="topArtists()" class="mat-typography">
         <ng-container matColumnDef="artist">
           <th mat-header-cell *matHeaderCellDef><b>Artist</b></th>
@@ -33,7 +34,7 @@
       <mat-card-title>Statistics</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      @if (loggerStore.showStats(); as statistics) {
+      @if (stats()) {
       <div class="stats-chart-wrapper">
         <canvas
           baseChart
@@ -51,9 +52,7 @@
 </div>
 <h3 style="opacity: 0.7">All Playlists</h3>
 <mat-divider />
-@if (loggerStore.isLoading()) {
-<h4>Loading playlists...</h4>
-} @else {
+@if (playlists()) {
 <div class="playlist-header-container">
   @for (playlist of playlists(); track playlist.id) {
   <app-playlist-header
@@ -62,4 +61,10 @@
   ></app-playlist-header>
   }
 </div>
+} @else {
+<h4>Loading playlists...</h4>
+<mat-progress-bar mode="indeterminate" />
+} } @else {
+<h4>Loading...</h4>
+<mat-progress-bar mode="indeterminate" />
 }

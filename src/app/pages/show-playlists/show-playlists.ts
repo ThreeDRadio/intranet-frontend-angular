@@ -1,4 +1,11 @@
-import { Component, computed, inject, input, OnInit } from "@angular/core";
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  OnInit,
+} from "@angular/core";
 import { LoggerStore } from "../../store";
 import { PlaylistHeaderComponent } from "../../components/playlist-header/playlist-header.component";
 import { MatCardModule } from "@angular/material/card";
@@ -34,21 +41,33 @@ export class ShowPlaylistsPage implements OnInit {
   readonly show = computed(
     () => this.loggerStore.showById()(this.id()) ?? undefined,
   );
-  playlists = computed(() => {
-    return this.loggerStore.playlists().filter((p) => p.show === this.id());
-  });
+  readonly playlists = computed(
+    () => this.loggerStore.playlistsByShow()(this.id()) ?? [],
+  );
+
+  // Stats
   readonly topArtists = computed(() => {
-    return this.loggerStore.showStats()?.topArtists;
+    return this.loggerStore.statsByShow()(this.id())?.topArtists;
   });
+  readonly statsLabels = computed(
+    () =>
+      this.loggerStore
+        .statsByShow()(this.id())
+        ?.statistics.map((s) => s.name) ?? [],
+  );
+  readonly statsValues = computed(
+    () =>
+      this.loggerStore
+        .statsByShow()(this.id())
+        ?.statistics.map((s) => s.value) ?? [],
+  );
+
   readonly stats = computed(() => {
-    const fromStore = this.loggerStore.showStats()?.statistics;
-    const labels = fromStore?.map((s) => s.name);
-    const values = fromStore?.map((s) => s.value);
     return {
-      labels,
+      labels: this.statsLabels(),
       datasets: [
         {
-          data: values,
+          data: this.statsValues(),
           label: "Tracks",
           backgroundColor: "#3f51b5", // Angular Material Primary Indigo
         },
@@ -67,7 +86,9 @@ export class ShowPlaylistsPage implements OnInit {
   };
 
   ngOnInit() {
-    this.loggerStore.fetchShowStatistics(this.id());
-    this.loggerStore.fetchPlaylistsForShow(this.id());
+    const showId = this.id();
+    this.loggerStore.fetchShow(showId);
+    this.loggerStore.fetchShowStatistics(showId);
+    this.loggerStore.fetchPlaylistsForShow(showId);
   }
 }
