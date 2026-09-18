@@ -71,7 +71,7 @@ export class ShowService {
     );
   }
 
-  getTopArtists(showId: number) {
+  getTopArtists(showId: number): Observable<TopArtist[]> {
     return this.showApi.getTopArtists(showId).pipe(
       map((response) => {
         return response.map((item) => {

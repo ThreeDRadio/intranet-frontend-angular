@@ -1,6 +1,5 @@
 import { computed, inject } from "@angular/core";
 import {
-  getState,
   patchState,
   signalStore,
   withComputed,
@@ -12,7 +11,7 @@ import { tapResponse } from "@ngrx/operators";
 import { PlaylistService } from "../services/playlist.service";
 import { NewPlaylist, Playlist } from "../models/playlist";
 import { Show } from "../models/show";
-import { ShowService } from "../services/show.service";
+import { ShowService, Statistic, TopArtist } from "../services/show.service";
 import {
   catchError,
   concatMap,
@@ -21,7 +20,6 @@ import {
   finalize,
   forkJoin,
   map,
-  mergeAll,
   mergeMap,
   pipe,
   switchMap,
@@ -38,23 +36,20 @@ type PlaylistSubmissionState =
       id: number | undefined;
     };
 
-type CatalogueInputState =
+type ShowStatisticsState =
   | undefined
   | {
-      show: Show;
-      playlist: Playlist;
+      isLoading: boolean;
+      topArtists?: TopArtist[];
+      statistics?: Statistic[];
     };
-
-type PlaylistCatalogueInputParams = {
-  show: Show;
-  playlist: Playlist;
-};
 
 type LoggerState = {
   isLoading: boolean;
   // Submission state
   playlistSubmission: PlaylistSubmissionState;
-
+  // Stats state for individual show
+  showStats: ShowStatisticsState;
   // Internal state
   shows: Show[];
   playlists: Playlist[];
@@ -64,6 +59,7 @@ type LoggerState = {
 export const initialState: LoggerState = {
   isLoading: false,
   playlistSubmission: undefined,
+  showStats: undefined,
   shows: [],
   playlists: [],
   playlistEntries: [],
@@ -158,6 +154,42 @@ export const LoggerStore = signalStore(
               finalize(() => patchState(store, { isLoading: false })),
             ),
           ),
+        ),
+      ),
+
+      fetchShowStatistics: rxMethod<number>(
+        pipe(
+          tap(() =>
+            patchState(store, {
+              showStats: { isLoading: true, topArtists: [], statistics: [] },
+            }),
+          ),
+          switchMap((showId) => {
+            const topArtistsRequest = showService.getTopArtists(showId);
+            const statisticsRequest = showService.getStats(showId);
+
+            return forkJoin([topArtistsRequest, statisticsRequest]).pipe(
+              tap((details) =>
+                patchState(store, {
+                  showStats: {
+                    isLoading: false,
+                    topArtists: details[0],
+                    statistics: details[1],
+                  },
+                }),
+              ),
+              catchError((err) => {
+                patchState(store, {
+                  showStats: {
+                    isLoading: false,
+                    topArtists: [],
+                    statistics: [],
+                  },
+                });
+                return EMPTY;
+              }),
+            );
+          }),
         ),
       ),
 
@@ -430,19 +462,6 @@ export const LoggerStore = signalStore(
               }),
             );
           }),
-        ),
-      ),
-
-      setCatalogueInput: rxMethod<PlaylistCatalogueInputParams>(
-        pipe(
-          map((p) =>
-            patchState(store, {
-              catalogueInputState: {
-                show: p.show,
-                playlist: p.playlist,
-              },
-            }),
-          ),
         ),
       ),
     }),

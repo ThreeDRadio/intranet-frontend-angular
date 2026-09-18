@@ -37,6 +37,9 @@ export class ShowPlaylistsPage implements OnInit {
   playlists = computed(() => {
     return this.loggerStore.playlists().filter((p) => p.show === this.id());
   });
+  readonly topArtists = computed(() => {
+    return this.loggerStore.showStats()?.topArtists;
+  });
 
   // Bar charts for stats
   public statsOptions: ChartConfiguration<"bar">["options"] = {
@@ -65,6 +68,7 @@ export class ShowPlaylistsPage implements OnInit {
   // };
 
   ngOnInit() {
+    this.loggerStore.fetchShowStatistics(this.id());
     this.loggerStore.fetchPlaylistsForShow(this.id());
   }
 }
