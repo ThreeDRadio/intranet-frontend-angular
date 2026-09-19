@@ -46,6 +46,19 @@
         formControlName="durationControl"
       />
     </mat-form-field>
+    <mat-icon>fiber_new</mat-icon>
+    <mat-form-field>
+      <mat-select
+        placeholder="New release?"
+        formControlName="newReleaseControl"
+      >
+        <mat-option [value]="true">Yes</mat-option>
+        <mat-option [value]="false">No</mat-option>
+      </mat-select>
+      @if (dialogTrackForm.get("newReleaseControl")?.hasError("required")) {
+        <mat-error>Please select yes or no.</mat-error>
+      }
+    </mat-form-field>
   </form>
   <div
     style="
@@ -81,13 +94,13 @@
       ></mat-checkbox>
     </div>
 
-    <div class="checkbox-container">
+    <!-- <div class="checkbox-container">
       <mat-icon>fiber_new</mat-icon>
       <mat-checkbox
         [checked]="quotas().newRelease"
         (change)="onQuotaChanged($event, 'newRelease')"
       ></mat-checkbox>
-    </div>
+    </div> -->
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

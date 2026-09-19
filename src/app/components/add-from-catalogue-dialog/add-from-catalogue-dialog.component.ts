@@ -1,11 +1,6 @@
 import { Component, inject, input, OnInit, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
-import {
-  MAT_DIALOG_DATA,
-  MatDialogContent,
-  MatDialogModule,
-  MatDialogRef,
-} from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogModule } from "@angular/material/dialog";
 import { Track } from "../../models/track";
 import { MatIconModule } from "@angular/material/icon";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -20,6 +15,8 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { DurationService } from "../../services/duration.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSelectModule } from "@angular/material/select";
+import { MatOptionModule } from "@angular/material/core";
 
 @Component({
   selector: "app-add-from-catalogue-dialog",
@@ -33,6 +30,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   providers: [DurationService],
   templateUrl: "./add-from-catalogue-dialog.component.html",
@@ -57,6 +56,7 @@ export class AddFromCatalogueDialogComponent implements OnInit {
     titleControl: new FormControl("", [Validators.required]),
     albumControl: new FormControl("", [Validators.required]),
     durationControl: new FormControl(),
+    newReleaseControl: new FormControl("", [Validators.required]),
   });
 
   ngOnInit(): void {
@@ -99,7 +99,7 @@ export class AddFromCatalogueDialogComponent implements OnInit {
       local: this.quotas().local,
       australian: this.quotas().australian,
       female: this.quotas().female,
-      newRelease: this.quotas().newRelease,
+      newRelease: this.dialogTrackForm.controls.newReleaseControl.value,
     };
   }
 }
