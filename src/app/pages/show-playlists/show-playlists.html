@@ -1,0 +1,70 @@
+@if (show(); as sh) {
+<h1>{{ sh.name }}</h1>
+<div class="top-artists-container">
+  <mat-card class="show-ta-card">
+    <mat-card-header>
+      <mat-card-title>Most played artists</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (topArtists()) {
+      <table mat-table [dataSource]="topArtists()" class="mat-typography">
+        <ng-container matColumnDef="artist">
+          <th mat-header-cell *matHeaderCellDef><b>Artist</b></th>
+          <td mat-cell *matCellDef="let element">{{ element.artist }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="plays">
+          <th mat-header-cell *matHeaderCellDef class="numeric-cell">
+            <b>Plays</b>
+          </th>
+          <td mat-cell *matCellDef="let element" class="numeric-cell">
+            {{ element.plays }}
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['artist', 'plays']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['artist', 'plays'];"></tr>
+      </table>
+      } @else {
+      <mat-progress-bar mode="indeterminate" />
+      }
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="show-stats-card">
+    <mat-card-header>
+      <mat-card-title>Statistics</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (stats()) {
+      <div class="stats-chart-wrapper">
+        <canvas
+          baseChart
+          [data]="stats()"
+          [options]="statsOptions"
+          [type]="'bar'"
+        >
+        </canvas>
+      </div>
+      } @else {
+      <mat-progress-bar mode="indeterminate" />
+      }
+    </mat-card-content>
+  </mat-card>
+</div>
+<h3 style="opacity: 0.7">All Playlists</h3>
+<mat-divider />
+@if (playlists()) {
+<div class="playlist-header-container">
+  @for (playlist of playlists(); track playlist.id) {
+  <app-playlist-header
+    [playlist]="playlist"
+    [linkToShow]="false"
+  ></app-playlist-header>
+  }
+</div>
+} @else {
+<h4>Loading playlists...</h4>
+<mat-progress-bar mode="indeterminate" />
+} } @else {
+<h4>Loading...</h4>
+<mat-progress-bar mode="indeterminate" />
+}

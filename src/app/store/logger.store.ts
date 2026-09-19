@@ -1,6 +1,5 @@
 import { computed, inject } from "@angular/core";
 import {
-  getState,
   patchState,
   signalStore,
   withComputed,
@@ -12,16 +11,16 @@ import { tapResponse } from "@ngrx/operators";
 import { PlaylistService } from "../services/playlist.service";
 import { NewPlaylist, Playlist } from "../models/playlist";
 import { Show } from "../models/show";
-import { ShowService } from "../services/show.service";
+import { ShowService, Statistic, TopArtist } from "../services/show.service";
 import {
   catchError,
   concatMap,
   EMPTY,
   exhaustMap,
+  filter,
   finalize,
   forkJoin,
   map,
-  mergeAll,
   mergeMap,
   pipe,
   switchMap,
@@ -38,24 +37,20 @@ type PlaylistSubmissionState =
       id: number | undefined;
     };
 
-type CatalogueInputState =
+type ShowStatisticsState =
   | undefined
   | {
-      show: Show;
-      playlist: Playlist;
+      isLoading: boolean;
+      topArtists?: TopArtist[];
+      statistics?: Statistic[];
     };
-
-type PlaylistCatalogueInputParams = {
-  show: Show;
-  playlist: Playlist;
-};
 
 type LoggerState = {
   isLoading: boolean;
   // Submission state
   playlistSubmission: PlaylistSubmissionState;
-  // Catalogue input state
-  catalogueInputState: CatalogueInputState;
+  // Stats state for individual show
+  showStats: ShowStatisticsState;
   // Internal state
   shows: Show[];
   playlists: Playlist[];
@@ -65,7 +60,7 @@ type LoggerState = {
 export const initialState: LoggerState = {
   isLoading: false,
   playlistSubmission: undefined,
-  catalogueInputState: undefined,
+  showStats: undefined,
   shows: [],
   playlists: [],
   playlistEntries: [],
@@ -92,6 +87,12 @@ export const LoggerStore = signalStore(
     }),
     showById: computed(() => (id: number) => {
       return store.shows().find((s) => s.id === id);
+    }),
+    playlistsByShow: computed(() => (id: number) => {
+      return store.playlists().filter((p) => p.show === id);
+    }),
+    statsByShow: computed(() => (id: number) => {
+      return store.showStats();
     }),
   })),
   withMethods(
@@ -139,6 +140,80 @@ export const LoggerStore = signalStore(
               finalize(() => patchState(store, { isLoading: false })),
             ),
           ),
+        ),
+      ),
+
+      fetchShow: rxMethod<number>(
+        pipe(
+          filter((showId) => !store.shows().some((s) => s.id === showId)),
+          tap(() => patchState(store, { isLoading: true })),
+          switchMap((showId) => {
+            return showService.getShow(showId).pipe(
+              tap((show) => {
+                patchState(store, (state) => ({
+                  shows: [...state.shows, show],
+                }));
+              }),
+              catchError((err) => {
+                return EMPTY;
+              }),
+              finalize(() => patchState(store, { isLoading: false })),
+            );
+          }),
+        ),
+      ),
+
+      fetchPlaylistsForShow: rxMethod<number>(
+        pipe(
+          tap(() => patchState(store, { isLoading: true })),
+          switchMap((showId) =>
+            playlistService.getPlaylistsForShow(showId).pipe(
+              tap((playlists) => {
+                patchState(store, { playlists });
+              }),
+              catchError((err) => {
+                patchState(store, { playlists: [] });
+                return EMPTY;
+              }),
+              finalize(() => patchState(store, { isLoading: false })),
+            ),
+          ),
+        ),
+      ),
+
+      fetchShowStatistics: rxMethod<number>(
+        pipe(
+          tap(() =>
+            patchState(store, {
+              showStats: { isLoading: true, topArtists: [], statistics: [] },
+            }),
+          ),
+          switchMap((showId) => {
+            const topArtistsRequest = showService.getTopArtists(showId);
+            const statisticsRequest = showService.getStats(showId);
+
+            return forkJoin([topArtistsRequest, statisticsRequest]).pipe(
+              tap((details) =>
+                patchState(store, {
+                  showStats: {
+                    isLoading: false,
+                    topArtists: details[0],
+                    statistics: details[1],
+                  },
+                }),
+              ),
+              catchError((err) => {
+                patchState(store, {
+                  showStats: {
+                    isLoading: false,
+                    topArtists: [],
+                    statistics: [],
+                  },
+                });
+                return EMPTY;
+              }),
+            );
+          }),
         ),
       ),
 
@@ -411,19 +486,6 @@ export const LoggerStore = signalStore(
               }),
             );
           }),
-        ),
-      ),
-
-      setCatalogueInput: rxMethod<PlaylistCatalogueInputParams>(
-        pipe(
-          map((p) =>
-            patchState(store, {
-              catalogueInputState: {
-                show: p.show,
-                playlist: p.playlist,
-              },
-            }),
-          ),
         ),
       ),
     }),

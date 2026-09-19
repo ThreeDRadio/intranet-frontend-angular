@@ -5,11 +5,13 @@ import { PlaylistApi } from "./playlist-api";
 import { PlaylistEntry } from "../models/playlist-entry";
 import { PlaylistEntryApi } from "./playlist-entry-api";
 import { ApiModel } from "./model-api";
+import { ShowApi } from "./show-api";
 
 @Injectable({
   providedIn: "root",
 })
 export class PlaylistService {
+  readonly showApi = inject(ShowApi);
   readonly playlistApi = inject(PlaylistApi);
   readonly playlistEntryApi = inject(PlaylistEntryApi);
 
@@ -38,6 +40,23 @@ export class PlaylistService {
     return observable.pipe(
       map((response: any) => {
         return response as Playlist;
+      }),
+    );
+  }
+
+  getPlaylistsForShow(showId: number): Observable<Playlist[]> {
+    const observable = this.showApi.getPlaylists({
+      ids: [showId],
+    });
+
+    return observable.pipe(
+      map((response: any) => {
+        if (response.length != 1) return of([]);
+
+        const list = response[0];
+        return list.map((item: any) => {
+          return item as Playlist;
+        });
       }),
     );
   }

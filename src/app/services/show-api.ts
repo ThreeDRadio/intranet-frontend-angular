@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { ModelApi } from "./model-api";
 import { BaseApi } from "./base-api.service";
 import { Show } from "../models/show";
-import { forkJoin, of } from "rxjs";
+import { forkJoin, Observable, of } from "rxjs";
 
 type ShowSearchParams = {
   ids: number[];
@@ -16,12 +16,27 @@ export class ShowApi extends ModelApi<Show> {
 
   getShows(params: ShowSearchParams) {
     if (params.ids.length == 0) return of([]);
-
     let observables = params.ids.map((id) => this.http.get(`shows/${id}`));
+    return forkJoin(observables);
+  }
+
+  getPlaylists(params: ShowSearchParams) {
+    if (params.ids.length == 0) return of([]);
+    let observables = params.ids.map((id) =>
+      this.http.get(`shows/${id}/playlists`),
+    );
     return forkJoin(observables);
   }
 
   getAllShows() {
     return super.list({ responseType: "json" });
+  }
+
+  getStatistics(id: number): Observable<any> {
+    return this.http.get(`shows/${id}/statistics`);
+  }
+
+  getTopArtists(id: number): Observable<any> {
+    return this.http.get(`shows/${id}/topartists`);
   }
 }

@@ -1,7 +1,11 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      <a [routerLink]="['/playlists/show', show().id]">{{ show()?.name }}</a>
+      @if (this.linkToShow()) {
+        <a [routerLink]="['/playlists/show', show().id]">{{ show()?.name }}</a>
+      } @else {
+        {{ show()?.name }}
+      }
     </mat-card-title>
     <mat-card-subtitle>
       {{ formattedDate() }}, hosted by {{ playlist().host }}

@@ -14,6 +14,7 @@ import { RecentPlaylistsPageComponent } from "./pages/recent-playlists/recent-pl
 import { PlaylistPageComponent } from "./pages/playlist/playlist";
 import { NewPlaylistPage } from "./pages/new-playlist/new-playlist";
 import { PlaylistEditorPage } from "./pages/playlist-editor/playlist-editor";
+import { ShowPlaylistsPage } from "./pages/show-playlists/show-playlists";
 
 export const ROUTES: Routes = [
   {
@@ -22,14 +23,15 @@ export const ROUTES: Routes = [
     canActivate: [ReadyGuard, AuthenticatedGuard],
     children: [
       { path: "", component: HomePageComponent },
-      { path: "playlists/recent", component: RecentPlaylistsPageComponent },
-      { path: "playlists/new", component: NewPlaylistPage },
-      { path: "playlists/edit/:id", component: PlaylistEditorPage },
       { path: "new-releases", component: NewReleasesPageComponent },
       { path: "upload", component: MusicUploadComponent },
       { path: "search", component: SearchComponent },
       { path: "releases/:id", component: ReleasePageComponent },
       { path: "playlists/view/:id", component: PlaylistPageComponent },
+      { path: "playlists/recent", component: RecentPlaylistsPageComponent },
+      { path: "playlists/new", component: NewPlaylistPage },
+      { path: "playlists/edit/:id", component: PlaylistEditorPage },
+      { path: "playlists/show/:id", component: ShowPlaylistsPage },
     ],
   },
   {

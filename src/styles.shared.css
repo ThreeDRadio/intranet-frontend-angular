@@ -321,3 +321,9 @@
   white-space: nowrap;
   margin: 0;
 }
+
+.playlist-header-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
