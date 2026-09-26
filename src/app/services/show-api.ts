@@ -16,8 +16,7 @@ export class ShowApi extends ModelApi<Show> {
 
   getShows(params: ShowSearchParams) {
     if (params.ids.length == 0) return of([]);
-    let observables = params.ids.map((id) => this.http.get(`shows/${id}`));
-    return forkJoin(observables);
+    return this.http.post(`shows/search`, { ids: params.ids });
   }
 
   getPlaylists(params: ShowSearchParams) {
