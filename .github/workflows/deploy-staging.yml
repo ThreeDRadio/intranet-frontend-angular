@@ -40,6 +40,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Set package.json version to commit hash
+        run: |
+          SHORT_HASH=$(echo "${{ github.sha }}" | cut -c1-8)
+          jq --arg ver "$SHORT_HASH" '.version = $ver' package.json > temp.json && mv temp.json package.json
+
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag ghcr.io/threedradio/intranet-frontend-angular:testing --build-arg NODE_ENV=development --build-arg NG_ENV=staging
 
