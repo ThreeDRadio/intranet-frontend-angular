@@ -14,10 +14,7 @@ export class PlaylistEntryApi extends ModelApi<PlaylistEntry> {
     super("playlistentries", inject(BaseApi));
   }
 
-  reorderEntries(entries: PlaylistEntry[]) {
-    let observables = entries.map((e) =>
-      this.http.patch(`playlistentries/${e.id}`, { index: e.index }),
-    );
-    return forkJoin(observables);
+  move(input: PlaylistEntryParams, to: number) {
+    return this.http.post(`playlistentries/${input.id}/move`, { to });
   }
 }

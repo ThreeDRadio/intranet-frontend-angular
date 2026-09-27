@@ -312,11 +312,8 @@ export const LoggerStore = signalStore(
             patchState(store, {
               playlistEntries: after,
             });
-            const toUpdate = after.slice(
-              Math.min(input.from, input.to) - 1,
-              Math.max(input.from, input.to),
-            );
-            return playlistService.reorderEntries(toUpdate).pipe(
+
+            return playlistService.move(item.id, input.to).pipe(
               catchError((err) => {
                 patchState(store, { playlistEntries: before });
                 return EMPTY;
