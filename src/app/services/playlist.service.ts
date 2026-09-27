@@ -131,16 +131,12 @@ export class PlaylistService {
     );
   }
 
-  reorderEntries(entries: PlaylistEntry[]) {
-    const observable = this.playlistEntryApi.reorderEntries(entries);
-
-    return observable.pipe(
-      map((response: any) => {
-        const list = response;
-
-        return list.map((item: any) => {
-          return item as PlaylistEntry;
-        });
+  move(id: number, to: number): Observable<boolean> {
+    return this.playlistEntryApi.move({ id }, to).pipe(
+      map(() => true),
+      catchError((err) => {
+        console.error("Failed to move playlist entry:", err);
+        return of(false);
       }),
     );
   }
