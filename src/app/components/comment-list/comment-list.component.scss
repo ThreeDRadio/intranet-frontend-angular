@@ -11,3 +11,30 @@ table {
     }
   }
 }
+
+.comment-card-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.comment-card-flex-author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 16px;
+  min-width: 100px;
+}
+
+.comment-card-flex-comment {
+  flex: 1;
+}
+
+.comment-card-flex-comment-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-card-flex-mod-remove {
+  margin-left: 8px;
+}
