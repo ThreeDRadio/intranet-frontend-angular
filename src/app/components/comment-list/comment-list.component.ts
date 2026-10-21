@@ -8,18 +8,7 @@ import {
 } from "@angular/core";
 import { Comment } from "app/models/comment";
 import { getLoggedInUser } from "app/store/selectors";
-import {
-  MatTable,
-  MatColumnDef,
-  MatHeaderCellDef,
-  MatHeaderCell,
-  MatCellDef,
-  MatCell,
-  MatHeaderRowDef,
-  MatHeaderRow,
-  MatRowDef,
-  MatRow,
-} from "@angular/material/table";
+import {} from "@angular/material/table";
 import { MatSort, MatSortHeader } from "@angular/material/sort";
 import { Store } from "@ngrx/store";
 import { Groups } from "../../constants";
@@ -29,27 +18,27 @@ import { CommentActions } from "../../store/actions/comment.actions";
 import { AsyncPipe } from "@angular/common";
 import { Observable } from "rxjs";
 import { isLoading } from "../../store/selectors";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatCardModule } from "@angular/material/card";
+import { MatDividerModule } from "@angular/material/divider";
 
 @Component({
   selector: "app-comment-list-table",
   templateUrl: "./comment-list.component.html",
   styleUrls: ["./comment-list.component.scss"],
   imports: [
-    MatTable,
     MatSort,
-    MatColumnDef,
-    MatHeaderCellDef,
-    MatHeaderCell,
     MatSortHeader,
-    MatCellDef,
-    MatCell,
-    MatHeaderRowDef,
-    MatHeaderRow,
-    MatRowDef,
-    MatRow,
     MatIcon,
     MatButtonModule,
     AsyncPipe,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatDividerModule,
   ],
 })
 export class CommentListComponent {

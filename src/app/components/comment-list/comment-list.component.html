@@ -1,5 +1,51 @@
 @if ((loading$ | async) === false) {
-  <table mat-table matSort [dataSource]="comments">
+  @for (comment of comments; track comment.id) {
+    <mat-divider />
+    <div class="comments-list">
+      <mat-card
+        class="comment-card"
+        (click)="comment?.visible && commentSelected.emit(comment)"
+      >
+        <mat-card-content
+          style="display: flex; flex-direction: row; align-items: flex-start"
+        >
+          <!-- Author Section (Fixed structural wrapper width) -->
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              margin-right: 16px;
+              min-width: 100px;
+            "
+          >
+            <img
+              [src]="comment.author?.gravatar + '?d=retro'"
+              alt="Author Gravatar"
+            />
+            <br />
+            <span style="text-align: center">
+              {{ comment.author?.first_name + " " + comment.author?.last_name }}
+            </span>
+          </div>
+
+          <!-- Comment Content Section (Takes up all remaining space) -->
+          <div style="flex: 1">
+            <div style="display: flex; flex-direction: column">
+              <strong>
+                {{ comment.release.artist }} - {{ comment.release.title }}
+              </strong>
+              <br />
+              <div class="comment-text">{{ comment.comment }}</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <mat-divider />
+  }
+
+  <!-- <table mat-table matSort [dataSource]="comments">
     <ng-container matColumnDef="author">
       <th mat-header-cell mat-sort-header *matHeaderCellDef>Author</th>
       <td mat-cell *matCellDef="let element" class="author">
@@ -44,7 +90,24 @@
       *matRowDef="let row; columns: commentColumns"
       (click)="row?.visible && commentSelected.emit(row)"
     ></tr>
-  </table>
+
+    <ng-container matColumnDef="newComment" span>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+    <ng-container matColumnDef="newAction">
+      <th mat-footer-cell *matHeaderCellDef>Test</th>
+      <td mat-footer-cell *matFooterCellDef>
+        <form class="example-form">
+          <mat-form-field style="width: 100%">
+            <mat-label>Leave a comment</mat-label>
+            <textarea matInput placeholder="---"></textarea>
+          </mat-form-field>
+        </form>
+      </td>
+    </ng-container>
+
+    <tr mat-footer-row *matFooterRowDef="['newComment', 'newAction']"></tr>
+  </table> -->
 } @else {
   <mat-spinner></mat-spinner>
 }
