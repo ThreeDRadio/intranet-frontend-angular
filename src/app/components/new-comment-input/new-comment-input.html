@@ -1,11 +1,14 @@
 @if ({release: input(), user: user() }; as data) {
 <mat-card class="comment-card">
   <mat-card-content class="comment-card-flex">
-    <div class="comment-card-flex-author">
-      <img />
+    <div class="comment-card-flex-author" style="opacity: 0.7">
+      <img
+        [src]="this.userService.getGravatarUrl(data.user) + '?d=retro'"
+        alt="Author Gravatar"
+      />
       <br />
       <span style="text-align: center">
-        <i>{{ data.user?.first_name + " " + data.user?.last_name }} (You)</i>
+        <i>{{ data.user?.first_name + " " + data.user?.last_name }}</i>
       </span>
     </div>
 
@@ -13,13 +16,8 @@
       <div class="comment-input-row">
         <br />
         <mat-form-field appearance="outline">
-          <mat-label>Leave a comment</mat-label>
-          <input
-            matInput
-            type="text"
-            autocomplete="off"
-            placeholder="Ex. It makes me feel..."
-          />
+          <mat-label>Make a comment</mat-label>
+          <input matInput type="text" autocomplete="off" />
         </mat-form-field>
         <button matFab color="secondary" aria-label="Make comment.">
           <mat-icon>send</mat-icon>
