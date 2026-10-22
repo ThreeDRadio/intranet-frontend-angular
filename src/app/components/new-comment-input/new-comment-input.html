@@ -1,0 +1,33 @@
+@if (input(); as release) {
+<mat-card class="comment-card">
+  <mat-card-content class="comment-card-flex">
+    <div class="comment-card-flex-author">
+      <img />
+      <br />
+      <span style="text-align: center">
+        <i>{{ release?.first_name + " " + release?.last_name }} (You)</i>
+      </span>
+    </div>
+
+    <div class="comment-card-flex-comment">
+      <div class="comment-input-row">
+        <br />
+        <mat-form-field appearance="outline">
+          <mat-label>Leave a comment</mat-label>
+          <input
+            matInput
+            type="text"
+            autocomplete="off"
+            placeholder="Ex. It makes me feel..."
+          />
+        </mat-form-field>
+        <button matFab color="secondary" aria-label="Make comment.">
+          <mat-icon>send</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+} @else {
+<mat-spinner></mat-spinner>
+}

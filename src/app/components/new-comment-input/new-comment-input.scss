@@ -1,0 +1,60 @@
+.warning-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.comment-submit-btn {
+  opacity: 0.35;
+  color: var(--mat-sys-on-surface, #666) !important;
+  transition:
+    opacity 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
+
+  /* 1. Safely scales the button outer bounds using Material variables */
+  --mdc-icon-button-state-layer-size: 44px !important;
+  width: 44px !important;
+  height: 44px !important;
+
+  /* 2. Forces centering inside the button element flex container */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 3. Targets the icon and overrides the raw font spacing constraints */
+.comment-submit-btn mat-icon {
+  font-size: 28px !important; /* Scaled from default 24px */
+  width: 28px !important;
+  height: 28px !important;
+
+  /* Cleans up any baseline font offsets pushing it down */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.comment-submit-btn:hover,
+.comment-submit-btn:focus-visible {
+  opacity: 1;
+  color: #000 !important;
+  outline: none;
+}
+
+.comment-input-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start; /* Aligns items to the top boundary */
+  gap: 8px; /* Adds horizontal spacing between the input and the button */
+  width: 100%;
+}
+
+/* 2. Forces the input box to stretch out and fill the row */
+.comment-input-row mat-form-field {
+  flex: 1;
+}

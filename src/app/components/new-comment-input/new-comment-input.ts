@@ -1,0 +1,26 @@
+import { Component, input } from "@angular/core";
+import { MatCardModule } from "@angular/material/card";
+import { Release } from "../../models/release";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule, MatIconButton } from "@angular/material/button";
+
+@Component({
+  selector: "app-new-comment-input",
+  imports: [
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatIconButton,
+  ],
+  templateUrl: "./new-comment-input.html",
+  styleUrl: "./new-comment-input.scss",
+})
+export class NewCommentInputComponent {
+  input = input.required<Release>();
+}
