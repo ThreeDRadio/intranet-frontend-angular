@@ -29,8 +29,6 @@ import { MatDividerModule } from "@angular/material/divider";
   templateUrl: "./comment-list.component.html",
   styleUrls: ["./comment-list.component.scss"],
   imports: [
-    MatSort,
-    MatSortHeader,
     MatIcon,
     MatButtonModule,
     AsyncPipe,

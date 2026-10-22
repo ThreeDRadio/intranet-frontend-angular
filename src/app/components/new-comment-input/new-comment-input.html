@@ -1,11 +1,11 @@
-@if (input(); as release) {
+@if ({release: input(), user: user() }; as data) {
 <mat-card class="comment-card">
   <mat-card-content class="comment-card-flex">
     <div class="comment-card-flex-author">
       <img />
       <br />
       <span style="text-align: center">
-        <i>{{ release?.first_name + " " + release?.last_name }} (You)</i>
+        <i>{{ data.user?.first_name + " " + data.user?.last_name }} (You)</i>
       </span>
     </div>
 

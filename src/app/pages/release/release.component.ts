@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
@@ -30,6 +30,7 @@ import { MatButton } from "@angular/material/button";
 import { CommentListComponent } from "../../components/comment-list/comment-list.component";
 import { DurationPipe } from "../../pipes/duration.pipe";
 import { NewCommentInputComponent } from "../../components/new-comment-input/new-comment-input";
+import { UserService } from "../../services/user.service";
 
 @Component({
   selector: "app-release",
@@ -58,6 +59,10 @@ import { NewCommentInputComponent } from "../../components/new-comment-input/new
   ],
 })
 export class ReleasePageComponent {
+  private userService = inject(UserService);
+  private store: Store<any> = inject(Store<any>);
+  private route: ActivatedRoute = inject(ActivatedRoute);
+
   release$: Observable<any>;
   tracks$: Observable<Array<any>>;
   comments$: Observable<Array<Comment>>;
@@ -70,10 +75,7 @@ export class ReleasePageComponent {
     "actions",
   ];
 
-  constructor(
-    private store: Store<any>,
-    private route: ActivatedRoute,
-  ) {
+  constructor() {
     this.route.params.subscribe((params) => {
       this.store.dispatch(new ReleaseActions.RequestById(params.id));
       this.store.dispatch(
