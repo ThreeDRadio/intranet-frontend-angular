@@ -19,6 +19,6 @@ export class UserService {
   getGravatarUrl(user) {
     const name = user.email ?? user.username;
     const hashHex = md5(name.trim().toLowerCase());
-    return `https://www.gravatar.com/avatar/${hashHex}`;
+    return `https://www.gravatar.com/avatar/${hashHex}?d=retro`;
   }
 }
