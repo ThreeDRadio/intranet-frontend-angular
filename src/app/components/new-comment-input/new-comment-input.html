@@ -1,0 +1,41 @@
+@if ({release: input(), user: loggedInUser() }; as data) {
+<mat-card class="comment-card">
+  <mat-card-content class="comment-card-flex">
+    <div class="comment-card-flex-author" style="opacity: 0.7">
+      <img [src]="gravatar()" alt="Author Gravatar" />
+      <br />
+      <span style="text-align: center">
+        <i>{{ data.user?.first_name + " " + data.user?.last_name }}</i>
+      </span>
+    </div>
+
+    <div class="comment-card-flex-comment">
+      <form
+        class="comment-input-row"
+        [formGroup]="commentForm"
+        (ngSubmit)="makeComment()"
+      >
+        <mat-form-field appearance="outline">
+          <mat-label>Make a comment</mat-label>
+          <input
+            matInput
+            formControlName="commentText"
+            type="text"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <button
+          matFab
+          type="submit"
+          color="secondary"
+          aria-label="Make comment."
+        >
+          <mat-icon>send</mat-icon>
+        </button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>
+} @else {
+<mat-spinner></mat-spinner>
+}

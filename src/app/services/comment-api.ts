@@ -14,6 +14,10 @@ export class CommentApi extends ModelApi<Comment> {
     return this.http.get(`releases/${releaseId}/comments`);
   }
 
+  makeComment(input) {
+    return this.http.post(`releases/${input.release.id}/comments`, input);
+  }
+
   hideComment(commentId: number) {
     return this.http.patch(`comments/${commentId}`, { visible: false });
   }

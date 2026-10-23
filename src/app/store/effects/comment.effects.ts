@@ -60,6 +60,22 @@ export class CommentEffects {
     ),
   );
 
+  userMakeComment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CommentActions.Types.requestUserMakeComment),
+      switchMap((action) => {
+        return this.api.makeComment(action.payload).pipe(
+          map((response) => {
+            return new CommentActions.ResponseUserMakeComment({
+              commentId: action.payload.commentId,
+            });
+          }),
+          catchError((err) => of(new CommentActions.ErrorList(err))),
+        );
+      }),
+    ),
+  );
+
   constructor(
     private actions$: Actions<CommentActions.Actions>,
     private api: CommentApi,

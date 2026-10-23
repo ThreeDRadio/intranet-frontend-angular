@@ -4,9 +4,7 @@
       {{ release.artist }} - {{ release.title }}
       <mat-chip-set style="display: flex; justify-content: center">
         @if (release.local === 2) {
-          <mat-chip>
-            <mat-icon matChipAvatar>home</mat-icon>Local
-          </mat-chip>
+          <mat-chip> <mat-icon matChipAvatar>home</mat-icon>Local </mat-chip>
         }
         @if (release.cpa) {
           <mat-chip>
@@ -57,10 +55,7 @@
             </button>
           }
           @if (element.hiAvailable) {
-            <button
-              mat-button
-              (click)="download(element)"
-              >
+            <button mat-button (click)="download(element)">
               <mat-icon>save_alt</mat-icon>
               Download
             </button>
@@ -71,10 +66,13 @@
       <tr mat-row *matRowDef="let row; columns: trackColumns"></tr>
     </table>
   </div>
-}
 
-<h2>Comments</h2>
-<app-comment-list-table
-  [truncate]="true"
-  [comments]="comments$ | async"
-></app-comment-list-table>
+  <h2>Comments</h2>
+  <app-comment-list-table
+    [truncate]="true"
+    [comments]="comments$ | async"
+  ></app-comment-list-table>
+  @if (this.userService.getLoggedInUser(); as loggedInUser) {
+    <app-new-comment-input [input]="release"></app-new-comment-input>
+  }
+}
