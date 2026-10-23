@@ -11,18 +11,18 @@ describe("QuotaService", () => {
 
     // Create a balanced mock playlist of 10 entries for predictable percentage calculation
     mockEntries = [
-      { local: true, australian: true, female: true },
-      { local: true, australian: true, female: false },
-      { local: true, australian: false, female: false },
-      { local: false, australian: true, female: true },
-      { local: false, australian: true, female: false },
-      { local: false, australian: false, female: true },
-      { local: false, australian: false, female: false },
-      { local: false, australian: false, female: false },
-      { local: false, australian: false, female: false },
-      { local: false, australian: false, female: false },
+      { local: true, australian: true, female: true, newRelease: false },
+      { local: true, australian: true, female: false, newRelease: false },
+      { local: true, australian: false, female: false, newRelease: true },
+      { local: false, australian: true, female: true, newRelease: false },
+      { local: false, australian: true, female: false, newRelease: false },
+      { local: false, australian: false, female: true, newRelease: false },
+      { local: false, australian: false, female: false, newRelease: false },
+      { local: false, australian: false, female: false, newRelease: false },
+      { local: false, australian: false, female: false, newRelease: true },
+      { local: false, australian: false, female: false, newRelease: false },
     ] as PlaylistEntry[];
-    // Note: 3 Local, 4 Australian, 3 Female
+    // Note: 3 Local, 4 Australian, 3 Female, 2 NR
   });
 
   describe("getLocalQuota", () => {
@@ -117,6 +117,13 @@ describe("QuotaService", () => {
       expect(result.meets).toBe(false);
       expect(result.count).toBe(3);
       expect(result.quota).toBe(4);
+    });
+  });
+
+  describe("getNewReleaseCount", () => {
+    it("should successfully calculate and evaluate New Release count", () => {
+      const result = service.getNewReleaseCount(mockEntries);
+      expect(result).toBe(2);
     });
   });
 
