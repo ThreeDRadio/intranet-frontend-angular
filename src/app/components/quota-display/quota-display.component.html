@@ -11,6 +11,12 @@
       [quota]="q.australian"
     ></app-quota-indicator>
     <app-quota-indicator icon="female" [quota]="q.female"></app-quota-indicator>
+    @if (this.counts(); as c) {
+      <app-quota-count
+        icon="fiber_new"
+        [count]="c.newRelease"
+      ></app-quota-count>
+    }
     <app-duration-indicator
       [duration]="totalDuration()"
     ></app-duration-indicator>

@@ -133,6 +133,10 @@ export class PlaylistEditorPage implements OnInit {
     };
   });
 
+  readonly counts = computed(() => {
+    return { newRelease: this.quotaService.getNewReleaseCount(this.entries()) };
+  });
+
   constructor() {
     effect(() => {
       const isComplete =
