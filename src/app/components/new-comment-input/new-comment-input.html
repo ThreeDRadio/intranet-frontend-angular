@@ -2,10 +2,7 @@
 <mat-card class="comment-card">
   <mat-card-content class="comment-card-flex">
     <div class="comment-card-flex-author" style="opacity: 0.7">
-      <img
-        [src]="this.userService.getGravatarUrl(data.user)"
-        alt="Author Gravatar"
-      />
+      <img [src]="gravatar()" alt="Author Gravatar" />
       <br />
       <span style="text-align: center">
         <i>{{ data.user?.first_name + " " + data.user?.last_name }}</i>

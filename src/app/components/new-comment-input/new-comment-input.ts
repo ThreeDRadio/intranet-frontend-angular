@@ -1,4 +1,4 @@
-import { Component, inject, input } from "@angular/core";
+import { Component, computed, inject, input } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { Release } from "../../models/release";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
@@ -25,4 +25,5 @@ export class NewCommentInputComponent {
   private userService = inject(UserService);
   input = input.required<Release>();
   user = input.required();
+  gravatar = computed(() => this.userService.getGravatarUrl(this.user()));
 }
