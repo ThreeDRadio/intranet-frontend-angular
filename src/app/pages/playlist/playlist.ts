@@ -58,6 +58,10 @@ export class PlaylistPageComponent implements OnInit {
     };
   });
 
+  readonly counts = computed(() => {
+    return { newRelease: 1 };
+  });
+
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
   );

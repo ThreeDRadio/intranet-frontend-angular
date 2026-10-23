@@ -5,6 +5,7 @@
 <h3 style="opacity: 0.7">{{ formattedDate() }}</h3>
 <app-quota-display
   [quotas]="this.quotas()"
+  [counts]="this.counts()"
   [totalDuration]="this.totalDuration()"
 ></app-quota-display>
 <app-playlist-entry-list
