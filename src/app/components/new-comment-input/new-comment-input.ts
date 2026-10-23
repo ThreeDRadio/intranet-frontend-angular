@@ -9,6 +9,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { UserService } from "../../services/user.service";
 import { CommentActions } from "../../store/actions/comment.actions";
 import { Store } from "@ngrx/store";
+import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-new-comment-input",
@@ -19,6 +20,7 @@ import { Store } from "@ngrx/store";
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    ReactiveFormsModule,
   ],
   templateUrl: "./new-comment-input.html",
   styleUrl: "./new-comment-input.scss",
@@ -32,22 +34,30 @@ export class NewCommentInputComponent {
     this.userService.getGravatarUrl(this.loggedInUser()),
   );
 
+  commentForm = new FormGroup({
+    commentText: new FormControl(""),
+  });
+
   makeComment() {
     const user = this.loggedInUser();
 
-    this.legacyStore.dispatch(
-      new CommentActions.RequestUserMakeComment({
-        comment: "test",
-        author: {
-          first_name: user.first_name,
-          last_name: user.last_name,
-        },
-        release: {
-          id: this.input().id,
-          artist: this.input().artist,
-          title: this.input().title,
-        },
-      }),
-    );
+    if (this.commentForm.valid) {
+      this.legacyStore.dispatch(
+        new CommentActions.RequestUserMakeComment({
+          comment: this.commentForm.controls.commentText.value,
+          author: {
+            first_name: user.first_name,
+            last_name: user.last_name,
+          },
+          release: {
+            id: this.input().id,
+            artist: this.input().artist,
+            title: this.input().title,
+          },
+        }),
+      );
+      // Reset the input field after submitting
+      this.commentForm.reset();
+    }
   }
 }

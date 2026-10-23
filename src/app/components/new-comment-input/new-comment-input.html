@@ -10,22 +10,30 @@
     </div>
 
     <div class="comment-card-flex-comment">
-      <div class="comment-input-row">
-        <br />
+      <form
+        class="comment-input-row"
+        [formGroup]="commentForm"
+        (ngSubmit)="makeComment()"
+      >
         <mat-form-field appearance="outline">
           <mat-label>Make a comment</mat-label>
-          <input matInput type="text" autocomplete="off" />
+          <!-- Bind your input using ngModel or formControl here -->
+          <input
+            matInput
+            formControlName="commentText"
+            type="text"
+            autocomplete="off"
+          />
         </mat-form-field>
         <button
           matFab
+          type="submit"
           color="secondary"
           aria-label="Make comment."
-          type="submit"
-          (click)="makeComment()"
         >
           <mat-icon>send</mat-icon>
         </button>
-      </div>
+      </form>
     </div>
   </mat-card-content>
 </mat-card>
