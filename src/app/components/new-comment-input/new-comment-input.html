@@ -1,4 +1,4 @@
-@if ({release: input(), user: user() }; as data) {
+@if ({release: input(), user: loggedInUser() }; as data) {
 <mat-card class="comment-card">
   <mat-card-content class="comment-card-flex">
     <div class="comment-card-flex-author" style="opacity: 0.7">
@@ -16,7 +16,13 @@
           <mat-label>Make a comment</mat-label>
           <input matInput type="text" autocomplete="off" />
         </mat-form-field>
-        <button matFab color="secondary" aria-label="Make comment.">
+        <button
+          matFab
+          color="secondary"
+          aria-label="Make comment."
+          type="submit"
+          (click)="makeComment()"
+        >
           <mat-icon>send</mat-icon>
         </button>
       </div>

@@ -10,6 +10,8 @@ export namespace CommentActions {
     errorList: "[Comment][Error] list",
     requestModeratorRemoveComment: "[Comment][Request] remove comment",
     responseModeratorRemoveComment: "[Comment][Response] remove comment",
+    requestUserMakeComment: "[Comment][Request] make comment",
+    responseUserMakeComment: "[Comment][Response] make comment",
   };
 
   export class RequestForRelease {
@@ -29,6 +31,26 @@ export namespace CommentActions {
 
   export class ResponseModeratorRemoveComment {
     readonly type = Types.responseModeratorRemoveComment;
+    constructor(public payload: { commentId: number }) {}
+  }
+
+  export class RequestUserMakeComment {
+    readonly type = Types.requestUserMakeComment;
+    constructor(
+      public payload: {
+        comment: string;
+        author: { first_name: string; last_name: string };
+        release: {
+          id: number;
+          artist: string;
+          title: string;
+        };
+      },
+    ) {}
+  }
+
+  export class ResponseUserMakeComment {
+    readonly type = Types.requestUserMakeComment;
     constructor(public payload: { commentId: number }) {}
   }
 
@@ -60,5 +82,7 @@ export namespace CommentActions {
     | ResponseForRelease
     | ErrorForRelease
     | RequestModeratorRemoveComment
-    | ResponseModeratorRemoveComment;
+    | ResponseModeratorRemoveComment
+    | RequestUserMakeComment
+    | ResponseUserMakeComment;
 }

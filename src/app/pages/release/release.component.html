@@ -73,9 +73,6 @@
     [comments]="comments$ | async"
   ></app-comment-list-table>
   @if (this.userService.getLoggedInUser(); as loggedInUser) {
-    <app-new-comment-input
-      [input]="release"
-      [user]="loggedInUser"
-    ></app-new-comment-input>
+    <app-new-comment-input [input]="release"></app-new-comment-input>
   }
 }
