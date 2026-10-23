@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { BaseApi } from "./base-api.service";
 import { ModelApi } from "./model-api";
 import { Comment } from "app/models/comment";
-import { EMPTY } from "rxjs";
 
 @Injectable()
 export class CommentApi extends ModelApi<Comment> {
@@ -16,7 +15,7 @@ export class CommentApi extends ModelApi<Comment> {
   }
 
   makeComment(input) {
-    return this.http.post(`releases/${input.release}/comments`, input);
+    return this.http.post(`releases/${input.release.id}/comments`, input);
   }
 
   hideComment(commentId: number) {

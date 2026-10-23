@@ -39,8 +39,12 @@ export namespace CommentActions {
     constructor(
       public payload: {
         comment: string;
-        author: number;
-        release: number;
+        author: {
+          id: number;
+        };
+        release: {
+          id: number;
+        };
       },
     ) {}
   }

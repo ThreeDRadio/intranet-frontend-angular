@@ -46,8 +46,12 @@ export class NewCommentInputComponent {
       this.legacyStore.dispatch(
         new CommentActions.RequestUserMakeComment({
           comment: this.commentForm.controls.commentText.value,
-          author: user.id,
-          release: releaseId,
+          author: {
+            id: user.id,
+          },
+          release: {
+            id: releaseId,
+          },
         }),
       );
       // Reset the input field after submitting
