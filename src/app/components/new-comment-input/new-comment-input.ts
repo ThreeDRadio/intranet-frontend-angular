@@ -40,20 +40,14 @@ export class NewCommentInputComponent {
 
   makeComment() {
     const user = this.loggedInUser();
+    const releaseId = this.input().id;
 
     if (this.commentForm.valid) {
       this.legacyStore.dispatch(
         new CommentActions.RequestUserMakeComment({
           comment: this.commentForm.controls.commentText.value,
-          author: {
-            first_name: user.first_name,
-            last_name: user.last_name,
-          },
-          release: {
-            id: this.input().id,
-            artist: this.input().artist,
-            title: this.input().title,
-          },
+          author: user.id,
+          release: releaseId,
         }),
       );
       // Reset the input field after submitting
