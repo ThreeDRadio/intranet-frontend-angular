@@ -3,5 +3,5 @@
   <mat-icon [svgIcon]="this.icon()"></mat-icon>
   } @else {
   <mat-icon>{{ this.icon() }}</mat-icon>
-  } @if (count(); as c) { {{ c }} } @else { ? }
+  } {{ count() }}
 </div>

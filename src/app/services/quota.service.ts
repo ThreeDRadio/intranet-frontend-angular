@@ -93,4 +93,8 @@ export class QuotaService {
   getFemaleQuota(params: QuotaParams, entries: PlaylistEntry[]): QuotaResult {
     return this.getQuota(params, entries, "female");
   }
+
+  getNewReleaseCount(entries: PlaylistEntry[]): number {
+    return entries.filter((e) => e.newRelease).length;
+  }
 }

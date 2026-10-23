@@ -59,7 +59,7 @@ export class PlaylistPageComponent implements OnInit {
   });
 
   readonly counts = computed(() => {
-    return { newRelease: 1 };
+    return { newRelease: this.quotaService.getNewReleaseCount(this.entries()) };
   });
 
   readonly formattedDate = computed(() =>

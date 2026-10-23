@@ -134,7 +134,7 @@ export class PlaylistEditorPage implements OnInit {
   });
 
   readonly counts = computed(() => {
-    return { newRelease: 1 };
+    return { newRelease: this.quotaService.getNewReleaseCount(this.entries()) };
   });
 
   constructor() {
