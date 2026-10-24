@@ -7,12 +7,8 @@ import { MatIconModule } from "@angular/material/icon";
   templateUrl: "./quota-count.html",
   styleUrl: "./quota-count.scss",
 })
-export class QuotaCountComponent implements OnInit {
+export class QuotaCountComponent {
   icon = input.required<string>();
   svg = input<boolean>();
   count = input<number>();
-
-  ngOnInit() {
-    console.log(this.count());
-  }
 }

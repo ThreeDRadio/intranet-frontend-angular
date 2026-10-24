@@ -31,6 +31,7 @@ import { CommentListComponent } from "../../components/comment-list/comment-list
 import { DurationPipe } from "../../pipes/duration.pipe";
 import { NewCommentInputComponent } from "../../components/new-comment-input/new-comment-input";
 import { UserService } from "../../services/user.service";
+import { MatDividerModule } from "@angular/material/divider";
 
 @Component({
   selector: "app-release",
@@ -56,6 +57,7 @@ import { UserService } from "../../services/user.service";
     NewCommentInputComponent,
     AsyncPipe,
     DurationPipe,
+    MatDividerModule,
   ],
 })
 export class ReleasePageComponent {
