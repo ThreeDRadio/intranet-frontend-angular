@@ -6,15 +6,13 @@
       matInput
       type="text"
       placeholder="Search Terms"
-      />
+    />
   </mat-form-field>
   <button mat-raised-button (click)="search()">Search</button>
 </form>
 
 @if (loading$ | async) {
-  <mat-progress-bar
-    mode="indeterminate"
-  ></mat-progress-bar>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 }
 
 @if ((results$ | async) && (count$ | async) > 0) {
@@ -24,7 +22,7 @@
       [releases]="results$ | async"
       (sortChange)="sort($event)"
       (releaseListOpen)="open($event)"
-      >
+    >
     </app-release-list>
     <mat-paginator
       [pageSizeOptions]="pageSizes"
@@ -32,7 +30,7 @@
       [pageSize]="pageSize"
       (page)="paginationChange($event)"
       [length]="count$ | async"
-      [pageSize]="10"
+      [pageSize]="20"
     ></mat-paginator>
   </div>
 }

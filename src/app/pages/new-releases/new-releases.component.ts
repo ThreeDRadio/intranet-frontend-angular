@@ -11,9 +11,9 @@ import { AsyncPipe } from "@angular/common";
 import { ReleaseListComponent } from "../../components/release-list/release-list.component";
 
 @Component({
-    selector: "app-new-releases",
-    templateUrl: "./new-releases.component.html",
-    imports: [ReleaseListComponent, MatPaginator, AsyncPipe]
+  selector: "app-new-releases",
+  templateUrl: "./new-releases.component.html",
+  imports: [ReleaseListComponent, MatPaginator, AsyncPipe],
 })
 export class NewReleasesPageComponent implements OnInit {
   loading$: Observable<boolean>;
@@ -22,7 +22,7 @@ export class NewReleasesPageComponent implements OnInit {
 
   pageSizes = [10, 20, 50, 100];
   offset = 0;
-  pageSize = 10;
+  pageSize = 20;
   ordering = "-createwhen";
 
   paginationChange(event: PageEvent) {
