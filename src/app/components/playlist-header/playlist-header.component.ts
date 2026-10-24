@@ -68,6 +68,12 @@ export class PlaylistHeaderComponent {
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
+  openSongArtistAlbum() {
+    const id = this.playlist().id;
+    const url = `${this.apiUrl}/logger/playlists/${id}?format=song_artist&album=true`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
   openCsv() {
     const id = this.playlist().id;
     const url = `${this.apiUrl}/logger/playlists/${id}?format=csv`;
