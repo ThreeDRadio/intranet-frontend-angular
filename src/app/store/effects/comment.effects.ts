@@ -5,6 +5,7 @@ import { of } from "rxjs";
 import { CommentActions } from "../actions/comment.actions";
 import { CommentApi } from "app/services/comment-api";
 import { HttpOptions } from "app/services";
+import { Comment } from "../../models";
 
 @Injectable()
 export class CommentEffects {
@@ -67,7 +68,8 @@ export class CommentEffects {
         return this.api.makeComment(action.payload).pipe(
           map((response) => {
             return new CommentActions.ResponseUserMakeComment({
-              commentId: action.payload.commentId,
+              release: { id: action.payload.release.id },
+              comment: response as Comment,
             });
           }),
           catchError((err) => of(new CommentActions.ErrorList(err))),

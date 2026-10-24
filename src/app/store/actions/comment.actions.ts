@@ -50,8 +50,15 @@ export namespace CommentActions {
   }
 
   export class ResponseUserMakeComment {
-    readonly type = Types.requestUserMakeComment;
-    constructor(public payload: { commentId: number }) {}
+    readonly type = Types.responseUserMakeComment;
+    constructor(
+      public payload: {
+        release: {
+          id: number;
+        };
+        comment: Comment;
+      },
+    ) {}
   }
 
   export class RequestMostRecent {

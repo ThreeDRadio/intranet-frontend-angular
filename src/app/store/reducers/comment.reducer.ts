@@ -110,6 +110,35 @@ export function reducer(
       };
     }
 
+    case actions.Types.requestUserMakeComment: {
+      const a = action as actions.RequestUserMakeComment;
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+
+    case actions.Types.responseUserMakeComment: {
+      const a = action as actions.ResponseUserMakeComment;
+      const response = a.payload;
+      return {
+        ...state,
+        ids: [...state.ids, response.comment.id],
+        entities: {
+          ...state.entities,
+          [response.comment.id]: response.comment,
+        },
+        releaseEntities: {
+          ...state.releaseEntities,
+          [response.release.id]: [
+            ...state.releaseEntities[response.release.id],
+            response.comment.id.toString(),
+          ],
+        },
+        loading: false,
+      };
+    }
+
     default:
       return state;
   }
