@@ -73,6 +73,7 @@
     [comments]="comments$ | async"
   ></app-comment-list-table>
   @if (this.userService.getLoggedInUser(); as loggedInUser) {
+    <mat-divider></mat-divider>
     <app-new-comment-input [input]="release"></app-new-comment-input>
   }
 }
