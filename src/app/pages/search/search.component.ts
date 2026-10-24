@@ -48,7 +48,7 @@ export class SearchComponent implements OnInit {
   pageSizes = [10, 20, 50, 100];
 
   offset = 0;
-  pageSize = 10;
+  pageSize = 20;
   ordering = "-createwhen";
 
   search() {
