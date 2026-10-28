@@ -15,7 +15,6 @@ on:
 
 jobs:
   run-tests:
-    # Use ubuntu-20.04 or ubuntu-22.04 because newer environments drop support for legacy binaries.
     runs-on: ubuntu-latest
 
     steps:
@@ -65,7 +64,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          npm version ${{ github.event.inputs.version_bump }}
+          npm config set tag-version-prefix ""
+          npm version ${{ github.event.inputs.version_bump }} -m "chore: bump API version to %s [skip ci]"
           git push origin master --tags
           
       - name: Get version from package.json
