@@ -3,7 +3,9 @@
     cdkDrag
     cdkDragLockAxis="y"
     [cdkDragDisabled]="this.action() === 'create'"
-    [class]="shadow() ? 'editor-div' : 'editor-div-no-shadow'"
+    [class]="
+      this.action() === 'create' ? 'editor-div-create' : 'editor-div-edit'
+    "
   >
     @if (this.action() !== "create") {
       <div cdkDragHandle style="align-items: center">

@@ -1,9 +1,8 @@
 @use "@angular/material" as mat;
 
-.editor-div,
-.editor-div-no-shadow {
+.editor-div-edit,
+.editor-div-create {
   width: 100%;
-  background-color: var(--mat-sys-surface, #ffffff);
   padding: 4px;
   gap: 8px;
   border-radius: 4px;
@@ -12,10 +11,12 @@
   align-items: center;
 }
 
-.editor-div {
+.editor-div-edit {
   @include mat.elevation(4);
+  background-color: var(--mat-sys-surface, #ffffff);
 }
 
-.editor-div-no-shadow {
+.editor-div-create {
   @include mat.elevation(0);
+  background-color: var(--mat-sys-surface-variant, #efefef);
 }

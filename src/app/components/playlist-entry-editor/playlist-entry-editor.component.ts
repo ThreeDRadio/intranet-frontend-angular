@@ -51,7 +51,6 @@ export class PlaylistEntryEditorComponent implements OnInit {
 
   input = input.required<PlaylistEntry>();
   action = input.required<string>();
-  shadow = input<boolean>(true);
 
   // Outputs
   deletion = output<number>();
