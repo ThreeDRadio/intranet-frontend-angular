@@ -19,12 +19,3 @@
 .editor-div-no-shadow {
   @include mat.elevation(0);
 }
-
-.remove-button-container {
-  display: flex;
-  justify-content: flex-end; /* Pushes the button to the right */
-}
-
-.spacer {
-  flex: 1 1 auto; /* Expands to fill all available space */
-}

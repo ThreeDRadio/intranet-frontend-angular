@@ -20,11 +20,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { map, merge } from "rxjs";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { DurationService } from "../../services/duration.service";
-import moment from "moment-timezone";
 import { CdkDrag, CdkDragHandle } from "@angular/cdk/drag-drop";
 import { toSignal } from "@angular/core/rxjs-interop";
 
