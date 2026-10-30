@@ -17,6 +17,6 @@
 }
 
 .editor-div-create {
-  @include mat.elevation(0);
-  background-color: var(--mat-sys-surface-variant, #efefef);
+  @include mat.elevation(4);
+  background-color: var(--mat-sys-surface-variant, #ffffff);
 }
