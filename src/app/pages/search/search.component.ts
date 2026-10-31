@@ -55,6 +55,21 @@ export class SearchComponent implements OnInit {
   pageSize = 20;
   ordering = "-createwhen";
 
+  private requestSearch() {
+    this.store.dispatch(
+      new ReleaseActions.RequestSearch({
+        ...this.form.value,
+        offset: this.offset,
+        limit: this.pageSize,
+        ordering: this.ordering,
+      }),
+    );
+  }
+
+  open(release) {
+    this.router.navigate(["releases", release.id]);
+  }
+
   search() {
     if (this.form.valid) {
       this.store.dispatch(
@@ -65,31 +80,49 @@ export class SearchComponent implements OnInit {
           ordering: this.ordering,
         }),
       );
-      // keep the search term for the user.
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: {
-          term: this.form.value.search,
-          offset: this.offset,
-          limit: this.pageSize,
-        },
-      });
     }
   }
 
-  open(release) {
-    this.router.navigate(["releases", release.id]);
+  searchButton() {
+    // Clear any pagination offset before searching.
+    this.offset = 0;
+    this.search();
+    // preserve the search term for the user. Reset pagination
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        term: this.form.value.search,
+        offset: null,
+        limit: null,
+      },
+      queryParamsHandling: "merge",
+    });
   }
 
   paginationChange(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.offset = event.pageIndex * this.pageSize;
-    this.search();
+    this.requestSearch();
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        offset: this.offset,
+        limit: this.pageSize,
+      },
+      queryParamsHandling: "merge",
+    });
   }
 
   sort(event: Sort) {
     this.ordering = (event.direction === "asc" ? "" : "-") + event.active;
-    this.search();
+    this.requestSearch();
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        order: event.direction !== "" ? this.ordering : null,
+      },
+      queryParamsHandling: "merge",
+    });
   }
 
   constructor() {
@@ -108,15 +141,16 @@ export class SearchComponent implements OnInit {
         this.route.snapshot.queryParamMap.get("offset") ?? this.offset;
       const limit =
         this.route.snapshot.queryParamMap.get("limit") ?? this.pageSize;
+      const order =
+        this.route.snapshot.queryParamMap.get("order") ?? this.ordering;
 
       if (Number.isFinite(Number(offset))) {
         this.offset = Number(offset);
       }
-
       if (Number.isFinite(Number(limit))) {
         this.pageSize = Number(limit);
       }
-
+      this.ordering = order;
       this.search();
     } else {
       // Clear the existing search results.
