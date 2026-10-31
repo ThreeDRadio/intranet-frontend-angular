@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { ReleaseActions } from "app/store";
 import {
@@ -12,13 +12,13 @@ import { Observable } from "rxjs";
 import { ReleaseSelectors } from "app/store/selectors/release.selectors";
 import { PageEvent, MatPaginator } from "@angular/material/paginator";
 import { Sort } from "@angular/material/sort";
-import { Router } from "@angular/router";
 import { MatFormField } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { MatButton } from "@angular/material/button";
 import { AsyncPipe } from "@angular/common";
 import { MatProgressBar } from "@angular/material/progress-bar";
 import { ReleaseListComponent } from "../../components/release-list/release-list.component";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-catalogue-search",
@@ -41,6 +41,10 @@ export class SearchComponent implements OnInit {
     search: new UntypedFormControl("", Validators.required),
   });
 
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private store: Store<any> = inject(Store<any>);
+
   loading$: Observable<boolean>;
   results$: Observable<Array<any>>;
   count$: Observable<number>;
@@ -61,6 +65,10 @@ export class SearchComponent implements OnInit {
           ordering: this.ordering,
         }),
       );
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { term: this.form.value.search },
+      });
     }
   }
 
@@ -79,10 +87,7 @@ export class SearchComponent implements OnInit {
     this.search();
   }
 
-  constructor(
-    private store: Store<any>,
-    private router: Router,
-  ) {
+  constructor() {
     this.loading$ = this.store.select(ReleaseSelectors.isLoading);
     this.results$ = this.store.select(ReleaseSelectors.getAll);
     this.count$ = this.store.select(ReleaseSelectors.count);
