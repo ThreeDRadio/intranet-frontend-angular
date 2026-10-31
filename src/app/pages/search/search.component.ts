@@ -65,9 +65,14 @@ export class SearchComponent implements OnInit {
           ordering: this.ordering,
         }),
       );
+      // keep the search term for the user.
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: { term: this.form.value.search },
+        queryParams: {
+          term: this.form.value.search,
+          offset: this.offset,
+          limit: this.pageSize,
+        },
       });
     }
   }
@@ -94,6 +99,28 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new ReleaseActions.Clear());
+    // Re-search if user has parameters set.
+    const term = this.route.snapshot.queryParamMap.get("term");
+
+    if (term) {
+      this.form.controls.search.setValue(term);
+      const offset =
+        this.route.snapshot.queryParamMap.get("offset") ?? this.offset;
+      const limit =
+        this.route.snapshot.queryParamMap.get("limit") ?? this.pageSize;
+
+      if (Number.isFinite(Number(offset))) {
+        this.offset = Number(offset);
+      }
+
+      if (Number.isFinite(Number(limit))) {
+        this.pageSize = Number(limit);
+      }
+
+      this.search();
+    } else {
+      // Clear the existing search results.
+      this.store.dispatch(new ReleaseActions.Clear());
+    }
   }
 }
