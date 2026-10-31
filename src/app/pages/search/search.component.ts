@@ -66,6 +66,10 @@ export class SearchComponent implements OnInit {
     );
   }
 
+  open(release) {
+    this.router.navigate(["releases", release.id]);
+  }
+
   search() {
     if (this.form.valid) {
       this.store.dispatch(
@@ -76,19 +80,23 @@ export class SearchComponent implements OnInit {
           ordering: this.ordering,
         }),
       );
-      // preserve the search term for the user.
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: {
-          term: this.form.value.search,
-        },
-        queryParamsHandling: "merge",
-      });
     }
   }
 
-  open(release) {
-    this.router.navigate(["releases", release.id]);
+  searchButton() {
+    // Clear any pagination offset before searching.
+    this.offset = 0;
+    this.search();
+    // preserve the search term for the user. Reset pagination
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        term: this.form.value.search,
+        offset: null,
+        limit: null,
+      },
+      queryParamsHandling: "merge",
+    });
   }
 
   paginationChange(event: PageEvent) {
