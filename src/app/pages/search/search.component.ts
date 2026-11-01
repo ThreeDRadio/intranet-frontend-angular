@@ -70,33 +70,23 @@ export class SearchComponent implements OnInit {
     this.router.navigate(["releases", release.id]);
   }
 
-  search() {
-    if (this.form.valid) {
-      this.store.dispatch(
-        new ReleaseActions.RequestSearch({
-          ...this.form.value,
-          offset: this.offset,
-          limit: this.pageSize,
-          ordering: this.ordering,
-        }),
-      );
-    }
-  }
-
   searchButton() {
     // Clear any pagination offset before searching.
     this.offset = 0;
-    this.search();
-    // preserve the search term for the user. Reset pagination
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        term: this.form.value.search,
-        offset: null,
-        limit: null,
-      },
-      queryParamsHandling: "merge",
-    });
+
+    if (this.form.valid) {
+      this.requestSearch();
+      // preserve the search term for the user. Reset pagination
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          term: this.form.value.search,
+          offset: null,
+          limit: null,
+        },
+        queryParamsHandling: "merge",
+      });
+    }
   }
 
   paginationChange(event: PageEvent) {
@@ -151,7 +141,9 @@ export class SearchComponent implements OnInit {
         this.pageSize = Number(limit);
       }
       this.ordering = order;
-      this.search();
+      if (this.form.valid) {
+        this.requestSearch();
+      }
     } else {
       // Clear the existing search results.
       this.store.dispatch(new ReleaseActions.Clear());
