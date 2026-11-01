@@ -1,4 +1,13 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  viewChild,
+  AfterViewInit,
+  input,
+  output,
+} from "@angular/core";
 import { Release } from "app/models/release";
 import {
   MatTable,
@@ -47,12 +56,20 @@ export class ReleaseListComponent {
   displayedColumns = ["artist", "title", "year", "createwhen", "tags"];
   pageSizes = [10, 20, 50, 100];
 
-  @Input()
-  releases: Array<Release>;
+  readonly sort = viewChild(MatSort);
+  readonly releases = input<Release[]>([]);
+  readonly sortChange = output<void>(); // Or pass a type if it emits data, e.g., output<Sort>()
+  readonly releaseListOpen = output<Release>();
 
-  @Output()
-  sortChange = new EventEmitter();
+  setProgrammaticSort(
+    sort: MatSort | undefined,
+    columnId: string,
+    direction: "asc" | "desc",
+  ) {
+    if (sort === null || sort === undefined) return;
 
-  @Output()
-  releaseListOpen = new EventEmitter<Release>();
+    sort.active = columnId;
+    sort.direction = direction;
+    sort.sortChange.emit({ active: columnId, direction: direction });
+  }
 }

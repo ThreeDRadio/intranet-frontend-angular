@@ -1,7 +1,7 @@
 <table
   mat-table
   matSort
-  [dataSource]="releases"
+  [dataSource]="releases()"
   (matSortChange)="sortChange.emit($event)"
 >
   <ng-container matColumnDef="artist">
