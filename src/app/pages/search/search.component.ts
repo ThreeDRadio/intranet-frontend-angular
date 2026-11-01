@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, computed, inject, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { ReleaseActions } from "app/store";
 import {
@@ -122,6 +122,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new ReleaseActions.Clear());
     // Re-search if user has parameters set.
     const term = this.route.snapshot.queryParamMap.get("term");
 
@@ -141,12 +142,10 @@ export class SearchComponent implements OnInit {
         this.pageSize = Number(limit);
       }
       this.ordering = order;
+
       if (this.form.valid) {
         this.requestSearch();
       }
-    } else {
-      // Clear the existing search results.
-      this.store.dispatch(new ReleaseActions.Clear());
     }
   }
 }

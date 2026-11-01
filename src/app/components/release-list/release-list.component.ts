@@ -7,6 +7,7 @@ import {
   AfterViewInit,
   input,
   output,
+  inject,
 } from "@angular/core";
 import { Release } from "app/models/release";
 import {
@@ -29,6 +30,7 @@ import {
 } from "@angular/material/chips";
 import { DatePipe } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
+import { SortService } from "../../services/sort.service";
 
 @Component({
   selector: "app-release-list",
@@ -52,14 +54,33 @@ import { MatIcon } from "@angular/material/icon";
     DatePipe,
   ],
 })
-export class ReleaseListComponent {
+export class ReleaseListComponent implements AfterViewInit {
   displayedColumns = ["artist", "title", "year", "createwhen", "tags"];
   pageSizes = [10, 20, 50, 100];
 
+  // For manipulating the sort programmatically.
   readonly sort = viewChild(MatSort);
+  readonly sortService = inject(SortService);
+
+  // I/O
   readonly releases = input<Release[]>([]);
-  readonly sortChange = output<void>(); // Or pass a type if it emits data, e.g., output<Sort>()
+  readonly order = input<string>();
+  readonly sortChange = output<void>();
   readonly releaseListOpen = output<Release>();
+
+  ngAfterViewInit(): void {
+    const orderInput = this.order();
+    // Guard against invalid state.
+    if (orderInput === null || orderInput === undefined) return;
+    // If it's not in displayed columns, don't bother.
+    if (this.sortService.isValid(orderInput, this.displayedColumns)) {
+      this.setProgrammaticSort(
+        this.sort(),
+        this.sortService.getColumnId(orderInput),
+        this.sortService.getDirection(orderInput),
+      );
+    }
+  }
 
   setProgrammaticSort(
     sort: MatSort | undefined,

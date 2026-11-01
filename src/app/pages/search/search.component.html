@@ -20,6 +20,7 @@
     <h3>{{ count$ | async }} Results</h3>
     <app-release-list
       [releases]="results$ | async"
+      [order]="this.ordering"
       (sortChange)="sort($event)"
       (releaseListOpen)="open($event)"
     >
