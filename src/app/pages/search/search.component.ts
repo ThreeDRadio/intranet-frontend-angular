@@ -53,7 +53,7 @@ export class SearchComponent implements OnInit {
 
   offset = 0;
   pageSize = 20;
-  ordering = "-createwhen";
+  ordering: string | null = null;
 
   private requestSearch() {
     this.store.dispatch(
@@ -61,7 +61,7 @@ export class SearchComponent implements OnInit {
         ...this.form.value,
         offset: this.offset,
         limit: this.pageSize,
-        ordering: this.ordering,
+        ordering: this.ordering ?? "-createwhen",
       }),
     );
   }
@@ -73,6 +73,7 @@ export class SearchComponent implements OnInit {
   searchButton() {
     // Clear any pagination offset before searching.
     this.offset = 0;
+    this.ordering = null;
 
     if (this.form.valid) {
       this.requestSearch();
@@ -83,6 +84,7 @@ export class SearchComponent implements OnInit {
           term: this.form.value.search,
           offset: null,
           limit: null,
+          order: null,
         },
         queryParamsHandling: "merge",
       });
@@ -128,6 +130,7 @@ export class SearchComponent implements OnInit {
 
     if (term) {
       this.form.controls.search.setValue(term);
+
       const offset =
         this.route.snapshot.queryParamMap.get("offset") ?? this.offset;
       const limit =

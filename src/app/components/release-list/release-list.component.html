@@ -1,6 +1,8 @@
 <table
   mat-table
   matSort
+  [matSortActive]="this.inputActive()"
+  [matSortDirection]="this.inputDirection()"
   [dataSource]="releases()"
   (matSortChange)="sortChange.emit($event)"
 >

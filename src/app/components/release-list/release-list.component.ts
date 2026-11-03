@@ -1,13 +1,10 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
   viewChild,
-  AfterViewInit,
   input,
   output,
   inject,
+  computed,
 } from "@angular/core";
 import { Release } from "app/models/release";
 import {
@@ -23,11 +20,7 @@ import {
   MatRow,
 } from "@angular/material/table";
 import { MatSort, MatSortHeader } from "@angular/material/sort";
-import {
-  MatChipListbox,
-  MatChipOption,
-  MatChipsModule,
-} from "@angular/material/chips";
+import { MatChipsModule } from "@angular/material/chips";
 import { DatePipe } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
 import { SortService } from "../../services/sort.service";
@@ -54,12 +47,11 @@ import { SortService } from "../../services/sort.service";
     DatePipe,
   ],
 })
-export class ReleaseListComponent implements AfterViewInit {
+export class ReleaseListComponent {
   displayedColumns = ["artist", "title", "year", "createwhen", "tags"];
   pageSizes = [10, 20, 50, 100];
 
   // For manipulating the sort programmatically.
-  readonly sort = viewChild(MatSort);
   readonly sortService = inject(SortService);
 
   // I/O
@@ -68,29 +60,18 @@ export class ReleaseListComponent implements AfterViewInit {
   readonly sortChange = output<void>();
   readonly releaseListOpen = output<Release>();
 
-  ngAfterViewInit(): void {
-    const orderInput = this.order();
-    // Guard against invalid state.
-    if (orderInput === null || orderInput === undefined) return;
-    // If it's not in displayed columns, don't bother.
-    if (this.sortService.isValid(orderInput, this.displayedColumns)) {
-      this.setProgrammaticSort(
-        this.sort(),
-        this.sortService.getColumnId(orderInput),
-        this.sortService.getDirection(orderInput),
-      );
-    }
-  }
+  // Help
+  readonly inputActive = computed(() => {
+    const o = this.order() ?? "";
+    return this.sortService.isValid(o, this.displayedColumns)
+      ? this.sortService.getColumnId(o)
+      : "";
+  });
 
-  setProgrammaticSort(
-    sort: MatSort | undefined,
-    columnId: string,
-    direction: "asc" | "desc",
-  ) {
-    if (sort === null || sort === undefined) return;
-
-    sort.active = columnId;
-    sort.direction = direction;
-    sort.sortChange.emit({ active: columnId, direction: direction });
-  }
+  readonly inputDirection = computed(() => {
+    const o = this.order() ?? "desc";
+    return this.sortService.isValid(o, this.displayedColumns)
+      ? this.sortService.getDirection(o)
+      : "desc";
+  });
 }
