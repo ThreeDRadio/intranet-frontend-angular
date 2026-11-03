@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, computed, inject, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { ReleaseActions } from "app/store";
 import {
@@ -53,7 +53,7 @@ export class SearchComponent implements OnInit {
 
   offset = 0;
   pageSize = 20;
-  ordering = "-createwhen";
+  ordering: string | null = null;
 
   private requestSearch() {
     this.store.dispatch(
@@ -61,7 +61,7 @@ export class SearchComponent implements OnInit {
         ...this.form.value,
         offset: this.offset,
         limit: this.pageSize,
-        ordering: this.ordering,
+        ordering: this.ordering ?? "-createwhen",
       }),
     );
   }
@@ -70,33 +70,25 @@ export class SearchComponent implements OnInit {
     this.router.navigate(["releases", release.id]);
   }
 
-  search() {
-    if (this.form.valid) {
-      this.store.dispatch(
-        new ReleaseActions.RequestSearch({
-          ...this.form.value,
-          offset: this.offset,
-          limit: this.pageSize,
-          ordering: this.ordering,
-        }),
-      );
-    }
-  }
-
   searchButton() {
     // Clear any pagination offset before searching.
     this.offset = 0;
-    this.search();
-    // preserve the search term for the user. Reset pagination
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        term: this.form.value.search,
-        offset: null,
-        limit: null,
-      },
-      queryParamsHandling: "merge",
-    });
+    this.ordering = null;
+
+    if (this.form.valid) {
+      this.requestSearch();
+      // preserve the search term for the user. Reset pagination
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          term: this.form.value.search,
+          offset: null,
+          limit: null,
+          order: null,
+        },
+        queryParamsHandling: "merge",
+      });
+    }
   }
 
   paginationChange(event: PageEvent) {
@@ -132,11 +124,13 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new ReleaseActions.Clear());
     // Re-search if user has parameters set.
     const term = this.route.snapshot.queryParamMap.get("term");
 
     if (term) {
       this.form.controls.search.setValue(term);
+
       const offset =
         this.route.snapshot.queryParamMap.get("offset") ?? this.offset;
       const limit =
@@ -151,10 +145,10 @@ export class SearchComponent implements OnInit {
         this.pageSize = Number(limit);
       }
       this.ordering = order;
-      this.search();
-    } else {
-      // Clear the existing search results.
-      this.store.dispatch(new ReleaseActions.Clear());
+
+      if (this.form.valid) {
+        this.requestSearch();
+      }
     }
   }
 }

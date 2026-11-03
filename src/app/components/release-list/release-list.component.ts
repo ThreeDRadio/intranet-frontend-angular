@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  viewChild,
+  input,
+  output,
+  inject,
+  computed,
+} from "@angular/core";
 import { Release } from "app/models/release";
 import {
   MatTable,
@@ -13,13 +20,10 @@ import {
   MatRow,
 } from "@angular/material/table";
 import { MatSort, MatSortHeader } from "@angular/material/sort";
-import {
-  MatChipListbox,
-  MatChipOption,
-  MatChipsModule,
-} from "@angular/material/chips";
+import { MatChipsModule } from "@angular/material/chips";
 import { DatePipe } from "@angular/common";
 import { MatIcon } from "@angular/material/icon";
+import { SortService } from "../../services/sort.service";
 
 @Component({
   selector: "app-release-list",
@@ -47,12 +51,27 @@ export class ReleaseListComponent {
   displayedColumns = ["artist", "title", "year", "createwhen", "tags"];
   pageSizes = [10, 20, 50, 100];
 
-  @Input()
-  releases: Array<Release>;
+  // For manipulating the sort programmatically.
+  readonly sortService = inject(SortService);
 
-  @Output()
-  sortChange = new EventEmitter();
+  // I/O
+  readonly releases = input<Release[]>([]);
+  readonly order = input<string>();
+  readonly sortChange = output<void>();
+  readonly releaseListOpen = output<Release>();
 
-  @Output()
-  releaseListOpen = new EventEmitter<Release>();
+  // Help
+  readonly inputActive = computed(() => {
+    const o = this.order() ?? "";
+    return this.sortService.isValid(o, this.displayedColumns)
+      ? this.sortService.getColumnId(o)
+      : "";
+  });
+
+  readonly inputDirection = computed(() => {
+    const o = this.order() ?? "desc";
+    return this.sortService.isValid(o, this.displayedColumns)
+      ? this.sortService.getDirection(o)
+      : "desc";
+  });
 }
