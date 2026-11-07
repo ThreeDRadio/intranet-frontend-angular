@@ -6,7 +6,7 @@
         <mat-icon matListItemIcon>home</mat-icon>
         <span matListItemTitle class="hide-collapsed">Home</span>
       </a>
-      @if (hasPlaylists) {
+      @if (hasPlaylists()) {
         <h3 mat-subheader class="hide-collapsed">Logging Sheets</h3>
         <hr class="show-collapsed" />
         <a mat-list-item routerLink="/playlists/recent">
@@ -28,6 +28,9 @@
         <mat-icon matListItemIcon>search</mat-icon>
         <span matListItemTitle class="hide-collapsed">Quick Search</span>
       </a>
+      @if (hasMessageBank()) {
+        <h3 mat-subheader class="hide-collapsed">Message Bank</h3>
+      }
       <h3
         mat-subheader
         *appInGroup="groups.MusicUploaders"

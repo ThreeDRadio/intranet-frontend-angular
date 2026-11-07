@@ -4,4 +4,5 @@ export const Groups = {
   Presenters: "Presenters",
   PlaylistEditors: "Playlist Editors",
   CommentModerators: "Comment Moderators",
+  MessageBank: "Message Bank",
 };

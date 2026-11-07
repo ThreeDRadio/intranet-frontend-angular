@@ -1,4 +1,4 @@
-import { Component, inject, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 import { Store } from "@ngrx/store";
 
 import { RequestAuthLogoutAction } from "../../store";
@@ -24,6 +24,7 @@ import packageJson from "../../../../package.json";
 import { getLoggedInUser } from "../../store/selectors";
 import { Groups } from "../../constants";
 import { MatButtonModule } from "@angular/material/button";
+import { UserService } from "../../services/user.service";
 
 @Component({
   // dashboard is one word. No kebab case required. GO AWAY
@@ -53,26 +54,22 @@ import { MatButtonModule } from "@angular/material/button";
 export class DashboardComponent {
   public groups = Groups;
   public appVersion: string = packageJson.version;
-  public hasPlaylists: boolean = true;
   private store: Store<any> = inject(Store);
+  private userService = inject(UserService);
   sidenavCollapsed = signal<boolean>(false);
 
-  constructor() {
-    this.store.select(getLoggedInUser).subscribe((user) => {
-      if (user && user.groups) {
-        this.hasPlaylists =
-          this.isPresenter(user) || this.isPlaylistEditor(user);
-      }
-    });
-  }
+  hasPlaylists = computed(() => {
+    const user = this.userService.getLoggedInUser();
+    return (
+      user?.groups?.indexOf(Groups.Presenters) > -1 ||
+      user?.groups?.indexOf(Groups.PlaylistEditors) > -1
+    );
+  });
 
-  private isPresenter(user): boolean {
-    return user?.groups?.indexOf(Groups.Presenters) > -1;
-  }
-
-  private isPlaylistEditor(user): boolean {
-    return user?.groups?.indexOf(Groups.PlaylistEditors) > -1;
-  }
+  hasMessageBank = computed(() => {
+    const user = this.userService.getLoggedInUser();
+    return user?.groups?.indexOf(Groups.MessageBank) > -1;
+  });
 
   public logout() {
     this.store.dispatch(new RequestAuthLogoutAction());
