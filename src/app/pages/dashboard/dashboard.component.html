@@ -30,6 +30,15 @@
       </a>
       @if (hasMessageBank()) {
         <h3 mat-subheader class="hide-collapsed">Message Bank</h3>
+        <hr class="show-collapsed" />
+        <a mat-list-item routerLink="/messages">
+          <mat-icon matListItemIcon>message</mat-icon>
+          <span matListItemTitle class="hide-collapsed">View Messages</span>
+        </a>
+        <a mat-list-item routerLink="/messages/new">
+          <mat-icon matListItemIcon>library_add</mat-icon>
+          <span matListItemTitle class="hide-collapsed">New Message</span>
+        </a>
       }
       <h3
         mat-subheader
