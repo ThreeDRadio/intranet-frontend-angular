@@ -16,6 +16,7 @@ import { NewPlaylistPage } from "./pages/new-playlist/new-playlist";
 import { PlaylistEditorPage } from "./pages/playlist-editor/playlist-editor";
 import { ShowPlaylistsPage } from "./pages/show-playlists/show-playlists";
 import { ViewMessagesPage } from "./pages/view-messages/view-messages";
+import { NewMessagePage } from "./pages/new-message/new-message";
 
 export const ROUTES: Routes = [
   {
@@ -34,6 +35,7 @@ export const ROUTES: Routes = [
       { path: "playlists/edit/:id", component: PlaylistEditorPage },
       { path: "playlists/show/:id", component: ShowPlaylistsPage },
       { path: "messages", component: ViewMessagesPage },
+      { path: "messages/new", component: NewMessagePage },
     ],
   },
   {
