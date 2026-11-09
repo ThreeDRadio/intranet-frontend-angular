@@ -5,11 +5,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { provideMomentDateAdapter } from "@angular/material-moment-adapter";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatOptionModule } from "@angular/material/core";
+import { MAT_DATE_FORMATS, MatOptionModule } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -19,6 +20,7 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatSelectModule } from "@angular/material/select";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import moment from "moment";
+import { LONG_DATE_FORMAT } from "../../constants";
 
 @Component({
   selector: "app-new-message",
@@ -37,6 +39,10 @@ import moment from "moment";
     ReactiveFormsModule,
     MatCheckboxModule,
     MatButtonToggleModule,
+  ],
+  providers: [
+    provideMomentDateAdapter(),
+    { provide: MAT_DATE_FORMATS, useValue: LONG_DATE_FORMAT },
   ],
   templateUrl: "./new-message.html",
   styleUrl: "./new-message.scss",
