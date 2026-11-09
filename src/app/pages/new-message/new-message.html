@@ -1,1 +1,146 @@
-<p>new-message works!</p>
+<h1>New Message</h1>
+<form
+  [formGroup]="newMessageForm"
+  (ngSubmit)="onSubmit()"
+  class="vertical-form"
+>
+  <!-- <mat-form-field>
+    <mat-label>Show</mat-label>
+    <input
+      #showInput
+      type="text"
+      placeholder="---"
+      matInput
+      formControlName="showControl"
+      [matAutocomplete]="showsAuto"
+      (input)="filter()"
+      (focus)="filter()"
+    />
+    <mat-autocomplete
+      requireSelection
+      #showsAuto="matAutocomplete"
+      [displayWith]="showOptionDisplay"
+      (optionSelected)="onShowSelected($event)"
+    >
+      @for (show of filteredShows(); track show.id) {
+      <mat-option [value]="show"> {{show.name}} </mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field> -->
+  <mat-form-field>
+    <mat-label>Message Type</mat-label>
+    <mat-select formControlName="messageTypeControl">
+      @for (mt of messageTypes(); track mt.id) {
+      <mat-option [value]="mt"> {{ mt.name }} </mat-option>
+      }
+    </mat-select>
+    @if (newMessageForm.get('state')?.hasError('required')) {
+    <mat-error>Please choose a message type.</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Message Code</mat-label>
+    <input
+      #codeInput
+      type="text"
+      placeholder=""
+      matInput
+      formControlName="codeControl"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input
+      #titleInput
+      type="text"
+      placeholder=""
+      matInput
+      formControlName="titleControl"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>End Cue</mat-label>
+    <input
+      #titleInput
+      type="text"
+      placeholder=""
+      matInput
+      formControlName="endCueControl"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Expiry Date</mat-label>
+    <input
+      #expiryInput
+      matInput
+      [matDatepicker]="picker"
+      formControlName="expiryDateControl"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field
+    appearance="outline"
+    (click)="audioInput.click()"
+    style="cursor: pointer"
+  >
+    <mat-label>Audio File</mat-label>
+    <input
+      matInput
+      readonly
+      [value]="newMessageForm.value.audioControl?.name || ''"
+      placeholder="Choose an .mp3 or .wav file"
+    />
+
+    @if (newMessageForm.value.audioControl) {
+    <button
+      mat-icon-button
+      matSuffix
+      type="button"
+      aria-label="Clear selected audio file"
+      (click)="clearAudio($event, audioInput)"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    }
+    <button
+      mat-icon-button
+      matSuffix
+      type="button"
+      aria-label="Select audio file"
+      (click)="$event.stopPropagation(); audioInput.click()"
+    >
+      <mat-icon>attach_file</mat-icon>
+    </button>
+
+    @if (newMessageForm.get('audioControl')?.hasError('required')) {
+    <mat-error>Audio file is required</mat-error>
+    }
+  </mat-form-field>
+  <input
+    #audioInput
+    type="file"
+    accept=".mp3,.wav"
+    hidden
+    (change)="onAudioSelected($event)"
+  />
+  <mat-form-field>
+    <mat-label>Producer</mat-label>
+    <input
+      #producerInput
+      type="text"
+      placeholder=""
+      matInput
+      formControlName="producerControl"
+    />
+  </mat-form-field>
+  <button
+    mat-button
+    mat-raised-button
+    matSuffix
+    type="submit"
+    [disabled]="newMessageForm.invalid"
+  >
+    Add Message
+  </button>
+</form>
