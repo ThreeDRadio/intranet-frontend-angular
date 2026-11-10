@@ -35,18 +35,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { FormControl } from "@angular/forms";
 import { MAT_DATE_FORMATS } from "@angular/material/core";
 import { provideMomentDateAdapter } from "@angular/material-moment-adapter";
-
-export const LONG_DATE_FORMAT = {
-  parse: {
-    dateInput: ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"],
-  },
-  display: {
-    dateInput: "dddd, MMMM Do YYYY",
-    monthYearLabel: "MMM YYYY",
-    dateA11yLabel: "LL",
-    monthYearA11yLabel: "MMMM YYYY",
-  },
-};
+import { LONG_DATE_FORMAT } from "../../constants";
 
 @Component({
   selector: "app-playlist-editor",

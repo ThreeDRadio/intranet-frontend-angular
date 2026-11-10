@@ -35,22 +35,11 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import moment from "moment";
-import { NewPlaylist, Playlist } from "../../models";
+import { NewPlaylist } from "../../models";
 import { Router } from "@angular/router";
 import { PlaylistService } from "../../services/playlist.service";
 import { DATE_PIPE_DEFAULT_OPTIONS } from "@angular/common";
-
-export const LONG_DATE_FORMAT = {
-  parse: {
-    dateInput: ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"],
-  },
-  display: {
-    dateInput: "dddd, MMMM Do YYYY",
-    monthYearLabel: "MMM YYYY",
-    dateA11yLabel: "LL",
-    monthYearA11yLabel: "MMMM YYYY",
-  },
-};
+import { LONG_DATE_FORMAT } from "../../constants";
 
 @Component({
   selector: "app-new-playlist",
