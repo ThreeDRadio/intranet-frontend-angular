@@ -1,0 +1,32 @@
+@if (this.message(); as msg) {
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ msg.messageCode }} - {{ msg.messageTitle }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      Expires {{ this.dateService.getDisplayDate(msg?.expiry ?? "") }}
+    </mat-card-subtitle>
+    <h1>
+      <span class="faded-text-in-h1"> </span>
+    </h1>
+  </mat-card-header>
+  <mat-card-content>
+    <span class="faded-text"> {{ msg.endCue }} </span>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions>
+    <button matFab extended color="primary">
+      <mat-icon>art_track</mat-icon>
+      View
+    </button>
+    <mat-divider [vertical]="false"></mat-divider>
+    <button matFab extended color="secondary">
+      <mat-icon>edit</mat-icon>
+      Edit
+    </button>
+    <mat-divider [vertical]="false"></mat-divider>
+  </mat-card-actions>
+  <mat-card-footer></mat-card-footer>
+</mat-card>
+}

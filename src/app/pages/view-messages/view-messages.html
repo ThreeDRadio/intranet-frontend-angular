@@ -1,1 +1,7 @@
-<p>view-messages works!</p>
+@if (this.messageBankStore.isLoading()) {
+<h3>Loading messages...</h3>
+} @else {
+<h1>View Messages</h1>
+@for (msg of this.messageBankStore.results(); track msg.id) {
+<app-message-header [message]="msg"></app-message-header>
+} }

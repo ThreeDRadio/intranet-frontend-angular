@@ -17,7 +17,17 @@ type MessageBankState = {
 export const initialState: MessageBankState = {
   isLoading: false,
   count: 0,
-  results: [],
+  results: [
+    {
+      id: 1,
+      messageCode: "MESG",
+      messageTitle: "Test Message",
+      endCue: "It ends",
+      expiry: "12-11-2026",
+      producer: "producer",
+      duration: 10,
+    },
+  ],
 };
 
 export const MessageBankStore = signalStore(

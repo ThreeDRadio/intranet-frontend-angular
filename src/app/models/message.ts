@@ -7,4 +7,5 @@ export class Message implements ApiModel {
   endCue: string;
   expiry: string;
   producer: string;
+  duration: number;
 }
