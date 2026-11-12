@@ -4,16 +4,18 @@ import { MatCardModule } from "@angular/material/card";
 import { DateService } from "../../services/date.service";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
+import { DurationService } from "../../services/duration.service";
 
 @Component({
   selector: "app-message-header",
   imports: [MatCardModule, MatButtonModule, MatIconModule],
-  providers: [DateService],
+  providers: [DateService, DurationService],
   templateUrl: "./message-header.html",
   styleUrl: "./message-header.scss",
 })
 export class MessageHeader {
   dateService = inject(DateService);
+  durationService = inject(DurationService);
 
   message = input.required<Message>();
 }

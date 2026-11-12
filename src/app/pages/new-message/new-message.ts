@@ -85,8 +85,6 @@ export class NewMessagePage {
   }
 
   onSubmit() {
-    const user = this.userService.getLoggedInUser();
-
     if (this.newMessageForm.valid) {
       // Reset the Angular form controls & validation state
       // Keep the previous producer in case they would like to do multiple message uploads.
