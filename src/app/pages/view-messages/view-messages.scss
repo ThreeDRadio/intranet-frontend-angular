@@ -1,0 +1,18 @@
+.horizontal-search-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap; // Allows wrapping cleanly on smaller viewports
+
+  mat-form-field {
+    flex: 1 1 200px; // Responsive sizing with a base width
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 56px; // Match standard outline form field height
+  }
+}

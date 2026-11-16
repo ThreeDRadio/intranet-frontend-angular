@@ -1,0 +1,21 @@
+@if (this.message(); as msg) {
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ msg.messageCode }} - {{ msg.messageTitle }}
+      <div
+        style="display: flex; flex-direction: row; align-items: center"
+      ></div>
+    </mat-card-title>
+    <mat-card-subtitle>
+      Expires {{ this.dateService.getDisplayDate(msg?.expiry ?? "") }} - {{
+      this.durationService.toVerboseReadableFromSeconds(msg.duration) }} -
+      produced by {{ msg.producer }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <i>"{{ msg.endCue }}"</i>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+</mat-card>
+}
