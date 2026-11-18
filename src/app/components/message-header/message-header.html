@@ -2,19 +2,19 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      {{ msg.messageCode }} - {{ msg.messageTitle }}
+      {{ msg.code }} - {{ msg.title }}
       <div
         style="display: flex; flex-direction: row; align-items: center"
       ></div>
     </mat-card-title>
     <mat-card-subtitle>
-      Expires {{ this.dateService.getDisplayDate(msg?.expiry ?? "") }} - {{
+      Expires {{ this.dateService.getDisplayDate(msg?.expirydate ?? "") }} - {{
       this.durationService.toVerboseReadableFromSeconds(msg.duration) }} -
-      produced by {{ msg.producer }}
+      produced by {{ msg.fldproducer }}
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <i>"{{ msg.endCue }}"</i>
+    <i>"{{ msg.nq }}"</i>
     <mat-divider></mat-divider>
   </mat-card-content>
 </mat-card>

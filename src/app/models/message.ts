@@ -1,11 +1,17 @@
 import { ApiModel } from "../services/model-api";
 
-export class Message implements ApiModel {
-  id: number;
-  messageCode: string;
-  messageTitle: string;
-  endCue: string;
-  expiry: string;
-  producer: string;
-  duration: number;
+export interface Message extends ApiModel {
+  code: string;
+  title: string;
+  nq: string;
+  expirydate: string;
+  fldproducer: string;
+  duration: number | null | undefined;
+  type: string;
+}
+
+export interface MessageType {
+  type: string;
+  schedules: boolean;
+  description: string;
 }
