@@ -59,7 +59,9 @@ export class DurationService {
     return formatted.toString();
   }
 
-  toVerboseReadableFromSeconds(input: number): string {
+  toVerboseReadableFromSeconds(input: number | null): string {
+    if (input === null || input === undefined) return "00:00";
+
     const formatted = moment().startOf("day").seconds(input).format("mm:ss");
     return formatted.toString();
   }
