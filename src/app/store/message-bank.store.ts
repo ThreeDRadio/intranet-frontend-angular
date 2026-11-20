@@ -60,7 +60,11 @@ export const MessageBankStore = signalStore(
         switchMap(() => {
           return mbService.getMessages().pipe(
             tapResponse({
-              next: (messages) => patchState(store, { messages }),
+              next: (sr) =>
+                patchState(store, {
+                  messageCount: sr.count,
+                  messages: sr.messages,
+                }),
               error: (err) => console.error("Failed to fetch messages", err),
               finalize: () => patchState(store, { isLoadingMessages: false }),
             }),

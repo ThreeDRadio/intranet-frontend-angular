@@ -28,17 +28,19 @@ export class MessageBankService {
     );
   }
 
-  getMessages(): Observable<Message[]> {
+  getMessages(): Observable<MessageBankSearchResult> {
     const observable = this.mbApi.searchMessages(undefined);
 
     return observable.pipe(
       map((response: any) => {
-        const list = response.results;
-        console.log(response);
+        const messages: Message[] = (response.results || []).map(
+          (item: any) => item as Message,
+        );
 
-        return list.map((item: any) => {
-          return item as Message;
-        });
+        return {
+          count: response.count ?? 0,
+          messages,
+        };
       }),
     );
   }
