@@ -79,6 +79,18 @@ export class QuotaService {
     };
   }
 
+  getQuotas(params: QuotaParams, input: PlaylistEntry[]) {
+    return {
+      local: this.getLocalQuota(params, input),
+      australian: this.getAustralianQuota(params, input),
+      female: this.getFemaleQuota(params, input),
+    };
+  }
+
+  getCounts(input: PlaylistEntry[]) {
+    return { newRelease: this.getNewReleaseCount(input) };
+  }
+
   getLocalQuota(params: QuotaParams, entries: PlaylistEntry[]): QuotaResult {
     return this.getQuota(params, entries, "local");
   }
