@@ -102,7 +102,7 @@ export class NewPlaylistPage implements OnInit {
     showControl: new FormControl(),
     hostControl: new FormControl(),
     fillInControl: new FormControl(),
-    dateControl: new FormControl(new Date()),
+    dateControl: new FormControl(moment()),
     notesControl: new FormControl(),
   });
 
