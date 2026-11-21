@@ -25,6 +25,18 @@ describe("QuotaService", () => {
     // Note: 3 Local, 4 Australian, 3 Female, 2 NR
   });
 
+  describe("getCounts", () => {
+    it("should return 0 on an empty list.", () => {
+      const result = service.getCounts([]);
+      expect(result.newRelease).toBe(0);
+    });
+
+    it("should successfully calculate and evaluate New Release count", () => {
+      const result = service.getCounts(mockEntries);
+      expect(result.newRelease).toBe(2);
+    });
+  });
+
   describe("getLocalQuota", () => {
     it("should return meets true when count is exactly equal to the required rounded quota", () => {
       const params: QuotaParams = {
@@ -117,13 +129,6 @@ describe("QuotaService", () => {
       expect(result.meets).toBe(false);
       expect(result.count).toBe(3);
       expect(result.quota).toBe(4);
-    });
-  });
-
-  describe("getNewReleaseCount", () => {
-    it("should successfully calculate and evaluate New Release count", () => {
-      const result = service.getNewReleaseCount(mockEntries);
-      expect(result).toBe(2);
     });
   });
 
