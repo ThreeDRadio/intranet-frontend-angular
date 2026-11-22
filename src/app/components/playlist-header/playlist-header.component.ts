@@ -22,6 +22,8 @@ import { MatMenuModule } from "@angular/material/menu";
 import { API_URL, BaseApi } from "../../services/base-api.service";
 import { UserService } from "../../services/user.service";
 import { Groups } from "../../constants";
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: "app-playlist-header",
@@ -46,14 +48,18 @@ import { Groups } from "../../constants";
   styleUrl: "./playlist-header.component.scss",
 })
 export class PlaylistHeaderComponent {
-  store = inject(LoggerStore);
+  loggerStore = inject(LoggerStore);
   apiUrl = inject(API_URL);
   dateService = inject(DateService);
   userService = inject(UserService);
+  // Confirmation dialog
+  private _dialog = inject(MatDialog);
 
   readonly playlist = input.required<Playlist>();
   readonly linkToShow = input<boolean>(true);
-  readonly show = computed(() => this.store.showById()(this.playlist().show));
+  readonly show = computed(() =>
+    this.loggerStore.showById()(this.playlist().show),
+  );
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
   );
@@ -86,6 +92,19 @@ export class PlaylistHeaderComponent {
   }
 
   delete() {
-    console.log("test");
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: "Delete logging sheet",
+        message: "Are you sure you want delete this logging sheet?",
+        confirmButton: "Delete",
+        cancelButton: "Cancel",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.loggerStore.deletePlaylist(this.playlist().id);
+      }
+    });
   }
 }
