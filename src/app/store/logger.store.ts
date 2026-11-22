@@ -323,6 +323,25 @@ export const LoggerStore = signalStore(
         ),
       ),
 
+      deletePlaylist: rxMethod<number>(
+        pipe(
+          exhaustMap((id) => {
+            patchState(store, { isLoading: false });
+            return playlistService.delete(id).pipe(
+              tapResponse({
+                next: () =>
+                  patchState(store, (state) => ({
+                    playlists: state.playlists.filter((pl) => pl.id !== id),
+                  })),
+                error: (err) =>
+                  console.error("Failed to delete logging sheet", err),
+                finalize: () => patchState(store, { isLoading: false }),
+              }),
+            );
+          }),
+        ),
+      ),
+
       deletePlaylistEntry: rxMethod<number>(
         pipe(
           exhaustMap((id) => {

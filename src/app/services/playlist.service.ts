@@ -141,6 +141,10 @@ export class PlaylistService {
     );
   }
 
+  delete(id: number): Observable<unknown> {
+    return this.playlistApi.delete({ id });
+  }
+
   deleteEntry(id: number): Observable<boolean> {
     const observable = this.playlistEntryApi.delete({
       id: id,
