@@ -51,7 +51,7 @@
       Export
       <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
     </button>
-    @if (isPlaylistEditor()) {
+    @if (isPlaylistEditor() && !playlist().complete) {
       <button matFab extended color="warn" (click)="delete()">
         <mat-icon>delete</mat-icon>
         Delete
