@@ -20,6 +20,8 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatOptionModule } from "@angular/material/core";
 import { MatMenuModule } from "@angular/material/menu";
 import { API_URL, BaseApi } from "../../services/base-api.service";
+import { UserService } from "../../services/user.service";
+import { Groups } from "../../constants";
 
 @Component({
   selector: "app-playlist-header",
@@ -47,13 +49,16 @@ export class PlaylistHeaderComponent {
   store = inject(LoggerStore);
   apiUrl = inject(API_URL);
   dateService = inject(DateService);
+  userService = inject(UserService);
 
   readonly playlist = input.required<Playlist>();
   readonly linkToShow = input<boolean>(true);
   readonly show = computed(() => this.store.showById()(this.playlist().show));
-
   readonly formattedDate = computed(() =>
     this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
+  );
+  readonly isPlaylistEditor = computed(() =>
+    this.userService.getLoggedInUser()?.groups.includes(Groups.PlaylistEditors),
   );
 
   openTextNoAlbum() {
@@ -78,5 +83,9 @@ export class PlaylistHeaderComponent {
     const id = this.playlist().id;
     const url = `${this.apiUrl}/logger/playlists/${id}?format=csv`;
     window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  delete() {
+    console.log("test");
   }
 }
