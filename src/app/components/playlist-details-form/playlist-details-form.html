@@ -1,0 +1,84 @@
+@if (store.isLoading()) {
+<h4>Loading shows...</h4>
+} @else {
+<form [formGroup]="newShowForm" (ngSubmit)="onSubmit()" class="vertical-form">
+  <mat-form-field>
+    <mat-label>Show</mat-label>
+    <input
+      #showInput
+      type="text"
+      placeholder="---"
+      matInput
+      formControlName="showControl"
+      [matAutocomplete]="showsAuto"
+      (input)="filter()"
+      (focus)="filter()"
+    />
+    <mat-autocomplete
+      requireSelection
+      #showsAuto="matAutocomplete"
+      [displayWith]="showOptionDisplay"
+      (optionSelected)="onShowSelected($event)"
+    >
+      @for (show of filteredShows(); track show.id) {
+      <mat-option [value]="show"> {{show.name}} </mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Host</mat-label>
+    <input
+      #hostInput
+      type="text"
+      placeholder=""
+      matInput
+      formControlName="hostControl"
+    />
+  </mat-form-field>
+  @if (isFillInVisible()) {
+  <mat-form-field>
+    <mat-label>Is this a fill-in?</mat-label>
+    <mat-select formControlName="fillInControl">
+      <mat-option value="yes" selected>Yes</mat-option>
+      <mat-option value="no">No</mat-option>
+    </mat-select>
+  </mat-form-field>
+  }
+  <mat-form-field>
+    <mat-label>Date</mat-label>
+    <input
+      #dateInput
+      matInput
+      [matDatepicker]="picker"
+      formControlName="dateControl"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <div class="warning-container">
+    <div class="warning-banner">
+      <mat-icon>warning</mat-icon>
+      <span>Show notes may end up on the website one day.</span>
+    </div>
+    <mat-form-field>
+      <mat-label>Show Notes</mat-label>
+      <textarea
+        #notesInput
+        matInput
+        formControlName="notesControl"
+        rows="5"
+        placeholder="Add your show notes here..."
+      ></textarea>
+    </mat-form-field>
+  </div>
+  <button
+    mat-button
+    mat-raised-button
+    matSuffix
+    type="submit"
+    [disabled]="!isNewShowValid()"
+  >
+    {{ this.currentSubmitButtonText() }}
+  </button>
+</form>
+}
