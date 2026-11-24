@@ -1,6 +1,3 @@
-@if (store.isLoading()) {
-<h4>Loading shows...</h4>
-} @else {
 <form [formGroup]="newShowForm" (ngSubmit)="onSubmit()" class="vertical-form">
   <mat-form-field>
     <mat-label>Show</mat-label>
@@ -71,6 +68,7 @@
       ></textarea>
     </mat-form-field>
   </div>
+  @if (!this.show()) {
   <button
     mat-button
     mat-raised-button
@@ -80,5 +78,5 @@
   >
     {{ this.currentSubmitButtonText() }}
   </button>
+  }
 </form>
-}

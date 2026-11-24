@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
@@ -9,6 +9,7 @@ import { PlaylistService } from "../../services/playlist.service";
 import { DATE_PIPE_DEFAULT_OPTIONS } from "@angular/common";
 import { LONG_DATE_FORMAT } from "../../constants";
 import { PlaylistDetailsFormComponent } from "../../components/playlist-details-form/playlist-details-form";
+import { LoggerStore } from "../../store";
 
 @Component({
   selector: "app-new-playlist",
@@ -32,4 +33,10 @@ import { PlaylistDetailsFormComponent } from "../../components/playlist-details-
   templateUrl: "./new-playlist.html",
   styleUrl: "./new-playlist.scss",
 })
-export class NewPlaylistPage {}
+export class NewPlaylistPage implements OnInit {
+  private _store = inject(LoggerStore);
+
+  ngOnInit(): void {
+    this._store.fetchAllShows();
+  }
+}

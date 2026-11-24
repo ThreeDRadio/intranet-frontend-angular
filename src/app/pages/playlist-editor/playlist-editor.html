@@ -2,7 +2,7 @@
 <h4>Loading...</h4>
 } @else { @if (playlist(); as pl) {
 <h1>EDITING Logging Sheet - {{ show().name }}</h1>
-<div class="datestring-with-picker">
+<!-- <div class="datestring-with-picker">
   <mat-form-field>
     <mat-label>Show date</mat-label>
     <input
@@ -37,7 +37,7 @@
       </mat-datepicker-actions>
     </mat-datepicker>
   </mat-form-field>
-</div>
+</div> -->
 <app-quota-display
   [quotas]="quotas()"
   [counts]="counts()"
@@ -45,6 +45,16 @@
   [complete]="pl.complete"
 >
 </app-quota-display>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <b><span>Logging sheet details</span></b>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-playlist-details-form [show]="this.show()" />
+  </mat-expansion-panel>
+</mat-accordion>
 <div style="padding-top: 12px">
   <mat-accordion
     class="catalogue-accordion-sapphire-nightfall mat-elevation-z0"

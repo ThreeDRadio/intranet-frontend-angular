@@ -7,6 +7,7 @@ import {
   ElementRef,
   viewChild,
   effect,
+  input,
 } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Show } from "../../models/show";
@@ -47,7 +48,7 @@ import { NewPlaylist } from "../../models/playlist";
   styleUrl: "./playlist-details-form.scss",
   templateUrl: "./playlist-details-form.html",
 })
-export class PlaylistDetailsFormComponent implements OnInit {
+export class PlaylistDetailsFormComponent {
   store = inject(LoggerStore);
   router = inject(Router);
 
@@ -59,6 +60,8 @@ export class PlaylistDetailsFormComponent implements OnInit {
       .filter((s) => s.active)
       .sort((a, b) => a.name.localeCompare(b.name)),
   );
+
+  show = input<Show>();
 
   // Inputs
   private showInput =
@@ -134,10 +137,6 @@ export class PlaylistDetailsFormComponent implements OnInit {
     return actualHost.toLowerCase() !== show.defaultHost.toLowerCase();
   });
 
-  ngOnInit() {
-    this.store.fetchAllShows();
-  }
-
   filter(): void {
     const filterValue = this.showInput().nativeElement.value.toLowerCase();
     const startsWith = this.shows().filter((s) =>
@@ -202,6 +201,7 @@ export class PlaylistDetailsFormComponent implements OnInit {
       }
     });
   }
+
   onSubmit() {
     if (this.newShowForm.valid) {
       let result: NewPlaylist = {

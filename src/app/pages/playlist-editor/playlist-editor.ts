@@ -36,6 +36,7 @@ import { FormControl } from "@angular/forms";
 import { MAT_DATE_FORMATS } from "@angular/material/core";
 import { provideMomentDateAdapter } from "@angular/material-moment-adapter";
 import { LONG_DATE_FORMAT } from "../../constants";
+import { PlaylistDetailsFormComponent } from "../../components/playlist-details-form/playlist-details-form";
 
 @Component({
   selector: "app-playlist-editor",
@@ -45,6 +46,7 @@ import { LONG_DATE_FORMAT } from "../../constants";
     PlaylistEntryListComponent,
     PlaylistCatalogueFinder,
     PlaylistCatalogueRecent,
+    PlaylistDetailsFormComponent,
     // Material
     MatTableModule,
     MatIconModule,
@@ -140,6 +142,7 @@ export class PlaylistEditorPage implements OnInit {
   }
 
   ngOnInit() {
+    this.loggerStore.fetchAllShows();
     this.loggerStore.fetchPlaylistAndEntries(this.id());
   }
 
