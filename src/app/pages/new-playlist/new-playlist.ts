@@ -34,9 +34,9 @@ import { LoggerStore } from "../../store";
   styleUrl: "./new-playlist.scss",
 })
 export class NewPlaylistPage implements OnInit {
-  private _store = inject(LoggerStore);
+  store = inject(LoggerStore);
 
   ngOnInit(): void {
-    this._store.fetchAllShows();
+    this.store.fetchAllShows();
   }
 }
