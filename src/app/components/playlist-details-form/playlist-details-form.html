@@ -21,6 +21,9 @@
       <mat-option [value]="show"> {{show.name}} </mat-option>
       }
     </mat-autocomplete>
+    @if (newShowForm.get("showControl")?.hasError("required")) {
+    <mat-error>Please select a show.</mat-error>
+    }
   </mat-form-field>
   <mat-form-field>
     <mat-label>Host</mat-label>
@@ -31,12 +34,15 @@
       matInput
       formControlName="hostControl"
     />
+    @if (newShowForm.get("hostControl")?.hasError("required")) {
+    <mat-error>Please set the host of this show.</mat-error>
+    }
   </mat-form-field>
   @if (isFillInVisible()) {
   <mat-form-field>
     <mat-label>Is this a fill-in?</mat-label>
     <mat-select formControlName="fillInControl">
-      <mat-option value="yes" selected>Yes</mat-option>
+      <mat-option value="yes">Yes</mat-option>
       <mat-option value="no">No</mat-option>
     </mat-select>
   </mat-form-field>
@@ -68,7 +74,6 @@
       ></textarea>
     </mat-form-field>
   </div>
-  @if (!this.show()) {
   <button
     mat-button
     mat-raised-button
@@ -78,5 +83,4 @@
   >
     {{ this.currentSubmitButtonText() }}
   </button>
-  }
 </form>

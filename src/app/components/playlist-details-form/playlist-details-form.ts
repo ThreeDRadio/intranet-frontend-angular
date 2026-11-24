@@ -14,14 +14,19 @@ import { Show } from "../../models/show";
 import { Router } from "@angular/router";
 import { LoggerStore } from "../../store/logger.store";
 import { PlaylistService } from "../../services/playlist.service";
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import moment from "moment";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatButtonModule } from "@angular/material/button";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatOptionModule } from "@angular/material/core";
 import { MatInputModule } from "@angular/material/input";
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatError, MatFormFieldModule } from "@angular/material/form-field";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatSelectModule } from "@angular/material/select";
@@ -42,6 +47,7 @@ import { NewPlaylist } from "../../models/playlist";
     MatSelectModule,
     MatDividerModule,
     MatIconModule,
+    MatError,
     ReactiveFormsModule,
   ],
   selector: "app-playlist-details-form",
@@ -73,10 +79,12 @@ export class PlaylistDetailsFormComponent {
 
   // Forms
   newShowForm = new FormGroup({
-    showControl: new FormControl(),
-    hostControl: new FormControl(),
-    fillInControl: new FormControl(),
-    dateControl: new FormControl(moment()),
+    showControl: new FormControl<Show | undefined>(undefined, [
+      Validators.required,
+    ]),
+    hostControl: new FormControl("", [Validators.required]),
+    fillInControl: new FormControl(""),
+    dateControl: new FormControl(moment(), [Validators.required]),
     notesControl: new FormControl(),
   });
 
@@ -126,9 +134,7 @@ export class PlaylistDetailsFormComponent {
     const host = this.currentHostValue(); // This is just here to trigger the signal haha I don't know what I'm doing
     const actualHost = this.hostInput().nativeElement.value;
 
-    if (show === null) {
-      return false;
-    }
+    if (show === null || show === undefined) return false;
 
     if (show.defaultHost === "") {
       return false;
@@ -155,9 +161,8 @@ export class PlaylistDetailsFormComponent {
 
   onShowSelected(event) {
     const show = event.option.value;
-
     if (show) {
-      this.hostInput().nativeElement.value = show.defaultHost;
+      this.newShowForm.controls.hostControl.setValue(show.defaultHost);
     }
   }
 
@@ -180,6 +185,7 @@ export class PlaylistDetailsFormComponent {
 
     return (
       show !== null &&
+      show !== undefined &&
       actualHost !== null &&
       actualHost !== "" &&
       dateString !== null &&
@@ -203,27 +209,28 @@ export class PlaylistDetailsFormComponent {
   }
 
   onSubmit() {
-    if (this.newShowForm.valid) {
-      let result: NewPlaylist = {
-        show: this.newShowForm.controls.showControl.value.id,
-        showname: "",
-        host: this.hostInput().nativeElement.value,
-        date: moment(this.newShowForm.controls.dateControl.value).format(
-          "YYYY-MM-DD",
-        ),
-        notes: this.newShowForm.controls.notesControl.value,
-        complete: false,
-        fillin:
-          this.newShowForm.controls.fillInControl.value === "yes"
-            ? true
-            : false,
-        femaleQuota:
-          this.newShowForm.controls.showControl.value.femaleQuota ?? 0,
-        localQuota: this.newShowForm.controls.showControl.value.localQuota ?? 0,
-        australianQuota:
-          this.newShowForm.controls.showControl.value.australianQuota ?? 0,
-      };
-      this.store.createNewPlaylist(result);
-    }
+    const show = this.currentShowValue();
+    if (show === null || show === undefined) return false;
+    if (!this.newShowForm.valid) return;
+
+    let result: NewPlaylist = {
+      show: show.id,
+      showname: "",
+      host: this.hostInput().nativeElement.value,
+      date: moment(this.newShowForm.controls.dateControl.value).format(
+        "YYYY-MM-DD",
+      ),
+      notes: this.newShowForm.controls.notesControl.value,
+      complete: false,
+      fillin:
+        this.isFillInVisible() &&
+        this.newShowForm.controls.fillInControl.value === "yes"
+          ? true
+          : false,
+      femaleQuota: show.femaleQuota ?? 0,
+      localQuota: show.localQuota ?? 0,
+      australianQuota: show.australianQuota ?? 0,
+    };
+    this.store.createNewPlaylist(result);
   }
 }
