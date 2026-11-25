@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, computed, inject, OnInit } from "@angular/core";
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
@@ -35,6 +35,13 @@ import { LoggerStore } from "../../store";
 })
 export class NewPlaylistPage implements OnInit {
   store = inject(LoggerStore);
+
+  readonly shows = computed(() =>
+    this.store
+      .shows()
+      .filter((s) => s.active)
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  );
 
   ngOnInit(): void {
     this.store.fetchAllShows();

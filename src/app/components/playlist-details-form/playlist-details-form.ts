@@ -13,8 +13,8 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { Show } from "../../models/show";
 import { Router } from "@angular/router";
 import { LoggerStore } from "../../store/logger.store";
-import { PlaylistService } from "../../services/playlist.service";
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -36,6 +36,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import { NewPlaylist } from "../../models/playlist";
+import { ShowService } from "../../services/show.service";
 
 @Component({
   imports: [
@@ -58,23 +59,16 @@ import { NewPlaylist } from "../../models/playlist";
   templateUrl: "./playlist-details-form.html",
 })
 export class PlaylistDetailsFormComponent {
+  private fb = inject(FormBuilder);
+  private showService = inject(ShowService);
   store = inject(LoggerStore);
   router = inject(Router);
 
-  // Services
-  playlistService = inject(PlaylistService);
-  readonly shows = computed(() =>
-    this.store
-      .shows()
-      .filter((s) => s.active)
-      .sort((a, b) => a.name.localeCompare(b.name)),
-  );
-
+  // Inputs
   show = input<Show>();
+  shows = input.required<Show[]>();
 
   // Inputs
-  private showInput =
-    viewChild.required<ElementRef<HTMLInputElement>>("showInput");
   private hostInput =
     viewChild.required<ElementRef<HTMLInputElement>>("hostInput");
   private dateInput =
@@ -109,23 +103,10 @@ export class PlaylistDetailsFormComponent {
 
   getShowOptionDisplay = (show: Show | null): string => show?.name ?? "";
   filteredShows = computed(() => {
-    const value = this.rawQuery().trim().toLowerCase();
-    const query = (typeof value === "string" ? value : "").toLowerCase();
-    if (!query) return this.shows();
-
-    const startsWith: Show[] = [];
-    const includes: Show[] = [];
-
-    for (const show of this.shows()) {
-      const name = show.name.toLowerCase();
-      if (name.startsWith(query)) {
-        startsWith.push(show);
-      } else if (name.includes(query)) {
-        includes.push(show);
-      }
-    }
-
-    return [...startsWith, ...includes];
+    return this.showService.filter(
+      this.rawQuery().trim().toLowerCase(),
+      this.shows(),
+    );
   });
   // Fillin logic
   private readonly currentShowValue = toSignal(

@@ -77,4 +77,23 @@ export class ShowService {
       }),
     );
   }
+
+  filter(input: string, shows: Show[]) {
+    const query = (typeof input === "string" ? input : "").toLowerCase();
+    if (!query) return shows;
+
+    const startsWith: Show[] = [];
+    const includes: Show[] = [];
+
+    for (const show of shows) {
+      const name = show.name.toLowerCase();
+      if (name.startsWith(query)) {
+        startsWith.push(show);
+      } else if (name.includes(query)) {
+        includes.push(show);
+      }
+    }
+
+    return [...startsWith, ...includes];
+  }
 }
