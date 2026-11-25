@@ -8,13 +8,12 @@
       matInput
       formControlName="showControl"
       [matAutocomplete]="showsAuto"
-      (input)="filter()"
-      (focus)="filter()"
+      (input)="onShowInput($event)"
     />
     <mat-autocomplete
       requireSelection
       #showsAuto="matAutocomplete"
-      [displayWith]="showOptionDisplay"
+      [displayWith]="getShowOptionDisplay"
       (optionSelected)="onShowSelected($event)"
     >
       @for (show of filteredShows(); track show.id) {

@@ -23,7 +23,10 @@ import {
 import moment from "moment";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatButtonModule } from "@angular/material/button";
-import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import {
+  MatAutocompleteModule,
+  MatAutocompleteSelectedEvent,
+} from "@angular/material/autocomplete";
 import { MatOptionModule } from "@angular/material/core";
 import { MatInputModule } from "@angular/material/input";
 import { MatError, MatFormFieldModule } from "@angular/material/form-field";
@@ -89,8 +92,41 @@ export class PlaylistDetailsFormComponent {
   });
 
   // Filtering
-  filteredShows = signal<Show[]>(this.shows().slice());
+  // Handle user input in the show dropdown
+  private rawQuery = signal("");
 
+  onShowInput(event: { target: HTMLInputElement }) {
+    const value = (event.target as HTMLInputElement).value;
+    this.rawQuery.set(value);
+  }
+
+  onShowSelected(event: MatAutocompleteSelectedEvent) {
+    const show = event.option.value;
+    if (show) {
+      this.newShowForm.controls.hostControl.setValue(show.defaultHost);
+    }
+  }
+
+  getShowOptionDisplay = (show: Show | null): string => show?.name ?? "";
+  filteredShows = computed(() => {
+    const value = this.rawQuery().trim().toLowerCase();
+    const query = (typeof value === "string" ? value : "").toLowerCase();
+    if (!query) return this.shows();
+
+    const startsWith: Show[] = [];
+    const includes: Show[] = [];
+
+    for (const show of this.shows()) {
+      const name = show.name.toLowerCase();
+      if (name.startsWith(query)) {
+        startsWith.push(show);
+      } else if (name.includes(query)) {
+        includes.push(show);
+      }
+    }
+
+    return [...startsWith, ...includes];
+  });
   // Fillin logic
   private readonly currentShowValue = toSignal(
     this.newShowForm.controls.showControl.valueChanges,
@@ -143,29 +179,6 @@ export class PlaylistDetailsFormComponent {
     return actualHost.toLowerCase() !== show.defaultHost.toLowerCase();
   });
 
-  filter(): void {
-    const filterValue = this.showInput().nativeElement.value.toLowerCase();
-    const startsWith = this.shows().filter((s) =>
-      s.name.toLowerCase().startsWith(filterValue),
-    );
-    const includes = this.shows().filter(
-      (s) =>
-        !startsWith.includes(s) && s.name.toLowerCase().includes(filterValue),
-    );
-    this.filteredShows.set([...startsWith, ...includes]);
-  }
-
-  showOptionDisplay(show: Show): string {
-    return show?.name ?? "";
-  }
-
-  onShowSelected(event) {
-    const show = event.option.value;
-    if (show) {
-      this.newShowForm.controls.hostControl.setValue(show.defaultHost);
-    }
-  }
-
   readonly isNewShowValid = computed(() => {
     const show = this.currentShowValue();
     const host = this.currentHostValue(); // This is just here to trigger the signal haha I don't know what I'm doing
@@ -210,7 +223,7 @@ export class PlaylistDetailsFormComponent {
 
   onSubmit() {
     const show = this.currentShowValue();
-    if (show === null || show === undefined) return false;
+    if (show === null || show === undefined) return;
     if (!this.newShowForm.valid) return;
 
     let result: NewPlaylist = {
