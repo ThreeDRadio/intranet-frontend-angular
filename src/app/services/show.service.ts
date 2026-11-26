@@ -11,6 +11,7 @@ export type TopArtist = {
 export type Statistic = {
   name: string;
   value: number;
+  target: number;
 };
 
 @Injectable({

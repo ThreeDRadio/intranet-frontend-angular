@@ -53,9 +53,6 @@ export class ShowPlaylistsPage implements OnInit {
   readonly stats = computed(() => {
     const fromData = this.loggerStore.statsByShow()(this.id());
     if (fromData?.isLoading) return;
-    const lq = Math.ceil(fromData?.statistics[0].value * 0.2);
-    const aq = Math.ceil(fromData?.statistics[0].value * 0.4);
-    const fq = Math.ceil(fromData?.statistics[0].value * 0.2);
 
     return {
       labels: fromData.statistics.map((s) => s.name) ?? [],
@@ -68,7 +65,7 @@ export class ShowPlaylistsPage implements OnInit {
         },
         {
           label: "Targets",
-          data: [0, 0, lq, aq, fq],
+          data: fromData.statistics.map((s) => s.target) ?? [],
           backgroundColor: "rgba(92, 184, 92, 0.5)",
           borderColor: "rgba(92, 184, 92, 1)",
           borderWidth: 2,
