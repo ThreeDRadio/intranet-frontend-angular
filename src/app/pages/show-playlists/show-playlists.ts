@@ -49,27 +49,33 @@ export class ShowPlaylistsPage implements OnInit {
   readonly topArtists = computed(() => {
     return this.loggerStore.statsByShow()(this.id())?.topArtists;
   });
-  readonly statsLabels = computed(
-    () =>
-      this.loggerStore
-        .statsByShow()(this.id())
-        ?.statistics.map((s) => s.name) ?? [],
-  );
-  readonly statsValues = computed(
-    () =>
-      this.loggerStore
-        .statsByShow()(this.id())
-        ?.statistics.map((s) => s.value) ?? [],
-  );
 
   readonly stats = computed(() => {
+    const fromData = this.loggerStore.statsByShow()(this.id());
+    if (fromData?.isLoading) return;
+    const lq = Math.ceil(fromData?.statistics[0].value * 0.2);
+    const aq = Math.ceil(fromData?.statistics[0].value * 0.4);
+    const fq = Math.ceil(fromData?.statistics[0].value * 0.2);
+
     return {
-      labels: this.statsLabels(),
+      labels: fromData.statistics.map((s) => s.name) ?? [],
       datasets: [
         {
-          data: this.statsValues(),
+          data: fromData.statistics.map((s) => s.value) ?? [],
           label: "Tracks",
           backgroundColor: "#3f51b5", // Angular Material Primary Indigo
+          order: 1,
+        },
+        {
+          label: "Targets",
+          data: [0, 0, lq, aq, fq],
+          backgroundColor: "rgba(92, 184, 92, 0.5)",
+          borderColor: "rgba(92, 184, 92, 1)",
+          borderWidth: 2,
+          borderDash: [2, 8], // Dotted border
+          grouped: false, // Overlaps at the same X position
+          order: 2, // Higher order draws first (behind)
+          barPercentage: 0.8, // Optional: slightly wider so the border frames the front bar
         },
       ],
     };
