@@ -1,4 +1,4 @@
-<form [formGroup]="newShowForm" (ngSubmit)="onSubmit()" class="vertical-form">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="vertical-form">
   <mat-form-field>
     <mat-label>Show</mat-label>
     <input
@@ -20,7 +20,7 @@
       <mat-option [value]="show"> {{show.name}} </mat-option>
       }
     </mat-autocomplete>
-    @if (newShowForm.get("showControl")?.hasError("required")) {
+    @if (form.get("showControl")?.hasError("required")) {
     <mat-error>Please select a show.</mat-error>
     }
   </mat-form-field>
@@ -33,7 +33,7 @@
       matInput
       formControlName="hostControl"
     />
-    @if (newShowForm.get("hostControl")?.hasError("required")) {
+    @if (form.get("hostControl")?.hasError("required")) {
     <mat-error>Please set the host of this show.</mat-error>
     }
   </mat-form-field>
@@ -44,6 +44,9 @@
       <mat-option value="yes">Yes</mat-option>
       <mat-option value="no">No</mat-option>
     </mat-select>
+    @if (form.controls.fillInControl.hasError('required')) {
+    <mat-error>Please specify if this is a fill-in.</mat-error>
+    }
   </mat-form-field>
   }
   <mat-form-field>
@@ -78,8 +81,8 @@
     mat-raised-button
     matSuffix
     type="submit"
-    [disabled]="!isNewShowValid()"
+    [disabled]="this.form.invalid"
   >
-    {{ this.currentSubmitButtonText() }}
+    Let's go
   </button>
 </form>

@@ -96,4 +96,17 @@ export class ShowService {
 
     return [...startsWith, ...includes];
   }
+
+  isDefaultHost(input: string, show: Show | null | undefined) {
+    if (show === null || show === undefined) return false;
+    if (show.defaultHost === "") {
+      return false;
+    }
+
+    return input.toLowerCase() === show.defaultHost.toLowerCase();
+  }
+
+  isDifferentHost(input: string, show: Show | null | undefined) {
+    return !this.isDefaultHost(input, show);
+  }
 }
