@@ -104,7 +104,6 @@ export class PlaylistDetailsFormComponent implements OnInit {
   constructor() {
     effect(() => {
       this.rawQuery.set("");
-      this.syncFillInState(null, "");
 
       this.form.controls.hostControl.valueChanges.subscribe((host) => {
         this.syncFillInState(this.form.controls.showControl.value, host ?? "");
@@ -113,11 +112,21 @@ export class PlaylistDetailsFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.show()) {
-      this.form.controls.showControl.setValue(this.show());
-      this.form.controls.hostControl.setValue(this.playlist()?.host ?? "");
-      this.form.controls.dateControl.setValue(moment(this.playlist()?.date));
-      this.form.controls.notesControl.setValue(this.playlist()?.notes);
+    const inputShow = this.show();
+    const inputPlaylist = this.playlist();
+
+    if (inputShow && inputPlaylist) {
+      const inputHost = inputPlaylist?.host ?? "";
+      this.form.controls.showControl.setValue(inputShow);
+      this.form.controls.hostControl.setValue(inputHost);
+      this.form.controls.fillInControl.setValue(
+        inputPlaylist?.fillin ? "yes" : "no",
+      );
+      this.form.controls.dateControl.setValue(moment(inputPlaylist?.date));
+      this.form.controls.notesControl.setValue(inputPlaylist?.notes);
+      this.syncFillInState(inputShow, inputHost);
+    } else {
+      this.syncFillInState(null, "");
     }
   }
 
@@ -126,6 +135,7 @@ export class PlaylistDetailsFormComponent implements OnInit {
     const shouldShow =
       show !== null &&
       show !== undefined &&
+      host !== "" &&
       this.showService.isDifferentHost(host, show);
     this.isFillInVisible.set(shouldShow);
 
