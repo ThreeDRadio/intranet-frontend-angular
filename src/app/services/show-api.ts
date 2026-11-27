@@ -3,6 +3,7 @@ import { ModelApi } from "./model-api";
 import { BaseApi } from "./base-api.service";
 import { Show } from "../models/show";
 import { forkJoin, Observable, of } from "rxjs";
+import { HttpParams } from "@angular/common/http";
 
 type ShowSearchParams = {
   ids: number[];
@@ -32,7 +33,11 @@ export class ShowApi extends ModelApi<Show> {
   }
 
   getStatistics(id: number): Observable<any> {
-    return this.http.get(`shows/${id}/statistics`);
+    const params = new HttpParams().set("targets", true);
+    return this.http.get(`shows/${id}/statistics`, {
+      params,
+      responseType: "json",
+    });
   }
 
   getTopArtists(id: number): Observable<any> {

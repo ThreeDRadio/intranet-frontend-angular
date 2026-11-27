@@ -39,8 +39,8 @@
   </mat-form-field>
 </div> -->
 <app-quota-display
-  [quotas]="quotas()"
-  [counts]="counts()"
+  [quotas]="this.quotaService.getQuotas(this.quotaParams(), this.entries())"
+  [counts]="this.quotaService.getCounts(this.entries())"
   [totalDuration]="totalDuration()"
   [complete]="pl.complete"
 >

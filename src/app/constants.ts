@@ -5,6 +5,7 @@ export const Groups = {
   PlaylistEditors: "Playlist Editors",
   CommentModerators: "Comment Moderators",
   MessageBank: "Message Bank",
+  ProgrammingCommittee: "Programming Committee",
 };
 
 export const LONG_DATE_FORMAT = {
