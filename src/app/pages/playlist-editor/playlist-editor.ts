@@ -6,11 +6,12 @@ import {
   signal,
   input,
   effect,
+  Signal,
 } from "@angular/core";
 import { LoggerStore } from "../../store/logger.store";
 import { Router } from "@angular/router";
 import { DateService } from "../../services/date.service";
-import { QuotaService } from "../../services/quota.service";
+import { QuotaParams, QuotaService } from "../../services/quota.service";
 import moment from "moment";
 import { QuotaDisplayComponent } from "../../components/quota-display/quota-display.component";
 import { MatTableModule } from "@angular/material/table";
@@ -107,23 +108,12 @@ export class PlaylistEditorPage implements OnInit {
     return moment.utc(result.asMilliseconds()).format("HH:mm:ss");
   });
 
-  readonly quotas = computed(() => {
-    const params = {
+  readonly quotaParams: Signal<QuotaParams> = computed(() => {
+    return {
       localQuota: this.playlist()?.localQuota ?? 0,
       australianQuota: this.playlist()?.australianQuota ?? 0,
       femaleQuota: this.playlist()?.femaleQuota ?? 0,
     };
-    const input = this.entries();
-
-    return {
-      local: this.quotaService.getLocalQuota(params, input),
-      australian: this.quotaService.getAustralianQuota(params, input),
-      female: this.quotaService.getFemaleQuota(params, input),
-    };
-  });
-
-  readonly counts = computed(() => {
-    return { newRelease: this.quotaService.getNewReleaseCount(this.entries()) };
   });
 
   constructor() {

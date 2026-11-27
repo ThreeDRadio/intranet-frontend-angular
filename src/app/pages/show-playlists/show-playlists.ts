@@ -16,6 +16,8 @@ import { ShowService } from "../../services/show.service";
 import { BaseChartDirective } from "ng2-charts";
 import { provideCharts, withDefaultRegisterables } from "ng2-charts";
 import { ChartConfiguration } from "chart.js";
+import { UserService } from "../../services/user.service";
+import { Groups } from "../../constants";
 
 @Component({
   selector: "app-show-playlists",
@@ -34,6 +36,7 @@ import { ChartConfiguration } from "chart.js";
 export class ShowPlaylistsPage implements OnInit {
   showService = inject(ShowService);
   loggerStore = inject(LoggerStore);
+  private _userService = inject(UserService);
 
   readonly id = input.required<number, string>({
     transform: (value: string) => Number(value),
@@ -49,29 +52,43 @@ export class ShowPlaylistsPage implements OnInit {
   readonly topArtists = computed(() => {
     return this.loggerStore.statsByShow()(this.id())?.topArtists;
   });
-  readonly statsLabels = computed(
-    () =>
-      this.loggerStore
-        .statsByShow()(this.id())
-        ?.statistics.map((s) => s.name) ?? [],
-  );
-  readonly statsValues = computed(
-    () =>
-      this.loggerStore
-        .statsByShow()(this.id())
-        ?.statistics.map((s) => s.value) ?? [],
-  );
 
   readonly stats = computed(() => {
+    const fromData = this.loggerStore.statsByShow()(this.id());
+    if (fromData?.isLoading) return;
+    if (fromData?.statistics === undefined) return;
+
+    const user = this._userService.getLoggedInUser();
+    const targets = user?.groups?.includes(Groups.ProgrammingCommittee);
+
+    // Build up the lists of data
+    var labels = fromData.statistics.map((s) => s.name) ?? [];
+    var datasets: any = [
+      {
+        data: fromData.statistics.map((s) => s.value) ?? [],
+        label: "Tracks",
+        backgroundColor: "#3f51b5", // Angular Material Primary Indigo
+        order: 1,
+      },
+    ];
+
+    if (targets) {
+      datasets.push({
+        label: "Targets",
+        data: fromData.statistics.map((s) => s.target) ?? [],
+        backgroundColor: "rgba(92, 184, 92, 0.5)",
+        borderColor: "rgba(92, 184, 92, 1)",
+        borderWidth: 2,
+        borderDash: [2, 8], // Dotted border
+        grouped: false, // Overlaps at the same X position
+        order: 2, // Higher order draws first (behind)
+        barPercentage: 0.8, // Optional: slightly wider so the border frames the front bar
+      });
+    }
+
     return {
-      labels: this.statsLabels(),
-      datasets: [
-        {
-          data: this.statsValues(),
-          label: "Tracks",
-          backgroundColor: "#3f51b5", // Angular Material Primary Indigo
-        },
-      ],
+      labels,
+      datasets,
     };
   });
 

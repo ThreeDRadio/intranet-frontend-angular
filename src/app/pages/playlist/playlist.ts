@@ -1,10 +1,17 @@
-import { Component, computed, inject, input, OnInit } from "@angular/core";
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+  Signal,
+} from "@angular/core";
 import { LoggerStore } from "../../store";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
 import { MatChipsModule } from "@angular/material/chips";
 import { DateService } from "../../services/date.service";
-import { QuotaService } from "../../services/quota.service";
+import { QuotaParams, QuotaService } from "../../services/quota.service";
 import { MatDividerModule } from "@angular/material/divider";
 import moment from "moment";
 import { QuotaDisplayComponent } from "../../components/quota-display/quota-display.component";
@@ -43,28 +50,17 @@ export class PlaylistPageComponent implements OnInit {
     this.store.playlistEntriesById()(this.id()),
   );
 
-  readonly quotas = computed(() => {
-    const params = {
+  readonly formattedDate = computed(() =>
+    this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
+  );
+
+  readonly quotaParams: Signal<QuotaParams> = computed(() => {
+    return {
       localQuota: this.playlist()?.localQuota ?? 0,
       australianQuota: this.playlist()?.australianQuota ?? 0,
       femaleQuota: this.playlist()?.femaleQuota ?? 0,
     };
-    const input = this.entries();
-
-    return {
-      local: this.quotaService.getLocalQuota(params, input),
-      australian: this.quotaService.getAustralianQuota(params, input),
-      female: this.quotaService.getFemaleQuota(params, input),
-    };
   });
-
-  readonly counts = computed(() => {
-    return { newRelease: this.quotaService.getNewReleaseCount(this.entries()) };
-  });
-
-  readonly formattedDate = computed(() =>
-    this.dateService.getDisplayDate(this.playlist()?.date ?? ""),
-  );
 
   readonly totalDuration = computed(() => {
     const result = this.entries().reduce((acc, curr) => {

@@ -79,6 +79,18 @@ export class QuotaService {
     };
   }
 
+  getQuotas(params: QuotaParams, input: PlaylistEntry[]) {
+    return {
+      local: this.getLocalQuota(params, input),
+      australian: this.getAustralianQuota(params, input),
+      female: this.getFemaleQuota(params, input),
+    };
+  }
+
+  getCounts(input: PlaylistEntry[]) {
+    return { newRelease: input.filter((e) => e.newRelease).length };
+  }
+
   getLocalQuota(params: QuotaParams, entries: PlaylistEntry[]): QuotaResult {
     return this.getQuota(params, entries, "local");
   }
@@ -92,9 +104,5 @@ export class QuotaService {
 
   getFemaleQuota(params: QuotaParams, entries: PlaylistEntry[]): QuotaResult {
     return this.getQuota(params, entries, "female");
-  }
-
-  getNewReleaseCount(entries: PlaylistEntry[]): number {
-    return entries.filter((e) => e.newRelease).length;
   }
 }
