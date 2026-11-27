@@ -93,6 +93,7 @@ export class PlaylistDetailsFormComponent implements OnInit {
   }
 
   getShowOptionDisplay = (show: Show | null): string => show?.name ?? "";
+  new = computed(() => !this.show() && !this.playlist());
 
   filteredShows = computed(() => {
     return this.showService.filter(
