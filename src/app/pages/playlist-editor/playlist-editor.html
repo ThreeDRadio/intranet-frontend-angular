@@ -2,42 +2,6 @@
 <h4>Loading...</h4>
 } @else { @if (playlist(); as pl) {
 <h1>EDITING Logging Sheet - {{ show().name }}</h1>
-<!-- <div class="datestring-with-picker">
-  <mat-form-field>
-    <mat-label>Show date</mat-label>
-    <input
-      matInput
-      [matDatepicker]="datepicker"
-      [value]="pl.date"
-      [formControl]="showDateControl"
-      (dateChange)="onDateUpdated($event)"
-    />
-    <mat-datepicker-toggle
-      matIconSuffix
-      [for]="datepicker"
-    ></mat-datepicker-toggle>
-    <mat-datepicker #datepicker>
-      <mat-datepicker-actions>
-        <button
-          matFab
-          color="primary"
-          aria-label="Change date"
-          matDatepickerApply
-        >
-          <mat-icon>check</mat-icon>
-        </button>
-        <button
-          matFab
-          color="accent"
-          aria-label="Cancel date change"
-          matDatepickerCancel
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-datepicker-actions>
-    </mat-datepicker>
-  </mat-form-field>
-</div> -->
 <app-quota-display
   [quotas]="this.quotaService.getQuotas(this.quotaParams(), this.entries())"
   [counts]="this.quotaService.getCounts(this.entries())"
@@ -54,7 +18,11 @@
       </mat-panel-title>
       <mat-panel-description></mat-panel-description>
     </mat-expansion-panel-header>
-    <app-playlist-details-form [show]="this.show()" [shows]="this.shows()" />
+    <app-playlist-details-form
+      [show]="this.show()"
+      [shows]="this.shows()"
+      [playlist]="this.playlist()"
+    />
   </mat-expansion-panel>
 </mat-accordion>
 <div style="padding-top: 12px">

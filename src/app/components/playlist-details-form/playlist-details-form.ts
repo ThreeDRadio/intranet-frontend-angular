@@ -27,6 +27,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import { ShowService } from "../../services/show.service";
+import { Playlist } from "../../models";
 
 export interface PlaylistDetails {
   show: Show;
@@ -62,6 +63,7 @@ export class PlaylistDetailsFormComponent implements OnInit {
 
   // I/O
   show = input<Show>();
+  playlist = input<Playlist>();
   shows = input.required<Show[]>();
   submitted = output<PlaylistDetails>();
 
@@ -113,6 +115,9 @@ export class PlaylistDetailsFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.show()) {
       this.form.controls.showControl.setValue(this.show());
+      this.form.controls.hostControl.setValue(this.playlist()?.host ?? "");
+      this.form.controls.dateControl.setValue(moment(this.playlist()?.date));
+      this.form.controls.notesControl.setValue(this.playlist()?.notes);
     }
   }
 
