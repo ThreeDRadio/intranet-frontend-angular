@@ -7,8 +7,8 @@
   <mat-form-field>
     <mat-label>Message Type</mat-label>
     <mat-select formControlName="messageTypeControl">
-      @for (mt of messageTypes(); track mt.id) {
-      <mat-option [value]="mt"> {{ mt.name }} </mat-option>
+      @for (mt of messageTypes(); track mt.type) {
+      <mat-option [value]="mt"> {{ mt.type }} </mat-option>
       }
     </mat-select>
     @if (newMessageForm.get('state')?.hasError('required')) {
