@@ -28,6 +28,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import { ShowService } from "../../services/show.service";
 import { Playlist } from "../../models";
+import { toSignal } from "@angular/core/rxjs-interop";
 
 export interface PlaylistDetails {
   show: Show;
@@ -66,6 +67,9 @@ export class PlaylistDetailsFormComponent implements OnInit {
   playlist = input<Playlist>();
   shows = input.required<Show[]>();
   submitted = output<PlaylistDetails>();
+  changed = output<PlaylistDetails>();
+  // Edit style
+  new = computed(() => !this.show() && !this.playlist());
 
   // Forms
   form = this.fb.group({
@@ -93,7 +97,6 @@ export class PlaylistDetailsFormComponent implements OnInit {
   }
 
   getShowOptionDisplay = (show: Show | null): string => show?.name ?? "";
-  new = computed(() => !this.show() && !this.playlist());
 
   filteredShows = computed(() => {
     return this.showService.filter(
@@ -106,9 +109,21 @@ export class PlaylistDetailsFormComponent implements OnInit {
     effect(() => {
       this.rawQuery.set("");
 
-      this.form.controls.hostControl.valueChanges.subscribe((host) => {
-        this.syncFillInState(this.form.controls.showControl.value, host ?? "");
-      });
+      if (this.new()) {
+        this.form.controls.hostControl.valueChanges.subscribe((host) => {
+          this.syncFillInState(
+            this.form.controls.showControl.value,
+            host ?? "",
+          );
+        });
+      } else {
+        this.form.valueChanges.subscribe((form) => {
+          this.syncFillInState(
+            this.form.controls.showControl.value,
+            form.hostControl ?? "",
+          );
+        });
+      }
     });
   }
 
