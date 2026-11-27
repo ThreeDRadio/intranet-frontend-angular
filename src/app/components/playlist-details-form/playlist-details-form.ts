@@ -6,6 +6,7 @@ import {
   effect,
   input,
   output,
+  OnInit,
 } from "@angular/core";
 import { Show } from "../../models/show";
 import { Router } from "@angular/router";
@@ -55,7 +56,7 @@ export interface PlaylistDetails {
   styleUrl: "./playlist-details-form.scss",
   templateUrl: "./playlist-details-form.html",
 })
-export class PlaylistDetailsFormComponent {
+export class PlaylistDetailsFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private showService = inject(ShowService);
 
@@ -107,6 +108,12 @@ export class PlaylistDetailsFormComponent {
         this.syncFillInState(this.form.controls.showControl.value, host ?? "");
       });
     });
+  }
+
+  ngOnInit(): void {
+    if (this.show()) {
+      this.form.controls.showControl.setValue(this.show());
+    }
   }
 
   private syncFillInState(show: Show | null | undefined, host: string): void {

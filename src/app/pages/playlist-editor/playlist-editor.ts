@@ -94,6 +94,13 @@ export class PlaylistEditorPage implements OnInit {
     () => this.loggerStore.showById()(this.playlist().show) ?? undefined,
   );
 
+  readonly shows = computed(() =>
+    this.loggerStore
+      .shows()
+      .filter((s) => s.active)
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  );
+
   entries = computed(() => this.loggerStore.playlistEntries());
 
   // Control
