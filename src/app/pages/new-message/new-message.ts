@@ -30,6 +30,8 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import moment from "moment";
 import { LONG_DATE_FORMAT } from "../../constants";
 import { UserService } from "../../services/user.service";
+import { MessageBankService } from "../../services/message-bank.service";
+import { MessageBankStore } from "../../store/message-bank.store";
 
 @Component({
   selector: "app-new-message",
@@ -57,8 +59,9 @@ import { UserService } from "../../services/user.service";
   templateUrl: "./new-message.html",
   styleUrl: "./new-message.scss",
 })
-export class NewMessagePage {
+export class NewMessagePage implements OnInit {
   private userService = inject(UserService);
+  private mbStore = inject(MessageBankStore);
 
   // Forms
   newMessageForm = new FormGroup({
@@ -72,7 +75,7 @@ export class NewMessagePage {
   });
 
   readonly messageTypes = computed(() => {
-    return [{ id: 1, name: "test" }];
+    return this.mbStore.types() ?? [];
   });
 
   constructor() {
@@ -82,6 +85,10 @@ export class NewMessagePage {
         this.newMessageForm.controls.producerControl.setValue(user.username);
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.mbStore.fetchTypes();
   }
 
   onSubmit() {
