@@ -101,7 +101,8 @@ export class ShowService {
   isDefaultHost(input: string, show: Show | null | undefined) {
     if (show === null || show === undefined) return false;
     if (show.defaultHost === "") {
-      return false;
+      // No default host set - anyone can be the host in this case.
+      return true;
     }
 
     return input.toLowerCase() === show.defaultHost.toLowerCase();
