@@ -2,24 +2,14 @@ import {
   Component,
   computed,
   signal,
-  OnInit,
   inject,
-  ElementRef,
-  viewChild,
   effect,
   input,
+  output,
 } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
 import { Show } from "../../models/show";
 import { Router } from "@angular/router";
-import { LoggerStore } from "../../store/logger.store";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from "@angular/forms";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import moment from "moment";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatButtonModule } from "@angular/material/button";
@@ -35,8 +25,15 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatSelectModule } from "@angular/material/select";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
-import { NewPlaylist } from "../../models/playlist";
 import { ShowService } from "../../services/show.service";
+
+export interface PlaylistDetails {
+  show: Show;
+  host: string;
+  fillIn: boolean;
+  date: string;
+  notes: string;
+}
 
 @Component({
   imports: [
@@ -61,11 +58,11 @@ import { ShowService } from "../../services/show.service";
 export class PlaylistDetailsFormComponent {
   private fb = inject(FormBuilder);
   private showService = inject(ShowService);
-  router = inject(Router);
 
-  // Inputs
+  // I/O
   show = input<Show>();
   shows = input.required<Show[]>();
+  submitted = output<PlaylistDetails>();
 
   // Forms
   form = this.fb.group({
@@ -109,19 +106,15 @@ export class PlaylistDetailsFormComponent {
       this.form.controls.hostControl.valueChanges.subscribe((host) => {
         this.syncFillInState(this.form.controls.showControl.value, host ?? "");
       });
-      // const submission = this.store.playlistSubmission();
-      // if (submission?.state === "created") {
-      //   this.form.reset();
-      //   // Kick off a clear of the playlist submission and go to the newly created playlist.
-      //   this.store.clearPlaylistSubmission();
-      //   this.router.navigate(["/playlists/edit", submission.id]);
-      // }
     });
   }
 
   private syncFillInState(show: Show | null | undefined, host: string): void {
     const fillInCtrl = this.form.controls.fillInControl;
-    const shouldShow = this.showService.isDifferentHost(host, show);
+    const shouldShow =
+      show !== null &&
+      show !== undefined &&
+      this.showService.isDifferentHost(host, show);
     this.isFillInVisible.set(shouldShow);
 
     if (shouldShow) {
@@ -135,23 +128,16 @@ export class PlaylistDetailsFormComponent {
 
   onSubmit() {
     if (this.form.invalid) return;
-
-    // let result: NewPlaylist = {
-    //   show: show.id,
-    //   showname: "",
-    //   host: this.hostInput().nativeElement.value,
-    //   date: moment(this.form.controls.dateControl.value).format("YYYY-MM-DD"),
-    //   notes: this.form.controls.notesControl.value ?? "",
-    //   complete: false,
-    //   fillin:
-    //     this.isFillInVisible() &&
-    //     this.form.controls.fillInControl.value === "yes"
-    //       ? true
-    //       : false,
-    //   femaleQuota: show.femaleQuota ?? 0,
-    //   localQuota: show.localQuota ?? 0,
-    //   australianQuota: show.australianQuota ?? 0,
-    // };
-    // this.store.createNewPlaylist(result);
+    this.submitted.emit({
+      show: this.form.controls.showControl.value,
+      host: this.form.controls.hostControl.value,
+      fillIn:
+        this.isFillInVisible() &&
+        this.form.controls.fillInControl.value === "yes"
+          ? true
+          : false,
+      date: moment(this.form.controls.dateControl.value).format("YYYY-MM-DD"),
+      notes: this.form.controls.notesControl.value ?? "",
+    });
   }
 }
