@@ -9,7 +9,17 @@ import {
 } from "@ngrx/signals";
 import { Message, MessageType } from "../models/message";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { concatMap, EMPTY, from, Observable, pipe, switchMap, tap } from "rxjs";
+import {
+  catchError,
+  concat,
+  concatMap,
+  EMPTY,
+  from,
+  Observable,
+  pipe,
+  switchMap,
+  tap,
+} from "rxjs";
 import { tapResponse } from "@ngrx/operators";
 import { Id3Service } from "../services";
 
@@ -115,10 +125,17 @@ export const MessageBankStore = signalStore(
         pipe(
           concatMap((input) =>
             from(id3Service.getDuration(input.file)).pipe(
-              // Chain your upload API call next
-              concatMap((duration) => {
-                console.log(input);
-                return mbService.uploadMessage(input, duration as number);
+              concatMap((duration) =>
+                mbService.createHeader(input, duration as number),
+              ),
+              concatMap((nm) =>
+                mbService
+                  .uploadMessage(nm.code, input.file)
+                  .pipe(tap((p) => console.log(p))),
+              ),
+              catchError((err) => {
+                console.error("Stream failed:", err);
+                return mbService.deleteHeader(input.code);
               }),
             ),
           ),

@@ -66,7 +66,7 @@ export class MessageBankService {
     );
   }
 
-  uploadMessage(message: NewMessage, duration: number) {
+  createHeader(message: NewMessage, duration: number) {
     return this.mbApi.newMessage(
       message.code,
       message.title,
@@ -76,5 +76,13 @@ export class MessageBankService {
       message.expirydate,
       message.mt.type,
     );
+  }
+
+  deleteHeader(code: string) {
+    return this.mbApi.deleteMessage(code);
+  }
+
+  uploadMessage(code: string, file: File) {
+    return this.mbApi.upload(code, file);
   }
 }

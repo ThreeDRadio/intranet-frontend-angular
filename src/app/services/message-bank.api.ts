@@ -46,6 +46,10 @@ export class MessageBankApi extends ModelApi<Message> {
     });
   }
 
+  deleteMessage(code: string) {
+    return super.delete({ id: code });
+  }
+
   upload(code: string, file: File) {
     return this.http.upload(`${this.modelName}/${code}/audio`, file);
   }
