@@ -11,4 +11,8 @@ export class DateService {
   getApiFormat(input) {
     return moment(input).tz(this.timezone).format("YYYY-MM-DD");
   }
+
+  getTomorrow() {
+    return moment.tz(this.timezone).add(1, "day").startOf("day");
+  }
 }
