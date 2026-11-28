@@ -111,13 +111,17 @@
       formControlName="producerControl"
     />
   </mat-form-field>
+  @if (mbStore.upload(); as upload) { @if (upload.state === 'failed') {
+  <mat-error role="alert"> {{ upload.message }} </mat-error>
+  } }
   <button
     mat-button
     mat-raised-button
     matSuffix
     type="submit"
-    [disabled]="newMessageForm.invalid"
+    [disabled]="newMessageForm.invalid || this.mbStore.upload()?.state === 'in-progress'"
   >
-    Add Message
+    @if (this.mbStore.upload()?.state === "in-progress") { Adding... } @else {
+    Add Message }
   </button>
 </form>

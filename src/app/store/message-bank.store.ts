@@ -141,11 +141,7 @@ export const MessageBankStore = signalStore(
               concatMap((duration) =>
                 mbService.createHeader(input, duration as number),
               ),
-              concatMap((nm) =>
-                mbService
-                  .uploadMessage(nm.code, input.file)
-                  .pipe(tap((p) => console.log(p))),
-              ),
+              concatMap((nm) => mbService.uploadMessage(nm.code, input.file)),
               // 3. All steps succeeded! Mark uploadSuccess = true
               tap(() => {
                 patchState(store, {
@@ -158,7 +154,7 @@ export const MessageBankStore = signalStore(
                   upload: {
                     state: "failed",
                     message:
-                      err?.error?.message ||
+                      err?.error?.code[0] ||
                       err?.message ||
                       "Failed to upload message. Please try again.",
                   },

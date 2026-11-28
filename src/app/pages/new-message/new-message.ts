@@ -63,7 +63,7 @@ import { MessageType } from "../../models/message";
 })
 export class NewMessagePage implements OnInit {
   private userService = inject(UserService);
-  private mbStore = inject(MessageBankStore);
+  mbStore = inject(MessageBankStore);
 
   // Forms
   newMessageForm = new FormGroup({
@@ -81,12 +81,24 @@ export class NewMessagePage implements OnInit {
   readonly messageTypes = computed(() => {
     return this.mbStore.types() ?? [];
   });
-
   constructor() {
     effect(() => {
       const user = this.userService.getLoggedInUser();
       if (user?.username) {
         this.newMessageForm.controls.producerControl.setValue(user.username);
+      }
+    });
+
+    effect(() => {
+      if (
+        this.mbStore.upload() !== undefined &&
+        this.mbStore.upload()?.state === "uploaded"
+      ) {
+        const producer =
+          this.newMessageForm.controls.producerControl.getRawValue();
+        this.newMessageForm.reset();
+        this.newMessageForm.controls.audioControl.setValue(null);
+        this.newMessageForm.controls.producerControl.setValue(producer);
       }
     });
   }
@@ -95,7 +107,7 @@ export class NewMessagePage implements OnInit {
     this.mbStore.fetchTypes();
   }
 
-  async onSubmit() {
+  onSubmit() {
     if (!this.newMessageForm.valid) return;
     // Reset the Angular form controls & validation state
     // Keep the previous producer in case they would like to do multiple message uploads.
@@ -109,9 +121,6 @@ export class NewMessagePage implements OnInit {
       expirydate: moment().format("YYYY-MM-DD"),
       file: this.newMessageForm.controls.audioControl.value,
     });
-    this.newMessageForm.reset();
-    this.newMessageForm.controls.audioControl.setValue(null);
-    this.newMessageForm.controls.producerControl.setValue(producer);
   }
 
   onAudioSelected(event: Event): void {
