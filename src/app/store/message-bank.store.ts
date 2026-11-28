@@ -9,8 +9,19 @@ import {
 } from "@ngrx/signals";
 import { Message, MessageType } from "../models/message";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
-import { pipe, switchMap, tap } from "rxjs";
+import { concatMap, EMPTY, from, Observable, pipe, switchMap, tap } from "rxjs";
 import { tapResponse } from "@ngrx/operators";
+import { Id3Service } from "../services";
+
+export interface NewMessage {
+  code: string;
+  title: string;
+  nq: string;
+  expirydate: string;
+  fldproducer: string;
+  mt: MessageType;
+  file: File;
+}
 
 type MessageSearchParams = {
   type: string | undefined;
@@ -36,69 +47,89 @@ export const initialState: MessageBankState = {
 export const MessageBankStore = signalStore(
   { providedIn: "root" },
   withState(initialState),
-  withMethods((store, mbService = inject(MessageBankService)) => ({
-    fetchTypes: rxMethod<void>(
-      pipe(
-        tap({
-          next: () => patchState(store, { isLoadingTypes: true }),
-        }),
-        switchMap(() =>
-          mbService.getMessageTypes().pipe(
-            tapResponse({
-              next: (types) => patchState(store, { types }),
-              error: (err) => console.error("Failed to fetch types", err),
-              finalize: () => patchState(store, { isLoadingTypes: false }),
-            }),
+  withMethods(
+    (
+      store,
+      mbService = inject(MessageBankService),
+      id3Service = inject(Id3Service),
+    ) => ({
+      fetchTypes: rxMethod<void>(
+        pipe(
+          tap({
+            next: () => patchState(store, { isLoadingTypes: true }),
+          }),
+          switchMap(() =>
+            mbService.getMessageTypes().pipe(
+              tapResponse({
+                next: (types) => patchState(store, { types }),
+                error: (err) => console.error("Failed to fetch types", err),
+                finalize: () => patchState(store, { isLoadingTypes: false }),
+              }),
+            ),
           ),
         ),
       ),
-    ),
 
-    fetchMessages: rxMethod<void>(
-      pipe(
-        tap({ next: () => patchState(store, { isLoadingMessages: true }) }),
-        switchMap(() => {
-          return mbService.getMessages().pipe(
-            tapResponse({
-              next: (sr) =>
-                patchState(store, {
-                  messageCount: sr.count,
-                  messages: sr.messages,
-                }),
-              error: (err) => console.error("Failed to fetch messages", err),
-              finalize: () => patchState(store, { isLoadingMessages: false }),
-            }),
-          );
-        }),
+      fetchMessages: rxMethod<void>(
+        pipe(
+          tap({ next: () => patchState(store, { isLoadingMessages: true }) }),
+          switchMap(() => {
+            return mbService.getMessages().pipe(
+              tapResponse({
+                next: (sr) =>
+                  patchState(store, {
+                    messageCount: sr.count,
+                    messages: sr.messages,
+                  }),
+                error: (err) => console.error("Failed to fetch messages", err),
+                finalize: () => patchState(store, { isLoadingMessages: false }),
+              }),
+            );
+          }),
+        ),
       ),
-    ),
 
-    searchMessages: rxMethod<MessageSearchParams>(
-      pipe(
-        tap({ next: () => patchState(store, { isLoadingMessages: true }) }),
-        switchMap((input) => {
-          return mbService.searchMessages(input.type, input.current).pipe(
-            tapResponse({
-              next: (sr) =>
-                patchState(store, {
-                  messageCount: sr.count,
-                  messages: sr.messages,
-                }),
-              error: (err) => console.error("Failed to fetch messages", err),
-              finalize: () =>
-                patchState(store, {
-                  isLoadingMessages: false,
-                }),
-            }),
-          );
-        }),
+      searchMessages: rxMethod<MessageSearchParams>(
+        pipe(
+          tap({ next: () => patchState(store, { isLoadingMessages: true }) }),
+          switchMap((input) => {
+            return mbService.searchMessages(input.type, input.current).pipe(
+              tapResponse({
+                next: (sr) =>
+                  patchState(store, {
+                    messageCount: sr.count,
+                    messages: sr.messages,
+                  }),
+                error: (err) => console.error("Failed to fetch messages", err),
+                finalize: () =>
+                  patchState(store, {
+                    isLoadingMessages: false,
+                  }),
+              }),
+            );
+          }),
+        ),
       ),
-    ),
 
-    hasMessageType(mt: string): boolean {
-      return store
-        .types()
-        .some((t) => t.type.toLowerCase() === mt?.toLowerCase());
-    },
-  })),
+      uploadNewMessage: rxMethod<NewMessage>(
+        pipe(
+          concatMap((input) =>
+            from(id3Service.getDuration(input.file)).pipe(
+              // Chain your upload API call next
+              concatMap((duration) => {
+                console.log(input);
+                return mbService.uploadMessage(input, duration as number);
+              }),
+            ),
+          ),
+        ),
+      ),
+
+      hasMessageType(mt: string): boolean {
+        return store
+          .types()
+          .some((t) => t.type.toLowerCase() === mt?.toLowerCase());
+      },
+    }),
+  ),
 );

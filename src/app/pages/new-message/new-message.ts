@@ -32,6 +32,8 @@ import { LONG_DATE_FORMAT } from "../../constants";
 import { UserService } from "../../services/user.service";
 import { MessageBankService } from "../../services/message-bank.service";
 import { MessageBankStore } from "../../store/message-bank.store";
+import { Id3Service } from "../../services";
+import { MessageType } from "../../models/message";
 
 @Component({
   selector: "app-new-message",
@@ -65,7 +67,9 @@ export class NewMessagePage implements OnInit {
 
   // Forms
   newMessageForm = new FormGroup({
-    messageTypeControl: new FormControl("", [Validators.required]),
+    messageTypeControl: new FormControl<MessageType | null>(null, [
+      Validators.required,
+    ]),
     codeControl: new FormControl("", [Validators.required]),
     titleControl: new FormControl("", [Validators.required]),
     endCueControl: new FormControl("", [Validators.required]),
@@ -91,16 +95,23 @@ export class NewMessagePage implements OnInit {
     this.mbStore.fetchTypes();
   }
 
-  onSubmit() {
-    if (this.newMessageForm.valid) {
-      // Reset the Angular form controls & validation state
-      // Keep the previous producer in case they would like to do multiple message uploads.
-      const producer =
-        this.newMessageForm.controls.producerControl.getRawValue();
-      this.newMessageForm.reset();
-      this.newMessageForm.controls.audioControl.setValue(null);
-      this.newMessageForm.controls.producerControl.setValue(producer);
-    }
+  async onSubmit() {
+    if (!this.newMessageForm.valid) return;
+    // Reset the Angular form controls & validation state
+    // Keep the previous producer in case they would like to do multiple message uploads.
+    const producer = this.newMessageForm.controls.producerControl.getRawValue();
+    this.mbStore.uploadNewMessage({
+      mt: this.newMessageForm.controls.messageTypeControl.value,
+      code: this.newMessageForm.controls.codeControl.value,
+      title: this.newMessageForm.controls.titleControl.value,
+      nq: this.newMessageForm.controls.endCueControl.value,
+      fldproducer: producer,
+      expirydate: moment().format("YYYY-MM-DD"),
+      file: this.newMessageForm.controls.audioControl.value,
+    });
+    this.newMessageForm.reset();
+    this.newMessageForm.controls.audioControl.setValue(null);
+    this.newMessageForm.controls.producerControl.setValue(producer);
   }
 
   onAudioSelected(event: Event): void {
