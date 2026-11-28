@@ -2,6 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { MessageBankApi } from "./message-bank.api";
 import { Message, MessageType } from "../models/message";
+import { NewMessage } from "../store/message-bank.store";
 
 export class MessageBankSearchResult {
   count: number = 0;
@@ -63,5 +64,25 @@ export class MessageBankService {
         };
       }),
     );
+  }
+
+  createHeader(message: NewMessage, duration: number) {
+    return this.mbApi.newMessage(
+      message.code,
+      message.title,
+      message.nq,
+      message.fldproducer,
+      Math.floor(duration),
+      message.expirydate,
+      message.mt.type,
+    );
+  }
+
+  deleteHeader(code: string) {
+    return this.mbApi.deleteMessage(code);
+  }
+
+  uploadMessage(code: string, file: File) {
+    return this.mbApi.upload(code, file);
   }
 }
