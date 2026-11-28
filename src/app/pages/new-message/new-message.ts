@@ -27,13 +27,12 @@ import { MatInputModule } from "@angular/material/input";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatSelectModule } from "@angular/material/select";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import { LONG_DATE_FORMAT } from "../../constants";
 import { UserService } from "../../services/user.service";
-import { MessageBankService } from "../../services/message-bank.service";
 import { MessageBankStore } from "../../store/message-bank.store";
-import { Id3Service } from "../../services";
 import { MessageType } from "../../models/message";
+import { DateService } from "../../services/date.service";
 
 @Component({
   selector: "app-new-message",
@@ -55,6 +54,7 @@ import { MessageType } from "../../models/message";
   ],
   providers: [
     UserService,
+    DateService,
     provideMomentDateAdapter(),
     { provide: MAT_DATE_FORMATS, useValue: LONG_DATE_FORMAT },
   ],
@@ -63,6 +63,7 @@ import { MessageType } from "../../models/message";
 })
 export class NewMessagePage implements OnInit {
   private userService = inject(UserService);
+  dateService = inject(DateService);
   mbStore = inject(MessageBankStore);
 
   // Forms
@@ -81,6 +82,7 @@ export class NewMessagePage implements OnInit {
   readonly messageTypes = computed(() => {
     return this.mbStore.types() ?? [];
   });
+
   constructor() {
     effect(() => {
       const user = this.userService.getLoggedInUser();

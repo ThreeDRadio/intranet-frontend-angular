@@ -51,6 +51,7 @@
       #expiryInput
       matInput
       [matDatepicker]="picker"
+      [min]="this.dateService.getTomorrow()"
       formControlName="expiryDateControl"
     />
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
