@@ -16,12 +16,14 @@ import {
   EMPTY,
   from,
   Observable,
+  of,
   pipe,
   switchMap,
   tap,
 } from "rxjs";
 import { tapResponse } from "@ngrx/operators";
 import { Id3Service } from "../services";
+import { duration } from "moment-timezone";
 
 export interface NewMessage {
   code: string;
@@ -44,6 +46,12 @@ type MessageBankState = {
   types: MessageType[];
   messageCount: number;
   messages: Message[];
+  upload: MessageBankUploadState | undefined;
+};
+
+export type MessageBankUploadState = {
+  state: "in-progress" | "uploaded" | "failed";
+  message: string;
 };
 
 export const initialState: MessageBankState = {
@@ -52,6 +60,7 @@ export const initialState: MessageBankState = {
   types: [],
   messageCount: 0,
   messages: [],
+  upload: undefined,
 };
 
 export const MessageBankStore = signalStore(
@@ -123,8 +132,12 @@ export const MessageBankStore = signalStore(
 
       uploadNewMessage: rxMethod<NewMessage>(
         pipe(
-          concatMap((input) =>
-            from(id3Service.getDuration(input.file)).pipe(
+          concatMap((input) => {
+            patchState(store, {
+              upload: { state: "in-progress", message: "Uploading" },
+            });
+
+            return from(id3Service.getDuration(input.file)).pipe(
               concatMap((duration) =>
                 mbService.createHeader(input, duration as number),
               ),
@@ -133,12 +146,30 @@ export const MessageBankStore = signalStore(
                   .uploadMessage(nm.code, input.file)
                   .pipe(tap((p) => console.log(p))),
               ),
-              catchError((err) => {
-                console.error("Stream failed:", err);
-                return mbService.deleteHeader(input.code);
+              // 3. All steps succeeded! Mark uploadSuccess = true
+              tap(() => {
+                patchState(store, {
+                  upload: { state: "uploaded", message: "" },
+                });
               }),
-            ),
-          ),
+              // 4. Any step failed (getDuration, createHeader, or uploadMessage)
+              catchError((err) => {
+                patchState(store, {
+                  upload: {
+                    state: "failed",
+                    message:
+                      err?.error?.message ||
+                      err?.message ||
+                      "Failed to upload message. Please try again.",
+                  },
+                });
+
+                return mbService
+                  .deleteHeader(input.code)
+                  .pipe(catchError(() => of(null)));
+              }),
+            );
+          }),
         ),
       ),
 
